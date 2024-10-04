@@ -2,14 +2,24 @@ package tarski
 
 enum Tsize:
   case Small, Medium, Large
-import Tsize.*
-
-enum Tshape:
-  case Triangle, Square, Circle
-import Tshape.*
+  def toDouble: Double = this match
+    case Small  => SMALL
+    case Medium => MEDIUM
+    case Large  => LARGE
 
 enum Tcolor:
   case Blue, Black, Gray
-import Tcolor.*
+  def toColor: Color = this match
+    case Blue  => blue
+    case Black => black
+    case Gray  => gray
 
-case class Block(size: Tsize, shape: Tshape, color: Tcolor)
+enum Tshape:
+  case Triangle, Square, Circle
+  def toImage(size: Double, color: Color): Image = this match
+    case Triangle => Image.equilateralTriangle(size).fillColor(color)
+    case Square   => Image.square(size).fillColor(color)
+    case Circle   => Image.circle(size).fillColor(color)
+
+case class Block(tSize: Tsize, tShape: Tshape, tColor: Tcolor):
+  def toImage: Image = tShape.toImage(tSize.toDouble, tColor.toColor)

@@ -2,7 +2,8 @@ package tarski
 
 export cats.effect.unsafe.implicits.global
 export concurrent.duration.FiniteDuration
-export doodle.core.Color.{skyBlue, white, black}
+export doodle.core.Color
+export doodle.core.Color.{blue, skyBlue, white, black, gray}
 export doodle.core.Point
 export doodle.image.Image
 export doodle.image.syntax.all.*

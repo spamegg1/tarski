@@ -3,6 +3,9 @@ package tarski
 val WIDTH = 800
 val HEIGHT = 1000
 val SIZE = 100.0
+val SMALL = 30.0
+val MEDIUM = 60.0
+val LARGE = 90.0
 val BGCOLOR = skyBlue
 val TITLE = "Tarski's World"
 val TICKRATE = FiniteDuration(50L, "milliseconds")
