@@ -43,8 +43,6 @@ metals.sbt
 *.py.bak
 *.html
 *.css
-*.jpg
-*.png
 *.rkt
 *.js
 *.pdf
