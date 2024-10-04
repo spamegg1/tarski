@@ -6,7 +6,7 @@ Attempting to recreate Barwise and Etchemendy's [Tarski's world](https://www.gra
 
 ## Info
 
-This is a [Scala-cli](https://virtuslab.com/scala-cli) project.
+This is a [Scala-cli](https://scala-cli.virtuslab.org/) project.
 With Scala 3.5.0 and above, you can simply run `scala compile .` and `scala test .`.
 
 ## Work in progress
