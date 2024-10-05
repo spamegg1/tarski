@@ -1,12 +1,12 @@
 package tarski
 
 val emptyBoard = Vector.fill(64)(None: Option[Block])
-val init = State(emptyBoard)
+val init = State(emptyBoard, Vector[Sentence]())
 
 @main
 def run =
   Reactor
-    .init[State](init)
+    .init[State](init) // these functions are in Reactor.scala
     .withOnTick(tick) // State -> State
     .withRender(render) // State -> Image
     .withOnMouseClick(click) // Point State -> State

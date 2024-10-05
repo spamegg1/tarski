@@ -6,8 +6,8 @@ export doodle.core.Color
 export doodle.core.Color.{blue, skyBlue, white, black, gray}
 export doodle.core.Point
 export doodle.image.Image
-export doodle.image.syntax.all.*
 // export doodle.image.Image.Elements.*
+export doodle.image.syntax.all.*
 export doodle.java2d.Algebra
 export doodle.java2d.effect.Frame
 export doodle.java2d.java2dAnimationRenderer
