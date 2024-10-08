@@ -1,4 +1,5 @@
 package tarski
+package testing
 
 class AtomicSuite extends munit.FunSuite:
   test("unary atomic formula with a free variable"):

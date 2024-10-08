@@ -1,4 +1,5 @@
 package tarski
+package testing
 
 class FormulaSuite extends munit.FunSuite:
   test("simple quantified formula has no free variables"):
