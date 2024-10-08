@@ -17,3 +17,4 @@ export doodle.java2d.java2dFrame
 export doodle.java2d.Java2dToPicture
 export doodle.reactor.Reactor
 // export doodle.syntax.all.*
+export org.scalacheck.{Gen, Test, Prop}
