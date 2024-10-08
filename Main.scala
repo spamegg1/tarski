@@ -1,7 +1,7 @@
 package tarski
 
 val emptyBoard = Vector.fill(64)(None: Option[Block])
-val init = State(emptyBoard, Vector[Sentence]())
+val init = State(emptyBoard, Vector[Formula]())
 
 @main
 def run =

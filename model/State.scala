@@ -9,7 +9,7 @@ package tarski
 // 40 41 42 43 44 45 46 47
 // 48 49 50 51 52 53 54 55
 // 56 57 58 59 60 61 62 63
-case class State(board: Vector[Option[Block]], sentences: Vector[Sentence]):
+case class State(board: Vector[Option[Block]], formulas: Vector[Formula]):
   require(board.size == 64)
   def upDiag1 = Vector(board(0))
   def upDiag2 = Vector(board(1), board(8))
