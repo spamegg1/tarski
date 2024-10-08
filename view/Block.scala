@@ -1,25 +1,25 @@
 package tarski
 
-enum Tsize:
-  case Small, Medium, Large
-  def toDouble: Double = this match
-    case Small  => SMALL
-    case Medium => MEDIUM
-    case Large  => LARGE
+enum BlockSize:
+  case SmallB, MediumB, LargeB
+  def toImageSize: Double = this match
+    case SmallB  => SMALL
+    case MediumB => MEDIUM
+    case LargeB  => LARGE
 
-enum Tcolor:
-  case Blue, Black, Gray
-  def toColor: Color = this match
-    case Blue  => blue
-    case Black => black
-    case Gray  => gray
+enum BlockColor:
+  case BlueB, BlackB, GrayB
+  def toImageColor: Color = this match
+    case BlueB  => blue
+    case BlackB => black
+    case GrayB  => gray
 
-enum Tshape:
-  case Triangle, Square, Circle
+enum BlockShape:
+  case TriangleB, SquareB, CircleB
   def toImage(size: Double, color: Color): Image = this match
-    case Triangle => Image.equilateralTriangle(size).fillColor(color)
-    case Square   => Image.square(size).fillColor(color)
-    case Circle   => Image.circle(size).fillColor(color)
+    case TriangleB => Image.equilateralTriangle(size).fillColor(color)
+    case SquareB   => Image.square(size).fillColor(color)
+    case CircleB   => Image.circle(size).fillColor(color)
 
-case class Block(tSize: Tsize, tShape: Tshape, tColor: Tcolor):
-  def toImage: Image = tShape.toImage(tSize.toDouble, tColor.toColor)
+case class Block(size: BlockSize, shape: BlockShape, color: BlockColor):
+  def toImage: Image = shape.toImage(size.toImageSize, color.toImageColor)
