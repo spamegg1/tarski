@@ -20,4 +20,5 @@ enum Formula:
     case Forall(v1, f)   => v != v1 && f.hasFree(v)
     case Exists(v1, f)   => v != v1 && f.hasFree(v)
 
-  def hasNoFreeVars = Var.values.forall(!hasFree(_))
+  lazy val hasNoFreeVars = Var.values.forall(!hasFree(_))
+export Formula.*

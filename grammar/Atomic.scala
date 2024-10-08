@@ -49,3 +49,4 @@ enum Atomic:
     case SameRow(t1, t2)     => t1 == v || t2 == v
     case SameCol(t1, t2)     => t1 == v || t2 == v
     case Between(t1, t2, t3) => t1 == v || t2 == v || t3 == v
+export Atomic.*
