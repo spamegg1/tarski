@@ -10,9 +10,9 @@ enum BlockSize:
 enum BlockColor:
   case BlueB, BlackB, GrayB
   def toImageColor: Color = this match
-    case BlueB  => blue
+    case BlueB  => deepSkyBlue
     case BlackB => black
-    case GrayB  => gray
+    case GrayB  => lightGray
 
 enum BlockShape:
   case TriangleB, SquareB, CircleB
@@ -21,5 +21,13 @@ enum BlockShape:
     case SquareB   => Image.square(size).fillColor(color)
     case CircleB   => Image.circle(size).fillColor(color)
 
-case class Block(size: BlockSize, shape: BlockShape, color: BlockColor):
-  def toImage: Image = shape.toImage(size.toImageSize, color.toImageColor)
+case class Block(
+    size: BlockSize,
+    shape: BlockShape,
+    color: BlockColor,
+    nameOpt: Option[Name] = None
+):
+  def nameless = shape.toImage(size.toImageSize, color.toImageColor)
+  def toImage = nameOpt match
+    case None       => nameless
+    case Some(name) => Text(name.toString).font(FONT).on(nameless)

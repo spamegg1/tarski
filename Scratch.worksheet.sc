@@ -1,9 +1,4 @@
 import tarski.*
 
-def testTerm(t: Term, v: Var) = t == v
-testTerm(A, S)
-testTerm(A, T)
-testTerm(B, S)
-testTerm(X, X)
-testTerm(Y, X)
-testTerm(Y, U)
+// Text("a").font(FONT).on(Image.square(100.0).fillColor(lightGray)).draw()
+// Text("hello").font(FONT).draw()
