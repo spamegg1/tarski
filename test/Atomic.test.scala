@@ -9,5 +9,5 @@ class AtomicSuite extends munit.FunSuite:
       atoms.forall(_.hasFree(vari))
 
   test("atomic formulas (1, 2, 3-ary) without a free variable"):
-    forAll(atomFreeGen): (vari, atoms) =>
+    forAll(atomNonFreeGen): (vari, atoms) =>
       atoms.forall(!_.hasFree(vari))
