@@ -1,6 +1,6 @@
 # Tarski's world
 
-![world](images/world.png)
+![world](.images/world.png)
 
 Attempting to recreate Barwise and Etchemendy's
 [Tarski's world](https://www.gradegrinder.net/Products/tw-index.html) in
