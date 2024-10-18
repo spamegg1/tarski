@@ -1,8 +1,8 @@
 package tarski
 
 // pure constants
-val FONTSIZE = 24
-val FONT = Font.defaultSerif.bold.size(FontSize.points(FONTSIZE))
+val FONTSIZE = 30
+val FONT = Font.defaultSansSerif.bold.size(FontSize.points(FONTSIZE))
 val SIZE = 100.0
 val BGCOLOR = white
 val TITLE = "Tarski's World"
@@ -10,10 +10,10 @@ val TICKRATE = FiniteDuration(50L, "milliseconds")
 
 // derived constants
 val HEIGHT = SIZE * 8
-val WIDTH = HEIGHT * 2
-val SMALL = 0.3 * SIZE
-val MEDIUM = 0.6 * SIZE
-val LARGE = 0.9 * SIZE
+val WIDTH = SIZE * 16
+val SMALL = SIZE * 0.4
+val MEDIUM = SIZE * 0.7
+val LARGE = SIZE * 0.95
 
 // basic shapes
 val SQ = Image.square(SIZE)

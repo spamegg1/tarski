@@ -1,8 +1,6 @@
 package tarski
 package testing
 
-import org.scalacheck.Prop.forAll
-
 class AtomicSuite extends munit.FunSuite:
   test("atomic formulas (1, 2, 3-ary) with a free variable"):
     forAll(atomFreeGen): (vari, atoms) =>
