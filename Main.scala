@@ -13,8 +13,8 @@ def run =
     .withOnMouseMove(move) // Point State => State
     .withStop(stop) // State => Boolean
     .withTickRate(TICKRATE)
-    // .draw(FRAME)
-    .run(FRAME)
+    .draw(FRAME)
+    // .run(FRAME)
 
 @main
 def board: Unit =
