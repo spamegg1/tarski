@@ -48,3 +48,5 @@ metals.sbt
 *.pdf
 *.sml
 Scratch.worksheet.sc
+Scratch.scala
+colors.txt

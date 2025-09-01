@@ -32,3 +32,8 @@ export doodle.java2d.java2dFrame
 export doodle.java2d.Java2dToPicture
 export doodle.reactor.Reactor
 // export doodle.syntax.all.*
+
+export gapt.expr.stringInterpolationForExpressions
+export gapt.expr.{Const}
+export gapt.expr.ty.{Ti, To}
+export gapt.expr.formula.fol.{FOLVar, FOLFunction, FOLAtom}

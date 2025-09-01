@@ -1,36 +1,36 @@
 package tarski
 
 // pure constants
-val FONTSIZE = 30
-val FONT = Font.defaultSansSerif.bold.size(FontSize.points(FONTSIZE))
-val SIZE = 100.0
-val BGCOLOR = white
-val TITLE = "Tarski's World"
-val TICKRATE = FiniteDuration(50L, "milliseconds")
+val FontSz   = 30
+val TheFont  = Font.defaultSansSerif.bold.size(FontSize.points(FontSz))
+val Size     = 100.0
+val BgColor  = white
+val Title    = "Tarski's World"
+val TickRate = FiniteDuration(50L, "milliseconds")
 
 // derived constants
-val HEIGHT = SIZE * 8
-val WIDTH = SIZE * 16
-val SMALL = SIZE * 0.4
-val MEDIUM = SIZE * 0.7
-val LARGE = SIZE * 0.95
+val Height = Size * 8
+val Width  = Size * 16
+val Small  = Size * 0.4
+val Medium = Size * 0.7
+val Large  = Size * 0.95
 
 // basic shapes
-val SQ = Image.square(SIZE)
-val WHITE = SQ.fillColor(white)
-val BLACK = SQ.fillColor(black)
-val WB = WHITE beside BLACK
-val BW = BLACK beside WHITE
+val Square  = Image.square(Size)
+val WhiteSq = Square.fillColor(white)
+val BlackSq = Square.fillColor(black)
+val Wb      = WhiteSq beside BlackSq
+val Bw      = BlackSq beside WhiteSq
 
 // derived shapes
-val LINE1 = WB beside WB beside WB beside WB
-val LINE2 = BW beside BW beside BW beside BW
-val QUARTER = LINE1 above LINE2
-val HALF = QUARTER above QUARTER
-val BOARD = HALF above HALF
+val Line1   = Wb beside Wb beside Wb beside Wb
+val Line2   = Bw beside Bw beside Bw beside Bw
+val Quarter = Line1 above Line2
+val Half    = Quarter above Quarter
+val Board   = Half above Half
 
 // frame
-val FRAME = Frame.default
-  .withSize(WIDTH, HEIGHT)
-  .withBackground(BGCOLOR)
-  .withTitle(TITLE)
+val frame = Frame.default
+  .withSize(Width, Height)
+  .withBackground(BgColor)
+  .withTitle(Title)
