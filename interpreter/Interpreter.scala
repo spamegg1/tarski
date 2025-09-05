@@ -19,9 +19,9 @@ private def evalAtom(a: FOLAtom)(using blocks: Blocks): Boolean = a match
   case FOLAtom("Circle", List(FOLConst(c)))   => blocks(c).block.shape == Cir
   case FOLAtom("Triangle", List(FOLConst(c))) => blocks(c).block.shape == Tri
   case FOLAtom("Square", List(FOLConst(c)))   => blocks(c).block.shape == Squ
-  case FOLAtom("Blue", List(FOLConst(c)))     => blocks(c).block.colour == Blue
-  case FOLAtom("Black", List(FOLConst(c)))    => blocks(c).block.colour == Black
-  case FOLAtom("Gray", List(FOLConst(c)))     => blocks(c).block.colour == Gray
+  case FOLAtom("Blue", List(FOLConst(c)))     => blocks(c).block.color == Blue
+  case FOLAtom("Black", List(FOLConst(c)))    => blocks(c).block.color == Black
+  case FOLAtom("Gray", List(FOLConst(c)))     => blocks(c).block.color == Gray
   case FOLAtom("LeftOf", List(FOLConst(c1), FOLConst(c2))) =>
     blocks(c1).pos.leftOf(blocks(c2).pos)
   case FOLAtom("RightOf", List(FOLConst(c1), FOLConst(c2))) =>
@@ -43,7 +43,7 @@ private def evalAtom(a: FOLAtom)(using blocks: Blocks): Boolean = a match
   case FOLAtom("SameShape", List(FOLConst(c1), FOLConst(c2))) =>
     blocks(c1).block.sameShape(blocks(c2).block)
   case FOLAtom("SameColor", List(FOLConst(c1), FOLConst(c2))) =>
-    blocks(c1).block.sameColour(blocks(c2).block)
+    blocks(c1).block.sameColor(blocks(c2).block)
   case FOLAtom("SameRow", List(FOLConst(c1), FOLConst(c2))) =>
     blocks(c1).pos.sameRow(blocks(c2).pos)
   case FOLAtom("SameColumn", List(FOLConst(c1), FOLConst(c2))) =>
