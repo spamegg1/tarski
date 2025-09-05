@@ -1,21 +1,15 @@
 package tarski
 
-enum Shape:
-  case Tri, Squ, Cir
-  def toImage(size: Double, color: Color): Image = this match
-    case Tri => Image.equilateralTriangle(size).fillColor(color)
-    case Squ => Image.square(size).fillColor(color)
-    case Cir => Image.circle(size).fillColor(color)
-
-// colors are: deepSkyBlue, black, lightGray
-// sizes are: SMALL, MEDIUM, LARGE
 case class Block(
-    size: Double,
-    shape: Shape,
-    color: Color,
-    nameOpt: Option[Name] = None
+    size: Size,     // Small, Medium, Large
+    shape: Shape,   // Tri, Squ, Cir
+    colour: Colour, // Blue, Black, Grey
+    name: String = ""
 ):
-  def nameless = shape.toImage(size, color)
-  def toImage = nameOpt match
-    case None       => nameless
-    case Some(name) => Text(name.toString).font(TheFont).on(nameless)
+  def addName(newName: String) = copy(name = newName)
+  def removeName               = copy(name = "")
+  def toImage                  = Text(name).font(TheFont).on(shape.toImage(size, colour))
+  def smaller(that: Block)     = size < that.size
+  def sameSize(that: Block)    = size == that.size
+  def sameShape(that: Block)   = shape == that.shape
+  def sameColour(that: Block)  = colour == that.colour

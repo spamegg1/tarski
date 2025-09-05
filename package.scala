@@ -36,4 +36,15 @@ export doodle.reactor.Reactor
 export gapt.expr.stringInterpolationForExpressions
 export gapt.expr.{Const}
 export gapt.expr.ty.{Ti, To}
-export gapt.expr.formula.fol.{FOLVar, FOLFunction, FOLAtom}
+export gapt.expr.formula.fol.{
+  FOLVar,
+  FOLConst,
+  FOLFunction,
+  FOLAtom,
+  FOLFormula,
+  FOLTerm,
+  FOLExpression,
+  FOLPosition
+}
+export gapt.expr.formula.{Formula, All, And, Atom, Or, Neg, Ex, Imp, Iff}
+export gapt.expr.subst.FOLSubstitution
