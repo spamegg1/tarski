@@ -10,6 +10,7 @@ case class Block(
   def removeName               = copy(name = "")
   def toImage                  = Text(name).font(TheFont).on(shape.toImage(size, color))
   def smaller(that: Block)     = size < that.size
+  def larger(that: Block)      = size > that.size
   def sameSize(that: Block)    = size == that.size
   def sameShape(that: Block)   = shape == that.shape
   def sameColor(that: Block)   = color == that.color

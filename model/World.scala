@@ -19,8 +19,38 @@ case class World(grid: Grid, blocks: Blocks):
       val newBlocks = blocks.removed(name)
       World(newGrid, newBlocks)
 
-  def moveBlock(from: Pos, to: Pos): World = ???
+  def moveBlock(from: Pos, to: Pos): World = grid.get(from) match
+    case None => this
+    case Some((block, name)) =>
+      grid.get(to) match
+        case Some(_) => this
+        case None =>
+          val newGrid   = grid.removed(from).updated(to, (block, name))
+          val newBlocks = blocks.updated(name, (block, to))
+          World(newGrid, newBlocks)
 
-  def addNameToBlockAt(pos: Pos): World = ???
+  def addNameToBlockAt(pos: Pos, name: Name): World = ???
 
-  def removeNameFromBlockAt(pos: Pos, name: String): World = ???
+  def removeNameFromBlockAt(pos: Pos): World = grid.get(pos) match
+    case None => this
+    case Some((block, _)) =>
+      val newBlock  = block.removeName
+      val newName   = Name.generate
+      val newGrid   = grid.updated(pos, (newBlock, newName))
+      val newBlocks = blocks.updated(newName, (newBlock, pos))
+      World(newGrid, newBlocks)
+
+object World:
+  def empty: World = World(Map(), Map())
+
+  def fromGrid(grid: Grid): World =
+    val blocks = grid.map:
+      case (pos, (block, name)) =>
+        name -> (block, pos)
+    World(grid, blocks)
+
+  def fromBlocks(blocks: Blocks): World =
+    val grid = blocks.map:
+      case (name, (block, pos)) =>
+        pos -> (block, name)
+    World(grid, blocks)

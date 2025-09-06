@@ -1,7 +1,7 @@
 package tarski
 
 class InterpreterTest extends munit.FunSuite:
-  test("interpreter is correct in a world with 5 objects and 10 sentences"):
+  test("interpreter is correct on complex sentences in a world with 5 objects"):
     val b0 = Block(Small, Cir, Gray, "b")
     val b1 = Block(Small, Cir, Gray)
     val b2 = Block(Medium, Tri, Black, "c")
@@ -31,14 +31,16 @@ class InterpreterTest extends munit.FunSuite:
       fof"∀x (Circle(x) → ∃y (Square(y) ∧ BackOf(x, y)))",
       fof"∀x (Circle(x) → ∃y (Square(y) ∧ BackOf(x, y)))",
       fof"∀x (Circle(x) → ∃y (Square(y) ∧ BackOf(x, y)))",
-      fof"?x ?y (x != y & !w ((w = x | w = y) -> !z -BackOf(z, w)))",
+      fof"∃x ∃y (x != y ∧ ∀w ((w = x | w = y) → ∀z ¬BackOf(z, w)))",
       fof"∀x (Square(x) ↔ ∃y (Triangle(y) ∧ BackOf(y, x)))",
       fof"∀x ∀y (Larger(x, y) → ∃z Between(x, y, z))",
-      fof"¬(∀x ∀y (LeftOf(x, y) | RightOf(x, y)))", // same here!
-      fof"∃x ∃y ¬(FrontOf(x, y) | BackOf(x, y))"
+      fof"¬(∀x ∀y (LeftOf(x, y) ∨ RightOf(x, y)))", // same here!
+      fof"∃x ∃y ¬(FrontOf(x, y) ∨ BackOf(x, y))",
+      fof"Small(a) ∧ Square(a) ∧ Blue(a)",
+      fof"Medium(c) ∧ Triangle(c) ∧ Black(c)",
+      fof"Small(b) ∧ Circle(b) ∧ Gray(b)"
     )
-    val results  = sentences.map(eval)
-    val expected = (0 until 10).map(_ => true)
+    val results = sentences.map(eval)
     sentences
       .zip(results)
       .foreach: (sentence, result) =>

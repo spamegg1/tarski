@@ -12,44 +12,34 @@ def eval(formula: FOLFormula)(using blocks: Blocks): Boolean = formula match
   case All(x, f) => blocks.keys.forall(name => eval(f.substitute(x, FOLConst(name))))
   case Ex(x, f)  => blocks.keys.exists(name => eval(f.substitute(x, FOLConst(name))))
 
-private def evalAtom(a: FOLAtom)(using blocks: Blocks): Boolean = a match
-  case FOLAtom("Small", List(FOLConst(c)))    => blocks(c).block.size == Small
-  case FOLAtom("Medium", List(FOLConst(c)))   => blocks(c).block.size == Medium
-  case FOLAtom("Large", List(FOLConst(c)))    => blocks(c).block.size == Large
-  case FOLAtom("Circle", List(FOLConst(c)))   => blocks(c).block.shape == Cir
-  case FOLAtom("Triangle", List(FOLConst(c))) => blocks(c).block.shape == Tri
-  case FOLAtom("Square", List(FOLConst(c)))   => blocks(c).block.shape == Squ
-  case FOLAtom("Blue", List(FOLConst(c)))     => blocks(c).block.color == Blue
-  case FOLAtom("Black", List(FOLConst(c)))    => blocks(c).block.color == Black
-  case FOLAtom("Gray", List(FOLConst(c)))     => blocks(c).block.color == Gray
-  case FOLAtom("LeftOf", List(FOLConst(c1), FOLConst(c2))) =>
-    blocks(c1).pos.leftOf(blocks(c2).pos)
-  case FOLAtom("RightOf", List(FOLConst(c1), FOLConst(c2))) =>
-    blocks(c1).pos.rightOf(blocks(c2).pos)
-  case FOLAtom("FrontOf", List(FOLConst(c1), FOLConst(c2))) =>
-    blocks(c1).pos.frontOf(blocks(c2).pos)
-  case FOLAtom("BackOf", List(FOLConst(c1), FOLConst(c2))) =>
-    blocks(c1).pos.backOf(blocks(c2).pos)
-  case FOLAtom("Adjoins", List(FOLConst(c1), FOLConst(c2))) =>
-    blocks(c1).pos.adjoins(blocks(c2).pos)
-  case FOLAtom("Smaller", List(FOLConst(c1), FOLConst(c2))) =>
-    blocks(c1).block.smaller(blocks(c2).block)
-  case FOLAtom("Larger", List(FOLConst(c1), FOLConst(c2))) =>
-    blocks(c2).block.smaller(blocks(c1).block)
-  case FOLAtom("=", List(FOLConst(c1), FOLConst(c2))) =>
-    blocks(c1).block == blocks(c2).block
-  case FOLAtom("SameSize", List(FOLConst(c1), FOLConst(c2))) =>
-    blocks(c1).block.sameSize(blocks(c2).block)
-  case FOLAtom("SameShape", List(FOLConst(c1), FOLConst(c2))) =>
-    blocks(c1).block.sameShape(blocks(c2).block)
-  case FOLAtom("SameColor", List(FOLConst(c1), FOLConst(c2))) =>
-    blocks(c1).block.sameColor(blocks(c2).block)
-  case FOLAtom("SameRow", List(FOLConst(c1), FOLConst(c2))) =>
-    blocks(c1).pos.sameRow(blocks(c2).pos)
-  case FOLAtom("SameColumn", List(FOLConst(c1), FOLConst(c2))) =>
-    blocks(c1).pos.sameCol(blocks(c2).pos)
-  case FOLAtom("Between", List(FOLConst(c1), FOLConst(c2), FOLConst(c3))) =>
-    blocks(c1).pos.between(blocks(c2).pos, blocks(c3).pos)
+private def evalAtom(a: FOLAtom)(using b: Blocks): Boolean = a match
+  case FOLAtom("Small", Seq(FOLConst(c)))                => b(c).block.size == Small
+  case FOLAtom("Medium", Seq(FOLConst(c)))               => b(c).block.size == Medium
+  case FOLAtom("Large", Seq(FOLConst(c)))                => b(c).block.size == Large
+  case FOLAtom("Circle", Seq(FOLConst(c)))               => b(c).block.shape == Cir
+  case FOLAtom("Triangle", Seq(FOLConst(c)))             => b(c).block.shape == Tri
+  case FOLAtom("Square", Seq(FOLConst(c)))               => b(c).block.shape == Squ
+  case FOLAtom("Blue", Seq(FOLConst(c)))                 => b(c).block.color == Blue
+  case FOLAtom("Black", Seq(FOLConst(c)))                => b(c).block.color == Black
+  case FOLAtom("Gray", Seq(FOLConst(c)))                 => b(c).block.color == Gray
+  case FOLAtom("LeftOf", Seq(FOLConst(c), FOLConst(d)))  => b(c).pos.leftOf(b(d).pos)
+  case FOLAtom("RightOf", Seq(FOLConst(c), FOLConst(d))) => b(c).pos.rightOf(b(d).pos)
+  case FOLAtom("FrontOf", Seq(FOLConst(c), FOLConst(d))) => b(c).pos.frontOf(b(d).pos)
+  case FOLAtom("BackOf", Seq(FOLConst(c), FOLConst(d)))  => b(c).pos.backOf(b(d).pos)
+  case FOLAtom("Adjoins", Seq(FOLConst(c), FOLConst(d))) => b(c).pos.adjoins(b(d).pos)
+  case FOLAtom("Smaller", Seq(FOLConst(c), FOLConst(d))) => b(c).block.smaller(b(d).block)
+  case FOLAtom("Larger", Seq(FOLConst(c), FOLConst(d)))  => b(c).block.larger(b(d).block)
+  case FOLAtom("=", Seq(FOLConst(c), FOLConst(d)))       => b(c).block == b(d).block
+  case FOLAtom("SameRow", Seq(FOLConst(c), FOLConst(d))) => b(c).pos.sameRow(b(d).pos)
+  case FOLAtom("SameColumn", Seq(FOLConst(c), FOLConst(d))) => b(c).pos.sameCol(b(d).pos)
+  case FOLAtom("SameSize", Seq(FOLConst(c), FOLConst(d))) =>
+    b(c).block.sameSize(b(d).block)
+  case FOLAtom("SameShape", Seq(FOLConst(c), FOLConst(d))) =>
+    b(c).block.sameShape(b(d).block)
+  case FOLAtom("SameColor", Seq(FOLConst(c), FOLConst(d))) =>
+    b(c).block.sameColor(b(d).block)
+  case FOLAtom("Between", Seq(FOLConst(c), FOLConst(d), FOLConst(c3))) =>
+    b(c).pos.between(b(d).pos, b(c3).pos)
   case _ => throw IllegalArgumentException(s"Atom $a is parsed incorrectly")
 
 extension (f: FOLFormula)
