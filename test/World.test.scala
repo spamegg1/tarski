@@ -1,33 +1,38 @@
 package tarski
 
 class WorldTest extends munit.FunSuite:
-  test("world add/remove blocks"):
-    val b0 = Block(Small, Cir, Gray, "b")
-    val b1 = Block(Small, Cir, Gray)
-    val b2 = Block(Medium, Tri, Black, "c")
-    val b3 = Block(Small, Squ, Blue)
-    val b4 = Block(Small, Squ, Blue, "a")
+  test("World add, move, remove, rename blocks integration test"):
+    val b0 = Block(Small, Cir, Gray)
+    val b1 = Block(Medium, Tri, Black)
+    val b2 = Block(Small, Squ, Blue)
 
-    val grid: Grid = Map(
-      (1, 1) -> (b0, "b"),
-      (1, 5) -> (b1, "block0"),
-      (3, 3) -> (b2, "c"),
-      (4, 2) -> (b3, "block1"),
-      (6, 6) -> (b4, "a")
+    val w0 = World.empty
+    assert(w0.blocks.isEmpty, s"empty world should have no blocks, but has ${w0.blocks}")
+    assert(w0.grid.isEmpty, s"empty world should have no grid, but has ${w0.grid}")
+    assert(
+      w0.names.values.forall(_ == Available),
+      s"empty world should have all 6 names available, but has names ${w0.names}"
     )
 
-    given blocks: Blocks = Map(
-      "b"      -> (b0, (1, 1)),
-      "block0" -> (b1, (1, 5)),
-      "c"      -> (b2, (3, 3)),
-      "block1" -> (b3, (4, 2)),
-      "a"      -> (b4, (6, 6))
-    )
-    val world = World(grid, blocks)
+    val w1 = w0.removeBlockAt((1, 2))
+    assert(w1 == w0, "removing a block from an empty world should not work, but did")
 
-    val results  = (0 until 10).map(_ => true)
-    val expected = (0 until 10).map(_ => true)
-    results
-      .zip(expected)
-      .foreach: (sentence, result) =>
-        assert(result, s"$sentence is false, expected true")
+    val w2 = w1.removeNameFromBlockAt((3, 4))
+    assert(w2 == w1, "removing a name in an empty world should not work, but did")
+
+    val w3 = w2.moveBlock((3, 4), (1, 2))
+    assert(w3 == w2, "moving a block in an empty world should not work, but did")
+
+    // add 1 block: initially, it has no name, just fake name block0
+    val w4  = w3.addBlockAt((1, 2))(b0)
+    val g4  = Map((1, 2) -> (b0, "block0"))
+    val bl4 = Map("block0" -> (b0, (1, 2)))
+    assert(w4.grid == g4, s"world with 1 block should have grid $g4 but has ${w4.grid}")
+    assert(
+      w4.blocks == bl4,
+      s"world with 1 unnamed block should have blocks $bl4 but has ${w4.blocks}"
+    )
+    assert(
+      w4.names.values.forall(_ == Available),
+      s"world with 1 unnamed block added should have all names available, but doesn't"
+    )
