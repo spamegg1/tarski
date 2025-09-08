@@ -63,6 +63,7 @@ case class World(grid: Grid, blocks: Blocks, names: Names = World.initNames):
           World(newGrid, newBlocks, newNames)
 
 object World:
+  // only 6 names are allowed: a,b,c,d,e,f
   val initNames = Map(
     "a" -> Available,
     "b" -> Available,
