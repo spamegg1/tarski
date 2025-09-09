@@ -1,5 +1,9 @@
 package tarski
 
+type Width      = Double
+type Height     = Double
+type Dimensions = (h: Height, w: Width)
+
 // pure constants
 val FontSz   = 30
 val TheFont  = Font.defaultSansSerif.bold.size(FontSize.points(FontSz))

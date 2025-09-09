@@ -12,8 +12,8 @@ def run =
     .withOnMouseMove(move)   // Point World => World
     .withStop(stop)          // World => Boolean
     .withTickRate(TickRate)
-    .draw(frame)
-  // .run(frame)
+    // .draw(frame)
+    .run(frame)
 
 @main
 def board: Unit =

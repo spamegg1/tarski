@@ -1,7 +1,8 @@
 package tarski
 
-type Grid   = Map[Pos, (block: Block, name: Name)]
-type Blocks = Map[Name, (block: Block, pos: Pos)]
+type GridSize = (rows: Int, cols: Int)
+type Grid     = Map[Pos, (block: Block, name: Name)]
+type Blocks   = Map[Name, (block: Block, pos: Pos)]
 
 case class World(grid: Grid, blocks: Blocks, names: Names = World.initNames):
   // newly added blocks are always nameless, the name can only be added later.
