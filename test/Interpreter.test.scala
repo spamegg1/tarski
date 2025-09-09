@@ -4,7 +4,7 @@ class InterpreterTest extends munit.FunSuite:
   test("interpreter is correct on complex sentences in a world with 5 objects"):
     val b0 = Block(Small, Cir, Gray, "b")
     val b1 = Block(Small, Cir, Gray)
-    val b2 = Block(Medium, Tri, Black, "c")
+    val b2 = Block(Medium, Tri, Green, "c")
     val b3 = Block(Small, Squ, Blue)
     val b4 = Block(Small, Squ, Blue, "a")
 
@@ -37,7 +37,7 @@ class InterpreterTest extends munit.FunSuite:
       fof"¬(∀x ∀y (LeftOf(x, y) ∨ RightOf(x, y)))", // same here!
       fof"∃x ∃y ¬(FrontOf(x, y) ∨ BackOf(x, y))",
       fof"Small(a) ∧ Square(a) ∧ Blue(a)",
-      fof"Medium(c) ∧ Triangle(c) ∧ Black(c)",
+      fof"Medium(c) ∧ Triangle(c) ∧ Green(c)",
       fof"Small(b) ∧ Circle(b) ∧ Gray(b)"
     )
     val results = sentences.map(eval)

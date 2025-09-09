@@ -5,22 +5,22 @@ type Height     = Double
 type Dimensions = (h: Height, w: Width)
 
 // pure constants
-val FontSz   = 30
-val TheFont  = Font.defaultSansSerif.bold.size(FontSize.points(FontSz))
+val FontSz   = FontSize.points(30)
 val Size     = 100.0
-val BgColor  = white
+val BgColor  = gray
 val Blue     = deepSkyBlue
 val Gray     = lightGray
-val Black    = black
+val Green    = yellowGreen
 val Title    = "Tarski's World"
 val TickRate = FiniteDuration(50L, "milliseconds")
 
 // derived constants
-val Height = Size * 8
-val Width  = Size * 16
-val Small  = Size * 0.4
-val Medium = Size * 0.7
-val Large  = Size * 0.95
+val TheFont = Font.defaultSerif.bold.size(FontSz)
+val Height  = Size * 8
+val Width   = Size * 16
+val Small   = Size * 0.4
+val Medium  = Size * 0.7
+val Large   = Size * 0.95
 
 // basic shapes
 val Sqr = Image.square(Size)
@@ -37,7 +37,7 @@ val Half    = Quarter above Quarter
 val Board   = Half above Half
 
 // frame
-val frame = Frame.default
+val MainFrame = Frame.default
   .withSize(Width, Height)
   .withBackground(BgColor)
   .withTitle(Title)

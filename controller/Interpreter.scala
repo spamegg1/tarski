@@ -20,7 +20,7 @@ private def evalAtom(a: FOLAtom)(using b: Blocks): Boolean = a match
   case FOLAtom("Triangle", Seq(FOLConst(c)))             => b(c).block.shape == Tri
   case FOLAtom("Square", Seq(FOLConst(c)))               => b(c).block.shape == Squ
   case FOLAtom("Blue", Seq(FOLConst(c)))                 => b(c).block.color == Blue
-  case FOLAtom("Black", Seq(FOLConst(c)))                => b(c).block.color == Black
+  case FOLAtom("Green", Seq(FOLConst(c)))                => b(c).block.color == Green
   case FOLAtom("Gray", Seq(FOLConst(c)))                 => b(c).block.color == Gray
   case FOLAtom("LeftOf", Seq(FOLConst(c), FOLConst(d)))  => b(c).pos.leftOf(b(d).pos)
   case FOLAtom("RightOf", Seq(FOLConst(c), FOLConst(d))) => b(c).pos.rightOf(b(d).pos)
