@@ -10,6 +10,8 @@ val world = World.empty
   .addNameToBlockAt((1, 2))("a")
   .addNameToBlockAt((3, 4))("b")
   .addNameToBlockAt((5, 6))("c")
+  .addFormula(fof"¬(∃x Large(x))")
+  .addFormula(fof"!x (P(x,f(x)) -> ?y P(x,y))")
 
 @main
 def run =

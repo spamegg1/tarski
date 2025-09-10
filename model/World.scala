@@ -4,7 +4,12 @@ type GridSize = (rows: Int, cols: Int)
 type Grid     = Map[Pos, (block: Block, name: Name)]
 type Blocks   = Map[Name, (block: Block, pos: Pos)]
 
-case class World(grid: Grid, blocks: Blocks, names: Names = World.initNames):
+case class World(
+    grid: Grid,
+    blocks: Blocks,
+    names: Names = World.initNames,
+    formBoxes: List[FormulaBox] = Nil
+):
   // newly added blocks are always nameless, the name can only be added later.
   def addBlockAt(pos: Pos)(block: Block) = grid.get(pos) match
     case Some(_) => this
@@ -12,7 +17,7 @@ case class World(grid: Grid, blocks: Blocks, names: Names = World.initNames):
       val fakeName  = Name.generateFake
       val newGrid   = grid.updated(pos, (block, fakeName))
       val newBlocks = blocks.updated(fakeName, (block, pos))
-      World(newGrid, newBlocks, names)
+      World(newGrid, newBlocks, names, formBoxes)
 
   def removeBlockAt(pos: Pos) = grid.get(pos) match
     case None => this
@@ -20,7 +25,7 @@ case class World(grid: Grid, blocks: Blocks, names: Names = World.initNames):
       val newGrid   = grid.removed(pos)
       val newBlocks = blocks.removed(name)
       val newNames  = names.avail(name)
-      World(newGrid, newBlocks, newNames)
+      World(newGrid, newBlocks, newNames, formBoxes)
 
   def moveBlock(from: Pos, to: Pos): World = grid.get(from) match
     case None => this
@@ -30,7 +35,7 @@ case class World(grid: Grid, blocks: Blocks, names: Names = World.initNames):
         case None => // make sure there is no block at to position
           val newGrid   = grid.removed(from).updated(to, (block, name))
           val newBlocks = blocks.updated(name, (block, to))
-          World(newGrid, newBlocks, names)
+          World(newGrid, newBlocks, names, formBoxes)
 
   // this is tricky; since fake names are also involved.
   def addNameToBlockAt(pos: Pos)(name: Name): World = grid.get(pos) match
@@ -47,7 +52,7 @@ case class World(grid: Grid, blocks: Blocks, names: Names = World.initNames):
               val newGrid   = grid.updated(pos, (newBlock, name))
               val newBlocks = blocks.removed(oldName).updated(name, (newBlock, pos))
               val newNames  = names.occupy(name)
-              World(newGrid, newBlocks, newNames)
+              World(newGrid, newBlocks, newNames, formBoxes)
 
   def removeNameFromBlockAt(pos: Pos): World = grid.get(pos) match
     case None => this
@@ -61,7 +66,9 @@ case class World(grid: Grid, blocks: Blocks, names: Names = World.initNames):
           val newGrid   = grid.updated(pos, (newBlock, newName))
           val newBlocks = blocks.removed(name).updated(newName, (newBlock, pos))
           val newNames  = names.avail(name)
-          World(newGrid, newBlocks, newNames)
+          World(newGrid, newBlocks, newNames, formBoxes)
+
+  def addFormula(formula: FOLFormula) = copy(formBoxes = FormulaBox(formula) :: formBoxes)
 
 object World:
   // only 6 names are allowed: a,b,c,d,e,f
@@ -74,7 +81,7 @@ object World:
     "f" -> Available
   )
 
-  def empty: World = World(Map(), Map(), initNames)
+  def empty: World = World(Map(), Map(), initNames, Nil)
 
   def fromGrid(grid: Grid): World =
     val blocks = grid.map:
