@@ -1,7 +1,7 @@
 package tarski
 
 class ConverterTest extends munit.FunSuite:
-  given Dimensions = (h = 800, w = 800)
+  given Dimensions = (w = 800, h = 800)
   given GridSize   = (rows = 8, cols = 8)
   val positions    = Seq((0, 0), (0, 7), (7, 0), (7, 7), (2, 3), (5, 4))
   val points = Seq(
@@ -30,3 +30,9 @@ class ConverterTest extends munit.FunSuite:
       .zip(positions)
       .foreach: (obt, exp) =>
         assert(obt == exp, s"Expected $exp, obtained $obt")
+
+  test("point to pos conversion works for all points inside a block"):
+    Seq(Point(-99, 101), Point(-1, 101), Point(-99, 199), Point(-1, 199))
+      .map(_.toPos)
+      .foreach: pos =>
+        assert(pos == (row = 2, col = 3), s"expected (2,3), obtained $pos")

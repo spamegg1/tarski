@@ -4,7 +4,7 @@ enum CheckBox:
   case Ready, Valid, Invalid
 
   def toImage: Image = this match
-    case Ready   => CheckMark
+    case Ready   => ReadyMark
     case Valid   => CheckMark
     case Invalid => CrossMark
 

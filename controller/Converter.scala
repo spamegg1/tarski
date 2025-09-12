@@ -22,6 +22,6 @@ given (dims: Dimensions) => (gs: GridSize) => Converter:
 
   extension (point: Point)
     def toPos(using c: Converter): Pos =
-      val row = (c.top - point.y) / c.blockHeight - 0.5
-      val col = (c.left + point.x) / c.blockWidth - 0.5
+      val row = (c.top - point.y) / c.blockHeight // - 0.5
+      val col = (c.left + point.x) / c.blockWidth // - 0.5
       (row.toInt, col.toInt)
