@@ -1,9 +1,7 @@
 package tarski
 
 class ConverterTest extends munit.FunSuite:
-  given Dimensions = (w = 800, h = 800)
-  given GridSize   = (rows = 8, cols = 8)
-  val positions    = Seq((0, 0), (0, 7), (7, 0), (7, 7), (2, 3), (5, 4))
+  val positions = Seq((0, 0), (0, 7), (7, 0), (7, 7), (2, 3), (5, 4))
   val points = Seq(
     Point(-350, 350),
     Point(350, 350),
@@ -15,9 +13,10 @@ class ConverterTest extends munit.FunSuite:
 
   extension (p: Point)
     def isCloseTo(that: Point) =
-      math.abs(p.x - that.x) < 0.0001 && math.abs(p.y - that.y) < 0.0001
+      math.abs(p.x - that.x) < Epsilon && math.abs(p.y - that.y) < Epsilon
 
   test("correctly convert Pos to Point on standard chess board"):
+    import BoardConverter.given
     positions
       .map(_.toPoint)
       .zip(points)
@@ -25,6 +24,7 @@ class ConverterTest extends munit.FunSuite:
         assert(obt.isCloseTo(exp), s"Expected $exp, obtained $obt")
 
   test("correctly convert Point to Pos on standard chess board"):
+    import BoardConverter.given
     points
       .map(_.toPos)
       .zip(positions)
@@ -32,7 +32,24 @@ class ConverterTest extends munit.FunSuite:
         assert(obt == exp, s"Expected $exp, obtained $obt")
 
   test("point to pos conversion works for all points inside a block"):
+    import BoardConverter.given
     Seq(Point(-99, 101), Point(-1, 101), Point(-99, 199), Point(-1, 199))
       .map(_.toPos)
       .foreach: pos =>
         assert(pos == (row = 2, col = 3), s"expected (2,3), obtained $pos")
+
+  test("board, controls and UI origins are conditionally converted correctly"):
+    val boardOrigin = (BoardRows / 2, BoardCols / 2)
+    val boardResult = convertPointConditionally(BoardOrigin)
+    assert(boardResult == boardOrigin, s"expected $boardOrigin, obtained $boardResult")
+
+    val uiOrigin = (UIRows / 2, UICols / 2)
+    val uiResult = convertPointConditionally(UIOrigin)
+    assert(uiResult == uiOrigin, s"expected $uiOrigin, obtained $uiResult")
+
+    val controlsResult = convertPointConditionally(ControlsOrigin)
+    val controlsOrigin = (ControlRows / 2, ControlCols / 2)
+    assert(
+      controlsResult == controlsOrigin,
+      s"expected $controlsOrigin, obtained $controlsResult"
+    )

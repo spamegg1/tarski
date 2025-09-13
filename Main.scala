@@ -1,8 +1,5 @@
 package tarski
 
-given Dimensions = (800, 800)
-given GridSize   = (8, 8)
-
 val world = World.empty
   .addBlockAt((1, 2))(Block(Small, Tri, Green))
   .addBlockAt((3, 4))(Block(Medium, Tri, Blue))
@@ -15,6 +12,8 @@ val world = World.empty
 
 @main
 def run =
+  given Dimensions = (800, 800)
+  given GridSize   = (8, 8)
   Reactor
     .init[World](world)      // these functions are in Reactor.scala
     .withOnTick(tick)        // World -> World

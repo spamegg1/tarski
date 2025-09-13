@@ -1,29 +1,40 @@
 package tarski
 
-type Width      = Double
 type Height     = Double
-type Dimensions = (w: Width, h: Height)
+type Width      = Double
+type Dimensions = (h: Height, w: Width)
 
 // pure constants
-val Pts      = 30
-val Size     = 100.0
-val BgColor  = lightGray
-val Blue     = deepSkyBlue
-val Gray     = lightGray
-val Green    = yellowGreen
-val Title    = "Tarski's World"
-val TickRate = FiniteDuration(50L, "milliseconds")
-val StrokeW  = 8
+val Pts         = 30
+val Size        = 100.0
+val BgColor     = lightGray
+val Blue        = deepSkyBlue
+val Gray        = lightGray
+val Green       = yellowGreen
+val Title       = "Tarski's World"
+val TickRate    = FiniteDuration(50L, "milliseconds")
+val StrokeW     = 8
+val BoardRows   = 8
+val BoardCols   = 8
+val ControlRows = 2
+val ControlCols = 16
+val Epsilon     = 0.0001
+val UIOrigin    = Point(0, 0)
 
 // derived constants
-val Height  = Size * 8
-val Width   = Height * 2
-val Small   = Size * 0.4
-val Medium  = Size * 0.7
-val Large   = Size * 0.95
-val LineLen = 1.2 * Pts
-val FontSz  = FontSize.points(Pts)
-val TheFont = Font.defaultSansSerif.size(FontSz)
+val Height         = Size * 8
+val Width          = Height * 2
+val Small          = Size * 0.4
+val Medium         = Size * 0.7
+val Large          = Size * 0.95
+val UIRows         = BoardRows
+val UICols         = BoardCols * 2
+val BoardOrigin    = Point(-Width / 4, 0)
+val ControlsOrigin = Point(Width / 4, Height * 7 / 16)
+val ControlsBottom = Height * 3 / 8
+val LineLen        = 1.2 * Pts
+val FontSz         = FontSize.points(Pts)
+val TheFont        = Font.defaultSansSerif.size(FontSz)
 
 // basic shapes
 val SmallSq   = Image.square(Pts)
