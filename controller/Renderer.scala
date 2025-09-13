@@ -8,14 +8,14 @@ def renderFormBoxes(formBoxes: List[FormulaBox]) = formBoxes
     case (image, formBox) =>
       image.above(formBox.toImage)
 
-def renderBlocks(grid: Grid)(using Converter): Image = grid
+def renderBlocks(grid: Grid): Image = grid
   .foldLeft[Image](Board):
     case (image, (pos, (block, name))) =>
       block.toImage
-        .at(pos.toPoint)
+        .at(BoardConverter.toPoint(pos))
         .on(image)
 
-def render(world: World)(using Converter): Image = renderBlocks(world.grid)
+def render(world: World): Image = renderBlocks(world.grid)
   .beside:
     renderNames
       .above(renderControls(world.controls))

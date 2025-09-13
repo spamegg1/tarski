@@ -22,19 +22,25 @@ val Epsilon     = 0.0001
 val UIOrigin    = Point(0, 0)
 
 // derived constants
-val Height         = Size * 8
-val Width          = Height * 2
-val Small          = Size * 0.4
-val Medium         = Size * 0.7
-val Large          = Size * 0.95
-val UIRows         = BoardRows
-val UICols         = BoardCols * 2
-val BoardOrigin    = Point(-Width / 4, 0)
-val ControlsOrigin = Point(Width / 4, Height * 7 / 16)
-val ControlsBottom = Height * 3 / 8
-val LineLen        = 1.2 * Pts
-val FontSz         = FontSize.points(Pts)
-val TheFont        = Font.defaultSansSerif.size(FontSz)
+val Height             = Size * 8
+val Width              = Height * 2
+val Small              = Size * 0.4
+val Medium             = Size * 0.7
+val Large              = Size * 0.95
+val UIRows             = BoardRows
+val UICols             = BoardCols * 2
+val BoardOrigin        = Point(-Width / 4, 0)
+val ControlsOrigin     = Point(Width / 4, Height * 7 / 16)
+val ControlsBottom     = Height * 3 / 8
+val LineLen            = 1.2 * Pts
+val FontSz             = FontSize.points(Pts)
+val TheFont            = Font.defaultSansSerif.size(FontSz)
+val UIDimensions       = (h = Height, w = Width)
+val UIGridSize         = (rows = BoardRows, cols = BoardCols * 2)
+val BoardDimensions    = (h = Height, w = Width / 2)
+val BoardGridSize      = (rows = BoardRows, cols = BoardCols)
+val ControlsDimensions = (h = Height / 8, w = Width / 2)
+val ControlsGridSize   = (rows = ControlRows, cols = ControlCols)
 
 // basic shapes
 val SmallSq   = Image.square(Pts)

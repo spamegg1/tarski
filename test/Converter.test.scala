@@ -16,25 +16,22 @@ class ConverterTest extends munit.FunSuite:
       math.abs(p.x - that.x) < Epsilon && math.abs(p.y - that.y) < Epsilon
 
   test("correctly convert Pos to Point on standard chess board"):
-    import BoardConverter.given
     positions
-      .map(_.toPoint)
+      .map(BoardConverter.toPoint)
       .zip(points)
       .foreach: (obt, exp) =>
         assert(obt.isCloseTo(exp), s"Expected $exp, obtained $obt")
 
   test("correctly convert Point to Pos on standard chess board"):
-    import BoardConverter.given
     points
-      .map(_.toPos)
+      .map(BoardConverter.toPos)
       .zip(positions)
       .foreach: (obt, exp) =>
         assert(obt == exp, s"Expected $exp, obtained $obt")
 
   test("point to pos conversion works for all points inside a block"):
-    import BoardConverter.given
     Seq(Point(-99, 101), Point(-1, 101), Point(-99, 199), Point(-1, 199))
-      .map(_.toPos)
+      .map(BoardConverter.toPos)
       .foreach: pos =>
         assert(pos == (row = 2, col = 3), s"expected (2,3), obtained $pos")
 
