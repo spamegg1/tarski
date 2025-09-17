@@ -1,29 +1,44 @@
-package tarski
+package tarski:
+  export cats.effect.unsafe.implicits.global
+  export concurrent.duration.FiniteDuration
+  export doodle.core.{Color, Point, OpenPath}
+  export doodle.core.Color.{deepSkyBlue, lightGray, white, black, yellowGreen, red, green}
+  export doodle.core.font.{Font, FontSize}
+  export doodle.image.Image
+  export doodle.image.Image.Elements.Text
+  export doodle.image.syntax.all.*
+  export doodle.java2d.Algebra
+  export doodle.java2d.effect.Frame
+  export doodle.java2d.java2dAnimationRenderer
+  export doodle.java2d.java2dCanvasAlgebra
+  export doodle.java2d.java2dRenderer
+  export doodle.java2d.java2dFrame
+  export doodle.java2d.Java2dToPicture
+  export doodle.reactor.Reactor
+  export doodle.core.syntax.all.*
 
-export cats.effect.unsafe.implicits.global
-export concurrent.duration.FiniteDuration
-export doodle.core.{Color, Point, OpenPath}
-export doodle.core.Color.{deepSkyBlue, lightGray, white, black, yellowGreen, red, green}
-export doodle.core.font.{Font, FontSize}
-export doodle.image.Image
-export doodle.image.Image.Elements.Text
-export doodle.image.syntax.all.*
-export doodle.java2d.Algebra
-export doodle.java2d.effect.Frame
-export doodle.java2d.java2dAnimationRenderer
-export doodle.java2d.java2dCanvasAlgebra
-export doodle.java2d.java2dRenderer
-export doodle.java2d.java2dFrame
-export doodle.java2d.Java2dToPicture
-export doodle.reactor.Reactor
-export doodle.core.syntax.all.*
+  export gapt.expr.stringInterpolationForExpressions
+  export gapt.expr.Const
+  export gapt.expr.ty.{Ti, To}
+  export gapt.expr.formula.fol.{FOLVar, FOLConst, FOLFunction, FOLAtom, FOLFormula}
+  export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
+  export gapt.expr.subst.FOLSubstitution
 
-export gapt.expr.stringInterpolationForExpressions
-export gapt.expr.Const
-export gapt.expr.ty.{Ti, To}
-export gapt.expr.formula.fol.{FOLVar, FOLConst, FOLFunction, FOLAtom, FOLFormula}
-export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
-export gapt.expr.subst.FOLSubstitution
+  extension (f: FOLFormula)
+    def substitute(x: FOLVar, c: FOLConst) = FOLSubstitution((x, c)).apply(f)
 
-extension (f: FOLFormula)
-  def substitute(x: FOLVar, c: FOLConst) = FOLSubstitution((x, c)).apply(f)
+  package model:
+    export view.{Block, FormulaBox, Controls}
+
+  package view:
+    export Constants.*
+
+  package controller:
+    export model.{Pos, Blocks, Grid, GridSize, World}, Pos.*
+    export view.{Controls, FormulaBox, Constants}, Constants.*
+    export Converter.*
+
+  package testing:
+    export model.{World, Grid, Blocks, Status}, Status.*
+    export view.{Block, Constants}, Constants.*
+    export controller.{eval, Converter}, Converter.*
