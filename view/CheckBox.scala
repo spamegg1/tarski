@@ -1,4 +1,5 @@
 package tarski
+package view
 
 enum CheckBox:
   case Ready, Valid, Invalid

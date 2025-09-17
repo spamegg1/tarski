@@ -1,4 +1,5 @@
 package tarski
+package model
 
 enum Status:
   case Available, Occupied

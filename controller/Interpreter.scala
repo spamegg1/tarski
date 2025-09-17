@@ -1,4 +1,5 @@
 package tarski
+package controller
 
 def eval(formula: FOLFormula)(using blocks: Blocks): Boolean = formula match
   case a: FOLAtom => evalAtom(a)
@@ -41,6 +42,3 @@ private def evalAtom(a: FOLAtom)(using b: Blocks): Boolean = a match
   case FOLAtom("Between", Seq(FOLConst(c), FOLConst(d), FOLConst(c3))) =>
     b(c).pos.between(b(d).pos, b(c3).pos)
   case _ => throw IllegalArgumentException(s"Atom $a is parsed incorrectly")
-
-extension (f: FOLFormula)
-  def substitute(x: FOLVar, c: FOLConst) = FOLSubstitution((x, c)).apply(f)

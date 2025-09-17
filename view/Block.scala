@@ -1,4 +1,5 @@
 package tarski
+package view
 
 case class Block(
     size: Double, // Small, Medium, Large

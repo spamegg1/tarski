@@ -24,3 +24,6 @@ export gapt.expr.ty.{Ti, To}
 export gapt.expr.formula.fol.{FOLVar, FOLConst, FOLFunction, FOLAtom, FOLFormula}
 export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
 export gapt.expr.subst.FOLSubstitution
+
+extension (f: FOLFormula)
+  def substitute(x: FOLVar, c: FOLConst) = FOLSubstitution((x, c)).apply(f)

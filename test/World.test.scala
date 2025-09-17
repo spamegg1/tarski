@@ -1,4 +1,5 @@
 package tarski
+package testing
 
 class WorldTest extends munit.FunSuite:
   test("World add, move, remove, rename blocks integration test"):

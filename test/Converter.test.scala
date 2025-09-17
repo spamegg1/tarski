@@ -1,4 +1,5 @@
 package tarski
+package testing
 
 class ConverterTest extends munit.FunSuite:
   val positions = Seq((0, 0), (0, 7), (7, 0), (7, 7), (2, 3), (5, 4))

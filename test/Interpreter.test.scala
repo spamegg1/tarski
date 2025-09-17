@@ -1,4 +1,5 @@
 package tarski
+package testing
 
 class InterpreterTest extends munit.FunSuite:
   test("interpreter is correct on complex sentences in a world with 5 objects"):

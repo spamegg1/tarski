@@ -1,4 +1,5 @@
 package tarski
+package controller
 
 def renderNames                        = Image.rectangle(800, 100).fillColor(Gray)
 def renderControls(controls: Controls) = controls.toImage
