@@ -1,7 +1,7 @@
 package tarski
 package controller
 
-trait Converter(dims: Dimensions, gs: GridSize):
+class Converter(dims: Dimensions, gs: GridSize):
   val blockHeight: Double = dims.h / gs.rows
   val blockWidth: Double  = dims.w / gs.cols
   val top: Double         = dims.h / 2
@@ -16,9 +16,9 @@ trait Converter(dims: Dimensions, gs: GridSize):
     (row.toInt, col.toInt)
 
 object Converter:
-  object UIConverter       extends Converter(UIDimensions, UIGridSize)
-  object BoardConverter    extends Converter(BoardDimensions, BoardGridSize)
-  object ControlsConverter extends Converter(ControlsDimensions, ControlsGridSize)
+  val UIConverter       = Converter(UIDimensions, UIGridSize)
+  val BoardConverter    = Converter(BoardDimensions, BoardGridSize)
+  val ControlsConverter = Converter(ControlsDimensions, ControlsGridSize)
 
   def convertPointConditionally(p: Point): Pos =
     if p.x < 0 then BoardConverter.toPos((p - BoardOrigin).toPoint)
