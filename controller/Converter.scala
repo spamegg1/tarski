@@ -1,7 +1,7 @@
 package tarski
 package controller
 
-class Converter(dims: Dimensions, gs: GridSize):
+case class Converter(dims: Dimensions, gs: GridSize):
   val blockHeight: Double = dims.h / gs.rows
   val blockWidth: Double  = dims.w / gs.cols
   val top: Double         = dims.h / 2
