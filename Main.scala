@@ -1,9 +1,5 @@
 package tarski
-
-import view.Block
-import view.Constants.*
-import model.{World, GridSize}
-import controller.render
+package main
 
 val world = World.empty
   .addBlockAt((1, 2))(Block(Small, Tri, Green))
