@@ -1,6 +1,5 @@
 package tarski
-
-import model.World
+package controller
 
 def tick(world: World): World         = world
 def click(point: Point, world: World) = world
