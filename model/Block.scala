@@ -1,5 +1,5 @@
 package tarski
-package view
+package model
 
 case class Block(
     size: Double, // Small, Medium, Large
@@ -7,7 +7,6 @@ case class Block(
     color: Color, // Blue, Black, Grey
     label: String = ""
 ):
-  def toImage                 = Text(label).font(TheFont).on(shape.toImage(size, color))
   def removeLabel             = copy(label = "")
   def smaller(that: Block)    = size < that.size
   def larger(that: Block)     = size > that.size

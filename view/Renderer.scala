@@ -2,6 +2,12 @@ package tarski
 package view
 
 object Renderer:
+  extension (b: Block)
+    def toImage =
+      Text(b.label)
+        .font(TheFont)
+        .on(b.shape.toImage(b.size, b.color))
+
   def renderNames                        = Image.rectangle(800, 100).fillColor(Gray)
   def renderControls(controls: Controls) = controls.toImage
 

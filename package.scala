@@ -22,11 +22,11 @@ package tarski:
     def substitute(x: FOLVar, c: FOLConst) = FOLSubstitution((x, c)).apply(f)
 
   package model:
-    export view.{Block, FormulaBox, Controls}
+    export view.{FormulaBox, Controls}
 
   package view:
     export Constants.*
-    export model.{Grid, World}
+    export model.{Grid, World, Block}
     export controller.Converter.*
 
   package controller:
@@ -35,12 +35,12 @@ package tarski:
     export Converter.*
 
   package testing:
-    export model.{World, Grid, Blocks, Status}, Status.*
-    export view.{Block, Constants}, Constants.*
+    export model.{World, Grid, Block, Blocks, Status}, Status.*
+    export view.{Constants}, Constants.*
     export controller.{eval, Converter}
     export Converter.{BoardConverter, convertPointConditionally}
 
   package main:
-    export view.{Block, Renderer, Constants}, Constants.*, Renderer.*
+    export view.{Renderer, Constants}, Constants.*, Renderer.*
     export controller.Reactor.*
-    export model.{World, GridSize}
+    export model.{World, GridSize, Block}
