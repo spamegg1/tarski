@@ -26,16 +26,16 @@ package tarski:
 
   package view:
     export Constants.*
-    export model.{Grid, World, Block}
+    export model.{Grid, World, Shape, Block}, Shape.*
     export controller.Converter.*
 
   package controller:
-    export model.{Pos, Blocks, Grid, GridSize, World}, Pos.*
+    export model.{Pos, Blocks, Grid, GridSize, World, Shape}, Pos.*, Shape.*
     export view.{Controls, FormulaBox, Constants}, Constants.*
     export Converter.*
 
   package testing:
-    export model.{World, Grid, Block, Blocks, Status}, Status.*
+    export model.{World, Grid, Shape, Block, Blocks, Status}, Status.*, Shape.*
     export view.{Constants}, Constants.*
     export controller.{eval, Converter}
     export Converter.{BoardConverter, convertPointConditionally}
@@ -43,4 +43,4 @@ package tarski:
   package main:
     export view.{Renderer, Constants}, Constants.*, Renderer.*
     export controller.Reactor.*
-    export model.{World, GridSize, Block}
+    export model.{World, GridSize, Block, Shape}, Shape.*

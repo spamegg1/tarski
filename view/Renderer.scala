@@ -2,8 +2,14 @@ package tarski
 package view
 
 object Renderer:
+  extension (s: Shape)
+    def toImage(size: Double, color: Color): Image = this match
+      case Tri => Image.equilateralTriangle(size * TriFactor).fillColor(color)
+      case Squ => Image.square(size).fillColor(color)
+      case Cir => Image.circle(size).fillColor(color)
+
   extension (b: Block)
-    def toImage =
+    def toImage: Image =
       Text(b.label)
         .font(TheFont)
         .on(b.shape.toImage(b.size, b.color))
