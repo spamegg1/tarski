@@ -18,24 +18,21 @@ package tarski:
   export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
   export gapt.expr.subst.FOLSubstitution
 
-  package model:
-    export view.{FormulaBox, Controls}
+  export Constants.*
 
   package view:
-    export Constants.*
-    export model.{Grid, World, Shape, Block, Result, Formulas}, Shape.*, Result.*
+    export model.{Grid, World, Shape, Block, Result, Formulas, Controls}, Shape.*,
+      Result.*
+    export controller.Converter.BoardConverter
 
   package controller:
-    export view.Constants.*
     export model.{Pos, Blocks, Grid, GridSize, World, Shape}, Pos.*, Shape.*
 
   package testing:
     export model.{World, Grid, Shape, Block, Blocks, Status}, Status.*, Shape.*
-    export view.{Constants}, Constants.*
-    export controller.{eval, Converter}
-    export Converter.{BoardConverter, convertPointConditionally}
+    export controller.{eval, Converter}, Converter.*
 
   package main:
-    export view.{Renderer, Constants}, Constants.*, Renderer.*
-    export controller.Reactor.*
+    export view.Renderer.*
+    export controller.{tick, click, move, stop}
     export model.{World, GridSize, Block, Shape}, Shape.*

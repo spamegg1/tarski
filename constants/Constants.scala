@@ -1,11 +1,10 @@
 package tarski
-package view
+
+type Height     = Double
+type Width      = Double
+type Dimensions = (h: Height, w: Width)
 
 object Constants:
-  type Height     = Double
-  type Width      = Double
-  type Dimensions = (h: Height, w: Width)
-
   // pure constants
   val Pts         = 30
   val Size        = 100.0

@@ -1,5 +1,5 @@
 package tarski
-package view
+package model
 
 case class Controls(
     selectedColor: Color = Blue,
