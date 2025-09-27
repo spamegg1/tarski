@@ -24,12 +24,10 @@ package tarski:
   package view:
     export Constants.*
     export model.{Grid, World, Shape, Block, Result, Formulas}, Shape.*, Result.*
-    export controller.Converter.*
 
   package controller:
+    export view.Constants.*
     export model.{Pos, Blocks, Grid, GridSize, World, Shape}, Pos.*, Shape.*
-    export view.{Controls, FormulaBox, Constants}, Constants.*
-    export Converter.*
 
   package testing:
     export model.{World, Grid, Shape, Block, Blocks, Status}, Status.*, Shape.*
