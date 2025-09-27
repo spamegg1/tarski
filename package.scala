@@ -18,15 +18,12 @@ package tarski:
   export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
   export gapt.expr.subst.FOLSubstitution
 
-  extension (f: FOLFormula)
-    def substitute(x: FOLVar, c: FOLConst) = FOLSubstitution((x, c)).apply(f)
-
   package model:
     export view.{FormulaBox, Controls}
 
   package view:
     export Constants.*
-    export model.{Grid, World, Shape, Block}, Shape.*
+    export model.{Grid, World, Shape, Block, Result, Formulas}, Shape.*, Result.*
     export controller.Converter.*
 
   package controller:

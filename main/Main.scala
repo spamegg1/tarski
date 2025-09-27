@@ -24,8 +24,4 @@ def run =
     .withStop(stop)          // World => Boolean
     .withTickRate(TickRate)
     .draw(MainFrame)
-  // .run(frame)
-
-@main
-def board: Unit =
-  Board.draw()
+  // .run(MainFrame)

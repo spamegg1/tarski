@@ -2,30 +2,18 @@ package tarski
 package view
 
 object Renderer:
-  extension (s: Shape)
-    def toImage(size: Double, color: Color): Image = this match
-      case Tri => Image.equilateralTriangle(size * TriFactor).fillColor(color)
-      case Squ => Image.square(size).fillColor(color)
-      case Cir => Image.circle(size).fillColor(color)
-
-  extension (b: Block)
-    def toImage: Image =
-      Text(b.label)
-        .font(TheFont)
-        .on(b.shape.toImage(b.size, b.color))
-
   def renderNames                        = Image.rectangle(800, 100).fillColor(Gray)
   def renderControls(controls: Controls) = controls.toImage
 
-  def renderFormBoxes(formBoxes: List[FormulaBox]) = formBoxes
+  def renderFormulas(formulas: Formulas) = formulas
     .foldLeft[Image](Image.empty):
-      case (image, formBox) =>
-        image.above(formBox.toImage)
+      case (image, (formula, result)) =>
+        image.above(Imager(formula).beside(Imager(result)))
 
   def renderBlocks(grid: Grid): Image = grid
     .foldLeft[Image](Board):
       case (image, (pos, (block, name))) =>
-        block.toImage
+        Imager(block)
           .at(BoardConverter.toPoint(pos))
           .on(image)
 
@@ -33,4 +21,4 @@ object Renderer:
     .beside:
       renderNames
         .above(renderControls(world.controls))
-        .above(renderFormBoxes(world.formBoxes))
+        .above(renderFormulas(world.formulas))

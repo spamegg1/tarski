@@ -1,15 +1,11 @@
 package tarski
 package model
 
-type GridSize = (rows: Int, cols: Int)
-type Grid     = Map[Pos, (block: Block, name: Name)]
-type Blocks   = Map[Name, (block: Block, pos: Pos)]
-
 case class World(
     grid: Grid = Map(),
     blocks: Blocks = Map(),
     names: Names = World.initNames,
-    formBoxes: List[FormulaBox] = Nil,
+    formulas: Formulas = Map(),
     controls: Controls = Controls()
 ):
   // newly added blocks are always nameless, the name can only be added later.
@@ -70,7 +66,7 @@ case class World(
           val newNames  = names.avail(name)
           copy(grid = newGrid, blocks = newBlocks, names = newNames)
 
-  def addFormula(formula: FOLFormula) = copy(formBoxes = FormulaBox(formula) :: formBoxes)
+  def addFormula(formula: FOLFormula) = copy(formulas = formulas + (formula -> Ready))
 
 object World:
   // only 6 names are allowed: a,b,c,d,e,f
