@@ -18,8 +18,6 @@ package tarski:
   export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
   export gapt.expr.subst.FOLSubstitution
 
-  export Constants.*
-
   package view:
     export model.{Grid, World, Shape, Block, Result, Formulas, Controls}, Shape.*,
       Result.*
