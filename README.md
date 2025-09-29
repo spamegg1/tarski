@@ -16,6 +16,20 @@ The image above is taken from there.
 This is a [Scala-cli](https://scala-cli.virtuslab.org/) project.
 With Scala 3.5.0 and above, you can simply run `scala compile .` and `scala test .`.
 
+## Module dependency
+
+```scala
+//     main
+//       |
+//     view   testing
+//       |     /
+//    controller
+//       |
+//     model
+//       |
+//    constants
+```
+
 ## Work in progress
 
 Stay tuned!

@@ -2,8 +2,6 @@ package tarski
 package view
 
 object Renderer:
-  import controller.Converter.BoardConverter
-
   def renderNames                        = Image.rectangle(800, 100).fillColor(Gray)
   def renderControls(controls: Controls) = controls.toImage
 
