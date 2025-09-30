@@ -17,3 +17,7 @@ object Imager:
         case Ready   => ReadyMark
         case Valid   => CheckMark
         case Invalid => CrossMark
+
+  def apply(opt: Option[Obj]): Image = opt match
+    case None      => Image.empty
+    case Some(obj) => Imager(obj)

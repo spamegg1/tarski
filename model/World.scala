@@ -6,7 +6,8 @@ case class World(
     blocks: Blocks = Map(),
     names: Names = World.initNames,
     formulas: Formulas = Map(),
-    controls: Controls = Controls()
+    controls: Controls = Controls(),
+    selectedPos: Option[Pos] = None
 ):
   // newly added blocks are always nameless, the name can only be added later.
   def addBlockAt(pos: Pos)(block: Block) = grid.get(pos) match
@@ -33,7 +34,7 @@ case class World(
         case None => // make sure there is no block at to position
           val newGrid   = grid.removed(from).updated(to, (block, name))
           val newBlocks = blocks.updated(name, (block, to))
-          copy(grid = newGrid, blocks = newBlocks)
+          copy(grid = newGrid, blocks = newBlocks, controls = controls.disableMove)
 
   // this is tricky; since fake names are also involved.
   def addNameToBlockAt(pos: Pos)(name: Name): World = grid.get(pos) match
@@ -67,6 +68,18 @@ case class World(
           copy(grid = newGrid, blocks = newBlocks, names = newNames)
 
   def addFormula(formula: FOLFormula) = copy(formulas = formulas + (formula -> Ready))
+
+  def selectPos(pos: Pos) = copy(selectedPos = Some(pos))
+  def deselectPos         = copy(selectedPos = None)
+  def handlePos(pos: Pos) =
+    if controls.move then // make sure move is enabled
+      selectedPos match
+        case Some(p) => moveBlock(from = p, to = pos)
+        case None    => this
+    else // move is disabled, select another pos or de-select current
+      selectedPos match
+        case Some(p) if pos == p => deselectPos
+        case _                   => selectPos(pos)
 
 object World:
   // only 6 names are allowed: a,b,c,d,e,f

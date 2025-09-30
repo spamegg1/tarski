@@ -10,18 +10,16 @@ val world = World.empty
   .addNameToBlockAt((5, 6))("c")
   .addFormula(fof"¬(∃x Large(x))")
   .addFormula(fof"!x (P(x,f(x)) -> ?y P(x,y))")
+  .selectPos((row = 5, col = 6))
 
 @main
-def run =
-  given Dimensions = (800, 800)
-  given GridSize   = (8, 8)
-  Reactor
-    .init[World](world)      // these functions are in Reactor.scala
-    .withOnTick(tick)        // World -> World
-    .withRender(render)      // World -> Image
-    .withOnMouseClick(click) // Point World -> World
-    .withOnMouseMove(move)   // Point World => World
-    .withStop(stop)          // World => Boolean
-    .withTickRate(TickRate)
-    .draw(MainFrame)
-  // .run(MainFrame)
+def main = Reactor
+  .init[World](world)      // these functions are in Reactor.scala
+  .withOnTick(identity)    // World -> World
+  .withRender(render)      // World -> Image
+  .withOnMouseClick(click) // Point World -> World
+  .withOnMouseMove(move)   // Point World => World
+  .withStop(stop)          // World => Boolean
+  .withTickRate(TickRate)
+  .draw(MainFrame)
+// .run(MainFrame)

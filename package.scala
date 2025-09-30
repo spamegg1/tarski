@@ -19,12 +19,13 @@ package tarski:
   export gapt.expr.subst.FOLSubstitution
 
   package view:
-    export model.{Grid, World, Shape, Block, Result, Formulas, Controls}
+    export model.{Pos, Grid, World, Shape, Block, Result, Formulas, Controls}
     export Shape.*, Result.*
-    export controller.BoardConverter
+    export controller.{BoardConverter, ControlsConverter}
 
   package controller:
-    export model.{Pos, Blocks, Grid, GridSize, World, Shape}, Pos.*, Shape.*
+    export model.{Pos, Block, Blocks, Grid, GridSize, World, Shape, Controls, Names}
+    export Pos.*, Shape.*
 
   package testing:
     export model.{World, Grid, Shape, Block, Blocks, Status}, Status.*, Shape.*

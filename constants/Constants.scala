@@ -12,7 +12,7 @@ val Blue        = deepSkyBlue
 val Gray        = lightGray
 val Green       = yellowGreen
 val Title       = "Tarski's World"
-val TickRate    = FiniteDuration(50L, "milliseconds")
+val TickRate    = FiniteDuration(1000, "ms")
 val StrokeW     = 8
 val BoardRows   = 8
 val BoardCols   = 8
@@ -76,3 +76,4 @@ val MainFrame = Frame.default
   .withSize(Width, Height)
   .withBackground(BgColor)
   .withTitle(Title)
+  .withCenterAtOrigin
