@@ -1,10 +1,6 @@
 package tarski
 package view
 
-val (wid, hgh)  = (ControlsConverter.blockWidth, ControlsConverter.blockHeight)
-val bigButton   = Image.rectangle(wid * 2, hgh).fillColor(Gray)
-val smallbutton = Image.rectangle(wid, hgh).fillColor(Gray)
-
 val controlGrid = Map[String, Pos](
   "Eval"   -> (0, 0),
   "Add"    -> (0, 2),
@@ -28,7 +24,22 @@ val controlGrid = Map[String, Pos](
   "Cir"    -> (1, 12)
 )
 
-val evalPt = ControlsConverter.toPointShiftX(controlGrid("Eval"))
-val movePt = ControlsConverter.toPointShiftX(controlGrid("Move"))
-val addPt  = ControlsConverter.toPointShiftX(controlGrid("Add"))
-val remPt  = ControlsConverter.toPointShiftX(controlGrid("Remove"))
+val evalPt  = ControlsConverter.toPointShiftX(controlGrid("Eval"))
+val movePt  = ControlsConverter.toPointShiftX(controlGrid("Move"))
+val addPt   = ControlsConverter.toPointShiftX(controlGrid("Add"))
+val remPt   = ControlsConverter.toPointShiftX(controlGrid("Remove"))
+val smallPt = ControlsConverter.toPointShiftX(controlGrid("Small"))
+val medPt   = ControlsConverter.toPointShiftX(controlGrid("Medium"))
+val largePt = ControlsConverter.toPointShiftX(controlGrid("Large"))
+val aPoint  = ControlsConverter.toPoint(controlGrid("a"))
+val bPoint  = ControlsConverter.toPoint(controlGrid("b"))
+val cPoint  = ControlsConverter.toPoint(controlGrid("c"))
+val dPoint  = ControlsConverter.toPoint(controlGrid("d"))
+val ePoint  = ControlsConverter.toPoint(controlGrid("e"))
+val fPoint  = ControlsConverter.toPoint(controlGrid("f"))
+val bluePt  = ControlsConverter.toPoint(controlGrid("Blue"))
+val greenPt = ControlsConverter.toPoint(controlGrid("Green"))
+val grayPt  = ControlsConverter.toPoint(controlGrid("Gray"))
+val triPt   = ControlsConverter.toPoint(controlGrid("Tri"))
+val squPt   = ControlsConverter.toPoint(controlGrid("Squ"))
+val cirPt   = ControlsConverter.toPoint(controlGrid("Cir"))

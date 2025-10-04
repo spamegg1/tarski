@@ -6,18 +6,22 @@ case class Converter(dims: Dimensions, gs: GridSize):
   val blockWidth: Double  = dims.w / gs.cols
   val top: Double         = dims.h / 2
   val left: Double        = -dims.w / 2
+
   def toPoint(pos: Pos): Point =
     val x = left + (0.5 + pos.col) * blockWidth
     val y = top - (0.5 + pos.row) * blockHeight
     Point(x, y)
+
   def toPointShiftX(pos: Pos): Point =
     val x = left + (1.0 + pos.col) * blockWidth
     val y = top - (0.5 + pos.row) * blockHeight
     Point(x, y)
+
   def toPointShiftY(pos: Pos): Point =
     val x = left + (0.5 + pos.col) * blockWidth
     val y = top - (1.0 + pos.row) * blockHeight
     Point(x, y)
+
   def toPos(point: Point): Pos =
     val row = (top - point.y) / blockHeight  // - 0.5
     val col = (-left + point.x) / blockWidth // - 0.5
