@@ -19,7 +19,6 @@ val BoardCols   = 8
 val ControlRows = 2
 val ControlCols = 16
 val Epsilon     = 0.0001
-val TriFactor   = 1.15
 val UIOrigin    = Point(0, 0)
 
 // derived constants

@@ -3,7 +3,7 @@ package view
 
 val renderShape =
   Image
-    .equilateralTriangle(wid)
+    .triangle(wid, hgh)
     .fillColor(black)
     .at(triPt)
     .on:

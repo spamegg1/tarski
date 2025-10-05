@@ -1,7 +1,7 @@
 package tarski:
   export cats.effect.unsafe.implicits.global
   export concurrent.duration.FiniteDuration
-  export doodle.core.{Color, Point, OpenPath}
+  export doodle.core.{Color, Point, OpenPath, Vec}
   export Color.{deepSkyBlue, lightGray, white, black, yellowGreen, red, green}
   export doodle.core.font.{Font, FontSize}
   export doodle.image.Image, Image.Elements.Text

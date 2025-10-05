@@ -11,6 +11,9 @@ val world = World(controls = controls)
   .addNameToBlockAt((5, 6))("c")
   .addFormula(fof"¬(∃x Large(x))")
   .addFormula(fof"!x (P(x,f(x)) -> ?y P(x,y))")
+  .addFormula(fof"!x (P(x,f(f(x))) -> ?y P(x,y))")
+  .addFormula(fof"∀x ∃y ∀z f(z) = g(h(z))")
+  .addFormula(fof"a != b")
   .selectPos((row = 5, col = 6))
 
 @main
