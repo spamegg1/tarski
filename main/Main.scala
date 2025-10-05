@@ -1,7 +1,8 @@
 package tarski
 package main
 
-val world = World.empty
+val controls = Controls(Some(Large), Some(Tri), Some(Green), Some("a"), true)
+val world = World(controls = controls)
   .addBlockAt((1, 2))(Block(Small, Tri, Green))
   .addBlockAt((3, 4))(Block(Medium, Tri, Blue))
   .addBlockAt((5, 6))(Block(Large, Tri, Gray))

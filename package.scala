@@ -32,6 +32,6 @@ package tarski:
     export controller.{eval, BoardConverter, convertPointConditionally}
 
   package main:
-    export model.{World, GridSize, Block, Shape}, Shape.*
+    export model.{World, GridSize, Block, Shape, Controls}, Shape.*
     export view.render
     export controller.{tick, click, move, stop}

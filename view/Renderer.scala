@@ -7,7 +7,7 @@ def button(factor: Int = 1) = Image.rectangle(wid * factor, hgh).fillColor(Gray)
 def renderIndicator(point: Point, factor: Int = 1) = Image
   .rectangle(wid * factor, hgh)
   .strokeColor(red)
-  .strokeWidth(StrokeW)
+  .strokeWidth(SmallStroke)
   .at(point)
 
 def renderButton(name: String, point: Point, factor: Int = 1) = Text(name)
@@ -15,28 +15,20 @@ def renderButton(name: String, point: Point, factor: Int = 1) = Text(name)
   .on(button(factor))
   .at(point)
 
-val renderEval   = renderButton("Eval", evalPt, 2)
-val renderMove   = renderButton("Move", movePt, 2)
-val renderAdd    = renderButton("Add", addPt, 2)
-val renderRemove = renderButton("Remove", remPt, 2)
+val renderEval = renderButton("Eval", evalPt, 2)
+val renderMove = renderButton("Move", movePt, 2)
+val renderAdd  = renderButton("Add", addPt, 2)
+val renderDel  = renderButton("Del", delPt, 2)
 
-val renderSmall  = renderButton("Small", smallPt, 2)
-val renderMedium = renderButton("Medium", medPt, 2)
-val renderLarge  = renderButton("Large", largePt, 2)
-val renderSize   = renderSmall on renderMedium on renderLarge
-
-def renderColors(using c: Controls) = Image.empty
-
-def renderBlock(using c: Controls) = Imager(Block.fromControls(c))
-def renderNames                    = Image.empty
+def renderBlock(using c: Controls) = Imager(Block.fromControls(c)).at(blockPt)
 
 def renderControls(using Controls) =
   renderEval
-    .above(renderMove)
-    .beside(renderAdd.above(renderRemove))
-    .beside(renderNames.above(renderSizes))
-    .beside(renderColors.above(renderShapes))
-    .beside(renderBlock)
+    .on(renderMove)
+    .on(renderAdd.above(renderDel))
+    .on(renderNames.above(renderSizes))
+    .on(renderColors.above(renderShapes))
+    .on(renderBlock)
 
 def renderFormulas(formulas: Formulas) = formulas
   .foldLeft[Image](Image.empty):
@@ -49,7 +41,7 @@ def renderSelectedPos(selectedPos: Option[Pos]): Image = selectedPos match
     Image
       .rectangle(BoardConverter.blockWidth, BoardConverter.blockHeight)
       .strokeColor(red)
-      .strokeWidth(StrokeW)
+      .strokeWidth(SmallStroke)
       .at(BoardConverter.toPoint(pos))
 
 def renderBlocks(grid: Grid): Image = grid
@@ -62,9 +54,8 @@ def renderBlocks(grid: Grid): Image = grid
 def render(world: World): Image =
   renderSelectedPos(world.selectedPos)
     .on(renderBlocks(world.grid))
-    .beside:
-      renderNames
-        .above(renderControls(using world.controls))
-        .above(renderFormulas(world.formulas))
+    .at(BoardOrigin)
+    .on(renderControls(using world.controls).at(ControlsOrigin))
+    .on(renderFormulas(world.formulas).at(FormulasOrigin))
 
 extension (d: Double) def isCloseTo(e: Double) = Math.abs(d - e) < 0.0001
