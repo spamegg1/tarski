@@ -11,9 +11,12 @@ def renderBlock(using c: Controls) = Imager(Block.fromControls(c)).at(blockPt)
 def renderControls(using Controls) =
   renderEval
     .on(renderMove)
-    .on(renderAdd.above(renderDel))
-    .on(renderNames.above(renderSizes))
-    .on(renderColors.above(renderShapes))
+    .on(renderAdd)
+    .on(renderDel)
+    .on(renderNames)
+    .on(renderSizes)
+    .on(renderColors)
+    .on(renderShapes)
     .on(renderBlock)
 
 def renderFormulas(formulas: Formulas) = formulas

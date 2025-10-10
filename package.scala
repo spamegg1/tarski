@@ -24,11 +24,12 @@ package tarski:
     export controller.{BoardConverter, ControlsConverter}
 
   package controller:
-    export model.{Pos, Block, Blocks, Grid, GridSize, World, Shape, Controls, Names}
-    export Pos.*, Shape.*
+    export model.{Pos, Blocks, Grid, GridSize, World, Shape, Controls, Names, Result}
+    export Pos.*, Shape.*, Result.*
 
   package testing:
-    export model.{World, Grid, Shape, Block, Blocks, Status}, Status.*, Shape.*
+    export model.{World, Grid, Shape, Block, Blocks, Status, Result}
+    export Status.*, Shape.*, Result.*
     export controller.{eval, BoardConverter, convertPointConditionally}
 
   package main:

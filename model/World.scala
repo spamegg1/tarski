@@ -67,19 +67,11 @@ case class World(
           val newNames  = names.avail(name)
           copy(grid = newGrid, blocks = newBlocks, names = newNames)
 
+  def updateFormulas(newFormulas: Formulas) = copy(formulas = newFormulas)
+  def resetFormulas = copy(formulas = formulas.map((f, _) => f -> Ready))
   def addFormula(formula: FOLFormula) = copy(formulas = formulas + (formula -> Ready))
-
-  def selectPos(pos: Pos) = copy(selectedPos = Some(pos))
-  def deselectPos         = copy(selectedPos = None)
-  def handlePos(pos: Pos) =
-    if controls.move then // make sure move is enabled
-      selectedPos match
-        case Some(p) => moveBlock(from = p, to = pos)
-        case None    => this
-    else // move is disabled, select another pos or de-select current
-      selectedPos match
-        case Some(p) if pos == p => deselectPos
-        case _                   => selectPos(pos)
+  def selectPos(pos: Pos)             = copy(selectedPos = Some(pos))
+  def deselectPos                     = copy(selectedPos = None)
 
 object World:
   // only 6 names are allowed: a,b,c,d,e,f

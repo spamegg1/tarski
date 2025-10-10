@@ -35,3 +35,38 @@ def convertPointConditionally(p: Point): Pos =
   if p.x < 0 then BoardConverter.toPos((p - BoardOrigin).toPoint)
   else if p.y > ControlsBottom then ControlsConverter.toPos((p - ControlsOrigin).toPoint)
   else UIConverter.toPos(p)
+
+val gridControl = Map[Pos, String](
+  (0, 0)  -> "Eval",
+  (0, 1)  -> "Eval",
+  (0, 2)  -> "Add",
+  (0, 3)  -> "Add",
+  (0, 4)  -> "a",
+  (0, 5)  -> "b",
+  (0, 6)  -> "c",
+  (0, 7)  -> "d",
+  (0, 8)  -> "e",
+  (0, 9)  -> "f",
+  (0, 10) -> "Blue",
+  (0, 11) -> "Green",
+  (0, 12) -> "Gray",
+  (0, 13) -> "Block",
+  (0, 14) -> "Block",
+  (0, 15) -> "Block",
+  (1, 0)  -> "Move",
+  (1, 1)  -> "Move",
+  (1, 2)  -> "Del",
+  (1, 3)  -> "Del",
+  (1, 4)  -> "Small",
+  (1, 5)  -> "Small",
+  (1, 6)  -> "Mid",
+  (1, 7)  -> "Mid",
+  (1, 8)  -> "Large",
+  (1, 9)  -> "Large",
+  (1, 10) -> "Tri",
+  (1, 11) -> "Squ",
+  (1, 12) -> "Cir",
+  (1, 13) -> "Block",
+  (1, 14) -> "Block",
+  (1, 15) -> "Block"
+)
