@@ -12,11 +12,11 @@ def click(p: Point, world: World): World =
 
 def handlePos(pos: Pos, world: World): World =
   if world.controls.move then // make sure move is enabled
-    world.selectedPos match
+    world.controls.pos match
       case Some(p) => world.moveBlock(from = p, to = pos)
       case None    => world
   else // move is disabled, select another pos or de-select current
-    world.selectedPos match
+    world.controls.pos match
       case Some(p) if pos == p => world.deselectPos
       case _                   => world.selectPos(pos)
 

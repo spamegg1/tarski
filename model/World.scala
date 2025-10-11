@@ -6,8 +6,7 @@ case class World(
     blocks: Blocks = Map(),
     names: Names = World.initNames,
     formulas: Formulas = Map(),
-    controls: Controls = Controls(),
-    selectedPos: Option[Pos] = None
+    controls: Controls = Controls()
 ):
   // newly added blocks are always nameless, the name can only be added later.
   def addBlockAt(pos: Pos)(block: Block) = grid.get(pos) match
@@ -70,8 +69,8 @@ case class World(
   def updateFormulas(newFormulas: Formulas) = copy(formulas = newFormulas)
   def resetFormulas = copy(formulas = formulas.map((f, _) => f -> Ready))
   def addFormula(formula: FOLFormula) = copy(formulas = formulas + (formula -> Ready))
-  def selectPos(pos: Pos)             = copy(selectedPos = Some(pos))
-  def deselectPos                     = copy(selectedPos = None)
+  def selectPos(pos: Pos)             = copy(controls = controls.selectPos(pos))
+  def deselectPos                     = copy(controls = controls.deselectPos)
 
 object World:
   // only 6 names are allowed: a,b,c,d,e,f

@@ -41,7 +41,7 @@ def renderBlocks(grid: Grid): Image = grid
         .on(image)
 
 def render(world: World): Image =
-  renderSelectedPos(world.selectedPos)
+  renderSelectedPos(world.controls.pos)
     .on(renderBlocks(world.grid))
     .at(BoardOrigin)
     .on(renderControls(using world.controls).at(ControlsOrigin))
