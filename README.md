@@ -2,13 +2,21 @@
 
 ![world](.images/world.png)
 
-Attempting to recreate Barwise and Etchemendy's
-[Tarski's world](https://www.gradegrinder.net/Products/tw-index.html) in
-[Doodle's Reactor](https://github.com/creativescala/doodle) using
-[Scala 3](https://www.scala-lang.org).
+## Dev Blog
 
-They use 3D objects (like cube, tetrahedron, dodecahedron etc.) but I'm going with 2D as in
-[Susanna Epp's Discrete Math book](https://github.com/spamegg1/Epp-Discrete-Math-5th-solutions/).
+See my adventures in bad design on my
+[Github Pages](https://spamegg1.github.io/tarski's-world/)
+
+## About
+
+Attempting to recreate Barwise and Etchemendy's
+[Tarski's world](https://www.gradegrinder.net/Products/tw-index.html)
+in [Doodle's Reactor](https://github.com/creativescala/doodle)
+using [Scala 3](https://www.scala-lang.org).
+(I might switch to ScalaFX later.)
+
+They use 3D objects (cube, tetrahedron, dodecahedron) but I'm going with 2D as in
+[Epp's book](https://github.com/spamegg1/Epp-Discrete-Math-5th-solutions/).
 The image above is taken from there.
 
 ## Info

@@ -26,8 +26,8 @@ def handleControls(pos: Pos, world: World): World = gridControl.get(pos) match
     value match
       case "Eval" =>
         val results = world.formulas.map: (formula, result) =>
-          val result = eval(formula)(using world.blocks)
-          formula -> (if result then Valid else Invalid)
+          val bool = eval(formula)(using world.blocks)
+          formula -> (if bool then Valid else Invalid)
         world.updateFormulas(results)
       case "Add"   => world
       case "a"     => world
