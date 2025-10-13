@@ -17,8 +17,8 @@ def handlePos(pos: Pos, world: World): World =
       case None    => world
   else // move is disabled, select another pos or de-select current
     world.controls.pos match
-      case Some(p) if pos == p => world.deselectPos
-      case _                   => world.selectPos(pos)
+      case Some(p) if pos == p => world.copy(controls = world.controls.deselectPos)
+      case _                   => world.copy(controls = world.controls.selectPos(pos))
 
 def handleControls(pos: Pos, world: World): World = gridControl.get(pos) match
   case None => world
@@ -28,26 +28,30 @@ def handleControls(pos: Pos, world: World): World = gridControl.get(pos) match
         val results = world.formulas.map: (formula, result) =>
           val bool = eval(formula)(using world.blocks)
           formula -> (if bool then Valid else Invalid)
-        world.updateFormulas(results)
-      case "Add"   => world
-      case "a"     => world
-      case "b"     => world
-      case "c"     => world
-      case "d"     => world
-      case "e"     => world
-      case "f"     => world
-      case "Blue"  => world
-      case "Green" => world
-      case "Gray"  => world
+        world.copy(formulas = results)
+      case "Add" =>
+        Block.fromControls(world.controls) match
+          case None => world
+          case Some(block) =>
+            world.controls.pos match
+              case None    => world
+              case Some(p) => world.addBlockAt(p, block)
+      case "a" | "b" | "c" | "d" | "e" | "f" =>
+        world.controls.name match
+          case None       => world
+          case Some(name) => world
+      case "Del"   => world.removeBlockAt(pos)
+      case "Move"  => world.copy(controls = world.controls.toggleMove)
+      case "Blue"  => world.copy(controls = world.controls.setColor(Blue))
+      case "Green" => world.copy(controls = world.controls.setColor(Green))
+      case "Gray"  => world.copy(controls = world.controls.setColor(Gray))
+      case "Small" => world.copy(controls = world.controls.setSize(Small))
+      case "Mid"   => world.copy(controls = world.controls.setSize(Medium))
+      case "Large" => world.copy(controls = world.controls.setSize(Large))
+      case "Tri"   => world.copy(controls = world.controls.setShape(Tri))
+      case "Squ"   => world.copy(controls = world.controls.setShape(Squ))
+      case "Cir"   => world.copy(controls = world.controls.setShape(Cir))
       case "Block" => world
-      case "Move"  => world
-      case "Del"   => world
-      case "Small" => world
-      case "Mid"   => world
-      case "Large" => world
-      case "Tri"   => world
-      case "Squ"   => world
-      case "Cir"   => world
 
 // These do nothing; the world is static except for clicking controls.
 def tick(world: World): World        = world

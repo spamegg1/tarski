@@ -6,18 +6,18 @@ val renderMove = renderButton("Move", movePt, 2)
 val renderAdd  = renderButton("Add", addPt, 2)
 val renderDel  = renderButton("Del", delPt, 2)
 
-def renderBlock(using c: Controls) = Imager(Block.fromControls(c)).at(blockPt)
+def renderBlock(c: Controls) = Imager(Block.fromControls(c)).at(blockPt)
 
-def renderControls(using Controls) =
+def renderControls(world: World) =
   renderEval
     .on(renderMove)
     .on(renderAdd)
     .on(renderDel)
-    .on(renderNames)
-    .on(renderSizes)
-    .on(renderColors)
-    .on(renderShapes)
-    .on(renderBlock)
+    .on(renderNames(world.names))
+    .on(renderSizes(world.controls.size))
+    .on(renderColors(world.controls.color))
+    .on(renderShapes(world.controls.shape))
+    .on(renderBlock(world.controls))
 
 def renderFormulas(formulas: Formulas) = formulas
   .foldLeft[Image](Image.empty):
@@ -44,7 +44,7 @@ def render(world: World): Image =
   renderSelectedPos(world.controls.pos)
     .on(renderBlocks(world.grid))
     .at(BoardOrigin)
-    .on(renderControls(using world.controls).at(ControlsOrigin))
+    .on(renderControls(world).at(ControlsOrigin))
     .on(renderFormulas(world.formulas).at(FormulasOrigin))
 
 extension (d: Double) def isCloseTo(e: Double) = Math.abs(d - e) < 0.0001

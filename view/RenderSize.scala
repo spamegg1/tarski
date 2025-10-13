@@ -12,6 +12,6 @@ def sizeIndicator(size: Double) =
   else if size.isCloseTo(Large) then renderIndicator(largePt, 2)
   else Image.empty
 
-def renderSizes(using c: Controls) = c.size match
+def renderSizes(sizeOpt: Option[Double]) = sizeOpt match
   case None       => renderSize
   case Some(size) => sizeIndicator(size).on(renderSize)

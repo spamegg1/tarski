@@ -22,6 +22,6 @@ def shapeIndicator(shape: Shape) = shape match
   case Squ => renderIndicator(squPt)
   case Cir => renderIndicator(cirPt)
 
-def renderShapes(using c: Controls) = c.shape match
+def renderShapes(shapeOpt: Option[Shape]) = shapeOpt match
   case None        => renderShape
   case Some(shape) => shapeIndicator(shape).on(renderShape)

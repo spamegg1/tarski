@@ -28,7 +28,7 @@ class WorldTest extends munit.FunSuite:
     assert(w3 == w2, "moving a block in an empty world should not work, but did")
 
     // 4. add one block: initially, it has no name, just fake name block0
-    val w4  = w3.addBlockAt((1, 2))(b0)
+    val w4  = w3.addBlockAt((1, 2), b0)
     val g4  = Map((1, 2) -> (b0, "block0"))
     val bl4 = Map("block0" -> (b0, (1, 2)))
     assert(w4.grid == g4, s"world with 1 block should have grid $g4 but has ${w4.grid}")
@@ -95,11 +95,11 @@ class WorldTest extends munit.FunSuite:
     )
 
     // 13. attempting to add a block to an already taken position
-    val w13 = w12.addBlockAt((3, 4))(b1)
+    val w13 = w12.addBlockAt((3, 4), b1)
     assert(w13 == w12, "adding a block on top of a block should not work, but does")
 
     // 14. attempting to add a second block, with fake name initially
-    val w14 = w13.addBlockAt((5, 6))(b1)
+    val w14 = w13.addBlockAt((5, 6), b1)
     assert(
       w14.grid == Map((3, 4) -> (b0named, "b"), (5, 6) -> (b1, "block1")),
       "adding a second block with fake name should work correctly, but does not"

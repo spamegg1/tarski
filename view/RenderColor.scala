@@ -15,6 +15,6 @@ def colorIndicator(color: Color) = color match
   case Gray  => renderIndicator(grayPt, 1)
   case _     => Image.empty
 
-def renderColors(using c: Controls) = c.color match
+def renderColors(colorOpt: Option[Color]) = colorOpt match
   case None        => renderColor
   case Some(color) => colorIndicator(color).on(renderColor)

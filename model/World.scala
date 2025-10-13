@@ -9,7 +9,7 @@ case class World(
     controls: Controls = Controls()
 ):
   // newly added blocks are always nameless, the name can only be added later.
-  def addBlockAt(pos: Pos)(block: Block) = grid.get(pos) match
+  def addBlockAt(pos: Pos, block: Block) = grid.get(pos) match
     case Some(_) => this
     case None => // make sure there is no block at position
       val fakeName  = Name.generateFake
@@ -33,7 +33,7 @@ case class World(
         case None => // make sure there is no block at to position
           val newGrid   = grid.removed(from).updated(to, (block, name))
           val newBlocks = blocks.updated(name, (block, to))
-          copy(grid = newGrid, blocks = newBlocks, controls = controls.disableMove)
+          copy(grid = newGrid, blocks = newBlocks, controls = controls.toggleMove)
 
   // this is tricky; since fake names are also involved.
   def addNameToBlockAt(pos: Pos)(name: Name): World = grid.get(pos) match
