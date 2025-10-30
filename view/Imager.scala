@@ -2,6 +2,7 @@ package tarski
 package view
 
 object Imager:
+  import Shape.*, Result.*
   type Obj = Block | FOLFormula | Result
 
   def apply(o: Obj): Image = o match

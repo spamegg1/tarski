@@ -1,7 +1,7 @@
 package tarski
 package controller
 
-import model.Status.*
+import Status.*, Result.*, Shape.*
 
 def click(p: Point, world: World): World =
   if p.x < 0 then

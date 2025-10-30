@@ -1,6 +1,8 @@
 package tarski
 package view
 
+import Shape.*
+
 val renderShape =
   Image
     .triangle(wid, hgh)

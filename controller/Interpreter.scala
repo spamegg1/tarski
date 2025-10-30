@@ -1,6 +1,8 @@
 package tarski
 package controller
 
+import Shape.*, Pos.*
+
 def eval(formula: FOLFormula)(using blocks: Blocks): Boolean = formula match
   case a: FOLAtom => evalAtom(a)
   case And(a, b)  => eval(a) && eval(b)
