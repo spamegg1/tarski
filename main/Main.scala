@@ -37,5 +37,4 @@ def main = Reactor
   .withOnMouseMove(move)   // Point World => World
   .withStop(stop)          // World => Boolean
   .withTickRate(TickRate)
-  .draw(MainFrame)
-// .run(MainFrame)
+  .animateWithFrame(MainFrame)

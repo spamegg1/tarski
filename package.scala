@@ -10,6 +10,7 @@ package tarski:
   export doodle.java2d.{Algebra, java2dAnimationRenderer, Java2dToPicture}
   export doodle.java2d.{java2dCanvasAlgebra, java2dRenderer, java2dFrame}
   export doodle.reactor.Reactor
+  export doodle.reactor.syntax.all.*
   export doodle.core.syntax.all.*
 
   export gapt.expr.{stringInterpolationForExpressions, Const}
