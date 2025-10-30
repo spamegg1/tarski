@@ -1,6 +1,8 @@
 package tarski
 package controller
 
+import model.Status.*
+
 def click(p: Point, world: World): World =
   if p.x < 0 then
     val pos = BoardConverter.toPos((p - BoardOrigin).toPoint)
@@ -22,8 +24,9 @@ def handlePos(pos: Pos, world: World): World =
 
 def handleControls(pos: Pos, world: World): World = gridControl.get(pos) match
   case None => world
-  case Some(value) =>
+  case Some(value) => // make sure a button is clicked
     value match
+      case "a" | "b" | "c" | "d" | "e" | "f" => handleName(value, world)
       case "Eval" =>
         val results = world.formulas.map: (formula, result) =>
           val bool = eval(formula)(using world.blocks)
@@ -32,14 +35,10 @@ def handleControls(pos: Pos, world: World): World = gridControl.get(pos) match
       case "Add" =>
         Block.fromControls(world.controls) match
           case None => world
-          case Some(block) =>
+          case Some(block) => // make sure a block can be created
             world.controls.pos match
               case None    => world
               case Some(p) => world.addBlockAt(p, block)
-      case "a" | "b" | "c" | "d" | "e" | "f" =>
-        world.controls.name match
-          case None       => world
-          case Some(name) => world
       case "Del"   => world.removeBlockAt(pos)
       case "Move"  => world.copy(controls = world.controls.toggleMove)
       case "Blue"  => world.copy(controls = world.controls.setColor(Blue))
@@ -52,6 +51,17 @@ def handleControls(pos: Pos, world: World): World = gridControl.get(pos) match
       case "Squ"   => world.copy(controls = world.controls.setShape(Squ))
       case "Cir"   => world.copy(controls = world.controls.setShape(Cir))
       case "Block" => world
+
+def handleName(name: String, world: World): World = world.names.get(name) match
+  case None => world // name does not exist, do nothing
+  case Some(Available) => // name is available, attempt to add name to selected block
+    world.controls.pos match
+      case None      => world // no block is selected, do nothing
+      case Some(pos) => world.addNameToBlockAt(pos, name)
+  case Some(Occupied) => // name is occupied, attempt to remove name from its block
+    world.blocks.get(name) match
+      case None           => world // there is no block with that name, should not happen!
+      case Some((_, pos)) => world.removeNameFromBlockAt(pos)
 
 // These do nothing; the world is static except for clicking controls.
 def tick(world: World): World        = world

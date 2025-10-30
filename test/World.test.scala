@@ -54,11 +54,11 @@ class WorldTest extends munit.FunSuite:
     assert(w7 == w6, "removing name from nameless block should not work, but does")
 
     // 8. attempt to add name to nameless block, at wrong position
-    val w8 = w7.addNameToBlockAt((3, 4))("b")
+    val w8 = w7.addNameToBlockAt((3, 4), "b")
     assert(w8 == w7, "adding name to block at wrong pos should not work, but does")
 
     // 9. attempt to add name to nameless block, at correct position
-    val w9      = w8.addNameToBlockAt((1, 2))("b")
+    val w9      = w8.addNameToBlockAt((1, 2), "b")
     val b0named = b0.setLabel("b")
     assert(
       w9.blocks("b").block == b0named,
@@ -71,7 +71,7 @@ class WorldTest extends munit.FunSuite:
     )
 
     // 10. attempt to add name to an already named block
-    val w10 = w9.addNameToBlockAt((1, 2))("c")
+    val w10 = w9.addNameToBlockAt((1, 2), "c")
     assert(w10 == w9, "adding name to already named block should not work, but does")
 
     // 11. attempt to move a block from wrong position

@@ -1,8 +1,6 @@
 package tarski
 package view
 
-import tarski.model.Status
-
 val renderName = Seq("a", "b", "c", "d", "e", "f")
   .map: name =>
     val point = ControlsConverter.toPoint(controlGrid(name))
