@@ -5,7 +5,6 @@ type Width      = Double
 type Dimensions = (h: Height, w: Width)
 
 // pure constants
-val Pts         = 30
 val Size        = 100.0
 val BgColor     = white
 val Blue        = deepSkyBlue
@@ -22,6 +21,7 @@ val Epsilon     = 0.0001
 val UIOrigin    = Point(0, 0)
 
 // derived constants
+val Pts                = Size / 3
 val Height             = Size * 8
 val Width              = Height * 2
 val Small              = Size * 0.4
@@ -34,8 +34,8 @@ val ControlsBottom     = Height * 3 / 8
 val BoardOrigin        = Point(-Width / 4, 0)
 val ControlsOrigin     = Point(Width / 4, Height * 7 / 16)
 val FormulasOrigin     = Point(Width / 4, -Height / 16)
-val LineLen            = 1.2 * Pts
-val FontSz             = FontSize.points(Pts)
+val LineLen            = 0.9 * Pts
+val FontSz             = FontSize.points(Pts.toInt)
 val TheFont            = Font.defaultSansSerif.size(FontSz)
 val UIDimensions       = (h = Height, w = Width)
 val UIGridSize         = (rows = BoardRows, cols = BoardCols * 2)
@@ -57,8 +57,8 @@ val ReadyMark = Image.circle(Pts).strokeWidth(StrokeW).strokeColor(Blue)
 val CheckMark = Image
   .path:
     OpenPath.empty
-      .lineTo(0.3 * LineLen, -0.3 * LineLen)
-      .lineTo(LineLen, 0.4 * LineLen)
+      .lineTo(0.2 * LineLen, -0.2 * LineLen)
+      .lineTo(LineLen, 0.3 * LineLen)
   .strokeColor(green)
   .strokeWidth(StrokeW)
 
