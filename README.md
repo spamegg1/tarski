@@ -2,6 +2,10 @@
 
 ![world](.images/world.png)
 
+Working prototype with some features missing and some bugs:
+
+<https://github.com/user-attachments/assets/bbf8d694-63cb-4840-af24-ece547526fa9>
+
 ## Dev Blog
 
 See my adventures in bad design on my
