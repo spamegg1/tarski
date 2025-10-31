@@ -4,7 +4,7 @@
 
 Working prototype with some features missing and some bugs:
 
-<https://github.com/user-attachments/assets/bbf8d694-63cb-4840-af24-ece547526fa9>
+<https://github.com/user-attachments/assets/b6eb04ee-151d-46f3-9e47-ee536aaa79c6>
 
 ## Dev Blog
 
