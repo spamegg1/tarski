@@ -2,15 +2,18 @@ package tarski
 package view
 
 val renderEval = renderButton("Eval", evalPt, 2)
-val renderMove = renderButton("Move", movePt, 2)
 val renderAdd  = renderButton("Add", addPt, 2)
 val renderDel  = renderButton("Del", delPt, 2)
 
 def renderBlock(c: Controls) = Imager(Block.fromControls(c)).at(blockPt)
 
+def renderMove(move: Boolean) =
+  val button = renderButton("Move", movePt, 2)
+  if move then renderIndicator(movePt, 2).on(button) else button
+
 def renderControls(world: World) =
   renderEval
-    .on(renderMove)
+    .on(renderMove(world.controls.move))
     .on(renderAdd)
     .on(renderDel)
     .on(renderNames(world.names))
