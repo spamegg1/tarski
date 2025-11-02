@@ -17,6 +17,14 @@ case class World(
       val newBlocks = blocks.updated(fakeName, (block, pos))
       resetFormulas.copy(grid = newGrid, blocks = newBlocks)
 
+  def addBlockFromControls: World =
+    Block.fromControls(controls) match
+      case None => this
+      case Some(block) => // make sure a block can be created
+        controls.pos match
+          case None    => this
+          case Some(p) => addBlockAt(p, block)
+
   def removeBlockAt(pos: Pos) = grid.get(pos) match
     case None => this
     case Some((_, name)) => // make sure there is a block at position
@@ -74,6 +82,7 @@ case class World(
   def addFormula(f: FOLFormula) = copy(formulas = formulas + (f -> Ready))
   def selectPos(pos: Pos)       = copy(controls = controls.selectPos(pos))
   def deselectPos               = copy(controls = controls.deselectPos)
+  def toggleMove                = copy(controls = controls.toggleMove)
 
 object World:
   // only 6 names are allowed: a,b,c,d,e,f

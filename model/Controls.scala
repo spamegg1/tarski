@@ -11,10 +11,19 @@ case class Controls(
   def selectPos(pos: Pos) = copy(pos = Some(pos))
   def deselectPos         = copy(pos = None)
 
-  def set(b: Block, name: Name) = copy(
-    size = Some(b.size),
-    shape = Some(b.shape),
-    color = Some(b.color)
+  def setBlock(opt: Option[(block: Block, name: Name)]) = opt match
+    case None => this
+    case Some((b, _)) =>
+      copy(
+        size = Some(b.size),
+        shape = Some(b.shape),
+        color = Some(b.color)
+      )
+
+  def unsetBlock = copy(
+    size = None,
+    shape = None,
+    color = None
   )
 
   def setSize(s: Double) = copy(size = Some(s))
