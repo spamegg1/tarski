@@ -39,8 +39,12 @@ case class World(
       val newNames  = names.avail(name)
       resetFormulas.copy(grid = newGrid, blocks = newBlocks, names = newNames)
 
+  def removeSelectedBlock: World = controls.pos match
+    case None      => this
+    case Some(pos) => removeBlockAt(pos)
+
   def moveBlock(from: Pos, to: Pos): World = grid.get(from) match
-    case None => this
+    case None => copy(controls = controls.selectPos(to))
     case Some((block, name)) => // make sure there is a block at from position
       grid.get(to) match
         case Some(_) => this
@@ -50,7 +54,7 @@ case class World(
           resetFormulas.copy(
             grid = newGrid,
             blocks = newBlocks,
-            controls = controls.toggleMove
+            controls = controls.toggleMove.selectPos(to)
           )
 
   // this is tricky; since fake names are also involved.

@@ -9,7 +9,7 @@ def handleControls(pos: Pos, world: World): World = gridControl.get(pos) match
     value match
       case "Eval"                            => handleEval(world)
       case "Add"                             => world.addBlockFromControls
-      case "Del"                             => world.removeBlockAt(pos)
+      case "Del"                             => world.removeSelectedBlock
       case "Move"                            => world.toggleMove
       case "Block"                           => world
       case "a" | "b" | "c" | "d" | "e" | "f" => handleName(value, world)
@@ -25,54 +25,90 @@ def handleEval(world: World): World =
 
 def handlePos(pos: Pos, world: World): World =
   world.controls.pos match
-    case None => // no pos is currently selected
-      val newControls = world.controls
-        .selectPos(pos)                // set clicked pos as selected
-        .setBlock(world.grid.get(pos)) // set selected block to its block (if any)
+    case None =>
+      val newControls = world.controls.selectPos(pos).setBlock(world.grid.get(pos))
+      println(newControls.pos)
       world.copy(controls = newControls)
-    case Some(p) => // a pos is currently selected
-      if p == pos then // clicked pos is the same as currently selected
-        val newControls = world.controls.deselectPos // deselect pos
-          .unsetBlock // unset selected block
+    case Some(p) =>
+      if p == pos then
+        val newControls = world.controls.deselectPos.unsetBlock
+        println(newControls.pos)
         world.copy(controls = newControls)
-      else                        // clicked pos is different than currently selected
-      if world.controls.move then // move is enabled
-        world.moveBlock(from = p, to = pos) // move currently selected block
-      else                                  // move is disabled
-        val newControls = world.controls
-          .selectPos(pos)                // set clicked pos as currently selected
-          .setBlock(world.grid.get(pos)) // set selected block to its block (if any)
+      else if world.controls.move then world.moveBlock(from = p, to = pos)
+      else
+        val newControls = world.controls.selectPos(pos).setBlock(world.grid.get(pos))
+        println(newControls.pos)
         world.copy(controls = newControls)
 
 def handleName(name: String, world: World): World = world.names.get(name) match
-  case None => world // name does not exist, do nothing
-  case Some(Available) => // name is available, attempt to add name to selected block
+  case None => world
+  case Some(Available) =>
     world.controls.pos match
-      case None      => world // no block is selected, do nothing
+      case None      => world
       case Some(pos) => world.addNameToBlockAt(pos, name)
-  case Some(Occupied) => // name is occupied, attempt to remove name from its block
+  case Some(Occupied) =>
     world.blocks.get(name) match
-      case None           => world // there is no block with that name, should not happen!
+      case None           => world
       case Some((_, pos)) => world.removeNameFromBlockAt(pos)
 
 def handleColor(color: String, world: World): World =
-  val newControls = world.controls.setColor(Gray)
-  val newGrid = world.controls.pos match
-    case None => world.grid
+  val newColor    = color.toColor
+  val newControls = world.controls.setColor(newColor)
+  val (newGrid, newBlocks) = world.controls.pos match
+    case None => (world.grid, world.blocks)
     case Some(pos) =>
       world.grid.get(pos) match
-        case None => world.grid
+        case None => (world.grid, world.blocks)
         case Some((block, name)) =>
-          val newColor = color match
-            case "Blue"  => Blue
-            case "Gray"  => Gray
-            case "Green" => Green
           val newBlock = block.copy(color = newColor)
-          world.grid.updated(pos, (newBlock, name))
-  world.copy(controls = newControls, grid = newGrid)
+          (
+            world.grid.updated(pos, (newBlock, name)),
+            world.blocks.updated(name, (newBlock, pos))
+          )
+  world.copy(controls = newControls, grid = newGrid, blocks = newBlocks)
 
-def handleShape(shape: String, world: World): World = world
-// world.copy(controls = world.controls.setShape(Cir))
+def handleShape(shape: String, world: World): World =
+  val newShape    = shape.toShape
+  val newControls = world.controls.setShape(newShape)
+  val (newGrid, newBlocks) = world.controls.pos match
+    case None => (world.grid, world.blocks)
+    case Some(pos) =>
+      world.grid.get(pos) match
+        case None => (world.grid, world.blocks)
+        case Some((block, name)) =>
+          val newBlock = block.copy(shape = newShape)
+          (
+            world.grid.updated(pos, (newBlock, name)),
+            world.blocks.updated(name, (newBlock, pos))
+          )
+  world.copy(controls = newControls, grid = newGrid, blocks = newBlocks)
 
-def handleSize(size: String, world: World): World = world
-// world.copy(controls = world.controls.setSize(Large))
+def handleSize(size: String, world: World): World =
+  val newSize     = size.toDouble
+  val newControls = world.controls.setSize(newSize)
+  val (newGrid, newBlocks) = world.controls.pos match
+    case None => (world.grid, world.blocks)
+    case Some(pos) =>
+      world.grid.get(pos) match
+        case None => (world.grid, world.blocks)
+        case Some((block, name)) =>
+          val newBlock = block.copy(size = newSize)
+          (
+            world.grid.updated(pos, (newBlock, name)),
+            world.blocks.updated(name, (newBlock, pos))
+          )
+  world.copy(controls = newControls, grid = newGrid, blocks = newBlocks)
+
+extension (s: String)
+  def toColor = s match
+    case "Blue"  => Blue
+    case "Gray"  => Gray
+    case "Green" => Green
+  def toDouble = s match
+    case "Small" => Small
+    case "Mid"   => Medium
+    case "Large" => Large
+  def toShape = s match
+    case "Tri" => Tri
+    case "Squ" => Squ
+    case "Cir" => Cir
