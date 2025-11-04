@@ -31,14 +31,14 @@ class InterpreterTest extends munit.FunSuite:
     val sentences = Seq(
       fof"∃x ∃y ∃z (Squ(x) ∧ Cir(y) ∧ Tri(z))",
       fof"¬(∃x Large(x))", // careful with this, negation needs parentheses!
-      fof"∀x (Cir(x) → ∃y (Squ(y) ∧ BackOf(x, y)))",
-      fof"∀x (Cir(x) → ∃y (Squ(y) ∧ BackOf(x, y)))",
-      fof"∀x (Cir(x) → ∃y (Squ(y) ∧ BackOf(x, y)))",
-      fof"∃x ∃y (x != y ∧ ∀w ((w = x | w = y) → ∀z ¬BackOf(z, w)))",
-      fof"∀x (Squ(x) ↔ ∃y (Tri(y) ∧ BackOf(y, x)))",
-      fof"∀x ∀y (Larger(x, y) → ∃z Between(x, y, z))",
-      fof"¬(∀x ∀y (LeftOf(x, y) ∨ RightOf(x, y)))", // same here!
-      fof"∃x ∃y ¬(FrontOf(x, y) ∨ BackOf(x, y))",
+      fof"∀x (Cir(x) → ∃y (Squ(y) ∧ Back(x, y)))",
+      fof"∀x (Cir(x) → ∃y (Squ(y) ∧ Back(x, y)))",
+      fof"∀x (Cir(x) → ∃y (Squ(y) ∧ Back(x, y)))",
+      fof"∃x ∃y (x != y ∧ ∀w ((w = x | w = y) → ∀z ¬Back(z, w)))",
+      fof"∀x (Squ(x) ↔ ∃y (Tri(y) ∧ Back(y, x)))",
+      fof"∀x ∀y (Larger(x, y) → ∃z Betw(x, y, z))",
+      fof"¬(∀x ∀y (Left(x, y) ∨ Right(x, y)))", // same here!
+      fof"∃x ∃y ¬(Front(x, y) ∨ Back(x, y))",
       fof"Small(a) ∧ Squ(a) ∧ Blue(a)",
       fof"Med(c) ∧ Tri(c) ∧ Green(c)",
       fof"Small(b) ∧ Cir(b) ∧ Gray(b)"

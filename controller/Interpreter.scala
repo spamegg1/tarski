@@ -25,10 +25,10 @@ private def evalAtom(a: FOLAtom)(using b: Blocks): Boolean = a match
   case FOLAtom("Blue", Seq(FOLConst(c)))                 => b(c).block.color == Blue
   case FOLAtom("Green", Seq(FOLConst(c)))                => b(c).block.color == Green
   case FOLAtom("Gray", Seq(FOLConst(c)))                 => b(c).block.color == Gray
-  case FOLAtom("LeftOf", Seq(FOLConst(c), FOLConst(d)))  => b(c).pos.leftOf(b(d).pos)
-  case FOLAtom("RightOf", Seq(FOLConst(c), FOLConst(d))) => b(c).pos.rightOf(b(d).pos)
-  case FOLAtom("FrontOf", Seq(FOLConst(c), FOLConst(d))) => b(c).pos.frontOf(b(d).pos)
-  case FOLAtom("BackOf", Seq(FOLConst(c), FOLConst(d)))  => b(c).pos.backOf(b(d).pos)
+  case FOLAtom("Left", Seq(FOLConst(c), FOLConst(d)))    => b(c).pos.leftOf(b(d).pos)
+  case FOLAtom("Right", Seq(FOLConst(c), FOLConst(d)))   => b(c).pos.rightOf(b(d).pos)
+  case FOLAtom("Front", Seq(FOLConst(c), FOLConst(d)))   => b(c).pos.frontOf(b(d).pos)
+  case FOLAtom("Back", Seq(FOLConst(c), FOLConst(d)))    => b(c).pos.backOf(b(d).pos)
   case FOLAtom("Adjoins", Seq(FOLConst(c), FOLConst(d))) => b(c).pos.adjoins(b(d).pos)
   case FOLAtom("Smaller", Seq(FOLConst(c), FOLConst(d))) => b(c).block.smaller(b(d).block)
   case FOLAtom("Larger", Seq(FOLConst(c), FOLConst(d)))  => b(c).block.larger(b(d).block)
@@ -41,7 +41,7 @@ private def evalAtom(a: FOLAtom)(using b: Blocks): Boolean = a match
     b(c).block.sameShape(b(d).block)
   case FOLAtom("SameTone", Seq(FOLConst(c), FOLConst(d))) =>
     b(c).block.sameColor(b(d).block)
-  case FOLAtom("Between", Seq(FOLConst(c), FOLConst(d), FOLConst(c3))) =>
+  case FOLAtom("Betw", Seq(FOLConst(c), FOLConst(d), FOLConst(c3))) =>
     b(c).pos.between(b(d).pos, b(c3).pos)
   case _ => throw IllegalArgumentException(s"Atom $a is parsed incorrectly")
 
