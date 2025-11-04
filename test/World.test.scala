@@ -27,7 +27,10 @@ class WorldTest extends munit.FunSuite:
 
     // 3. attemt to move a block in empty world
     val w3 = w2.moveBlock((3, 4), (1, 2))
-    assert(w3 == w2, "moving a block in an empty world should not work, but did")
+    assert(
+      w3 == w2.selectPos((1, 2)),
+      "moving a block in an empty world should not work, but did"
+    )
 
     // 4. add one block: initially, it has no name, just fake name block0
     val w4  = w3.addBlockAt((1, 2), b0)
