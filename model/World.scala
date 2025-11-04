@@ -94,9 +94,3 @@ object World:
   )
 
   def empty: World = World()
-
-  def fromBlocks(blocks: Blocks): World =
-    val grid = blocks.map:
-      case (name, (block, pos)) =>
-        pos -> (block, name)
-    World(grid = grid)
