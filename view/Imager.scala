@@ -15,9 +15,9 @@ object Imager:
     case f: FOLFormula => Text(f.toString).font(TheFont)
     case r: Result =>
       r match
-        case Ready   => ReadyMark
-        case Valid   => CheckMark
-        case Invalid => CrossMark
+        case Ready   => Text("  ?").font(TheFont).strokeColor(Blue)
+        case Valid   => Text("  T").font(TheFont).strokeColor(green)
+        case Invalid => Text("  F").font(TheFont).strokeColor(red)
 
   def apply(opt: Option[Obj]): Image = opt match
     case None      => Image.empty

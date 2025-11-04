@@ -21,7 +21,7 @@ val Epsilon     = 0.0001
 val UIOrigin    = Point(0, 0)
 
 // derived constants
-val Pts                = Size / 3
+val Pts                = Size / 4
 val Height             = Size * 8
 val Width              = Height * 2
 val Small              = Size * 0.4
@@ -45,32 +45,19 @@ val ControlsDimensions = (h = Height / 8, w = Width / 2)
 val ControlsGridSize   = (rows = ControlRows, cols = ControlCols)
 
 // basic shapes
-val SmallSq   = Image.square(Pts)
-val Sqr       = Image.square(Size)
-val WhiteSq   = Sqr.fillColor(white)
-val BlackSq   = Sqr.fillColor(black)
-val BlueSq    = SmallSq.fillColor(Blue)
-val GraySq    = SmallSq.fillColor(Gray)
-val GreenSq   = SmallSq.fillColor(Green)
-val RedLine   = Image.line(LineLen, 0).strokeWidth(StrokeW).strokeColor(red)
-val ReadyMark = Image.circle(Pts).strokeWidth(StrokeW).strokeColor(Blue)
-val CheckMark = Image
-  .path:
-    OpenPath.empty
-      .lineTo(0.2 * LineLen, -0.2 * LineLen)
-      .lineTo(LineLen, 0.3 * LineLen)
-  .strokeColor(green)
-  .strokeWidth(StrokeW)
+val SmallSq = Image.square(Pts)
+val Sqr     = Image.square(Size)
+val WhiteSq = Sqr.fillColor(white)
+val BlackSq = Sqr.fillColor(black)
 
 // derived shapes
-val Wb        = WhiteSq beside BlackSq
-val Bw        = BlackSq beside WhiteSq
-val Wb8       = Wb beside Wb beside Wb beside Wb
-val Bw8       = Bw beside Bw beside Bw beside Bw
-val Quarter   = Wb8 above Bw8
-val Half      = Quarter above Quarter
-val Board     = Half above Half
-val CrossMark = RedLine.rotate(45.degrees).on(RedLine.rotate(135.degrees))
+val Wb      = WhiteSq beside BlackSq
+val Bw      = BlackSq beside WhiteSq
+val Wb8     = Wb beside Wb beside Wb beside Wb
+val Bw8     = Bw beside Bw beside Bw beside Bw
+val Quarter = Wb8 above Bw8
+val Half    = Quarter above Quarter
+val Board   = Half above Half
 
 // frame
 val MainFrame = Frame.default
