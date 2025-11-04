@@ -14,7 +14,7 @@ def handleControls(pos: Pos, world: World): World = gridControl.get(pos) match
       case "Block"                           => world
       case "a" | "b" | "c" | "d" | "e" | "f" => handleName(value, world)
       case "Blue" | "Green" | "Gray"         => handleColor(value, world)
-      case "Small" | "Mid" | "Large"         => handleSize(value, world)
+      case "Small" | "Med" | "Large"         => handleSize(value, world)
       case "Tri" | "Squ" | "Cir"             => handleShape(value, world)
 
 def handleEval(world: World): World =
@@ -106,7 +106,7 @@ extension (s: String)
     case "Green" => Green
   def toDouble = s match
     case "Small" => Small
-    case "Mid"   => Medium
+    case "Med"   => Med
     case "Large" => Large
   def toShape = s match
     case "Tri" => Tri

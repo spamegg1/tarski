@@ -7,7 +7,7 @@ class InterpreterTest extends munit.FunSuite:
 
     val b0 = Block(Small, Cir, Gray, "b")
     val b1 = Block(Small, Cir, Gray)
-    val b2 = Block(Medium, Tri, Green, "c")
+    val b2 = Block(Med, Tri, Green, "c")
     val b3 = Block(Small, Squ, Blue)
     val b4 = Block(Small, Squ, Blue, "a")
 
@@ -29,19 +29,19 @@ class InterpreterTest extends munit.FunSuite:
     val world = World(grid, blocks)
 
     val sentences = Seq(
-      fof"∃x ∃y ∃z (Square(x) ∧ Circle(y) ∧ Triangle(z))",
+      fof"∃x ∃y ∃z (Squ(x) ∧ Cir(y) ∧ Tri(z))",
       fof"¬(∃x Large(x))", // careful with this, negation needs parentheses!
-      fof"∀x (Circle(x) → ∃y (Square(y) ∧ BackOf(x, y)))",
-      fof"∀x (Circle(x) → ∃y (Square(y) ∧ BackOf(x, y)))",
-      fof"∀x (Circle(x) → ∃y (Square(y) ∧ BackOf(x, y)))",
+      fof"∀x (Cir(x) → ∃y (Squ(y) ∧ BackOf(x, y)))",
+      fof"∀x (Cir(x) → ∃y (Squ(y) ∧ BackOf(x, y)))",
+      fof"∀x (Cir(x) → ∃y (Squ(y) ∧ BackOf(x, y)))",
       fof"∃x ∃y (x != y ∧ ∀w ((w = x | w = y) → ∀z ¬BackOf(z, w)))",
-      fof"∀x (Square(x) ↔ ∃y (Triangle(y) ∧ BackOf(y, x)))",
+      fof"∀x (Squ(x) ↔ ∃y (Tri(y) ∧ BackOf(y, x)))",
       fof"∀x ∀y (Larger(x, y) → ∃z Between(x, y, z))",
       fof"¬(∀x ∀y (LeftOf(x, y) ∨ RightOf(x, y)))", // same here!
       fof"∃x ∃y ¬(FrontOf(x, y) ∨ BackOf(x, y))",
-      fof"Small(a) ∧ Square(a) ∧ Blue(a)",
-      fof"Medium(c) ∧ Triangle(c) ∧ Green(c)",
-      fof"Small(b) ∧ Circle(b) ∧ Gray(b)"
+      fof"Small(a) ∧ Squ(a) ∧ Blue(a)",
+      fof"Med(c) ∧ Tri(c) ∧ Green(c)",
+      fof"Small(b) ∧ Cir(b) ∧ Gray(b)"
     )
     val results = sentences.map(eval)
     sentences

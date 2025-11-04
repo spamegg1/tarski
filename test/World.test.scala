@@ -5,8 +5,8 @@ class WorldTest extends munit.FunSuite:
   test("World add, move, remove, rename blocks integration test"):
     import Shape.*, Status.*
 
-    val b0 = Block(Small, Cir, Gray)   // at (1,2), then (3,4)
-    val b1 = Block(Medium, Tri, Green) // at (5,6)
+    val b0 = Block(Small, Cir, Gray) // at (1,2), then (3,4)
+    val b1 = Block(Med, Tri, Green)  // at (5,6)
 
     // 0. empty world
     val w0 = World.empty

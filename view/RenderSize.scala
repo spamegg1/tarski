@@ -8,7 +8,7 @@ val renderSize   = renderSmall on renderMedium on renderLarge
 
 def sizeIndicator(size: Double) =
   if size.isCloseTo(Small) then renderIndicator(smallPt, 2)
-  else if size.isCloseTo(Medium) then renderIndicator(midPt, 2)
+  else if size.isCloseTo(Med) then renderIndicator(midPt, 2)
   else if size.isCloseTo(Large) then renderIndicator(largePt, 2)
   else Image.empty
 
