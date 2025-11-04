@@ -19,14 +19,7 @@ class InterpreterTest extends munit.FunSuite:
       (6, 6) -> (b4, "a")
     )
 
-    given blocks: Blocks = Map(
-      "b"      -> (b0, (1, 1)),
-      "block0" -> (b1, (1, 5)),
-      "c"      -> (b2, (3, 3)),
-      "block1" -> (b3, (4, 2)),
-      "a"      -> (b4, (6, 6))
-    )
-    val world = World(grid, blocks)
+    val world = World(grid)
 
     val sentences = Seq(
       fof"∃x ∃y ∃z (Squ(x) ∧ Cir(y) ∧ Tri(z))",
@@ -43,7 +36,9 @@ class InterpreterTest extends munit.FunSuite:
       fof"Med(c) ∧ Tri(c) ∧ Green(c)",
       fof"Small(b) ∧ Cir(b) ∧ Gray(b)"
     )
-    val results = sentences.map(eval)
+
+    given Blocks = world.blocks
+    val results  = sentences.map(eval)
     sentences
       .zip(results)
       .foreach: (sentence, result) =>

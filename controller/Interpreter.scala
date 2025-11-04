@@ -12,8 +12,8 @@ def eval(formula: FOLFormula)(using blocks: Blocks): Boolean = formula match
   case Iff(a: FOLFormula, b: FOLFormula) =>
     val (ea, eb) = (eval(a), eval(b))
     ea && eb || !ea && !eb
-  case All(x, f) => blocks.keys.forall(name => eval(f.substitute(x, FOLConst(name))))
-  case Ex(x, f)  => blocks.keys.exists(name => eval(f.substitute(x, FOLConst(name))))
+  case All(x, f) => blocks.keys.forall(name => eval(f.sub(x, FOLConst(name))))
+  case Ex(x, f)  => blocks.keys.exists(name => eval(f.sub(x, FOLConst(name))))
 
 private def evalAtom(a: FOLAtom)(using b: Blocks): Boolean = a match
   case FOLAtom("Small", Seq(FOLConst(c)))                => b(c).block.size == Small
@@ -46,4 +46,4 @@ private def evalAtom(a: FOLAtom)(using b: Blocks): Boolean = a match
   case _ => throw IllegalArgumentException(s"Atom $a is parsed incorrectly")
 
 extension (f: FOLFormula)
-  def substitute(x: FOLVar, c: FOLConst) = FOLSubstitution((x, c)).apply(f)
+  def sub(x: FOLVar, c: FOLConst) = FOLSubstitution((x, c)).apply(f)

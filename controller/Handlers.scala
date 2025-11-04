@@ -54,50 +54,41 @@ def handleName(name: String, world: World): World = world.names.get(name) match
 def handleColor(color: String, world: World): World =
   val newColor    = color.toColor
   val newControls = world.controls.setColor(newColor)
-  val (newGrid, newBlocks) = world.controls.pos match
-    case None => (world.grid, world.blocks)
+  val newGrid = world.controls.pos match
+    case None => world.grid
     case Some(pos) =>
       world.grid.get(pos) match
-        case None => (world.grid, world.blocks)
+        case None => world.grid
         case Some((block, name)) =>
           val newBlock = block.copy(color = newColor)
-          (
-            world.grid.updated(pos, (newBlock, name)),
-            world.blocks.updated(name, (newBlock, pos))
-          )
-  world.copy(controls = newControls, grid = newGrid, blocks = newBlocks)
+          world.grid.updated(pos, (newBlock, name))
+  world.copy(controls = newControls, grid = newGrid)
 
 def handleShape(shape: String, world: World): World =
   val newShape    = shape.toShape
   val newControls = world.controls.setShape(newShape)
-  val (newGrid, newBlocks) = world.controls.pos match
-    case None => (world.grid, world.blocks)
+  val newGrid = world.controls.pos match
+    case None => world.grid
     case Some(pos) =>
       world.grid.get(pos) match
-        case None => (world.grid, world.blocks)
+        case None => world.grid
         case Some((block, name)) =>
           val newBlock = block.copy(shape = newShape)
-          (
-            world.grid.updated(pos, (newBlock, name)),
-            world.blocks.updated(name, (newBlock, pos))
-          )
-  world.copy(controls = newControls, grid = newGrid, blocks = newBlocks)
+          world.grid.updated(pos, (newBlock, name))
+  world.copy(controls = newControls, grid = newGrid)
 
 def handleSize(size: String, world: World): World =
   val newSize     = size.toDouble
   val newControls = world.controls.setSize(newSize)
-  val (newGrid, newBlocks) = world.controls.pos match
-    case None => (world.grid, world.blocks)
+  val newGrid = world.controls.pos match
+    case None => world.grid
     case Some(pos) =>
       world.grid.get(pos) match
-        case None => (world.grid, world.blocks)
+        case None => world.grid
         case Some((block, name)) =>
           val newBlock = block.copy(size = newSize)
-          (
-            world.grid.updated(pos, (newBlock, name)),
-            world.blocks.updated(name, (newBlock, pos))
-          )
-  world.copy(controls = newControls, grid = newGrid, blocks = newBlocks)
+          world.grid.updated(pos, (newBlock, name))
+  world.copy(controls = newControls, grid = newGrid)
 
 extension (s: String)
   def toColor = s match
