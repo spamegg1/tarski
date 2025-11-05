@@ -2,14 +2,32 @@ package tarski
 package testing
 
 class WorldTest extends munit.FunSuite:
-  test("World add, move, remove, rename blocks integration test"):
-    import Shape.*, Status.*
+  import Shape.*, Status.*
 
-    val b0 = Block(Small, Cir, Gray) // at (1,2), then (3,4)
-    val b1 = Block(Med, Tri, Green)  // at (5,6)
+  val b0  = Block(Small, Cir, Gray) // at (1,2), then (3,4)
+  val b1  = Block(Med, Tri, Green)  // at (5,6)
+  val w0  = World.empty
+  val w1  = w0.removeBlockAt((1, 2))
+  val w2  = w1.removeNameFromBlockAt((3, 4))
+  val w3  = w2.moveBlock((3, 4), (1, 2))
+  val w4  = w3.addBlockAt((1, 2), b0)
+  val g4  = Map((1, 2) -> (b0, "block0"))
+  val bl4 = Map("block0" -> (b0, (1, 2)))
+  val w5  = w4.removeBlockAt((3, 4))
+  val w6  = w5.removeNameFromBlockAt((3, 4))
+  val w7  = w6.removeNameFromBlockAt((1, 2))
+  val w8  = w7.addNameToBlockAt((3, 4), "b")
+  val w9  = w8.addNameToBlockAt((1, 2), "b")
+  val b0n = b0.setLabel("b")
+  val w10 = w9.addNameToBlockAt((1, 2), "c")
+  val w11 = w10.moveBlock(from = (3, 4), to = (1, 2))
+  val w12 = w11.moveBlock(from = (1, 2), to = (3, 4))
+  val w13 = w12.addBlockAt((3, 4), b1)
+  val w14 = w13.addBlockAt((5, 6), b1)
+  val w15 = w14.moveBlock((5, 6), (3, 4))
+  val w16 = w15.removeNameFromBlockAt((3, 4))
 
-    // 0. empty world
-    val w0 = World.empty
+  test("Empty world with no blocks or grid and all names available"):
     assert(w0.blocks.isEmpty, s"empty world should have no blocks, but has ${w0.blocks}")
     assert(w0.grid.isEmpty, s"empty world should have no grid, but has ${w0.grid}")
     assert(
@@ -17,25 +35,15 @@ class WorldTest extends munit.FunSuite:
       s"empty world should have all 6 names available, but has names ${w0.names}"
     )
 
-    // 1. attempt to remove block from empty world
-    val w1 = w0.removeBlockAt((1, 2))
+  test("Moving / removing a block, or removing a name in an empty world"):
     assert(w1 == w0, "removing a block from an empty world should not work, but did")
-
-    // 2. attemt to remove name from a block in empty world
-    val w2 = w1.removeNameFromBlockAt((3, 4))
     assert(w2 == w1, "removing a name in an empty world should not work, but did")
-
-    // 3. attemt to move a block in empty world
-    val w3 = w2.moveBlock((3, 4), (1, 2))
     assert(
       w3 == w2.selectPos((1, 2)),
       "moving a block in an empty world should not work, but did"
     )
 
-    // 4. add one block: initially, it has no name, just fake name block0
-    val w4  = w3.addBlockAt((1, 2), b0)
-    val g4  = Map((1, 2) -> (b0, "block0"))
-    val bl4 = Map("block0" -> (b0, (1, 2)))
+  test("World with 1 block and its grid, blocks and names"):
     assert(w4.grid == g4, s"world with 1 block should have grid $g4 but has ${w4.grid}")
     assert(
       w4.blocks == bl4,
@@ -46,27 +54,15 @@ class WorldTest extends munit.FunSuite:
       "world with 1 unnamed block added should have all names available, but does not"
     )
 
-    // 5. attempt to remove the block at wrong position
-    val w5 = w4.removeBlockAt((3, 4))
+  test("Removing a block or a name at wrong position, or from a nameless block"):
     assert(w5 == w4, "removing block at wrong position should not work, but does")
-
-    // 6. attempt to remove name from block at wrong position
-    val w6 = w5.removeNameFromBlockAt((3, 4))
     assert(w6 == w5, "removing name from block at wrong pos should not work, but does")
-
-    // 7. attempt to remove name from nameless block, at correct position
-    val w7 = w6.removeNameFromBlockAt((1, 2))
     assert(w7 == w6, "removing name from nameless block should not work, but does")
 
-    // 8. attempt to add name to nameless block, at wrong position
-    val w8 = w7.addNameToBlockAt((3, 4), "b")
+  test("Adding a name to a block, in wrong / correct position"):
     assert(w8 == w7, "adding name to block at wrong pos should not work, but does")
-
-    // 9. attempt to add name to nameless block, at correct position
-    val w9      = w8.addNameToBlockAt((1, 2), "b")
-    val b0named = b0.setLabel("b")
     assert(
-      w9.blocks("b").block == b0named,
+      w9.blocks("b").block == b0n,
       "adding name to block should change its label correctly, but does not"
     )
     assert(
@@ -75,22 +71,19 @@ class WorldTest extends munit.FunSuite:
       "adding name `b` to block should make only `b` occupied, but does not"
     )
 
-    // 10. attempt to add name to an already named block
-    val w10 = w9.addNameToBlockAt((1, 2), "c")
-    assert(w10 == w9, "adding name to already named block should not work, but does")
+  test("Adding a name to an already named block"):
+    assert(w10 == w9, "adding a name to an already named block should not work, but does")
 
-    // 11. attempt to move a block from wrong position
-    val w11 = w10.moveBlock(from = (3, 4), to = (1, 2))
+  test("Moving a block in a world with 1 block, wrong position"):
     assert(w11 == w10, "moving a block at wrong position should not work, but does")
 
-    // 12. attempt to move a block from correct position
-    val w12 = w11.moveBlock(from = (1, 2), to = (3, 4))
+  test("Moving a block in a world with 1 block, correct position"):
     assert(
-      w12.grid == Map((3, 4) -> (b0named, "b")),
+      w12.grid == Map((3, 4) -> (b0n, "b")),
       "moving a block from correct position should work, but does not"
     )
     assert(
-      w12.blocks == Map("b" -> (b0named, (3, 4))),
+      w12.blocks == Map("b" -> (b0n, (3, 4))),
       "moving a block from correct position should work, but does not"
     )
     assert(
@@ -99,18 +92,14 @@ class WorldTest extends munit.FunSuite:
       "moving a block from correct position should not change availability, but does"
     )
 
-    // 13. attempting to add a block to an already taken position
-    val w13 = w12.addBlockAt((3, 4), b1)
+  test("Adding a second block to a world with 1 block"):
     assert(w13 == w12, "adding a block on top of a block should not work, but does")
-
-    // 14. attempting to add a second block, with fake name initially
-    val w14 = w13.addBlockAt((5, 6), b1)
     assert(
-      w14.grid == Map((3, 4) -> (b0named, "b"), (5, 6) -> (b1, "block1")),
+      w14.grid == Map((3, 4) -> (b0n, "b"), (5, 6) -> (b1, "block1")),
       "adding a second block with fake name should work correctly, but does not"
     )
     assert(
-      w14.blocks == Map("b" -> (b0named, (3, 4)), "block1" -> (b1, (5, 6))),
+      w14.blocks == Map("b" -> (b0n, (3, 4)), "block1" -> (b1, (5, 6))),
       "adding a second block with fake name should work correctly, but does not"
     )
     assert(
@@ -119,12 +108,10 @@ class WorldTest extends munit.FunSuite:
       "adding a second nameless block should not affect availability, but does"
     )
 
-    // 15. attempting to move block to an already occupied position
-    val w15 = w14.moveBlock((5, 6), (3, 4))
+  test("Moving a block to an occupied space"):
     assert(w15 == w14, "moving a block to an occupied space should not work, but does")
 
-    // 16. removing a name from a named block, getting a new fake name
-    val w16 = w15.removeNameFromBlockAt((3, 4))
+  test("Removing a name in a world with 2 blocks"):
     assert(
       w16.grid == Map((3, 4) -> (b0, "block2"), (5, 6) -> (b1, "block1")),
       "removing name from named block should work correctly, but does not"
