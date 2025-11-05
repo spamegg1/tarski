@@ -31,11 +31,6 @@ val UIConverter       = Converter(UIDimensions, UIGridSize)
 val BoardConverter    = Converter(BoardDimensions, BoardGridSize)
 val ControlsConverter = Converter(ControlsDimensions, ControlsGridSize)
 
-def convertPointConditionally(p: Point): Pos =
-  if p.x < 0 then BoardConverter.toPos((p - BoardOrigin).toPoint)
-  else if p.y > ControlsBottom then ControlsConverter.toPos((p - ControlsOrigin).toPoint)
-  else UIConverter.toPos(p)
-
 val gridControl = Map[Pos, String](
   (0, 0)  -> "Eval",
   (0, 1)  -> "Eval",

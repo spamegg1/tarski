@@ -35,19 +35,3 @@ class ConverterTest extends munit.FunSuite:
       .map(BoardConverter.toPos)
       .foreach: pos =>
         assert(pos == (row = 2, col = 3), s"expected (2,3), obtained $pos")
-
-  test("board, controls and UI origins are conditionally converted correctly"):
-    val boardOrigin = (BoardRows / 2, BoardCols / 2)
-    val boardResult = convertPointConditionally(BoardOrigin)
-    assert(boardResult == boardOrigin, s"expected $boardOrigin, obtained $boardResult")
-
-    val uiOrigin = (UIRows / 2, UICols / 2)
-    val uiResult = convertPointConditionally(UIOrigin)
-    assert(uiResult == uiOrigin, s"expected $uiOrigin, obtained $uiResult")
-
-    val controlsResult = convertPointConditionally(ControlsOrigin)
-    val controlsOrigin = (ControlRows / 2, ControlCols / 2)
-    assert(
-      controlsResult == controlsOrigin,
-      s"expected $controlsOrigin, obtained $controlsResult"
-    )
