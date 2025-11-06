@@ -14,30 +14,31 @@ def handleControls(pos: Pos, world: World): World = gridControl.get(pos) match
       case "Block"                           => world
       case "a" | "b" | "c" | "d" | "e" | "f" => handleName(value, world)
       case "Blue" | "Green" | "Gray"         => handleColor(value, world)
-      case "Small" | "Med" | "Large"         => handleSize(value, world)
+      case "Small" | "Mid" | "Large"         => handleSize(value, world)
       case "Tri" | "Squ" | "Cir"             => handleShape(value, world)
 
 def handleEval(world: World): World =
   val results = world.formulas.map: (formula, result) =>
-    val bool = eval(formula)(using world.blocks)
-    formula -> (if bool then Valid else Invalid)
+    var status = Ready
+    try
+      val bool = eval(formula)(using world.blocks)
+      status = if bool then Valid else Invalid
+    catch case _ => Ready
+    formula -> status
   world.copy(formulas = results)
 
 def handlePos(pos: Pos, world: World): World =
   world.controls.pos match
     case None =>
       val newControls = world.controls.selectPos(pos).setBlock(world.grid.get(pos))
-      println(newControls.pos)
       world.copy(controls = newControls)
     case Some(p) =>
       if p == pos then
         val newControls = world.controls.deselectPos.unsetBlock
-        println(newControls.pos)
         world.copy(controls = newControls)
       else if world.controls.move then world.moveBlock(from = p, to = pos)
       else
         val newControls = world.controls.selectPos(pos).setBlock(world.grid.get(pos))
-        println(newControls.pos)
         world.copy(controls = newControls)
 
 def handleName(name: String, world: World): World = world.names.get(name) match
@@ -97,7 +98,7 @@ extension (s: String)
     case "Green" => Green
   def toDouble = s match
     case "Small" => Small
-    case "Med"   => Med
+    case "Mid"   => Mid
     case "Large" => Large
   def toShape = s match
     case "Tri" => Tri

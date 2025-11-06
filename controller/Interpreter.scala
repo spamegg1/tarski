@@ -17,7 +17,7 @@ def eval(formula: FOLFormula)(using blocks: Blocks): Boolean = formula match
 
 private def evalAtom(a: FOLAtom)(using b: Blocks): Boolean = a match
   case FOLAtom("Small", Seq(FOLConst(c)))                => b(c).block.size == Small
-  case FOLAtom("Med", Seq(FOLConst(c)))                  => b(c).block.size == Med
+  case FOLAtom("Mid", Seq(FOLConst(c)))                  => b(c).block.size == Mid
   case FOLAtom("Large", Seq(FOLConst(c)))                => b(c).block.size == Large
   case FOLAtom("Cir", Seq(FOLConst(c)))                  => b(c).block.shape == Cir
   case FOLAtom("Tri", Seq(FOLConst(c)))                  => b(c).block.shape == Tri

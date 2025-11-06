@@ -7,7 +7,7 @@ class InterpreterTest extends munit.FunSuite:
 
     val b0 = Block(Small, Cir, Gray, "b")
     val b1 = Block(Small, Cir, Gray)
-    val b2 = Block(Med, Tri, Green, "c")
+    val b2 = Block(Mid, Tri, Green, "c")
     val b3 = Block(Small, Squ, Blue)
     val b4 = Block(Small, Squ, Blue, "a")
 
@@ -33,7 +33,7 @@ class InterpreterTest extends munit.FunSuite:
       fof"¬(∀x ∀y (Left(x, y) ∨ Right(x, y)))", // same here!
       fof"∃x ∃y ¬(Front(x, y) ∨ Back(x, y))",
       fof"Small(a) ∧ Squ(a) ∧ Blue(a)",
-      fof"Med(c) ∧ Tri(c) ∧ Green(c)",
+      fof"Mid(c) ∧ Tri(c) ∧ Green(c)",
       fof"Small(b) ∧ Cir(b) ∧ Gray(b)"
     )
 
