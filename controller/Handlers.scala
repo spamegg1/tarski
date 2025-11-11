@@ -23,7 +23,7 @@ def handleEval(world: World): World =
     try
       val bool = eval(formula)(using world.blocks)
       status = if bool then Valid else Invalid
-    catch case _ => status = Ready
+    catch case _ => ()
     formula -> status
   world.copy(formulas = results)
 
