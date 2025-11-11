@@ -1,7 +1,7 @@
 package tarski
 package view
 
-val (wid, hgh) = (ControlsConverter.blockWidth, ControlsConverter.blockHeight)
+val (wid, hgh)              = (ControlsConverter.blockWidth, ControlsConverter.blockHeight)
 def button(factor: Int = 1) = Image.rectangle(wid * factor, hgh).fillColor(Gray)
 
 def renderIndicator(point: Point, factor: Int = 1) = Image
