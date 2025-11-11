@@ -5,11 +5,11 @@ package tarski:
   export Color.{deepSkyBlue, lightGray, white, black, yellowGreen, red, green}
   export doodle.core.font.{Font, FontSize}
   export doodle.image.Image, Image.Elements.Text
-  export doodle.image.syntax.all.*
   export doodle.java2d.effect.Frame
   export doodle.java2d.{Algebra, java2dAnimationRenderer, Java2dToPicture}
   export doodle.java2d.{java2dCanvasAlgebra, java2dRenderer, java2dFrame}
   export doodle.reactor.Reactor
+  export doodle.image.syntax.all.*
   export doodle.reactor.syntax.all.*
   export doodle.core.syntax.all.*
 
@@ -33,6 +33,6 @@ package tarski:
     export controller.{eval, BoardConverter, handlePos, handleControls}
 
   package main:
-    export model.{World, GridSize, Block, Shape, Controls}, Shape.*
+    export model.{World, GridSize, Block, Shape, Controls}
     export view.render
     export controller.{tick, click, move, stop}
