@@ -1,8 +1,6 @@
 package tarski
 package controller
 
-import Status.*, Result.*, Shape.*
-
 def handleControls(pos: Pos, world: World): World = gridControl.get(pos) match
   case None => world
   case Some(value) => // make sure a button is clicked
@@ -17,7 +15,8 @@ def handleControls(pos: Pos, world: World): World = gridControl.get(pos) match
       case "Small" | "Mid" | "Large"         => handleSize(value, world)
       case "Tri" | "Squ" | "Cir"             => handleShape(value, world)
 
-def handleEval(world: World): World =
+private def handleEval(world: World): World =
+  import Result.*
   val results = world.formulas.map: (formula, result) =>
     var status = Ready
     try
@@ -41,18 +40,20 @@ def handlePos(pos: Pos, world: World): World =
         val newControls = world.controls.selectPos(pos).setBlock(world.grid.get(pos))
         world.copy(controls = newControls)
 
-def handleName(name: String, world: World): World = world.names.get(name) match
-  case None => world
-  case Some(Available) =>
-    world.controls.pos match
-      case None      => world
-      case Some(pos) => world.addNameToBlockAt(pos, name)
-  case Some(Occupied) =>
-    world.blocks.get(name) match
-      case None           => world
-      case Some((_, pos)) => world.removeNameFromBlockAt(pos)
+private def handleName(name: String, world: World): World =
+  import Status.*
+  world.names.get(name) match
+    case None => world
+    case Some(Available) =>
+      world.controls.pos match
+        case None      => world
+        case Some(pos) => world.addNameToBlockAt(pos, name)
+    case Some(Occupied) =>
+      world.blocks.get(name) match
+        case None           => world
+        case Some((_, pos)) => world.removeNameFromBlockAt(pos)
 
-def handleColor(color: String, world: World): World =
+private def handleColor(color: String, world: World): World =
   val newColor    = color.toColor
   val newControls = world.controls.setColor(newColor)
   val newGrid = world.controls.pos match
@@ -65,7 +66,7 @@ def handleColor(color: String, world: World): World =
           world.grid.updated(pos, (newBlock, name))
   world.copy(controls = newControls, grid = newGrid)
 
-def handleShape(shape: String, world: World): World =
+private def handleShape(shape: String, world: World): World =
   val newShape    = shape.toShape
   val newControls = world.controls.setShape(newShape)
   val newGrid = world.controls.pos match
@@ -78,7 +79,7 @@ def handleShape(shape: String, world: World): World =
           world.grid.updated(pos, (newBlock, name))
   world.copy(controls = newControls, grid = newGrid)
 
-def handleSize(size: String, world: World): World =
+private def handleSize(size: String, world: World): World =
   val newSize     = size.toDouble
   val newControls = world.controls.setSize(newSize)
   val newGrid = world.controls.pos match
@@ -101,6 +102,6 @@ extension (s: String)
     case "Mid"   => Mid
     case "Large" => Large
   def toShape = s match
-    case "Tri" => Tri
-    case "Squ" => Squ
-    case "Cir" => Cir
+    case "Tri" => Shape.Tri
+    case "Squ" => Shape.Squ
+    case "Cir" => Shape.Cir

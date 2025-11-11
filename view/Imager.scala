@@ -2,18 +2,20 @@ package tarski
 package view
 
 object Imager:
-  import Shape.*, Result.*
   type Obj = Block | FOLFormula | Result
 
   def apply(o: Obj): Image = o match
     case b: Block =>
-      val shapeImg = b.shape match
-        case Tri => Image.triangle(b.size, b.size).fillColor(b.color)
-        case Squ => Image.square(b.size).fillColor(b.color)
-        case Cir => Image.circle(b.size).fillColor(b.color)
+      val shapeImg =
+        import Shape.*
+        b.shape match
+          case Tri => Image.triangle(b.size, b.size).fillColor(b.color)
+          case Squ => Image.square(b.size).fillColor(b.color)
+          case Cir => Image.circle(b.size).fillColor(b.color)
       Text(b.label).font(TheFont).on(shapeImg)
     case f: FOLFormula => Text(f.toString).font(TheFont)
     case r: Result =>
+      import Result.*
       r match
         case Ready   => Text("  ?").font(TheFont).strokeColor(Blue)
         case Valid   => Text("  T").font(TheFont).strokeColor(green)
