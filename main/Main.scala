@@ -29,6 +29,19 @@ val world =
 // .addFormula(fof"¬(∃x (Cir(x) ∧ Small(x)))")
 // .addFormula(fof"∃y (Squ(y) ∧ Small(y))")
 
+def run(grid: Grid, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
+  given c: Constant = Constant(Size * scaleFactor)
+  val world         = World(grid = grid, formulas = Formulas.fromSeq(formulas))
+  Reactor
+    .init[World](world)      // these functions are in Reactor.scala
+    .withOnTick(tick)        // World -> World
+    .withRender(render)      // World -> Image
+    .withOnMouseClick(click) // Point World -> World
+    .withOnMouseMove(move)   // Point World => World
+    .withStop(stop)          // World => Boolean
+    .withTickRate(TickRate)
+    .animateWithFrame(c.MainFrame)
+
 @main
 def main = Reactor
   .init[World](world)      // these functions are in Reactor.scala
