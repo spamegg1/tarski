@@ -1,9 +1,7 @@
 package tarski
 package view
 
-object RenderColor
-
-extension (rc: RenderColor.type)(using Constants)
+extension (r: Render.type)(using Constants)
   def colorBox(color: Color, point: Point) =
     Image.rectangle(wid, hgh).fillColor(color).at(point)
 
@@ -18,6 +16,6 @@ extension (rc: RenderColor.type)(using Constants)
     case Gray  => renderIndicator(UI.grayPt, 1)
     case _     => Image.empty
 
-  def apply(colorOpt: Option[Color]) = colorOpt match
+  def colors(colorOpt: Option[Color]) = colorOpt match
     case None        => renderColor
     case Some(color) => colorIndicator(color).on(renderColor)

@@ -1,7 +1,14 @@
 package tarski
 package view
 
-object Render
+object Render:
+  def apply(world: World)(using c: Constants): Image =
+    Render
+      .selectedPos(world.controls.pos)
+      .on(Render.blocks(world.grid))
+      .at(c.BoardOrigin)
+      .on(Render.controls(world).at(c.ControlsOrigin))
+      .on(Render.formulas(world.formulas).at(c.FormulasOrigin))
 
 extension (r: Render.type)(using c: Constants)
   def renderEval = renderButton("Eval", UI.evalPt, 2)
@@ -14,24 +21,24 @@ extension (r: Render.type)(using c: Constants)
     val button = renderButton("Move", UI.movePt, 2)
     if move then renderIndicator(UI.movePt, 2).on(button) else button
 
-  def renderControls(world: World) =
+  def controls(world: World) =
     renderEval
       .on(renderMove(world.controls.move))
       .on(renderAdd)
       .on(renderDel)
       .on(renderNames(world.names))
       .on(renderSizes(world.controls.size))
-      .on(RenderColor(world.controls.color))
+      .on(Render.colors(world.controls.color))
       .on(renderShapes(world.controls.shape))
       .on(renderBlock(world.controls))
 
-  def renderFormulas(formulas: Formulas) = formulas
+  def formulas(formulas: Formulas) = formulas
     .foldLeft[Image](Image.empty):
       case (image, (formula, result)) =>
         image.above(Imager(formula).beside(Imager(result)))
 
-  def renderSelectedPos(selectedPos: Option[Pos]): Image =
-    selectedPos match
+  def selectedPos(pos: Option[Pos]): Image =
+    pos match
       case None => Image.empty
       case Some(pos) =>
         Image
@@ -40,18 +47,11 @@ extension (r: Render.type)(using c: Constants)
           .strokeWidth(c.SmallStroke)
           .at(BoardConverter.toPoint(pos))
 
-  def renderBlocks(grid: Grid): Image = grid
+  def blocks(grid: Grid): Image = grid
     .foldLeft[Image](c.Board):
       case (image, (pos, (block, name))) =>
         Imager(block)
           .at(BoardConverter.toPoint(pos))
           .on(image)
-
-  def render(world: World): Image =
-    renderSelectedPos(world.controls.pos)
-      .on(renderBlocks(world.grid))
-      .at(c.BoardOrigin)
-      .on(renderControls(world).at(c.ControlsOrigin))
-      .on(renderFormulas(world.formulas).at(c.FormulasOrigin))
 
 extension (d: Double) def isCloseTo(e: Double) = Math.abs(d - e) < 0.0001

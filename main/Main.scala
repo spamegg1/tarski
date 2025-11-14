@@ -7,7 +7,7 @@ def run(grid: Grid, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
   Reactor
     .init[World](world)
     .withOnTick(tick)
-    .withRender(Render.render)
+    .withRender(Render.apply)
     .withOnMouseClick(click)
     .withOnMouseMove(move)
     .withStop(stop)
@@ -17,7 +17,6 @@ def run(grid: Grid, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
 // Example world and formulas to run
 given c: Constants = Constants(Size)
 import Shape.*, c.{Small, Mid, Large}
-import tarski.view.render
 
 val grid: Grid = Map(
   (1, 2) -> (Block(Small, Tri, Green), "a"),
