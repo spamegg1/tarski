@@ -18,7 +18,7 @@ def renderControls(world: World)(using Constants) =
     .on(renderDel)
     .on(renderNames(world.names))
     .on(renderSizes(world.controls.size))
-    .on(renderColors(world.controls.color))
+    .on(RenderColor(world.controls.color))
     .on(renderShapes(world.controls.shape))
     .on(renderBlock(world.controls))
 
