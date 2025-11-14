@@ -19,20 +19,20 @@ class ConverterTest extends munit.FunSuite:
 
   test("correctly convert Pos to Point on standard chess board"):
     positions
-      .map(BoardConverter.toPoint)
+      .map(Converter.board.toPoint)
       .zip(points)
       .foreach: (obt, exp) =>
         assert(obt.isCloseTo(exp), s"Expected $exp, obtained $obt")
 
   test("correctly convert Point to Pos on standard chess board"):
     points
-      .map(BoardConverter.toPos)
+      .map(Converter.board.toPos)
       .zip(positions)
       .foreach: (obt, exp) =>
         assert(obt == exp, s"Expected $exp, obtained $obt")
 
   test("point to pos conversion works for all points inside a block"):
     Seq(Point(-99, 101), Point(-1, 101), Point(-99, 199), Point(-1, 199))
-      .map(BoardConverter.toPos)
+      .map(Converter.board.toPos)
       .foreach: pos =>
         assert(pos == (row = 2, col = 3), s"expected (2,3), obtained $pos")
