@@ -1,17 +1,17 @@
 package tarski
 package view
 
-val renderEval = renderButton("Eval", evalPt, 2)
-val renderAdd  = renderButton("Add", addPt, 2)
-val renderDel  = renderButton("Del", delPt, 2)
+def renderEval(using Constants) = renderButton("Eval", evalPt, 2)
+def renderAdd(using Constants)  = renderButton("Add", addPt, 2)
+def renderDel(using Constants)  = renderButton("Del", delPt, 2)
 
-def renderBlock(c: Controls) = Imager(Block.fromControls(c)).at(blockPt)
+def renderBlock(c: Controls)(using Constants) = Imager(Block.fromControls(c)).at(blockPt)
 
-def renderMove(move: Boolean) =
+def renderMove(move: Boolean)(using Constants) =
   val button = renderButton("Move", movePt, 2)
   if move then renderIndicator(movePt, 2).on(button) else button
 
-def renderControls(world: World) =
+def renderControls(world: World)(using Constants) =
   renderEval
     .on(renderMove(world.controls.move))
     .on(renderAdd)
@@ -22,32 +22,33 @@ def renderControls(world: World) =
     .on(renderShapes(world.controls.shape))
     .on(renderBlock(world.controls))
 
-def renderFormulas(formulas: Formulas) = formulas
+def renderFormulas(formulas: Formulas)(using Constants) = formulas
   .foldLeft[Image](Image.empty):
     case (image, (formula, result)) =>
       image.above(Imager(formula).beside(Imager(result)))
 
-def renderSelectedPos(selectedPos: Option[Pos]): Image = selectedPos match
-  case None => Image.empty
-  case Some(pos) =>
-    Image
-      .rectangle(BoardConverter.blockWidth, BoardConverter.blockHeight)
-      .strokeColor(red)
-      .strokeWidth(SmallStroke)
-      .at(BoardConverter.toPoint(pos))
+def renderSelectedPos(selectedPos: Option[Pos])(using c: Constants): Image =
+  selectedPos match
+    case None => Image.empty
+    case Some(pos) =>
+      Image
+        .rectangle(BoardConverter.blockWidth, BoardConverter.blockHeight)
+        .strokeColor(red)
+        .strokeWidth(c.SmallStroke)
+        .at(BoardConverter.toPoint(pos))
 
-def renderBlocks(grid: Grid): Image = grid
-  .foldLeft[Image](Board):
+def renderBlocks(grid: Grid)(using c: Constants): Image = grid
+  .foldLeft[Image](c.Board):
     case (image, (pos, (block, name))) =>
       Imager(block)
         .at(BoardConverter.toPoint(pos))
         .on(image)
 
-def render(world: World): Image =
+def render(world: World)(using c: Constants): Image =
   renderSelectedPos(world.controls.pos)
     .on(renderBlocks(world.grid))
-    .at(BoardOrigin)
-    .on(renderControls(world).at(ControlsOrigin))
-    .on(renderFormulas(world.formulas).at(FormulasOrigin))
+    .at(c.BoardOrigin)
+    .on(renderControls(world).at(c.ControlsOrigin))
+    .on(renderFormulas(world.formulas).at(c.FormulasOrigin))
 
 extension (d: Double) def isCloseTo(e: Double) = Math.abs(d - e) < 0.0001

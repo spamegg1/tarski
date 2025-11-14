@@ -1,21 +1,22 @@
 package tarski
 package controller
 
-def handleControls(pos: Pos, world: World): World = gridControl.get(pos) match
-  case None => world
-  case Some(value) => // make sure a button is clicked
-    value match
-      case "Eval"                            => handleEval(world)
-      case "Add"                             => world.addBlockFromControls
-      case "Del"                             => world.removeSelectedBlock
-      case "Move"                            => world.toggleMove
-      case "Block"                           => world
-      case "a" | "b" | "c" | "d" | "e" | "f" => handleName(value, world)
-      case "Blue" | "Green" | "Gray"         => handleColor(value, world)
-      case "Small" | "Mid" | "Large"         => handleSize(value, world)
-      case "Tri" | "Squ" | "Cir"             => handleShape(value, world)
+def handleControls(pos: Pos, world: World)(using Constants): World =
+  gridControl.get(pos) match
+    case None => world
+    case Some(value) => // make sure a button is clicked
+      value match
+        case "Eval"                            => handleEval(world)
+        case "Add"                             => world.addBlockFromControls
+        case "Del"                             => world.removeSelectedBlock
+        case "Move"                            => world.toggleMove
+        case "Block"                           => world
+        case "a" | "b" | "c" | "d" | "e" | "f" => handleName(value, world)
+        case "Blue" | "Green" | "Gray"         => handleColor(value, world)
+        case "Small" | "Mid" | "Large"         => handleSize(value, world)
+        case "Tri" | "Squ" | "Cir"             => handleShape(value, world)
 
-private def handleEval(world: World): World =
+private def handleEval(world: World)(using Constants): World =
   import Result.*
   val results = world.formulas.map: (formula, result) =>
     var status = Ready
@@ -79,7 +80,7 @@ private def handleShape(shape: String, world: World): World =
           world.grid.updated(pos, (newBlock, name))
   world.copy(controls = newControls, grid = newGrid)
 
-private def handleSize(size: String, world: World): World =
+private def handleSize(size: String, world: World)(using Constants): World =
   val newSize     = size.toDouble
   val newControls = world.controls.setSize(newSize)
   val newGrid = world.controls.pos match
@@ -97,10 +98,10 @@ extension (s: String)
     case "Blue"  => Blue
     case "Gray"  => Gray
     case "Green" => Green
-  def toDouble = s match
-    case "Small" => Small
-    case "Mid"   => Mid
-    case "Large" => Large
+  def toDouble(using c: Constants) = s match
+    case "Small" => c.Small
+    case "Mid"   => c.Mid
+    case "Large" => c.Large
   def toShape = s match
     case "Tri" => Shape.Tri
     case "Squ" => Shape.Squ

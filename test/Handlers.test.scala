@@ -2,7 +2,8 @@ package tarski
 package testing
 
 class HandlersTest extends munit.FunSuite:
-  import Shape.*, Status.*, Result.*
+  given c: Constants = Constants(Size)
+  import Shape.*, Status.*, Result.*, c.{Small, Mid, Large}
 
   val b0 = Block(Small, Cir, Gray)
   val b1 = Block(Mid, Tri, Green) // at (5,6)

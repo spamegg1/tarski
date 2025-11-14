@@ -20,51 +20,51 @@ val Epsilon     = 0.0001
 val UIOrigin    = Point(0, 0)
 
 // derived constants
-val StrokeW            = Size / 12.5
-val Pts                = Size / 4
-val Height             = Size * 8
-val Width              = Height * 2
-val Small              = Size * 0.4
-val Mid                = Size * 0.7
-val Large              = Size * 0.95
-val SmallStroke        = StrokeW / 4
-val UIRows             = BoardRows
-val UICols             = BoardCols * 2
-val ControlsBottom     = Height * 3 / 8
-val BoardOrigin        = Point(-Width / 4, 0)
-val ControlsOrigin     = Point(Width / 4, Height * 7 / 16)
-val FormulasOrigin     = Point(Width / 4, -Height / 16)
-val FontSz             = FontSize.points(Pts.toInt)
-val TheFont            = Font.defaultSansSerif.size(FontSz)
-val UIDimensions       = (h = Height, w = Width)
-val BoardDimensions    = (h = Height, w = Width / 2)
-val ControlsDimensions = (h = Height / 8, w = Width / 2)
-val UIGridSize         = (rows = BoardRows, cols = BoardCols * 2)
-val BoardGridSize      = (rows = BoardRows, cols = BoardCols)
-val ControlsGridSize   = (rows = ControlRows, cols = ControlCols)
+// val StrokeW            = Size / 12.5
+// val Pts                = Size / 4
+// val Height             = Size * 8
+// val Width              = Height * 2
+// val Small              = Size * 0.4
+// val Mid                = Size * 0.7
+// val Large              = Size * 0.95
+// val SmallStroke        = StrokeW / 4
+val UIRows = BoardRows
+val UICols = BoardCols * 2
+// val ControlsBottom     = Height * 3 / 8
+// val BoardOrigin        = Point(-Width / 4, 0)
+// val ControlsOrigin     = Point(Width / 4, Height * 7 / 16)
+// val FormulasOrigin     = Point(Width / 4, -Height / 16)
+// val FontSz             = FontSize.points(Pts.toInt)
+// val TheFont            = Font.defaultSansSerif.size(FontSz)
+// val UIDimensions       = (h = Height, w = Width)
+// val BoardDimensions    = (h = Height, w = Width / 2)
+// val ControlsDimensions = (h = Height / 8, w = Width / 2)
+val UIGridSize       = (rows = BoardRows, cols = BoardCols * 2)
+val BoardGridSize    = (rows = BoardRows, cols = BoardCols)
+val ControlsGridSize = (rows = ControlRows, cols = ControlCols)
 
 // basic shapes
-val SmallSq = Image.square(Pts)
-val Sqr     = Image.square(Size)
-val WhiteSq = Sqr.fillColor(white)
-val BlackSq = Sqr.fillColor(black)
+// val SmallSq = Image.square(Pts)
+// val Sqr     = Image.square(Size)
+// val WhiteSq = Sqr.fillColor(white)
+// val BlackSq = Sqr.fillColor(black)
 
 // derived shapes
-val Wb      = WhiteSq beside BlackSq
-val Bw      = BlackSq beside WhiteSq
-val Wb8     = Wb beside Wb beside Wb beside Wb
-val Bw8     = Bw beside Bw beside Bw beside Bw
-val Quarter = Wb8 above Bw8
-val Half    = Quarter above Quarter
-val Board   = Half above Half
+// val Wb      = WhiteSq beside BlackSq
+// val Bw      = BlackSq beside WhiteSq
+// val Wb8     = Wb beside Wb beside Wb beside Wb
+// val Bw8     = Bw beside Bw beside Bw beside Bw
+// val Quarter = Wb8 above Bw8
+// val Half    = Quarter above Quarter
+// val Board   = Half above Half
 
-val MainFrame = Frame.default
-  .withSize(Width, Height)
-  .withBackground(BgColor)
-  .withTitle(Title)
-  .withCenterAtOrigin
+// val MainFrame = Frame.default
+//   .withSize(Width, Height)
+//   .withBackground(BgColor)
+//   .withTitle(Title)
+//   .withCenterAtOrigin
 
-case class Constant(size: Double):
+case class Constants(size: Double):
   val StrokeW            = size / 12.5
   val Pts                = size / 4
   val Height             = size * 8

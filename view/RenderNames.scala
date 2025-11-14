@@ -1,17 +1,17 @@
 package tarski
 package view
 
-def renderName = Seq("a", "b", "c", "d", "e", "f")
+def renderName(using Constants) = Seq("a", "b", "c", "d", "e", "f")
   .map: name =>
     val point = ControlsConverter.toPoint(controlGrid(name))
     renderButton(name, point, 1)
   .foldLeft[Image](Image.empty)(_.on(_))
 
-def nameIndicator(name: String) =
+def nameIndicator(name: String)(using Constants) =
   val point = ControlsConverter.toPoint(controlGrid(name))
   renderIndicator(point, 1)
 
-def renderNames(names: Names) =
+def renderNames(names: Names)(using Constants) =
   names.foldLeft(renderName):
     case (img, (name, status)) =>
       import Status.*
