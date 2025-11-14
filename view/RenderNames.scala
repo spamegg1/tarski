@@ -4,12 +4,12 @@ package view
 def renderName(using Constants) = Seq("a", "b", "c", "d", "e", "f")
   .map: name =>
     val point = ControlsConverter.toPoint(controlGrid(name))
-    renderButton(name, point, 1)
+    Render.renderButton(name, point, 1)
   .foldLeft[Image](Image.empty)(_.on(_))
 
 def nameIndicator(name: String)(using Constants) =
   val point = ControlsConverter.toPoint(controlGrid(name))
-  renderIndicator(point, 1)
+  Render.renderIndicator(point, 1)
 
 def renderNames(names: Names)(using Constants) =
   names.foldLeft(renderName):

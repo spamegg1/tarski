@@ -2,8 +2,7 @@ package tarski
 package view
 
 extension (r: Render.type)(using Constants)
-  def colorBox(color: Color, point: Point) =
-    Image.rectangle(wid, hgh).fillColor(color).at(point)
+  def colorBox(color: Color, point: Point) = Image.rectangle(wid, hgh).fillColor(color).at(point)
 
   def renderBlue  = colorBox(Blue, UI.bluePt)
   def renderGreen = colorBox(Green, UI.greenPt)

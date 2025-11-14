@@ -1,19 +1,20 @@
 package tarski
 package view
 
-def wid(using Constants) = ControlsConverter.blockWidth
-def hgh(using Constants) = ControlsConverter.blockHeight
+extension (r: Render.type)(using c: Constants)
+  def wid = ControlsConverter.blockWidth
+  def hgh = ControlsConverter.blockHeight
 
-def button(factor: Int = 1)(using Constants) = Image.rectangle(wid * factor, hgh).fillColor(Gray)
+  def button(factor: Int = 1) = Image.rectangle(wid * factor, hgh).fillColor(Gray)
 
-def renderIndicator(point: Point, factor: Int = 1)(using c: Constants) = Image
-  .rectangle(wid * factor, hgh)
-  .strokeColor(red)
-  .strokeWidth(c.SmallStroke)
-  .at(point)
-
-def renderButton(name: String, point: Point, factor: Int = 1)(using c: Constants) =
-  Text(name)
-    .font(c.TheFont)
-    .on(button(factor))
+  def renderIndicator(point: Point, factor: Int = 1) = Image
+    .rectangle(wid * factor, hgh)
+    .strokeColor(red)
+    .strokeWidth(c.SmallStroke)
     .at(point)
+
+  def renderButton(name: String, point: Point, factor: Int = 1) =
+    Text(name)
+      .font(c.TheFont)
+      .on(button(factor))
+      .at(point)

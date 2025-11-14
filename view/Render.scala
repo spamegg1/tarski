@@ -11,15 +11,15 @@ object Render:
       .on(Render.formulas(world.formulas).at(c.FormulasOrigin))
 
 extension (r: Render.type)(using c: Constants)
-  def renderEval = renderButton("Eval", UI.evalPt, 2)
-  def renderAdd  = renderButton("Add", UI.addPt, 2)
-  def renderDel  = renderButton("Del", UI.delPt, 2)
+  def renderEval = r.renderButton("Eval", UI.evalPt, 2)
+  def renderAdd  = r.renderButton("Add", UI.addPt, 2)
+  def renderDel  = r.renderButton("Del", UI.delPt, 2)
 
   def renderBlock(ct: Controls) = Imager(Block.fromControls(ct)).at(UI.blockPt)
 
   def renderMove(move: Boolean) =
-    val button = renderButton("Move", UI.movePt, 2)
-    if move then renderIndicator(UI.movePt, 2).on(button) else button
+    val button = r.renderButton("Move", UI.movePt, 2)
+    if move then r.renderIndicator(UI.movePt, 2).on(button) else button
 
   def controls(world: World) =
     renderEval
@@ -27,9 +27,9 @@ extension (r: Render.type)(using c: Constants)
       .on(renderAdd)
       .on(renderDel)
       .on(renderNames(world.names))
-      .on(renderSizes(world.controls.size))
+      .on(Render.sizes(world.controls.size))
       .on(Render.colors(world.controls.color))
-      .on(renderShapes(world.controls.shape))
+      .on(Render.shapes(world.controls.shape))
       .on(renderBlock(world.controls))
 
   def formulas(formulas: Formulas) = formulas
