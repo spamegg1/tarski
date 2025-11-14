@@ -27,9 +27,12 @@ case class Converter(dims: Dimensions, gs: GridSize):
     val col = (-left + point.x) / blockWidth // - 0.5
     (row.toInt, col.toInt)
 
-def UIConverter(using c: Constants)       = Converter(c.UIDimensions, UIGridSize)
-def BoardConverter(using c: Constants)    = Converter(c.BoardDimensions, BoardGridSize)
-def ControlsConverter(using c: Constants) = Converter(c.ControlsDimensions, ControlsGridSize)
+object Converter
+
+extension (cv: Converter.type)(using c: Constants)
+  def UI      = Converter(c.UIDimensions, UIGridSize)
+  def board   = Converter(c.BoardDimensions, BoardGridSize)
+  def control = Converter(c.ControlsDimensions, ControlsGridSize)
 
 val gridControl = Map[Pos, String](
   (0, 0)  -> "Eval",

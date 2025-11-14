@@ -2,8 +2,8 @@ package tarski
 package view
 
 extension (r: Render.type)(using c: Constants)
-  def wid = ControlsConverter.blockWidth
-  def hgh = ControlsConverter.blockHeight
+  def wid = Converter.control.blockWidth
+  def hgh = Converter.control.blockHeight
 
   def button(factor: Int = 1) = Image.rectangle(wid * factor, hgh).fillColor(Gray)
 

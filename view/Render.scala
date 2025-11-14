@@ -42,16 +42,14 @@ extension (r: Render.type)(using c: Constants)
       case None => Image.empty
       case Some(pos) =>
         Image
-          .rectangle(BoardConverter.blockWidth, BoardConverter.blockHeight)
+          .rectangle(Converter.board.blockWidth, Converter.board.blockHeight)
           .strokeColor(red)
           .strokeWidth(c.SmallStroke)
-          .at(BoardConverter.toPoint(pos))
+          .at(Converter.board.toPoint(pos))
 
   def blocks(grid: Grid): Image = grid
     .foldLeft[Image](c.Board):
       case (image, (pos, (block, name))) =>
         Imager(block)
-          .at(BoardConverter.toPoint(pos))
+          .at(Converter.board.toPoint(pos))
           .on(image)
-
-extension (d: Double) def isCloseTo(e: Double) = Math.abs(d - e) < 0.0001

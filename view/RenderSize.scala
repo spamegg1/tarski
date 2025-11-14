@@ -17,3 +17,5 @@ extension (r: Render.type)(using c: Constants)
   def sizes(sizeOpt: Option[Double]) = sizeOpt match
     case None       => renderSize
     case Some(size) => sizeIndicator(size).on(renderSize)
+
+extension (d: Double) def isCloseTo(e: Double) = Math.abs(d - e) < 0.0001

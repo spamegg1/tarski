@@ -22,7 +22,7 @@ package tarski:
   package view:
     export model.{Pos, Grid, World, Shape, Block}
     export model.{Result, Formulas, Controls, Names, Status}
-    export controller.{BoardConverter, ControlsConverter}
+    export controller.{Converter, board, control}
 
   package controller:
     export model.{Pos, Block, Blocks, Grid, GridSize, Status}
@@ -30,7 +30,7 @@ package tarski:
 
   package testing:
     export model.{World, Grid, Shape, Block, Blocks, Status, Result}
-    export controller.{eval, BoardConverter, handlePos, handleControls}
+    export controller.{eval, Converter, handlePos, handleControls}
 
   package main:
     export model.{World, GridSize, Block, Shape, Controls, Grid, Formulas}
