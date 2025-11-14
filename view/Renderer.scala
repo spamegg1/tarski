@@ -1,15 +1,15 @@
 package tarski
 package view
 
-def renderEval(using Constants) = renderButton("Eval", evalPt, 2)
-def renderAdd(using Constants)  = renderButton("Add", addPt, 2)
-def renderDel(using Constants)  = renderButton("Del", delPt, 2)
+def renderEval(using Constants) = renderButton("Eval", UI.evalPt, 2)
+def renderAdd(using Constants)  = renderButton("Add", UI.addPt, 2)
+def renderDel(using Constants)  = renderButton("Del", UI.delPt, 2)
 
-def renderBlock(c: Controls)(using Constants) = Imager(Block.fromControls(c)).at(blockPt)
+def renderBlock(c: Controls)(using Constants) = Imager(Block.fromControls(c)).at(UI.blockPt)
 
 def renderMove(move: Boolean)(using Constants) =
-  val button = renderButton("Move", movePt, 2)
-  if move then renderIndicator(movePt, 2).on(button) else button
+  val button = renderButton("Move", UI.movePt, 2)
+  if move then renderIndicator(UI.movePt, 2).on(button) else button
 
 def renderControls(world: World)(using Constants) =
   renderEval

@@ -5,24 +5,24 @@ def renderShape(using Constants) =
   Image
     .triangle(wid, hgh)
     .fillColor(black)
-    .at(triPt)
+    .at(UI.triPt)
     .on:
       Image
         .square(wid)
         .fillColor(black)
-        .at(squPt)
+        .at(UI.squPt)
     .on:
       Image
         .circle(wid)
         .fillColor(black)
-        .at(cirPt)
+        .at(UI.cirPt)
 
 def shapeIndicator(shape: Shape)(using Constants) =
   import Shape.*
   shape match
-    case Tri => renderIndicator(triPt)
-    case Squ => renderIndicator(squPt)
-    case Cir => renderIndicator(cirPt)
+    case Tri => renderIndicator(UI.triPt)
+    case Squ => renderIndicator(UI.squPt)
+    case Cir => renderIndicator(UI.cirPt)
 
 def renderShapes(shapeOpt: Option[Shape])(using Constants) =
   shapeOpt match
