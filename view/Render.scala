@@ -2,29 +2,21 @@ package tarski
 package view
 
 case class Render(
-    u: Utility,
+    ob: OpButtons,
     nb: NameButtons,
-    sb: SizeButtons,
+    szb: SizeButtons,
     cb: ColorButtons,
     shb: ShapeButtons
 )(using c: Constants):
-  def evalButton = u.button("Eval", UI.evalPt, 2)
-  def addButton  = u.button("Add", UI.addPt, 2)
-  def delButton  = u.button("Del", UI.delPt, 2)
-
   def selectedBlock(ct: Controls) = Imager(Block.fromControls(ct)).at(UI.blockPt)
 
-  def moveButton(move: Boolean) =
-    val button = u.button("Move", UI.movePt, 2)
-    if move then u.indicator(UI.movePt, 2).on(button) else button
-
   def ui(world: World) =
-    evalButton
-      .on(moveButton(world.controls.move))
-      .on(addButton)
-      .on(delButton)
+    ob.evalButton
+      .on(ob.moveButton(world.controls.move))
+      .on(ob.addButton)
+      .on(ob.delButton)
       .on(nb.allNames(world.names))
-      .on(sb.sizes(world.controls.size))
+      .on(szb.sizes(world.controls.size))
       .on(cb.colorBoxes(world.controls.color))
       .on(shb.shapes(world.controls.shape))
       .on(selectedBlock(world.controls))
@@ -65,8 +57,9 @@ case class Render(
 object Render:
   def apply(using c: Constants): Render =
     val u   = Utility(using c)
+    val ob  = OpButtons(u)
     val nb  = NameButtons(u)
-    val sb  = SizeButtons(u)
+    val szb = SizeButtons(u)
     val cb  = ColorButtons(u)
     val shb = ShapeButtons(u)
-    Render(u, nb, sb, cb, shb)
+    Render(ob, nb, szb, cb, shb)

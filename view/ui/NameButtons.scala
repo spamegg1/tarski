@@ -4,12 +4,12 @@ package view
 case class NameButtons(u: Utility)(using c: Constants):
   def nameButtons = Seq("a", "b", "c", "d", "e", "f")
     .map: name =>
-      val point = Converter.control.toPoint(controlGrid(name))
+      val point = Converter.control.toPoint(UIGrid(name))
       u.button(name, point, 1)
     .foldLeft[Image](Image.empty)(_.on(_))
 
   def nameIndicator(name: String) =
-    val point = Converter.control.toPoint(controlGrid(name))
+    val point = Converter.control.toPoint(UIGrid(name))
     u.indicator(point, 1)
 
   def allNames(names: Names) =

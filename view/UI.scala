@@ -1,7 +1,7 @@
 package tarski
 package view
 
-val controlGrid = Map[String, Pos](
+val UIGrid = Map[String, Pos](
   "Eval"  -> (0, 0),
   "Add"   -> (0, 2),
   "a"     -> (0, 4),
@@ -27,17 +27,17 @@ val controlGrid = Map[String, Pos](
 object UI
 
 extension (ui: UI.type)(using Constants)
-  def evalPt  = Converter.control.toPointShiftX(controlGrid("Eval"))
-  def movePt  = Converter.control.toPointShiftX(controlGrid("Move"))
-  def addPt   = Converter.control.toPointShiftX(controlGrid("Add"))
-  def delPt   = Converter.control.toPointShiftX(controlGrid("Del"))
-  def smallPt = Converter.control.toPointShiftX(controlGrid("Small"))
-  def midPt   = Converter.control.toPointShiftX(controlGrid("Mid"))
-  def largePt = Converter.control.toPointShiftX(controlGrid("Large"))
-  def bluePt  = Converter.control.toPoint(controlGrid("Blue"))
-  def greenPt = Converter.control.toPoint(controlGrid("Green"))
-  def grayPt  = Converter.control.toPoint(controlGrid("Gray"))
-  def triPt   = Converter.control.toPoint(controlGrid("Tri"))
-  def squPt   = Converter.control.toPoint(controlGrid("Squ"))
-  def cirPt   = Converter.control.toPoint(controlGrid("Cir"))
-  def blockPt = Converter.control.toPointShiftY(controlGrid("Block"))
+  def evalPt  = Converter.control.toPointShiftX(UIGrid("Eval"))
+  def movePt  = Converter.control.toPointShiftX(UIGrid("Move"))
+  def addPt   = Converter.control.toPointShiftX(UIGrid("Add"))
+  def delPt   = Converter.control.toPointShiftX(UIGrid("Del"))
+  def smallPt = Converter.control.toPointShiftX(UIGrid("Small"))
+  def midPt   = Converter.control.toPointShiftX(UIGrid("Mid"))
+  def largePt = Converter.control.toPointShiftX(UIGrid("Large"))
+  def bluePt  = Converter.control.toPoint(UIGrid("Blue"))
+  def greenPt = Converter.control.toPoint(UIGrid("Green"))
+  def grayPt  = Converter.control.toPoint(UIGrid("Gray"))
+  def triPt   = Converter.control.toPoint(UIGrid("Tri"))
+  def squPt   = Converter.control.toPoint(UIGrid("Squ"))
+  def cirPt   = Converter.control.toPoint(UIGrid("Cir"))
+  def blockPt = Converter.control.toPointShiftY(UIGrid("Block"))
