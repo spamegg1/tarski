@@ -1,29 +1,29 @@
 package tarski
 package view
 
-extension (r: Render.type)(using Constants)
+case class ShapeButtons(util: Utility)(using Constants):
   def shapeButtons =
     Image
-      .triangle(r.wid, r.hgh)
+      .triangle(util.wid, util.hgh)
       .fillColor(black)
       .at(UI.triPt)
       .on:
         Image
-          .square(r.wid)
+          .square(util.wid)
           .fillColor(black)
           .at(UI.squPt)
       .on:
         Image
-          .circle(r.wid)
+          .circle(util.wid)
           .fillColor(black)
           .at(UI.cirPt)
 
   def shapeIndicator(shape: Shape) =
     import Shape.*
     shape match
-      case Tri => indicator(UI.triPt)
-      case Squ => indicator(UI.squPt)
-      case Cir => indicator(UI.cirPt)
+      case Tri => util.indicator(UI.triPt)
+      case Squ => util.indicator(UI.squPt)
+      case Cir => util.indicator(UI.cirPt)
 
   def shapes(shapeOpt: Option[Shape]) =
     shapeOpt match

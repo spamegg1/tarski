@@ -4,10 +4,11 @@ package main
 def run(pb: PosBlock, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
   given c: Constants = Constants(Size * scaleFactor)
   val world          = World.from(pb, formulas)
+  val render         = Render(using c)
   Reactor
     .init[World](world)
     .withOnTick(tick)
-    .withRender(Render.all)
+    .withRender(render.all)
     .withOnMouseClick(click)
     .withOnMouseMove(move)
     .withStop(stop)

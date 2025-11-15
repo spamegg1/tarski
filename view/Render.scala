@@ -1,28 +1,32 @@
 package tarski
 package view
 
-object Render
-
-extension (r: Render.type)(using c: Constants)
-  def evalButton = r.button("Eval", UI.evalPt, 2)
-  def addButton  = r.button("Add", UI.addPt, 2)
-  def delButton  = r.button("Del", UI.delPt, 2)
+case class Render(
+    u: Utility,
+    nb: NameButtons,
+    sb: SizeButtons,
+    cb: ColorButtons,
+    shb: ShapeButtons
+)(using c: Constants):
+  def evalButton = u.button("Eval", UI.evalPt, 2)
+  def addButton  = u.button("Add", UI.addPt, 2)
+  def delButton  = u.button("Del", UI.delPt, 2)
 
   def selectedBlock(ct: Controls) = Imager(Block.fromControls(ct)).at(UI.blockPt)
 
   def moveButton(move: Boolean) =
-    val button = r.button("Move", UI.movePt, 2)
-    if move then r.indicator(UI.movePt, 2).on(button) else button
+    val button = u.button("Move", UI.movePt, 2)
+    if move then u.indicator(UI.movePt, 2).on(button) else button
 
   def ui(world: World) =
     evalButton
       .on(moveButton(world.controls.move))
       .on(addButton)
       .on(delButton)
-      .on(Render.allNames(world.names))
-      .on(Render.sizes(world.controls.size))
-      .on(Render.colorBoxes(world.controls.color))
-      .on(Render.shapes(world.controls.shape))
+      .on(nb.allNames(world.names))
+      .on(sb.sizes(world.controls.size))
+      .on(cb.colorBoxes(world.controls.color))
+      .on(shb.shapes(world.controls.shape))
       .on(selectedBlock(world.controls))
 
   def formulaDisplay(formulas: Formulas) = formulas
@@ -57,3 +61,12 @@ extension (r: Render.type)(using c: Constants)
       .on:
         formulaDisplay(world.formulas)
           .at(c.FormulasOrigin)
+
+object Render:
+  def apply(using c: Constants): Render =
+    val u   = Utility(using c)
+    val nb  = NameButtons(u)
+    val sb  = SizeButtons(u)
+    val cb  = ColorButtons(u)
+    val shb = ShapeButtons(u)
+    Render(u, nb, sb, cb, shb)

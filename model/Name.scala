@@ -15,9 +15,9 @@ object Name:
     s"block$counter"
 
 object Names:
-  val theNames = Set("a", "b", "c", "d", "e", "f")
+  val TheNames = Set("a", "b", "c", "d", "e", "f")
 
-  def fromBlocks(blocks: Blocks): Names = theNames
+  def fromBlocks(blocks: Blocks): Names = TheNames
     .map: name =>
       name -> (if blocks.contains(name) then Occupied else Available)
     .toMap

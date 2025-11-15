@@ -1,10 +1,10 @@
 package tarski
 package view
 
-extension (r: Render.type)(using Constants)
+case class ColorButtons(u: Utility)(using Constants):
   def colorBox(color: Color, point: Point) =
     Image
-      .rectangle(wid, hgh)
+      .rectangle(u.wid, u.hgh)
       .fillColor(color)
       .at(point)
 
@@ -14,9 +14,9 @@ extension (r: Render.type)(using Constants)
   def colors   = blueBox on greenBox on grayBox
 
   def colorIndicator(color: Color) = color match
-    case Blue  => indicator(UI.bluePt, 1)
-    case Green => indicator(UI.greenPt, 1)
-    case Gray  => indicator(UI.grayPt, 1)
+    case Blue  => u.indicator(UI.bluePt, 1)
+    case Green => u.indicator(UI.greenPt, 1)
+    case Gray  => u.indicator(UI.grayPt, 1)
     case _     => Image.empty
 
   def colorBoxes(colorOpt: Option[Color]) = colorOpt match

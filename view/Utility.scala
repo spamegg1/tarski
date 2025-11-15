@@ -1,7 +1,7 @@
 package tarski
 package view
 
-extension (r: Render.type)(using c: Constants)
+class Utility(using c: Constants):
   def wid = Converter.control.blockWidth
   def hgh = Converter.control.blockHeight
 
