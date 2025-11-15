@@ -2,7 +2,7 @@ package tarski
 package view
 
 extension (r: Render.type)(using Constants)
-  def renderShape =
+  def shapeButtons =
     Image
       .triangle(r.wid, r.hgh)
       .fillColor(black)
@@ -21,11 +21,11 @@ extension (r: Render.type)(using Constants)
   def shapeIndicator(shape: Shape) =
     import Shape.*
     shape match
-      case Tri => renderIndicator(UI.triPt)
-      case Squ => renderIndicator(UI.squPt)
-      case Cir => renderIndicator(UI.cirPt)
+      case Tri => indicator(UI.triPt)
+      case Squ => indicator(UI.squPt)
+      case Cir => indicator(UI.cirPt)
 
   def shapes(shapeOpt: Option[Shape]) =
     shapeOpt match
-      case None        => renderShape
-      case Some(shape) => shapeIndicator(shape).on(renderShape)
+      case None        => shapeButtons
+      case Some(shape) => shapeIndicator(shape).on(shapeButtons)

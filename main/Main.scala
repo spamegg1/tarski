@@ -7,7 +7,7 @@ def run(grid: Grid, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
   Reactor
     .init[World](world)
     .withOnTick(tick)
-    .withRender(Render.apply)
+    .withRender(Render.all)
     .withOnMouseClick(click)
     .withOnMouseMove(move)
     .withStop(stop)

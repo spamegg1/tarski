@@ -34,5 +34,5 @@ package tarski:
 
   package main:
     export model.{World, GridSize, Block, Shape, Controls, Grid, Formulas}
-    export view.Render
+    export view.{Render, all}
     export controller.{tick, click, move, stop}
