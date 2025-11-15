@@ -14,7 +14,7 @@ case class SizeButtons(u: Utility)(using c: Constants):
     else if size.isCloseTo(Large) then u.indicator(UI.largePt, 2)
     else Image.empty
 
-  def sizes(sizeOpt: Option[Double]) = sizeOpt match
+  def sizes(sizeOpt: Option[Sizes]) = sizeOpt match
     case None       => sizeButtons
     case Some(size) => sizeIndicator(size).on(sizeButtons)
 

@@ -2,7 +2,7 @@ package tarski
 package model
 
 case class Controls(
-    size: Option[Double] = None,
+    size: Option[Sizes] = None,
     shape: Option[Shape] = None,
     color: Option[Color] = None,
     pos: Option[Pos] = None,
@@ -26,7 +26,7 @@ case class Controls(
     color = None
   )
 
-  def setSize(s: Double) = copy(size = Some(s))
+  def setSize(s: Sizes)  = copy(size = Some(s))
   def setShape(s: Shape) = copy(shape = Some(s))
   def setColor(c: Color) = copy(color = Some(c))
 

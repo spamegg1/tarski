@@ -2,7 +2,7 @@ package tarski
 package main
 
 def run(pb: PosBlock, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
-  given c: Constants = Constants(Size * scaleFactor)
+  given c: Constants = Constants(DefaultSize * scaleFactor)
   val world          = World.from(pb, formulas)
   val render         = Render(using c)
   Reactor
@@ -16,8 +16,7 @@ def run(pb: PosBlock, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
     .animateWithFrame(c.MainFrame)
 
 // Example world and formulas to run
-given c: Constants = Constants(Size)
-import Shape.*, c.{Small, Mid, Large}
+import Shape.*, Sizes.*
 
 val pb: PosBlock = Map(
   (1, 2) -> Block(Small, Tri, Green, "a"),
@@ -46,4 +45,4 @@ val formulas = Seq(
 )
 
 @main
-def example = run(pb, formulas)
+def example = run(pb, formulas, 0.75)

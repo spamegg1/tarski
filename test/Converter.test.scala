@@ -2,7 +2,7 @@ package tarski
 package testing
 
 class ConverterTest extends munit.FunSuite:
-  given Constants = Constants(Size)
+  given Constants = Constants(DefaultSize)
   val positions   = Seq((0, 0), (0, 7), (7, 0), (7, 7), (2, 3), (5, 4))
   val points = Seq(
     Point(-350, 350),

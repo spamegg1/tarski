@@ -5,25 +5,20 @@ type Width      = Double
 type Dimensions = (h: Height, w: Width)
 
 // pure constants
-val Size        = 100.0
-val BgColor     = white
-val Blue        = deepSkyBlue
-val Gray        = lightGray
-val Green       = yellowGreen
-val Title       = "Tarski's World"
-val TickRate    = FiniteDuration(1000, "ms")
-val BoardRows   = 8
-val BoardCols   = 8
-val ControlRows = 2
-val ControlCols = 16
-val Epsilon     = 0.0001
-val UIOrigin    = Point(0, 0)
-
-// derived constants
-val UIRows        = BoardRows
-val UICols        = BoardCols * 2
+val DefaultSize   = 100.0
+val BgColor       = white
+val Blue          = deepSkyBlue
+val Gray          = lightGray
+val Green         = yellowGreen
+val Title         = "Tarski's World"
+val TickRate      = FiniteDuration(1000, "ms")
+val BoardRows     = 8
+val BoardCols     = 8
+val UIRows        = 2
+val UICols        = 16
+val Epsilon       = 0.0001
 val BoardGridSize = (rows = BoardRows, cols = BoardCols)
-val UIGridSize    = (rows = ControlRows, cols = ControlCols)
+val UIGridSize    = (rows = UIRows, cols = UICols)
 
 case class Constants(size: Double):
   val StrokeW       = size / 12.5
@@ -45,7 +40,7 @@ case class Constants(size: Double):
 
   // basic shapes
   val SmallSq = Image.square(Pts)
-  val Sqr     = Image.square(Size)
+  val Sqr     = Image.square(size)
   val WhiteSq = Sqr.fillColor(white)
   val BlackSq = Sqr.fillColor(black)
 

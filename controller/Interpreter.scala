@@ -14,7 +14,7 @@ def eval(formula: FOLFormula)(using blocks: Blocks, c: Constants): Boolean = for
   case Ex(x, f)  => blocks.keys.exists(name => eval(f.sub(x, FOLConst(name))))
 
 private def evalAtom(a: FOLAtom)(using b: Blocks, cons: Constants): Boolean =
-  import Pos.*, cons.{Small, Mid, Large}
+  import Pos.*, Sizes.*
   a match
     case FOLAtom("Small", Seq(FOLConst(c)))                          => b(c).block.size == Small
     case FOLAtom("Mid", Seq(FOLConst(c)))                            => b(c).block.size == Mid

@@ -81,7 +81,7 @@ private def handleShape(shape: String, world: World): World =
   world.copy(controls = newControls, grid = newGrid)
 
 private def handleSize(size: String, world: World)(using Constants): World =
-  val newSize     = size.toDouble
+  val newSize     = size.toSize
   val newControls = world.controls.setSize(newSize)
   val newGrid = world.controls.pos match
     case None => world.grid
@@ -98,10 +98,10 @@ extension (s: String)
     case "Blue"  => Blue
     case "Gray"  => Gray
     case "Green" => Green
-  def toDouble(using c: Constants) = s match
-    case "Small" => c.Small
-    case "Mid"   => c.Mid
-    case "Large" => c.Large
+  def toSize = s match
+    case "Small" => Sizes.Small
+    case "Mid"   => Sizes.Mid
+    case "Large" => Sizes.Large
   def toShape = s match
     case "Tri" => Shape.Tri
     case "Squ" => Shape.Squ
