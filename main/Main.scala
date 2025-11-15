@@ -1,9 +1,9 @@
 package tarski
 package main
 
-def run(grid: Grid, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
+def run(pb: PosBlock, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
   given c: Constants = Constants(Size * scaleFactor)
-  val world          = World(grid = grid, formulas = Formulas.fromSeq(formulas))
+  val world          = World.from(pb, formulas)
   Reactor
     .init[World](world)
     .withOnTick(tick)
@@ -18,11 +18,11 @@ def run(grid: Grid, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
 given c: Constants = Constants(Size)
 import Shape.*, c.{Small, Mid, Large}
 
-val grid: Grid = Map(
-  (1, 2) -> (Block(Small, Tri, Green), "a"),
-  (3, 4) -> (Block(Mid, Tri, Blue), "b"),
-  (5, 6) -> (Block(Large, Cir, Gray), "d"),
-  (6, 2) -> (Block(Small, Squ, Blue), "f")
+val pb: PosBlock = Map(
+  (1, 2) -> Block(Small, Tri, Green, "a"),
+  (3, 4) -> Block(Mid, Tri, Blue),
+  (5, 6) -> Block(Large, Cir, Gray, "d"),
+  (6, 3) -> Block(Small, Squ, Blue)
 )
 
 val formulas = Seq(
@@ -45,4 +45,4 @@ val formulas = Seq(
 )
 
 @main
-def example = run(grid, formulas)
+def example = run(pb, formulas)

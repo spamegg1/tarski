@@ -2,10 +2,11 @@ package tarski
 package view
 
 extension (r: Render.type)(using Constants)
-  def colorBox(color: Color, point: Point) = Image
-    .rectangle(wid, hgh)
-    .fillColor(color)
-    .at(point)
+  def colorBox(color: Color, point: Point) =
+    Image
+      .rectangle(wid, hgh)
+      .fillColor(color)
+      .at(point)
 
   def blueBox  = colorBox(Blue, UI.bluePt)
   def greenBox = colorBox(Green, UI.greenPt)

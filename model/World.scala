@@ -12,9 +12,7 @@ case class World(
   def selectPos(pos: Pos)       = copy(controls = controls.selectPos(pos))
   def deselectPos               = copy(controls = controls.deselectPos)
   def toggleMove                = copy(controls = controls.toggleMove)
-
-  def blocks: Blocks = grid.map:
-    case (pos, (block, name)) => name -> (block, pos)
+  def blocks: Blocks            = grid.toBlocks
 
   // newly added blocks are always nameless, the name can only be added later.
   def addBlockAt(pos: Pos, block: Block) = grid.get(pos) match
@@ -94,3 +92,11 @@ object World:
   )
 
   def empty: World = World()
+
+  def from(pb: PosBlock, formulas: Seq[FOLFormula]) =
+    val grid = Grid.fromPosBlock(pb)
+    World(
+      grid = grid,
+      names = Names.fromBlocks(grid.toBlocks),
+      formulas = Formulas.fromSeq(formulas)
+    )

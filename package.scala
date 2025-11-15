@@ -33,6 +33,6 @@ package tarski:
     export controller.{board, eval, Converter, handlePos, handleControls}
 
   package main:
-    export model.{World, GridSize, Block, Shape, Controls, Grid, Formulas}
+    export model.{World, GridSize, Block, Shape, Controls, PosBlock, Formulas}
     export view.{Render, all}
     export controller.{tick, click, move, stop}

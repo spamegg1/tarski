@@ -14,6 +14,14 @@ object Name:
     counter += 1
     s"block$counter"
 
+object Names:
+  val theNames = Set("a", "b", "c", "d", "e", "f")
+
+  def fromBlocks(blocks: Blocks): Names = theNames
+    .map: name =>
+      name -> (if blocks.contains(name) then Occupied else Available)
+    .toMap
+
 extension (names: Names) // these work whether the name is fake or not.
   def avail(name: Name): Names = names.get(name) match
     case Some(Occupied)  => names.updated(name, Available)
