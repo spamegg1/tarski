@@ -2,10 +2,10 @@ package tarski
 package view
 
 class Utility(using c: Constants):
-  def wid = Converter.control.blockWidth
-  def hgh = Converter.control.blockHeight
+  def wid = Converter.ui.blockWidth
+  def hgh = Converter.ui.blockHeight
 
-  def drawButton(factor: Int = 1) = Image.rectangle(wid * factor, hgh).fillColor(Gray)
+  def btn(factor: Int = 1) = Image.rectangle(wid * factor, hgh).fillColor(Gray)
 
   def indicator(point: Point, factor: Int = 1) = Image
     .rectangle(wid * factor, hgh)
@@ -16,5 +16,5 @@ class Utility(using c: Constants):
   def button(name: String, point: Point, factor: Int = 1) =
     Text(name)
       .font(c.TheFont)
-      .on(drawButton(factor))
+      .on(btn(factor))
       .at(point)

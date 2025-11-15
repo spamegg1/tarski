@@ -49,10 +49,10 @@ case class Render(
       .at(c.BoardOrigin)
       .on:
         ui(world)
-          .at(c.ControlsOrigin)
+          .at(c.UIOrigin)
       .on:
         formulaDisplay(world.formulas)
-          .at(c.FormulasOrigin)
+          .at(c.FormulaOrigin)
 
 object Render:
   def apply(using c: Constants): Render =

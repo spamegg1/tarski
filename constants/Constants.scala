@@ -20,30 +20,28 @@ val Epsilon     = 0.0001
 val UIOrigin    = Point(0, 0)
 
 // derived constants
-val UIRows           = BoardRows
-val UICols           = BoardCols * 2
-val UIGridSize       = (rows = BoardRows, cols = BoardCols * 2)
-val BoardGridSize    = (rows = BoardRows, cols = BoardCols)
-val ControlsGridSize = (rows = ControlRows, cols = ControlCols)
+val UIRows        = BoardRows
+val UICols        = BoardCols * 2
+val BoardGridSize = (rows = BoardRows, cols = BoardCols)
+val UIGridSize    = (rows = ControlRows, cols = ControlCols)
 
 case class Constants(size: Double):
-  val StrokeW            = size / 12.5
-  val Pts                = size / 4
-  val Height             = size * 8
-  val Width              = Height * 2
-  val Small              = size * 0.4
-  val Mid                = size * 0.7
-  val Large              = size * 0.95
-  val SmallStroke        = StrokeW / 4
-  val ControlsBottom     = Height * 3 / 8
-  val BoardOrigin        = Point(-Width / 4, 0)
-  val ControlsOrigin     = Point(Width / 4, Height * 7 / 16)
-  val FormulasOrigin     = Point(Width / 4, -Height / 16)
-  val FontSz             = FontSize.points(Pts.toInt)
-  val TheFont            = Font.defaultSansSerif.size(FontSz)
-  val UIDimensions       = (h = Height, w = Width)
-  val BoardDimensions    = (h = Height, w = Width / 2)
-  val ControlsDimensions = (h = Height / 8, w = Width / 2)
+  val StrokeW       = size / 12.5
+  val Pts           = size / 4
+  val Height        = size * 8
+  val Width         = Height * 2
+  val Small         = size * 0.4
+  val Mid           = size * 0.7
+  val Large         = size * 0.95
+  val SmallStroke   = StrokeW / 4
+  val UIBottom      = Height * 3 / 8
+  val BoardOrigin   = Point(-Width / 4, 0)
+  val UIOrigin      = Point(Width / 4, Height * 7 / 16)
+  val FormulaOrigin = Point(Width / 4, -Height / 16)
+  val FontSz        = FontSize.points(Pts.toInt)
+  val TheFont       = Font.defaultSansSerif.size(FontSz)
+  val BoardDims     = (h = Height, w = Width / 2)
+  val UIDims        = (h = Height / 8, w = Width / 2)
 
   // basic shapes
   val SmallSq = Image.square(Pts)

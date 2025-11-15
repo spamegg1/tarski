@@ -5,8 +5,8 @@ def click(p: Point, world: World)(using c: Constants): World =
   if p.x < 0 then
     val pos = Converter.board.toPos((p - c.BoardOrigin).toPoint)
     handlePos(pos, world)
-  else if p.y > c.ControlsBottom then
-    val pos = Converter.control.toPos((p - c.ControlsOrigin).toPoint)
+  else if p.y > c.UIBottom then
+    val pos = Converter.ui.toPos((p - c.UIOrigin).toPoint)
     handleControls(pos, world)
   else world // do nothing for now
 
