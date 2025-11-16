@@ -2,6 +2,16 @@ package tarski
 package controller
 
 object Handler:
+  def boardPos(pos: Pos, world: World): World =
+    world.controls.pos match
+      case Some(p) if p == pos =>
+        val newControls = world.controls.deselectPos.unsetBlock
+        world.copy(controls = newControls)
+      case Some(p) if world.controls.move => world.moveBlock(from = p, to = pos)
+      case _ =>
+        val newControls = world.controls.selectPos(pos).setBlock(world.grid.get(pos))
+        world.copy(controls = newControls)
+
   def uiButtons(pos: Pos, world: World)(using Constants): World =
     uiMap.get(pos) match
       case None => world
@@ -27,20 +37,6 @@ object Handler:
       catch case _ => ()
       formula -> status
     world.copy(formulas = results)
-
-  def boardPos(pos: Pos, world: World): World =
-    world.controls.pos match
-      case None =>
-        val newControls = world.controls.selectPos(pos).setBlock(world.grid.get(pos))
-        world.copy(controls = newControls)
-      case Some(p) =>
-        if p == pos then
-          val newControls = world.controls.deselectPos.unsetBlock
-          world.copy(controls = newControls)
-        else if world.controls.move then world.moveBlock(from = p, to = pos)
-        else
-          val newControls = world.controls.selectPos(pos).setBlock(world.grid.get(pos))
-          world.copy(controls = newControls)
 
   private def handleName(name: String, world: World): World =
     import Status.*
