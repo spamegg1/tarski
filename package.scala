@@ -2,7 +2,7 @@ package tarski:
   export cats.effect.unsafe.implicits.global
   export concurrent.duration.FiniteDuration
   export doodle.core.{Color, Point, OpenPath, Vec}
-  export Color.{deepSkyBlue, lightGray, white, black, yellowGreen, red, green}
+  export Color.{deepSkyBlue, lightGray, white, black, yellowGreen, red, green, blue}
   export doodle.core.font.{Font, FontSize}
   export doodle.image.Image, Image.Elements.Text
   export doodle.java2d.effect.Frame
@@ -20,12 +20,12 @@ package tarski:
   export gapt.expr.subst.FOLSubstitution
 
   package view:
-    export model.{Pos, Grid, World, Shape, Block, Sizes}, Sizes.given
-    export model.{Result, Formulas, Controls, Names, Status}
+    export model.{Pos, Grid, World, Sizes, Tone}, Sizes.given, Tone.given
+    export model.{Result, Formulas, Controls, Names, Status, Shape, Block}
     export controller.Converter
 
   package controller:
-    export model.{Pos, Block, Blocks, Grid, Status}
+    export model.{Pos, Block, Blocks, Grid, Status, Tone}
     export model.{World, Shape, Controls, Names, Result, Sizes}
 
   package testing:
@@ -33,6 +33,6 @@ package tarski:
     export controller.{eval, Converter, Handler}
 
   package main:
-    export model.{World, Block, Shape, Controls, PosBlock, Formulas, Sizes}
+    export model.{World, Block, Shape, Controls, PosBlock, Formulas, Sizes, Tone}
     export view.Render
     export controller.React

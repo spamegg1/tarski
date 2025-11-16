@@ -6,9 +6,9 @@ type GridSize = (rows: Int, cols: Int)
 // pure constants
 val DefaultSize = 100.0
 val BgColor     = white
-val Blue        = deepSkyBlue
-val Gray        = lightGray
-val Green       = yellowGreen
+val BlueColor   = deepSkyBlue
+val GrayColor   = lightGray
+val GreenColor  = yellowGreen
 val Title       = "Tarski's World"
 val TickRate    = FiniteDuration(1000, "ms")
 val BoardRows   = 8

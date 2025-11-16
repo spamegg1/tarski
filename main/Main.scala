@@ -16,7 +16,7 @@ def run(pb: PosBlock, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
     .animateWithFrame(c.MainFrame)
 
 // Example world and formulas to run
-import Shape.*, Sizes.*
+import Shape.*, Sizes.*, Tone.*
 
 val pb: PosBlock = Map(
   (1, 2) -> Block(Small, Tri, Green, "a"),

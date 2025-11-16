@@ -26,6 +26,7 @@ object Handler:
           case "Blue" | "Green" | "Gray"         => handleColor(value, world)
           case "Small" | "Mid" | "Large"         => handleSize(value, world)
           case "Tri" | "Squ" | "Cir"             => handleShape(value, world)
+          case _                                 => world
 
   private def handleEval(world: World): World =
     import Result.*
@@ -51,16 +52,16 @@ object Handler:
           case None           => world
           case Some((_, pos)) => world.removeNameFromBlockAt(pos)
 
-  private def handleColor(color: String, world: World): World =
-    val newColor    = color.toColor
-    val newControls = world.controls.setColor(newColor)
+  private def handleColor(tone: String, world: World): World =
+    val newTone     = tone.toTone
+    val newControls = world.controls.setTone(newTone)
     val newGrid = world.controls.pos match
       case None => world.grid
       case Some(pos) =>
         world.grid.get(pos) match
           case None => world.grid
           case Some((block, name)) =>
-            val newBlock = block.copy(color = newColor)
+            val newBlock = block.copy(tone = newTone)
             world.grid.updated(pos, (newBlock, name))
     world.copy(controls = newControls, grid = newGrid)
 
@@ -91,10 +92,10 @@ object Handler:
     world.copy(controls = newControls, grid = newGrid)
 
   extension (s: String)
-    def toColor = s match
-      case "Blue"  => Blue
-      case "Gray"  => Gray
-      case "Green" => Green
+    def toTone = s match
+      case "Blue"  => Tone.Blue
+      case "Gray"  => Tone.Gray
+      case "Green" => Tone.Green
     def toSize = s match
       case "Small" => Sizes.Small
       case "Mid"   => Sizes.Mid

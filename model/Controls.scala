@@ -4,7 +4,7 @@ package model
 case class Controls(
     size: Option[Sizes] = None,
     shape: Option[Shape] = None,
-    color: Option[Color] = None,
+    tone: Option[Tone] = None,
     pos: Option[Pos] = None,
     move: Boolean = false
 ):
@@ -17,17 +17,17 @@ case class Controls(
       copy(
         size = Some(b.size),
         shape = Some(b.shape),
-        color = Some(b.color)
+        tone = Some(b.tone)
       )
 
   def unsetBlock = copy(
     size = None,
     shape = None,
-    color = None
+    tone = None
   )
 
   def setSize(s: Sizes)  = copy(size = Some(s))
   def setShape(s: Shape) = copy(shape = Some(s))
-  def setColor(c: Color) = copy(color = Some(c))
+  def setTone(t: Tone)   = copy(tone = Some(t))
 
   def toggleMove = copy(move = !move)

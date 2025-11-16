@@ -5,7 +5,7 @@ class Utility(using c: Constants):
   def wid = Converter.ui.blockWidth
   def hgh = Converter.ui.blockHeight
 
-  def btn(factor: Int = 1) = Image.rectangle(wid * factor, hgh).fillColor(Gray)
+  def btn(factor: Int = 1) = Image.rectangle(wid * factor, hgh).fillColor(Tone.Gray)
 
   def indicator(point: Point, factor: Int = 1) = Image
     .rectangle(wid * factor, hgh)

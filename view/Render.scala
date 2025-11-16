@@ -17,7 +17,7 @@ case class Render(
       .on(ob.delButton)
       .on(nb.allNames(world.names))
       .on(szb.sizes(world.controls.size))
-      .on(cb.colorBoxes(world.controls.color))
+      .on(cb.colorBoxes(world.controls.tone))
       .on(shb.shapes(world.controls.shape))
       .on(selectedBlock(world.controls))
 
