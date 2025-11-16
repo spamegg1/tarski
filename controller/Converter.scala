@@ -1,7 +1,7 @@
 package tarski
 package controller
 
-case class Converter(dims: Dimensions, gs: GridSize):
+case class Converter(dims: Dims, gs: GridSize):
   val blockHeight: Double = dims.h / gs.rows
   val blockWidth: Double  = dims.w / gs.cols
   val top: Double         = dims.h / 2
@@ -28,8 +28,8 @@ case class Converter(dims: Dimensions, gs: GridSize):
     (row.toInt, col.toInt)
 
 object Converter:
-  def board(using c: Constants) = Converter(c.BoardDims, BoardGridSize)
-  def ui(using c: Constants)    = Converter(c.UIDims, UIGridSize)
+  def board(using c: Constants) = Converter(c.BoardDims, BoardSize)
+  def ui(using c: Constants)    = Converter(c.UIDims, UISize)
 
 val gridControl = Map[Pos, String](
   (0, 0)  -> "Eval",

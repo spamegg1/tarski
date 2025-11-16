@@ -25,7 +25,7 @@ package tarski:
     export controller.Converter
 
   package controller:
-    export model.{Pos, Block, Blocks, Grid, GridSize, Status}
+    export model.{Pos, Block, Blocks, Grid, Status}
     export model.{World, Shape, Controls, Names, Result, Sizes}
 
   package testing:
@@ -33,6 +33,6 @@ package tarski:
     export controller.{eval, Converter, handlePos, handleControls}
 
   package main:
-    export model.{World, GridSize, Block, Shape, Controls, PosBlock, Formulas, Sizes}
+    export model.{World, Block, Shape, Controls, PosBlock, Formulas, Sizes}
     export view.Render
     export controller.{tick, click, move, stop}

@@ -1,7 +1,6 @@
 package tarski
 package model
 
-type GridSize = (rows: Int, cols: Int)
 type PosBlock = Map[Pos, Block]
 type Grid     = Map[Pos, (block: Block, name: Name)]
 type Blocks   = Map[Name, (block: Block, pos: Pos)]
