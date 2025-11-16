@@ -12,12 +12,12 @@ case class Converter(dims: Dims, gs: GridSize):
     val y = top - (0.5 + pos.row) * blockHeight
     Point(x, y)
 
-  def toPointShiftX(pos: Pos): Point =
+  def toPointX(pos: Pos): Point =
     val x = left + (1.0 + pos.col) * blockWidth
     val y = top - (0.5 + pos.row) * blockHeight
     Point(x, y)
 
-  def toPointShiftY(pos: Pos): Point =
+  def toPointY(pos: Pos): Point =
     val x = left + (0.5 + pos.col) * blockWidth
     val y = top - (1.0 + pos.row) * blockHeight
     Point(x, y)
