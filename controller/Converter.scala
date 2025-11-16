@@ -31,7 +31,7 @@ object Converter:
   def board(using c: Constants) = Converter(c.BoardDims, BoardSize)
   def ui(using c: Constants)    = Converter(c.UIDims, UISize)
 
-val gridControl = Map[Pos, String](
+val uiMap = Map[Pos, String](
   (0, 0)  -> "Eval",
   (0, 1)  -> "Eval",
   (0, 2)  -> "Add",

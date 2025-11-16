@@ -2,7 +2,7 @@ package tarski
 package controller
 
 def handleControls(pos: Pos, world: World)(using Constants): World =
-  gridControl.get(pos) match
+  uiMap.get(pos) match
     case None => world
     case Some(value) => // make sure a button is clicked
       value match
