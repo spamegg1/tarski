@@ -3,7 +3,7 @@ package testing
 
 class HandlersTest extends munit.FunSuite:
   given c: Constants = Constants(DefaultSize)
-  import Shape.*, Status.*, Result.*, Sizes.*
+  import Shape.*, Status.*, Result.*, Sizes.*, Tone.*
 
   val b0 = Block(Small, Cir, Gray)
   val b1 = Block(Mid, Tri, Green) // at (5,6)
@@ -51,11 +51,11 @@ class HandlersTest extends munit.FunSuite:
     val w010 = Handler.uiButtons((0, 10), w0) // Blue
     val w011 = Handler.uiButtons((0, 11), w0) // Green
     val w012 = Handler.uiButtons((0, 12), w0) // Gray
-    assertEquals(w010.controls.color, Some(Blue), "color should be Blue, but is not")
+    assertEquals(w010.controls.tone, Some(Blue), "color should be Blue, but is not")
     assertEquals(w010.controls.size, None, "size should be None, but is not")
-    assertEquals(w011.controls.color, Some(Green), "color should be Green, but is not")
+    assertEquals(w011.controls.tone, Some(Green), "color should be Green, but is not")
     assertEquals(w011.controls.shape, None, "shape should be None, but is not")
-    assertEquals(w012.controls.color, Some(Gray), "color should be Gray, but is not")
+    assertEquals(w012.controls.tone, Some(Gray), "color should be Gray, but is not")
 
   test("Clicking on the displayed block should do nothing"):
     val w013 = Handler.uiButtons((0, 13), w0) // Block

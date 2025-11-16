@@ -4,7 +4,7 @@ package testing
 class InterpreterTest extends munit.FunSuite:
   test("interpreter is correct on complex sentences in a world with 5 objects"):
     given c: Constants = Constants(DefaultSize)
-    import Shape.*, Sizes.*
+    import Shape.*, Sizes.*, Tone.*
 
     val b0 = Block(Small, Cir, Gray, "b")
     val b1 = Block(Small, Cir, Gray)

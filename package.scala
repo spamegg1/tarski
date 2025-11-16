@@ -29,7 +29,7 @@ package tarski:
     export model.{World, Shape, Controls, Names, Result, Sizes}
 
   package testing:
-    export model.{World, Grid, Shape, Block, Blocks, Status, Result, Sizes}
+    export model.{World, Grid, Shape, Block, Blocks, Status, Result, Sizes, Tone}
     export controller.{eval, Converter, Handler}
 
   package main:
