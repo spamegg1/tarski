@@ -30,7 +30,7 @@ package tarski:
 
   package testing:
     export model.{World, Grid, Shape, Block, Blocks, Status, Result, Sizes}
-    export controller.{eval, Converter, handlePos, handleControls}
+    export controller.{eval, Converter, Handler}
 
   package main:
     export model.{World, Block, Shape, Controls, PosBlock, Formulas, Sizes}
