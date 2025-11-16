@@ -7,11 +7,11 @@ def run(pb: PosBlock, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
   val render         = Render(using c)
   Reactor
     .init[World](world)
-    .withOnTick(tick)
+    .withOnTick(React.tick)
     .withRender(render.all)
-    .withOnMouseClick(click)
-    .withOnMouseMove(move)
-    .withStop(stop)
+    .withOnMouseClick(React.click)
+    .withOnMouseMove(React.move)
+    .withStop(React.stop)
     .withTickRate(TickRate)
     .animateWithFrame(c.MainFrame)
 

@@ -1,7 +1,7 @@
 package tarski
 package controller
 
-def eval(formula: FOLFormula)(using blocks: Blocks, c: Constants): Boolean = formula match
+def eval(formula: FOLFormula)(using blocks: Blocks): Boolean = formula match
   case a: FOLAtom => evalAtom(a)
   case And(a, b)  => eval(a) && eval(b)
   case Or(a, b)   => eval(a) || eval(b)
@@ -13,7 +13,7 @@ def eval(formula: FOLFormula)(using blocks: Blocks, c: Constants): Boolean = for
   case All(x, f) => blocks.keys.forall(name => eval(f.sub(x, FOLConst(name))))
   case Ex(x, f)  => blocks.keys.exists(name => eval(f.sub(x, FOLConst(name))))
 
-private def evalAtom(a: FOLAtom)(using b: Blocks, cons: Constants): Boolean =
+private def evalAtom(a: FOLAtom)(using b: Blocks): Boolean =
   import Pos.*, Sizes.*
   a match
     case FOLAtom("Small", Seq(FOLConst(c)))                          => b(c).block.size == Small

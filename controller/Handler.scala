@@ -12,7 +12,7 @@ object Handler:
         val newControls = world.controls.selectPos(pos).setBlock(world.grid.get(pos))
         world.copy(controls = newControls)
 
-  def uiButtons(pos: Pos, world: World)(using Constants): World =
+  def uiButtons(pos: Pos, world: World): World =
     uiMap.get(pos) match
       case None => world
       case Some(value) => // make sure a button is clicked
@@ -27,7 +27,7 @@ object Handler:
           case "Small" | "Mid" | "Large"         => handleSize(value, world)
           case "Tri" | "Squ" | "Cir"             => handleShape(value, world)
 
-  private def handleEval(world: World)(using Constants): World =
+  private def handleEval(world: World): World =
     import Result.*
     val results = world.formulas.map: (formula, result) =>
       var status = Ready
@@ -77,7 +77,7 @@ object Handler:
             world.grid.updated(pos, (newBlock, name))
     world.copy(controls = newControls, grid = newGrid)
 
-  private def handleSize(size: String, world: World)(using Constants): World =
+  private def handleSize(size: String, world: World): World =
     val newSize     = size.toSize
     val newControls = world.controls.setSize(newSize)
     val newGrid = world.controls.pos match
