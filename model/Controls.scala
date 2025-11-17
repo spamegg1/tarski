@@ -26,8 +26,9 @@ case class Controls(
     tone = None
   )
 
-  def setSize(s: Sizes)  = copy(size = Some(s))
-  def setShape(s: Shape) = copy(shape = Some(s))
-  def setTone(t: Tone)   = copy(tone = Some(t))
+  def setAttr(attr: Attr) = attr match
+    case sz: Sizes => copy(size = Some(sz))
+    case sh: Shape => copy(shape = Some(sh))
+    case t: Tone   => copy(tone = Some(t))
 
   def toggleMove = copy(move = !move)

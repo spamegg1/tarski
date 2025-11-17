@@ -23,9 +23,9 @@ object Handler:
           case "Move"                            => world.toggleMove
           case "Block"                           => world
           case "a" | "b" | "c" | "d" | "e" | "f" => handleName(value, world)
-          case "Blue" | "Green" | "Gray"         => handleColor(value, world)
-          case "Small" | "Mid" | "Large"         => handleSize(value, world)
-          case "Tri" | "Squ" | "Cir"             => handleShape(value, world)
+          case "Blue" | "Green" | "Gray"         => handleAttr(value, world)
+          case "Small" | "Mid" | "Large"         => handleAttr(value, world)
+          case "Tri" | "Squ" | "Cir"             => handleAttr(value, world)
           case _                                 => world
 
   private def handleEval(world: World): World =
@@ -52,55 +52,27 @@ object Handler:
           case None           => world
           case Some((_, pos)) => world.removeNameFromBlockAt(pos)
 
-  private def handleColor(tone: String, world: World): World =
-    val newTone     = tone.toTone
-    val newControls = world.controls.setTone(newTone)
+  private def handleAttr(attr: String, world: World): World =
+    val newAttr     = attr.toAttr
+    val newControls = world.controls.setAttr(newAttr)
     val newGrid = world.controls.pos match
       case None => world.grid
       case Some(pos) =>
         world.grid.get(pos) match
           case None => world.grid
           case Some((block, name)) =>
-            val newBlock = block.copy(tone = newTone)
-            world.grid.updated(pos, (newBlock, name))
-    world.copy(controls = newControls, grid = newGrid)
-
-  private def handleShape(shape: String, world: World): World =
-    val newShape    = shape.toShape
-    val newControls = world.controls.setShape(newShape)
-    val newGrid = world.controls.pos match
-      case None => world.grid
-      case Some(pos) =>
-        world.grid.get(pos) match
-          case None => world.grid
-          case Some((block, name)) =>
-            val newBlock = block.copy(shape = newShape)
-            world.grid.updated(pos, (newBlock, name))
-    world.copy(controls = newControls, grid = newGrid)
-
-  private def handleSize(size: String, world: World): World =
-    val newSize     = size.toSize
-    val newControls = world.controls.setSize(newSize)
-    val newGrid = world.controls.pos match
-      case None => world.grid
-      case Some(pos) =>
-        world.grid.get(pos) match
-          case None => world.grid
-          case Some((block, name)) =>
-            val newBlock = block.copy(size = newSize)
+            val newBlock = block.setAttr(newAttr)
             world.grid.updated(pos, (newBlock, name))
     world.copy(controls = newControls, grid = newGrid)
 
   extension (s: String)
-    def toTone = s match
+    def toAttr: Attr = s match
       case "Blue"  => Tone.Blue
       case "Gray"  => Tone.Gray
       case "Green" => Tone.Green
-    def toSize = s match
       case "Small" => Sizes.Small
       case "Mid"   => Sizes.Mid
       case "Large" => Sizes.Large
-    def toShape = s match
-      case "Tri" => Shape.Tri
-      case "Squ" => Shape.Squ
-      case "Cir" => Shape.Cir
+      case "Tri"   => Shape.Tri
+      case "Squ"   => Shape.Squ
+      case "Cir"   => Shape.Cir

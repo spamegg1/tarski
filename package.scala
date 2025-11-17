@@ -25,7 +25,7 @@ package tarski:
     export controller.Converter
 
   package controller:
-    export model.{Pos, Block, Blocks, Grid, Status, Tone}
+    export model.{Pos, Block, Blocks, Grid, Status, Tone, Attr}
     export model.{World, Shape, Controls, Names, Result, Sizes}
 
   package testing:

@@ -15,9 +15,15 @@ case class Block(
   def sameColor(that: Block)  = tone == that.tone
   def setLabel(label: String) = copy(label = label)
 
+  def setAttr(attr: Attr) = attr match
+    case sz: Sizes => copy(size = sz)
+    case sh: Shape => copy(shape = sh)
+    case t: Tone   => copy(tone = t)
+
 object Block:
   def fromControls(c: Controls) =
-    c.size.flatMap: size =>
-      c.shape.flatMap: shape =>
-        c.tone.flatMap: tone =>
-          Some(Block(size, shape, tone))
+    for
+      size  <- c.size
+      shape <- c.shape
+      tone  <- c.tone
+    yield Block(size, shape, tone)
