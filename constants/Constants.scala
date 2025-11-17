@@ -1,4 +1,5 @@
 package tarski
+package constants
 
 type Dims     = (h: Double, w: Double)
 type GridSize = (rows: Int, cols: Int)
