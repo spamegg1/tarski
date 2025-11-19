@@ -12,7 +12,7 @@ class InterpreterTest extends munit.FunSuite:
     val b3 = Block(Small, Squ, Blue)
     val b4 = Block(Small, Squ, Blue, "a")
 
-    val grid: Grid = Map(
+    val grid: PosGrid = Map(
       (1, 1) -> (b0, "b"),
       (1, 5) -> (b1, "block0"),
       (3, 3) -> (b2, "c"),
@@ -25,21 +25,21 @@ class InterpreterTest extends munit.FunSuite:
     val sentences = Seq(
       fof"∃x ∃y ∃z (Squ(x) ∧ Cir(y) ∧ Tri(z))",
       fof"¬(∃x Large(x))", // careful with this, negation needs parentheses!
-      fof"∀x (Cir(x) → ∃y (Squ(y) ∧ Back(x, y)))",
-      fof"∀x (Cir(x) → ∃y (Squ(y) ∧ Back(x, y)))",
-      fof"∀x (Cir(x) → ∃y (Squ(y) ∧ Back(x, y)))",
-      fof"∃x ∃y (x != y ∧ ∀w ((w = x | w = y) → ∀z ¬Back(z, w)))",
-      fof"∀x (Squ(x) ↔ ∃y (Tri(y) ∧ Back(y, x)))",
+      fof"∀x (Cir(x) → ∃y (Squ(y) ∧ Above(x, y)))",
+      fof"∀x (Cir(x) → ∃y (Squ(y) ∧ Above(x, y)))",
+      fof"∀x (Cir(x) → ∃y (Squ(y) ∧ Above(x, y)))",
+      fof"∃x ∃y (x != y ∧ ∀w ((w = x | w = y) → ∀z ¬Above(z, w)))",
+      fof"∀x (Squ(x) ↔ ∃y (Tri(y) ∧ Above(y, x)))",
       fof"∀x ∀y (Larger(x, y) → ∃z Betw(x, y, z))",
       fof"¬(∀x ∀y (Left(x, y) ∨ Right(x, y)))", // same here!
-      fof"∃x ∃y ¬(Front(x, y) ∨ Back(x, y))",
+      fof"∃x ∃y ¬(Below(x, y) ∨ Above(x, y))",
       fof"Small(a) ∧ Squ(a) ∧ Blue(a)",
       fof"Mid(c) ∧ Tri(c) ∧ Green(c)",
       fof"Small(b) ∧ Cir(b) ∧ Gray(b)"
     )
 
-    given Blocks = world.blocks
-    val results  = sentences.map(eval)
+    given NameGrid = world.nameGrid
+    val results    = sentences.map(eval)
     sentences
       .zip(results)
       .foreach: (sentence, result) =>

@@ -17,9 +17,9 @@ object Name:
 object Names:
   val TheNames = Set("a", "b", "c", "d", "e", "f")
 
-  def fromBlocks(blocks: Blocks): Names = TheNames
+  def fromNameGrid(ng: NameGrid): Names = TheNames
     .map: name =>
-      name -> (if blocks.contains(name) then Occupied else Available)
+      name -> (if ng.contains(name) then Occupied else Available)
     .toMap
 
 extension (names: Names) // these work whether the name is fake or not.

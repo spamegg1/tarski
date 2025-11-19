@@ -2,23 +2,23 @@ package tarski
 package view
 
 case class Render(
-    ob: OpButtons,
-    nb: NameButtons,
-    szb: SizeButtons,
-    cb: ColorButtons,
-    shb: ShapeButtons
+    opBtn: OpButtons,
+    nameBtn: NameButtons,
+    sizeBtn: SizeButtons,
+    colBtn: ColorButtons,
+    shapeBtn: ShapeButtons
 )(using c: Constants):
   def selectedBlock(ct: Controls) = Imager(Block.fromControls(ct)).at(UI.blockPt)
 
   def ui(world: World) =
-    ob.evalButton
-      .on(ob.moveButton(world.controls.move))
-      .on(ob.addButton)
-      .on(ob.delButton)
-      .on(nb.allNames(world.names))
-      .on(szb.sizes(world.controls.size))
-      .on(cb.colorBoxes(world.controls.tone))
-      .on(shb.shapes(world.controls.shape))
+    opBtn.evalButton
+      .on(opBtn.moveButton(world.controls.move))
+      .on(opBtn.addButton)
+      .on(opBtn.delButton)
+      .on(nameBtn.allNames(world.names))
+      .on(sizeBtn.sizes(world.controls.sizeOpt))
+      .on(colBtn.colorBoxes(world.controls.toneOpt))
+      .on(shapeBtn.shapes(world.controls.shapeOpt))
       .on(selectedBlock(world.controls))
 
   def formulaDisplay(formulas: Formulas) = formulas
@@ -36,7 +36,7 @@ case class Render(
           .strokeWidth(c.SmallStroke)
           .at(Converter.board.toPoint(pos))
 
-  def blocksOnBoard(grid: Grid): Image = grid
+  def blocksOnBoard(grid: PosGrid): Image = grid
     .foldLeft[Image](c.Board):
       case (image, (pos, (block, name))) =>
         Imager(block)
@@ -44,8 +44,8 @@ case class Render(
           .on(image)
 
   def all(world: World): Image =
-    selectedPos(world.controls.pos)
-      .on(blocksOnBoard(world.grid))
+    selectedPos(world.controls.posOpt)
+      .on(blocksOnBoard(world.posGrid))
       .at(c.BoardOrigin)
       .on:
         ui(world)
@@ -56,10 +56,10 @@ case class Render(
 
 object Render:
   def apply(using c: Constants): Render =
-    val u   = Utility(using c)
-    val ob  = OpButtons(u)
-    val nb  = NameButtons(u)
-    val szb = SizeButtons(u)
-    val cb  = ColorButtons(u)
-    val shb = ShapeButtons(u)
-    Render(ob, nb, szb, cb, shb)
+    val u        = new Utility
+    val opBtn    = OpButtons(u)
+    val nameBtn  = NameButtons(u)
+    val sizeBtn  = SizeButtons(u)
+    val colBtn   = ColorButtons(u)
+    val shapeBtn = ShapeButtons(u)
+    Render(opBtn, nameBtn, sizeBtn, colBtn, shapeBtn)

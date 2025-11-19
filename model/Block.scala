@@ -23,7 +23,7 @@ case class Block(
 object Block:
   def fromControls(c: Controls) =
     for
-      size  <- c.size
-      shape <- c.shape
-      tone  <- c.tone
+      size  <- c.sizeOpt
+      shape <- c.shapeOpt
+      tone  <- c.toneOpt
     yield Block(size, shape, tone)

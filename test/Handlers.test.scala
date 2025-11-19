@@ -51,11 +51,11 @@ class HandlersTest extends munit.FunSuite:
     val w010 = Handler.uiButtons((0, 10), w0) // Blue
     val w011 = Handler.uiButtons((0, 11), w0) // Green
     val w012 = Handler.uiButtons((0, 12), w0) // Gray
-    assertEquals(w010.controls.tone, Some(Blue), "color should be Blue, but is not")
-    assertEquals(w010.controls.size, None, "size should be None, but is not")
-    assertEquals(w011.controls.tone, Some(Green), "color should be Green, but is not")
-    assertEquals(w011.controls.shape, None, "shape should be None, but is not")
-    assertEquals(w012.controls.tone, Some(Gray), "color should be Gray, but is not")
+    assertEquals(w010.controls.toneOpt, Some(Blue), "color should be Blue, but is not")
+    assertEquals(w010.controls.sizeOpt, None, "size should be None, but is not")
+    assertEquals(w011.controls.toneOpt, Some(Green), "color should be Green, but is not")
+    assertEquals(w011.controls.shapeOpt, None, "shape should be None, but is not")
+    assertEquals(w012.controls.toneOpt, Some(Gray), "color should be Gray, but is not")
 
   test("Clicking on the displayed block should do nothing"):
     val w013 = Handler.uiButtons((0, 13), w0) // Block

@@ -27,8 +27,8 @@ class WorldTest extends munit.FunSuite:
   val w16 = w15.removeNameFromBlockAt((3, 4))
 
   test("Empty world with no blocks or grid and all names available"):
-    assert(w0.blocks.isEmpty, s"empty world should have no blocks, but has ${w0.blocks}")
-    assert(w0.grid.isEmpty, s"empty world should have no grid, but has ${w0.grid}")
+    assert(w0.nameGrid.isEmpty, s"empty world should have no blocks, but has ${w0.nameGrid}")
+    assert(w0.posGrid.isEmpty, s"empty world should have no grid, but has ${w0.posGrid}")
     assert(
       w0.names.values.forall(_ == Available),
       s"empty world should have all 6 names available, but has names ${w0.names}"
@@ -43,12 +43,12 @@ class WorldTest extends munit.FunSuite:
     )
 
   test("World with 1 unnamed block and its grid, blocks and names"):
-    val ob41 = w4.grid.keys.toSeq
+    val ob41 = w4.posGrid.keys.toSeq
     val ex41 = Seq((1, 2))
     assertEquals(ob41, ex41, s"world should have grid keys $ex41 but has $ob41")
-    val ob42 = w4.grid((1, 2)).block
+    val ob42 = w4.posGrid((1, 2)).block
     assertEquals(ob42, b0, s"world should have block $b0 at pos (1, 2), but has $ob42")
-    val ob43 = w4.blocks.values.toSeq
+    val ob43 = w4.nameGrid.values.toSeq
     val ex43 = Seq((b0, (1, 2)))
     assertEquals(ob43, ex43, s"world should have blocks values $ex43 but has $ob43")
     assert(
@@ -64,7 +64,7 @@ class WorldTest extends munit.FunSuite:
   test("Adding a name to a block, in wrong / correct position"):
     assert(w8 == w7, "adding name to block at wrong pos should not work, but does")
     assert(
-      w9.blocks("b").block == b0n,
+      w9.nameGrid("b").block == b0n,
       "adding name to block should change its label correctly, but does not"
     )
     assert(
@@ -81,11 +81,11 @@ class WorldTest extends munit.FunSuite:
 
   test("Moving a block in a world with 1 block, correct position"):
     assert(
-      w12.grid == Map((3, 4) -> (b0n, "b")),
+      w12.posGrid == Map((3, 4) -> (b0n, "b")),
       "moving a block from correct position should work, but does not"
     )
     assert(
-      w12.blocks == Map("b" -> (b0n, (3, 4))),
+      w12.nameGrid == Map("b" -> (b0n, (3, 4))),
       "moving a block from correct position should work, but does not"
     )
     assert(
@@ -97,17 +97,17 @@ class WorldTest extends munit.FunSuite:
   test("Adding a second block with a fake name to a world with 1 block"):
     assertEquals(w13, w12, "adding a block on top of a block should not work, but does")
     assertEquals(
-      w14.grid((3, 4)),
+      w14.posGrid((3, 4)),
       (b0n, "b"),
       s"adding a second block with fake name should not affect named block $b0n, but does"
     )
     assertEquals(
-      w14.grid((5, 6)).block,
+      w14.posGrid((5, 6)).block,
       b1,
       s"adding a second block $b1 with fake name should work, but does not"
     )
     assertEquals(
-      w14.blocks.values.toSeq,
+      w14.nameGrid.values.toSeq,
       Seq((b0n, (3, 4)), (b1, (5, 6))),
       s"adding a second block with fake name should work correctly, but does not"
     )
@@ -122,11 +122,11 @@ class WorldTest extends munit.FunSuite:
 
   test("Removing a name in a world with 2 blocks"):
     assert(
-      w16.grid((3, 4)).block == b0 && w16.grid((5, 6)).block == b1,
+      w16.posGrid((3, 4)).block == b0 && w16.posGrid((5, 6)).block == b1,
       "removing name from named block should work correctly, but does not"
     )
     assert(
-      w16.blocks.values.toSeq == Seq((b0, (3, 4)), (b1, (5, 6))),
+      w16.nameGrid.values.toSeq == Seq((b0, (3, 4)), (b1, (5, 6))),
       "removing name from named block should work correctly, but does not"
     )
     assert(
@@ -134,6 +134,6 @@ class WorldTest extends munit.FunSuite:
       "removing name `b` should make it available, but does not"
     )
     assert(
-      w16.grid(3, 4).block.label.isEmpty,
+      w16.posGrid(3, 4).block.label.isEmpty,
       "removing name from a named block should reset its label, but does not"
     )

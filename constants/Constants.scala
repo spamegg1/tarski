@@ -21,6 +21,7 @@ val BoardSize   = (rows = BoardRows, cols = BoardCols)
 val UISize      = (rows = UIRows, cols = UICols)
 
 case class Constants(size: Double):
+  // derived constants
   val StrokeW       = size * 0.08
   val Pts           = size * 0.25
   val Height        = size * 8.0

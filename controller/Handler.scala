@@ -3,17 +3,17 @@ package controller
 
 object Handler:
   def boardPos(pos: Pos, world: World): World =
-    world.controls.pos match
+    world.controls.posOpt match
       case Some(p) if p == pos =>
         val newControls = world.controls.deselectPos.unsetBlock
         world.copy(controls = newControls)
       case Some(p) if world.controls.move => world.moveBlock(from = p, to = pos)
       case _ =>
-        val newControls = world.controls.selectPos(pos).setBlock(world.grid.get(pos))
+        val newControls = world.controls.selectPos(pos).setBlock(world.posGrid.get(pos))
         world.copy(controls = newControls)
 
   def uiButtons(pos: Pos, world: World): World =
-    uiMap.get(pos) match
+    Converter.uiMap.get(pos) match
       case None => world
       case Some(value) => // make sure a button is clicked
         value match
@@ -33,7 +33,7 @@ object Handler:
     val results = world.formulas.map: (formula, result) =>
       var status = Ready
       try
-        val bool = eval(formula)(using world.blocks)
+        val bool = eval(formula)(using world.nameGrid)
         status = if bool then Valid else Invalid
       catch case _ => ()
       formula -> status
@@ -44,26 +44,26 @@ object Handler:
     world.names.get(name) match
       case None => world
       case Some(Available) =>
-        world.controls.pos match
+        world.controls.posOpt match
           case None      => world
           case Some(pos) => world.addNameToBlockAt(pos, name)
       case Some(Occupied) =>
-        world.blocks.get(name) match
+        world.nameGrid.get(name) match
           case None           => world
           case Some((_, pos)) => world.removeNameFromBlockAt(pos)
 
   private def handleAttr(attr: String, world: World): World =
     val newAttr     = attr.toAttr
     val newControls = world.controls.setAttr(newAttr)
-    val newGrid = world.controls.pos match
-      case None => world.grid
+    val newGrid = world.controls.posOpt match
+      case None => world.posGrid
       case Some(pos) =>
-        world.grid.get(pos) match
-          case None => world.grid
+        world.posGrid.get(pos) match
+          case None => world.posGrid
           case Some((block, name)) =>
             val newBlock = block.setAttr(newAttr)
-            world.grid.updated(pos, (newBlock, name))
-    world.copy(controls = newControls, grid = newGrid)
+            world.posGrid.updated(pos, (newBlock, name))
+    world.copy(controls = newControls, posGrid = newGrid)
 
   extension (s: String)
     def toAttr: Attr = s match

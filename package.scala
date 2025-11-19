@@ -15,7 +15,7 @@ package tarski:
 
   package view:
     export constants.Constants
-    export model.{Pos, Grid, World, Sizes, Tone}, Sizes.given, Tone.given
+    export model.{Pos, PosGrid, World, Sizes, Tone}, Sizes.given, Tone.given
     export model.{Result, Formulas, Controls, Names, Status, Shape, Block}
     export controller.Converter
 
@@ -23,12 +23,12 @@ package tarski:
     export gapt.expr.subst.FOLSubstitution
     export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
     export constants.{Constants, Dims, GridSize, BoardSize, UISize}
-    export model.{Pos, Block, Blocks, Grid, Status, Tone, Attr}
+    export model.{Pos, Block, NameGrid, PosGrid, Status, Tone, Attr}
     export model.{World, Shape, Controls, Names, Result, Sizes}
 
   package testing:
     export constants.{Constants, DefaultSize, Epsilon}
-    export model.{World, Grid, Shape, Block, Blocks, Status, Result, Sizes, Tone}
+    export model.{World, PosGrid, Shape, Block, NameGrid, Status, Result, Sizes, Tone}
     export controller.{eval, Converter, Handler}
 
   package main:
@@ -37,6 +37,6 @@ package tarski:
     export doodle.reactor.Reactor
     export doodle.java2d.{java2dAnimationRenderer, java2dCanvasAlgebra, java2dRenderer}
     export constants.{Constants, DefaultSize, TickRate}
-    export model.{World, Block, Shape, Controls, PosBlock, Formulas, Sizes, Tone}
+    export model.{World, Block, Shape, Controls, Grid, Formulas, Sizes, Tone}
     export view.Render
     export controller.React

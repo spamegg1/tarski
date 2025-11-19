@@ -9,7 +9,7 @@ object React:
     else if p.y > c.UIBottom then
       val pos = Converter.ui.toPos((p - c.UIOrigin).toPoint)
       Handler.uiButtons(pos, world)
-    else world // do nothing for now
+    else world
 
   // These do nothing; the world is static except for clicking controls.
   def tick(world: World): World        = world

@@ -14,15 +14,15 @@ object Pos:
 
     def leftOf(q: Pos)  = p.col < q.col
     def rightOf(q: Pos) = p.col > q.col
-    def frontOf(q: Pos) = p.row > q.row
-    def backOf(q: Pos)  = p.row < q.row
+    def below(q: Pos)   = p.row > q.row
+    def above(q: Pos)   = p.row < q.row
     def sameRow(q: Pos) = p.row == q.row
     def sameCol(q: Pos) = p.col == q.col
     def adjoins(q: Pos) = p.neighbors.contains(q)
 
     def sameRow2(q: Pos, r: Pos) = p.sameRow(q) && p.sameRow(r)
     def sameCol2(q: Pos, r: Pos) = p.sameCol(q) && p.sameCol(r)
-    def rowBtw(q: Pos, r: Pos)   = q.backOf(p) && p.backOf(r)
+    def rowBtw(q: Pos, r: Pos)   = q.above(p) && p.above(r)
     def colBtw(q: Pos, r: Pos)   = q.leftOf(p) && p.leftOf(r)
     def rowBtw2(q: Pos, r: Pos)  = p.rowBtw(q, r) || p.rowBtw(r, q)
     def colBtw2(q: Pos, r: Pos)  = p.colBtw(q, r) || p.colBtw(r, q)
