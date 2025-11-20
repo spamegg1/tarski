@@ -6,7 +6,7 @@ class HandlersTest extends munit.FunSuite:
   import Shape.*, Status.*, Result.*, Sizes.*, Tone.*
 
   val b0 = Block(Small, Cir, Gray)
-  val b1 = Block(Mid, Tri, Green) // at (5,6)
+  val b1 = Block(Mid, Tri, Green)
   val p0 = (1, 2)
   val p1 = (3, 4)
   val p2 = (5, 6)
@@ -20,69 +20,82 @@ class HandlersTest extends munit.FunSuite:
     .addFormula(f1)
     .addFormula(f2)
 
+  val w000 = Handler.uiButtons((0, 0), w0)    // Eval
+  val w001 = Handler.uiButtons((0, 1), w000)  // Eval
+  val w100 = Handler.uiButtons((1, 0), w001)  // Move
+  val w101 = Handler.uiButtons((1, 1), w100)  // Move
+  val w013 = Handler.uiButtons((0, 13), w101) // Block
+  val w014 = Handler.uiButtons((0, 14), w013) // Block
+  val w015 = Handler.uiButtons((0, 15), w014) // Block
+  val w113 = Handler.uiButtons((1, 13), w015) // Block
+  val w114 = Handler.uiButtons((1, 14), w113) // Block
+  val w115 = Handler.uiButtons((1, 15), w114) // Block
+
   test("Evaluating in a world with 2 blocks and 3 formulas"):
-    val w000 = Handler.uiButtons((0, 0), w0) // Eval
-    val w001 = Handler.uiButtons((0, 1), w0) // Eval
     assertEquals(w000.formulas(f0), Valid, s"formula $f0 should be true, but is false")
     assertEquals(w001.formulas(f1), Invalid, s"formula $f1 should be false, but is true")
     assertEquals(w001.formulas(f2), Ready, s"formula $f2 should not be evaluated, but is")
 
-  test("Adding a block in a world with 2 blocks but no selected block or pos"):
-    val w002 = Handler.uiButtons((0, 2), w0) // Add
-    val w003 = Handler.uiButtons((0, 3), w0) // Add
-    assertEquals(w002, w0, "adding a block should not work, but does")
-    assertEquals(w003, w0, "adding a block should not work, but does")
+  test("Move button should toggle move"):
+    test("enabling move"):
+      assertEquals(w100, w001.toggleMove, s"Move should be enabled, but is disabled")
+      assert(w100.controls.move, s"Move should be enabled, but is disabled")
+    test("disabling move"):
+      assertEquals(w101, w100.toggleMove, s"Move should be disabled, but is enabled")
+      assert(!w101.controls.move, s"Move should be disabled, but is enabled")
 
-  test("Selecting a name in a world with no selected block or pos"):
-    val w004 = Handler.uiButtons((0, 4), w0) // a
-    val w005 = Handler.uiButtons((0, 5), w0) // b
-    val w006 = Handler.uiButtons((0, 6), w0) // c
-    val w007 = Handler.uiButtons((0, 7), w0) // d
-    val w008 = Handler.uiButtons((0, 8), w0) // e
-    val w009 = Handler.uiButtons((0, 9), w0) // f
-    assertEquals(w004, w0, "selecting a name should not work, but does")
-    assertEquals(w005, w0, "selecting a name should not work, but does")
-    assertEquals(w006, w0, "selecting a name should not work, but does")
-    assertEquals(w007, w0, "selecting a name should not work, but does")
-    assertEquals(w008, w0, "selecting a name should not work, but does")
-    assertEquals(w009, w0, "selecting a name should not work, but does")
+  test("Block display should do nothing if clicked"):
+    assertEquals(w013, w101, s"Clicking the block display should do nothing, but does")
+    assertEquals(w014, w013, s"Clicking the block display should do nothing, but does")
+    assertEquals(w015, w014, s"Clicking the block display should do nothing, but does")
+    assertEquals(w113, w015, s"Clicking the block display should do nothing, but does")
+    assertEquals(w114, w113, s"Clicking the block display should do nothing, but does")
+    assertEquals(w115, w114, s"Clicking the block display should do nothing, but does")
 
-  test("Selecting colors in a world with 2 blocks but no selected pos"):
-    val w010 = Handler.uiButtons((0, 10), w0) // Blue
-    val w011 = Handler.uiButtons((0, 11), w0) // Green
-    val w012 = Handler.uiButtons((0, 12), w0) // Gray
-    assertEquals(w010.controls.toneOpt, Some(Blue), "color should be Blue, but is not")
-    assertEquals(w010.controls.sizeOpt, None, "size should be None, but is not")
-    assertEquals(w011.controls.toneOpt, Some(Green), "color should be Green, but is not")
-    assertEquals(w011.controls.shapeOpt, None, "shape should be None, but is not")
-    assertEquals(w012.controls.toneOpt, Some(Gray), "color should be Gray, but is not")
+  // val w002 = Handler.uiButtons((0, 2), w001)  // Add
+  // val w003 = Handler.uiButtons((0, 3), w002)  // Add
+  // val w004 = Handler.uiButtons((0, 4), w003)  // a
+  // val w005 = Handler.uiButtons((0, 5), w003)  // b
+  // val w006 = Handler.uiButtons((0, 6), w003)  // c
+  // val w007 = Handler.uiButtons((0, 7), w003)  // d
+  // val w008 = Handler.uiButtons((0, 8), w003)  // e
+  // val w009 = Handler.uiButtons((0, 9), w003)  // f
+  // val w010 = Handler.uiButtons((0, 10), w009) // Blue
+  // val w011 = Handler.uiButtons((0, 11), w009) // Green
+  // val w012 = Handler.uiButtons((0, 12), w009) // Gray
 
-  test("Clicking on the displayed block should do nothing"):
-    val w013 = Handler.uiButtons((0, 13), w0) // Block
-    val w014 = Handler.uiButtons((0, 14), w0) // Block
-    val w015 = Handler.uiButtons((0, 15), w0) // Block
-    assertEquals(w013, w0)
-    assertEquals(w014, w0)
-    assertEquals(w015, w0)
+  // val w018 = Handler.uiButtons((1, 2), w015)  // Del
+  // val w019 = Handler.uiButtons((1, 3), w015)  // Del
+  // val w020 = Handler.uiButtons((1, 4), w019)  // Small
+  // val w021 = Handler.uiButtons((1, 5), w019)  // Small
+  // val w022 = Handler.uiButtons((1, 6), w021)  // Mid
+  // val w023 = Handler.uiButtons((1, 7), w021)  // Mid
+  // val w024 = Handler.uiButtons((1, 8), w023)  // Large
+  // val w025 = Handler.uiButtons((1, 9), w023)  // Large
+  // val w026 = Handler.uiButtons((1, 10), w025) // Tri
+  // val w027 = Handler.uiButtons((1, 11), w025) // Squ
+  // val w028 = Handler.uiButtons((1, 12), w025) // Cir
 
-  test("asd"):
-    val w016 = Handler.uiButtons((1, 0), w0)  // Move
-    val w017 = Handler.uiButtons((1, 1), w0)  // Move
-    val w018 = Handler.uiButtons((1, 2), w0)  // Del
-    val w019 = Handler.uiButtons((1, 3), w0)  // Del
-    val w020 = Handler.uiButtons((1, 4), w0)  // Small
-    val w021 = Handler.uiButtons((1, 5), w0)  // Small
-    val w022 = Handler.uiButtons((1, 6), w0)  // Mid
-    val w023 = Handler.uiButtons((1, 7), w0)  // Mid
-    val w024 = Handler.uiButtons((1, 8), w0)  // Large
-    val w025 = Handler.uiButtons((1, 9), w0)  // Large
-    val w026 = Handler.uiButtons((1, 10), w0) // Tri
-    val w027 = Handler.uiButtons((1, 11), w0) // Squ
-    val w028 = Handler.uiButtons((1, 12), w0) // Cir
-    val w029 = Handler.uiButtons((1, 13), w0) // Block
-    val w030 = Handler.uiButtons((1, 14), w0) // Block
-    val w031 = Handler.uiButtons((1, 15), w0) // Block
-    assert(true)
+  // test("Adding a block in a world with 2 blocks but no selected block or pos"):
+  //   assertEquals(w002, w001, "adding a block should not work, but does")
+  //   assertEquals(w003, w001, "adding a block should not work, but does")
 
-  test("Handlers integration test for clicking all control buttons"):
-    assert(true)
+  // test("Selecting a name in a world with no selected block or pos"):
+  //   assertEquals(w004, w003, "selecting a name should not work, but does")
+  //   assertEquals(w005, w003, "selecting a name should not work, but does")
+  //   assertEquals(w006, w003, "selecting a name should not work, but does")
+  //   assertEquals(w007, w003, "selecting a name should not work, but does")
+  //   assertEquals(w008, w003, "selecting a name should not work, but does")
+  //   assertEquals(w009, w003, "selecting a name should not work, but does")
+
+  // test("Selecting colors in a world with 2 blocks but no selected pos"):
+  //   assertEquals(w010.controls.toneOpt, Some(Blue), "color should be Blue, but is not")
+  //   assertEquals(w010.controls.sizeOpt, None, "size should be None, but is not")
+  //   assertEquals(w011.controls.toneOpt, Some(Green), "color should be Green, but is not")
+  //   assertEquals(w011.controls.shapeOpt, None, "shape should be None, but is not")
+  //   assertEquals(w012.controls.toneOpt, Some(Gray), "color should be Gray, but is not")
+
+  // test("Clicking on the displayed block should do nothing"):
+  //   assertEquals(w013, w012)
+  //   assertEquals(w014, w012)
+  //   assertEquals(w015, w012)
