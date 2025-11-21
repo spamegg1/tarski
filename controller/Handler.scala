@@ -33,7 +33,7 @@ object Handler:
     val results = world.formulas.map: (formula, result) =>
       var status = Ready
       try
-        val bool = eval(formula)(using world.nameGrid)
+        val bool = Interpreter.eval(formula)(using world.nameGrid)
         status = if bool then Valid else Invalid
       catch case _ => ()
       formula -> status

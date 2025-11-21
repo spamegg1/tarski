@@ -29,7 +29,7 @@ package tarski:
   package testing:
     export constants.{Constants, DefaultSize, Epsilon}
     export model.{World, PosGrid, Shape, Block, NameGrid, Status, Result, Sizes, Tone}
-    export controller.{eval, Converter, Handler}
+    export controller.{Interpreter, Converter, Handler}
 
   package main:
     export cats.effect.unsafe.implicits.global

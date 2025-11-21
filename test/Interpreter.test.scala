@@ -39,7 +39,7 @@ class InterpreterTest extends munit.FunSuite:
     )
 
     given NameGrid = world.nameGrid
-    val results    = sentences.map(eval)
+    val results    = sentences.map(Interpreter.eval)
     sentences
       .zip(results)
       .foreach: (sentence, result) =>
