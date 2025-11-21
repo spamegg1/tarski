@@ -2,7 +2,7 @@ package tarski
 package view
 
 case class NameButtons(u: Utility)(using c: Constants):
-  def nameButtons = Seq("a", "b", "c", "d", "e", "f")
+  val nameButtons = Seq("a", "b", "c", "d", "e", "f")
     .map: name =>
       val point = Converter.ui.toPoint(UIGrid(name))
       u.button(name, point, 1)

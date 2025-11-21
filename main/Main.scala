@@ -45,4 +45,4 @@ object Example:
   )
 
   @main
-  def runExample = run(grid, formulas)
+  def runExample = run(grid, formulas, 0.8)

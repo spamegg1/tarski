@@ -9,10 +9,10 @@ case class ColorButtons(u: Utility)(using Constants):
       .at(point)
 
   import Tone.*
-  def blueBox  = colorBox(Blue, UI.bluePt)
-  def greenBox = colorBox(Green, UI.greenPt)
-  def grayBox  = colorBox(Gray, UI.grayPt)
-  def colors   = blueBox on greenBox on grayBox
+  val blueBox  = colorBox(Blue, UI.bluePt)
+  val greenBox = colorBox(Green, UI.greenPt)
+  val grayBox  = colorBox(Gray, UI.grayPt)
+  val colors   = blueBox on greenBox on grayBox
 
   def colorIndicator(tone: Tone) = tone match
     case Blue  => u.indicator(UI.bluePt, 1)

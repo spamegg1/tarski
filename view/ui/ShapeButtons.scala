@@ -2,7 +2,7 @@ package tarski
 package view
 
 case class ShapeButtons(util: Utility)(using Constants):
-  def shapeButtons =
+  val shapeButtons =
     Image
       .triangle(util.wid, util.hgh)
       .fillColor(black)

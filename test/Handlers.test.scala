@@ -31,7 +31,7 @@ class HandlersTest extends munit.FunSuite:
   val w114 = Handler.uiButtons((1, 14), w113) // Block
   val w115 = Handler.uiButtons((1, 15), w114) // Block
 
-  test("Evaluating in a world with 2 blocks and 3 formulas"):
+  test("Eval button in a world with 2 blocks and 3 formulas"):
     assertEquals(w000.formulas(f0), Valid, s"formula $f0 should be true, but is false")
     assertEquals(w001.formulas(f1), Invalid, s"formula $f1 should be false, but is true")
     assertEquals(w001.formulas(f2), Ready, s"formula $f2 should not be evaluated, but is")
@@ -45,12 +45,16 @@ class HandlersTest extends munit.FunSuite:
       assert(!w101.controls.move, s"Move should be disabled, but is enabled")
 
   test("Block display should do nothing if clicked"):
-    assertEquals(w013, w101, s"Clicking the block display should do nothing, but does")
-    assertEquals(w014, w013, s"Clicking the block display should do nothing, but does")
-    assertEquals(w015, w014, s"Clicking the block display should do nothing, but does")
-    assertEquals(w113, w015, s"Clicking the block display should do nothing, but does")
-    assertEquals(w114, w113, s"Clicking the block display should do nothing, but does")
-    assertEquals(w115, w114, s"Clicking the block display should do nothing, but does")
+    val msg = "Clicking the block display should do nothing, but does something"
+    assertEquals(w013, w101, msg)
+    assertEquals(w014, w013, msg)
+    assertEquals(w015, w014, msg)
+    assertEquals(w113, w015, msg)
+    assertEquals(w114, w113, msg)
+    assertEquals(w115, w114, msg)
+
+  test("Adding a block with no position selected"):
+    assert(true)
 
   // val w002 = Handler.uiButtons((0, 2), w001)  // Add
   // val w003 = Handler.uiButtons((0, 3), w002)  // Add

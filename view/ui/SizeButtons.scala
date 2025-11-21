@@ -2,10 +2,10 @@ package tarski
 package view
 
 case class SizeButtons(u: Utility)(using c: Constants):
-  def smallButton  = u.button("Small", UI.smallPt, 2)
-  def mediumButton = u.button("Mid", UI.midPt, 2)
-  def largeButton  = u.button("Large", UI.largePt, 2)
-  def sizeButtons  = smallButton on mediumButton on largeButton
+  val smallButton  = u.button("Small", UI.smallPt, 2)
+  val mediumButton = u.button("Mid", UI.midPt, 2)
+  val largeButton  = u.button("Large", UI.largePt, 2)
+  val sizeButtons  = smallButton on mediumButton on largeButton
 
   def sizeIndicator(size: Double) =
     import c.{Small, Mid, Large}
