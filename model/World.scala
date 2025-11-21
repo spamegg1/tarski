@@ -12,6 +12,7 @@ case class World(
   def selectPos(pos: Pos)       = copy(controls = controls.selectPos(pos))
   def deselectPos               = copy(controls = controls.deselectPos)
   def toggleMove                = copy(controls = controls.toggleMove)
+  def unsetBlock                = copy(controls = controls.unsetBlock)
   def nameGrid                  = posGrid.toNameGrid
 
   // newly added blocks are always nameless, the name can only be added later.

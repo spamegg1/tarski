@@ -44,14 +44,14 @@ Same (not tested again):
 
 #### Selected position has a block on it
 
-- Add button should do nothing.
-- Name buttons (a, b, c, d, e, f) should:
-  - avail the name if it is occupied,
-  - add the name to the selected block if it is available.
+- ✅ Add button should do nothing.
+- ✅ Name buttons (a, b, c, d, e, f) should:
+  - avail the name if it is occupied, (same, not tested again)
+  - ✅ add the name to the selected block if it is available:
+    - ✅ The name should become occupied.
 - Color buttons (Blue, Green, Gray) should:
   - change the color of the block at selected position,
-  - update color in UI,
-  - update block display.
+  - change the selected color. (same, not tested again)
 - Delete button should:
   - delete the block at selected position,
   - if the block has a name, avail that name.
@@ -59,12 +59,10 @@ Same (not tested again):
   - Selected position also does not change.
 - Size buttons (Small, Mid, Large) should:
   - change the size of the selected block,
-  - update size in UI,
-  - update block display.
+  - change the selected size. (same, not tested again)
 - Shape buttons (Tri, Squ, Cir) should:
   - change the shape of the selected block,
-  - update shape in UI,
-  - update block display.
+  - change the selected shape. (same, not tested again)
 
 ### Clicking on the board
 

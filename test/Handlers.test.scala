@@ -7,9 +7,11 @@ class HandlersTest extends munit.FunSuite:
 
   val b0 = Block(Small, Cir, Blue)
   val b1 = Block(Mid, Tri, Green)
-  val p0 = (1, 2) // occupied
-  val p1 = (3, 4) // occupied
-  val p2 = (5, 6) // empty
+  val b2 = Block(Large, Cir, Gray)
+  val p0 = (1, 2)
+  val p1 = (3, 4)
+  val p2 = (5, 6)
+  val p3 = (4, 1)
   val f0 = fof"¬(∃x Large(x))"
   val f1 = fof"!x Cir(x)"
   val f2 = fof"a = b"
@@ -56,8 +58,15 @@ class HandlersTest extends munit.FunSuite:
   val w112 = Handler.uiButtons((1, 12), w111) // Cir
 
   // Selected position is empty
-  val x    = w112.selectPos(p2)
-  val x003 = Handler.uiButtons((0, 3), x) // Add Gray Large Cir
+  val x     = w112.selectPos(p2)
+  val x002  = Handler.uiButtons((0, 2), x)     // Add Gray Large Cir
+  val x002_ = x002.unsetBlock.selectPos(p3)
+  val x003  = Handler.uiButtons((0, 3), x002_) // Add no block
+
+  // Selected position has a block on it
+  val y    = x002.selectPos(p2)
+  val y002 = Handler.uiButtons((0, 2), y)    // Add
+  val y004 = Handler.uiButtons((0, 4), y002) // a
 
   test("Eval button in a world with 2 blocks and 3 formulas"):
     assertEquals(w000.formulas(f0), Valid, s"formula $f0 should be true, but is false")
@@ -137,30 +146,27 @@ class HandlersTest extends munit.FunSuite:
     assertEquals(obt3, exp3, msg(obt3, exp3))
 
   test("Add button with an empty position selected"):
-    val b   = Block(Large, Cir, Gray)
-    val msg = s"Pos $p2 should have block $b added, but does not"
-    assertEquals(x003.posGrid(p2).block, b, msg)
+    test("when block display has a block available"):
+      val msg = s"Pos $p2 should have block $b2 added, but does not"
+      assertEquals(x002.posGrid(p2).block, b2, msg)
+    test("when block display does not have a block available"):
+      assertEquals(x003, x002_, "Adding a None block shouldn't do anything, but does")
 
-  // test("Adding a block in a world with 2 blocks but no selected block or pos"):
-  //   assertEquals(w002, w001, "adding a block should not work, but does")
-  //   assertEquals(w003, w001, "adding a block should not work, but does")
+  test("Add button with a block at selected position"):
+    assertEquals(y002, y, "Adding with a block at selected pos should not work, but does")
 
-  // test("Selecting a name in a world with no selected block or pos"):
-  //   assertEquals(w004, w003, "selecting a name should not work, but does")
-  //   assertEquals(w005, w003, "selecting a name should not work, but does")
-  //   assertEquals(w006, w003, "selecting a name should not work, but does")
-  //   assertEquals(w007, w003, "selecting a name should not work, but does")
-  //   assertEquals(w008, w003, "selecting a name should not work, but does")
-  //   assertEquals(w009, w003, "selecting a name should not work, but does")
+  test("Name button with a block at selected position"):
+    val b             = b2.setLabel("a")
+    val (block, name) = y004.posGrid(p2)
+    assertEquals(block, b, s"Block at $p2 should be $block, but is $b")
+    assertEquals(name, "a", s"Name of block should be a, but is $name")
+    assertEquals(y004.names("a"), Occupied, "Naming a block should occupy the name, but does not")
 
-  // test("Selecting colors in a world with 2 blocks but no selected pos"):
-  //   assertEquals(w010.controls.toneOpt, Some(Blue), "color should be Blue, but is not")
-  //   assertEquals(w010.controls.sizeOpt, None, "size should be None, but is not")
-  //   assertEquals(w011.controls.toneOpt, Some(Green), "color should be Green, but is not")
-  //   assertEquals(w011.controls.shapeOpt, None, "shape should be None, but is not")
-  //   assertEquals(w012.controls.toneOpt, Some(Gray), "color should be Gray, but is not")
+  // test(""):
+  //   assert(true)
 
-  // test("Clicking on the displayed block should do nothing"):
-  //   assertEquals(w013, w012)
-  //   assertEquals(w014, w012)
-  //   assertEquals(w015, w012)
+  // test(""):
+  //   assert(true)
+
+  // test(""):
+  //   assert(true)
