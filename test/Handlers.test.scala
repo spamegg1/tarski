@@ -19,6 +19,7 @@ class HandlersTest extends munit.FunSuite:
     .addFormula(f0)
     .addFormula(f1)
     .addFormula(f2)
+    .addNameToBlockAt(p0, "f")
 
   val w000 = Handler.uiButtons((0, 0), w0)    // Eval
   val w001 = Handler.uiButtons((0, 1), w000)  // Eval
@@ -30,6 +31,19 @@ class HandlersTest extends munit.FunSuite:
   val w113 = Handler.uiButtons((1, 13), w015) // Block
   val w114 = Handler.uiButtons((1, 14), w113) // Block
   val w115 = Handler.uiButtons((1, 15), w114) // Block
+  val w002 = Handler.uiButtons((0, 2), w115)  // Add
+  val w003 = Handler.uiButtons((0, 3), w115)  // Add
+  val w004 = Handler.uiButtons((0, 4), w003)  // a
+  val w005 = Handler.uiButtons((0, 5), w004)  // b
+  val w006 = Handler.uiButtons((0, 6), w005)  // c
+  val w007 = Handler.uiButtons((0, 7), w006)  // d
+  val w008 = Handler.uiButtons((0, 8), w007)  // e
+  val w009 = Handler.uiButtons((0, 9), w008)  // f
+  val w010 = Handler.uiButtons((0, 10), w009) // Blue
+  val w011 = Handler.uiButtons((0, 11), w010) // Green
+  val w012 = Handler.uiButtons((0, 12), w011) // Gray
+  val w102 = Handler.uiButtons((1, 2), w012)  // Del
+  val w103 = Handler.uiButtons((1, 3), w102)  // Del
 
   test("Eval button in a world with 2 blocks and 3 formulas"):
     assertEquals(w000.formulas(f0), Valid, s"formula $f0 should be true, but is false")
@@ -38,11 +52,13 @@ class HandlersTest extends munit.FunSuite:
 
   test("Move button should toggle move"):
     test("enabling move"):
-      assertEquals(w100, w001.toggleMove, s"Move should be enabled, but is disabled")
-      assert(w100.controls.move, s"Move should be enabled, but is disabled")
+      val msg = "Move should be enabled, but is disabled"
+      assertEquals(w100, w001.toggleMove, msg)
+      assert(w100.controls.move, msg)
     test("disabling move"):
-      assertEquals(w101, w100.toggleMove, s"Move should be disabled, but is enabled")
-      assert(!w101.controls.move, s"Move should be disabled, but is enabled")
+      val msg = "Move should be disabled, but is enabled"
+      assertEquals(w101, w100.toggleMove, msg)
+      assert(!w101.controls.move, msg)
 
   test("Block display should do nothing if clicked"):
     val msg = "Clicking the block display should do nothing, but does something"
@@ -54,22 +70,35 @@ class HandlersTest extends munit.FunSuite:
     assertEquals(w115, w114, msg)
 
   test("Adding a block with no position selected"):
-    assert(true)
+    val msg = "Add button with no selected pos should do nothing, but does something"
+    assertEquals(w002, w115, msg)
+    assertEquals(w003, w115, msg)
 
-  // val w002 = Handler.uiButtons((0, 2), w001)  // Add
-  // val w003 = Handler.uiButtons((0, 3), w002)  // Add
-  // val w004 = Handler.uiButtons((0, 4), w003)  // a
-  // val w005 = Handler.uiButtons((0, 5), w003)  // b
-  // val w006 = Handler.uiButtons((0, 6), w003)  // c
-  // val w007 = Handler.uiButtons((0, 7), w003)  // d
-  // val w008 = Handler.uiButtons((0, 8), w003)  // e
-  // val w009 = Handler.uiButtons((0, 9), w003)  // f
-  // val w010 = Handler.uiButtons((0, 10), w009) // Blue
-  // val w011 = Handler.uiButtons((0, 11), w009) // Green
-  // val w012 = Handler.uiButtons((0, 12), w009) // Gray
+  test("Name buttons with no position selected"):
+    def msg(n: String) = s"Button for available name $n should do nothing, but does something"
+    val msgF           = "Button f should avail the occupied name, but does not"
+    assertEquals(w004, w003, msg("a"))
+    assertEquals(w005, w004, msg("b"))
+    assertEquals(w006, w005, msg("c"))
+    assertEquals(w007, w006, msg("d"))
+    assertEquals(w008, w007, msg("e"))
+    assertEquals(w009.names("f"), Available, msgF)
 
-  // val w018 = Handler.uiButtons((1, 2), w015)  // Del
-  // val w019 = Handler.uiButtons((1, 3), w015)  // Del
+  test("Color buttons with no position selected"):
+    def msg(obt: Option[Tone], exp: Option[Tone]) =
+      s"Color should be $exp but is $obt"
+    val (obt1, exp1) = (w010.controls.toneOpt, Some(Blue))
+    val (obt2, exp2) = (w011.controls.toneOpt, Some(Green))
+    val (obt3, exp3) = (w012.controls.toneOpt, Some(Gray))
+    assertEquals(obt1, exp1, msg(obt1, exp1))
+    assertEquals(obt2, exp2, msg(obt2, exp2))
+    assertEquals(obt3, exp3, msg(obt3, exp3))
+
+  test("Delete button with no position selected"):
+    val msg = "Delete button should do nothing, but does something"
+    assertEquals(w102, w012, msg)
+    assertEquals(w103, w102, msg)
+
   // val w020 = Handler.uiButtons((1, 4), w019)  // Small
   // val w021 = Handler.uiButtons((1, 5), w019)  // Small
   // val w022 = Handler.uiButtons((1, 6), w021)  // Mid

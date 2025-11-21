@@ -17,11 +17,11 @@ There are 3 situations for selecting a position on the board.
 
 #### No position is selected
 
-- Add button should do nothing.
-- Name buttons (a, b, c, d, e, f) should:
-  - avail the name if it is occupied,
-  - do nothing if the name is available.
-- Color buttons (Blue, Green, Gray) should change the selected color.
+- ✅ Add button should do nothing.
+- ✅ Name buttons (a, b, c, d, e, f) should:
+  - ✅ avail the name if it is occupied,
+  - ✅ do nothing if the name is available.
+- ✅ Color buttons (Blue, Green, Gray) should change the selected color.
 - Delete button should do nothing.
 - Size buttons (Small, Mid, Large) should change the selected size.
 - Shape buttons (Tri, Squ, Cir) should change the selected shape.
