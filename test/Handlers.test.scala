@@ -5,11 +5,11 @@ class HandlersTest extends munit.FunSuite:
   given c: Constants = Constants(DefaultSize)
   import Shape.*, Status.*, Result.*, Sizes.*, Tone.*
 
-  val b0 = Block(Small, Cir, Gray)
+  val b0 = Block(Small, Cir, Blue)
   val b1 = Block(Mid, Tri, Green)
-  val p0 = (1, 2)
-  val p1 = (3, 4)
-  val p2 = (5, 6)
+  val p0 = (1, 2) // occupied
+  val p1 = (3, 4) // occupied
+  val p2 = (5, 6) // empty
   val f0 = fof"¬(∃x Large(x))"
   val f1 = fof"!x Cir(x)"
   val f2 = fof"a = b"
@@ -21,6 +21,7 @@ class HandlersTest extends munit.FunSuite:
     .addFormula(f2)
     .addNameToBlockAt(p0, "f")
 
+  // No position selected
   val w000 = Handler.uiButtons((0, 0), w0)    // Eval
   val w001 = Handler.uiButtons((0, 1), w000)  // Eval
   val w100 = Handler.uiButtons((1, 0), w001)  // Move
@@ -44,6 +45,19 @@ class HandlersTest extends munit.FunSuite:
   val w012 = Handler.uiButtons((0, 12), w011) // Gray
   val w102 = Handler.uiButtons((1, 2), w012)  // Del
   val w103 = Handler.uiButtons((1, 3), w102)  // Del
+  val w104 = Handler.uiButtons((1, 4), w103)  // Small
+  val w105 = Handler.uiButtons((1, 5), w104)  // Small
+  val w106 = Handler.uiButtons((1, 6), w105)  // Mid
+  val w107 = Handler.uiButtons((1, 7), w106)  // Mid
+  val w108 = Handler.uiButtons((1, 8), w107)  // Large
+  val w109 = Handler.uiButtons((1, 9), w108)  // Large
+  val w110 = Handler.uiButtons((1, 10), w109) // Tri
+  val w111 = Handler.uiButtons((1, 11), w110) // Squ
+  val w112 = Handler.uiButtons((1, 12), w111) // Cir
+
+  // Selected position is empty
+  val x    = w112.selectPos(p2)
+  val x003 = Handler.uiButtons((0, 3), x) // Add Gray Large Cir
 
   test("Eval button in a world with 2 blocks and 3 formulas"):
     assertEquals(w000.formulas(f0), Valid, s"formula $f0 should be true, but is false")
@@ -61,7 +75,7 @@ class HandlersTest extends munit.FunSuite:
       assert(!w101.controls.move, msg)
 
   test("Block display should do nothing if clicked"):
-    val msg = "Clicking the block display should do nothing, but does something"
+    val msg = "Clicking the block display should not do anything, but does"
     assertEquals(w013, w101, msg)
     assertEquals(w014, w013, msg)
     assertEquals(w015, w014, msg)
@@ -70,12 +84,12 @@ class HandlersTest extends munit.FunSuite:
     assertEquals(w115, w114, msg)
 
   test("Adding a block with no position selected"):
-    val msg = "Add button with no selected pos should do nothing, but does something"
+    val msg = "Add button with no selected pos should not do anything, but does"
     assertEquals(w002, w115, msg)
     assertEquals(w003, w115, msg)
 
   test("Name buttons with no position selected"):
-    def msg(n: String) = s"Button for available name $n should do nothing, but does something"
+    def msg(n: String) = s"Button for available name $n should not do anything, but does"
     val msgF           = "Button f should avail the occupied name, but does not"
     assertEquals(w004, w003, msg("a"))
     assertEquals(w005, w004, msg("b"))
@@ -95,19 +109,37 @@ class HandlersTest extends munit.FunSuite:
     assertEquals(obt3, exp3, msg(obt3, exp3))
 
   test("Delete button with no position selected"):
-    val msg = "Delete button should do nothing, but does something"
+    val msg = "Delete button should not do anything, but does"
     assertEquals(w102, w012, msg)
     assertEquals(w103, w102, msg)
 
-  // val w020 = Handler.uiButtons((1, 4), w019)  // Small
-  // val w021 = Handler.uiButtons((1, 5), w019)  // Small
-  // val w022 = Handler.uiButtons((1, 6), w021)  // Mid
-  // val w023 = Handler.uiButtons((1, 7), w021)  // Mid
-  // val w024 = Handler.uiButtons((1, 8), w023)  // Large
-  // val w025 = Handler.uiButtons((1, 9), w023)  // Large
-  // val w026 = Handler.uiButtons((1, 10), w025) // Tri
-  // val w027 = Handler.uiButtons((1, 11), w025) // Squ
-  // val w028 = Handler.uiButtons((1, 12), w025) // Cir
+  test("Size buttons with no position selected"):
+    def msg1(s: Sizes) = s"Size should be $s, but is not"
+    def msg2(s: Sizes) = s"Clicking $s twice should not do anything, but does"
+    test("Clicking Small"):
+      assertEquals(w104.controls.sizeOpt.get, Small, msg1(Small))
+      assertEquals(w105, w104, msg2(Small))
+    test("Clicking Mid"):
+      assertEquals(w106.controls.sizeOpt.get, Mid, msg1(Mid))
+      assertEquals(w107, w106, msg2(Mid))
+    test("Clicking Large"):
+      assertEquals(w108.controls.sizeOpt.get, Large, msg1(Large))
+      assertEquals(w109, w108, msg2(Large))
+
+  test("Shape buttons with no position selected"):
+    def msg(obt: Option[Shape], exp: Option[Shape]) =
+      s"Shape should be $exp but is $obt"
+    val (obt1, exp1) = (w110.controls.shapeOpt, Some(Tri))
+    val (obt2, exp2) = (w111.controls.shapeOpt, Some(Squ))
+    val (obt3, exp3) = (w112.controls.shapeOpt, Some(Cir))
+    assertEquals(obt1, exp1, msg(obt1, exp1))
+    assertEquals(obt2, exp2, msg(obt2, exp2))
+    assertEquals(obt3, exp3, msg(obt3, exp3))
+
+  test("Add button with an empty position selected"):
+    val b   = Block(Large, Cir, Gray)
+    val msg = s"Pos $p2 should have block $b added, but does not"
+    assertEquals(x003.posGrid(p2).block, b, msg)
 
   // test("Adding a block in a world with 2 blocks but no selected block or pos"):
   //   assertEquals(w002, w001, "adding a block should not work, but does")

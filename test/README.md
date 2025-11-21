@@ -22,14 +22,18 @@ There are 3 situations for selecting a position on the board.
   - ✅ avail the name if it is occupied,
   - ✅ do nothing if the name is available.
 - ✅ Color buttons (Blue, Green, Gray) should change the selected color.
-- Delete button should do nothing.
-- Size buttons (Small, Mid, Large) should change the selected size.
-- Shape buttons (Tri, Squ, Cir) should change the selected shape.
-- Block display should do nothing if clicked.
+- ✅ Delete button should do nothing.
+- ✅ Size buttons (Small, Mid, Large) should change the selected size.
+- ✅ Shape buttons (Tri, Squ, Cir) should change the selected shape.
 
 #### Selected position is empty
 
-- Add button should add selected block (if available) to the position.
+Different:
+
+- ✅ Add button should add selected block (if available) to the position.
+
+Same (not tested again):
+
 - Name buttons (a, b, c, d, e, f) should:
   - avail the name if it is occupied,
   - do nothing if the name is available.
@@ -37,7 +41,6 @@ There are 3 situations for selecting a position on the board.
 - Delete button should do nothing.
 - Size buttons (Small, Mid, Large) should change the selected size.
 - Shape buttons (Tri, Squ, Cir) should change the selected shape.
-- Block display should do nothing if clicked.
 
 #### Selected position has a block on it
 
