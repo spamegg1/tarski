@@ -1,16 +1,18 @@
 package tarski
 package view
 
-case class Render(
-    opBtn: OpButtons,
-    nameBtn: NameButtons,
-    sizeBtn: SizeButtons,
-    colBtn: ColorButtons,
-    shapeBtn: ShapeButtons
-)(using c: Constants):
-  def selectedBlock(ct: Controls) = Imager(Block.fromControls(ct)).at(UI.blockPt)
+class Render(using c: Constants):
+  val opBtn    = summon[OpButtons]
+  val nameBtn  = summon[NameButtons]
+  val sizeBtn  = summon[SizeButtons]
+  val colBtn   = summon[ColorButtons]
+  val shapeBtn = summon[ShapeButtons]
+  val ui       = summon[UI]
 
-  def ui(world: World) =
+  def selectedBlock(ct: Controls): Image =
+    Imager(Block.fromControls(ct)).at(ui.blockPt)
+
+  def renderUI(world: World) =
     opBtn.evalButton
       .on(opBtn.moveButton(world.controls.move))
       .on(opBtn.addButton)
@@ -48,18 +50,8 @@ case class Render(
       .on(blocksOnBoard(world.posGrid))
       .at(c.BoardOrigin)
       .on:
-        ui(world)
+        renderUI(world)
           .at(c.UIOrigin)
       .on:
         formulaDisplay(world.formulas)
           .at(c.FormulaOrigin)
-
-object Render:
-  def apply(using c: Constants): Render =
-    val u        = new Utility
-    val opBtn    = OpButtons(u)
-    val nameBtn  = NameButtons(u)
-    val sizeBtn  = SizeButtons(u)
-    val colBtn   = ColorButtons(u)
-    val shapeBtn = ShapeButtons(u)
-    Render(opBtn, nameBtn, sizeBtn, colBtn, shapeBtn)

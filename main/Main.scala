@@ -4,14 +4,14 @@ package main
 def run(grid: Grid, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
   given c: Constants = Constants(DefaultSize * scaleFactor)
   val world          = World.from(grid, formulas)
-  val render         = Render.apply.all
+  val render         = new Render
   Reactor
     .init[World](world)
     .withOnTick(React.tick)
     .withOnMouseClick(React.click)
     .withOnMouseMove(React.move)
     .withStop(React.stop)
-    .withRender(render)
+    .withRender(render.all)
     .withTickRate(TickRate)
     .animateWithFrame(c.MainFrame)
 

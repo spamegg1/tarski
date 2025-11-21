@@ -1,10 +1,12 @@
 package tarski
 package view
 
-case class OpButtons(u: Utility)(using Constants):
-  val evalButton = u.button("Eval", UI.evalPt, 2)
-  val addButton  = u.button("Add", UI.addPt, 2)
-  val delButton  = u.button("Del", UI.delPt, 2)
-  val moveBtn    = u.button("Move", UI.movePt, 2)
+class OpButtons(using c: Constants):
+  val util       = summon[Utility]
+  val ui         = summon[UI]
+  val evalButton = util.button("Eval", ui.evalPt, 2)
+  val addButton  = util.button("Add", ui.addPt, 2)
+  val delButton  = util.button("Del", ui.delPt, 2)
+  val moveBtn    = util.button("Move", ui.movePt, 2)
   def moveButton(move: Boolean) =
-    if move then u.indicator(UI.movePt, 2).on(moveBtn) else moveBtn
+    if move then util.indicator(ui.movePt, 2).on(moveBtn) else moveBtn
