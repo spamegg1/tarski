@@ -18,7 +18,7 @@ There are 3 situations for selecting a position on the board.
 #### No position is selected
 
 - ✅ Add button should do nothing.
-- ✅ Name buttons (a, b, c, d, e, f) should:
+- Name buttons (a, b, c, d, e, f) should:
   - ✅ avail the name if it is occupied,
   - ✅ do nothing if the name is available.
 - ✅ Color buttons (Blue, Green, Gray) should change the selected color.
@@ -45,7 +45,7 @@ Same (not tested again):
 #### Selected position has a block on it
 
 - ✅ Add button should do nothing.
-- ✅ Name buttons (a, b, c, d, e, f) should:
+- Name buttons (a, b, c, d, e, f) should:
   - avail the name if it is occupied, (same, not tested again)
   - ✅ add the name to the selected block if it is available:
     - ✅ The name should become occupied.

@@ -6,11 +6,6 @@ Working prototype with some features missing and some bugs:
 
 <https://github.com/user-attachments/assets/b6eb04ee-151d-46f3-9e47-ee536aaa79c6>
 
-## Dev Blog
-
-See my adventures in bad design on my
-[Github Pages](https://spamegg1.github.io/tarski's-world/)
-
 ## About
 
 Attempting to recreate Barwise and Etchemendy's
@@ -22,6 +17,19 @@ using [Scala 3](https://www.scala-lang.org).
 They use 3D objects (cube, tetrahedron, dodecahedron) but I'm going with 2D as in
 [Epp's book](https://github.com/spamegg1/Epp-Discrete-Math-5th-solutions/).
 The image above is taken from there.
+
+## Installation
+
+TODO
+
+## Usage
+
+TODO
+
+## Dev Blog
+
+See my adventures in bad design on my
+[Github Pages](https://spamegg1.github.io/tarski's-world/)
 
 ## Info
 
@@ -41,6 +49,15 @@ With Scala 3.5.0 and above, you can simply run `scala compile .` and `scala test
 //       |
 //    constants
 ```
+
+You can read more about each module at:
+
+- [Constants](constants/README.md)
+- [Model](model/README.md)
+- [Controller](controller/README.md)
+- [View](view/README.md)
+- [Test](test/README.md)
+- [Main](main/README.md)
 
 ## Work in progress
 
