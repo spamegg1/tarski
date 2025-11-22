@@ -9,7 +9,7 @@ case class World(
 ):
   def resetFormulas             = copy(formulas = formulas.map((f, _) => f -> Ready))
   def addFormula(f: FOLFormula) = copy(formulas = formulas + (f -> Ready))
-  def selectPos(pos: Pos)       = copy(controls = controls.selectPos(pos))
+  def selectPos(pos: Pos)       = copy(controls = controls.selectPos(pos).setBlock(posGrid.get(pos)))
   def deselectPos               = copy(controls = controls.deselectPos)
   def toggleMove                = copy(controls = controls.toggleMove)
   def unsetBlock                = copy(controls = controls.unsetBlock)
@@ -43,14 +43,13 @@ case class World(
     case Some(pos) => removeBlockAt(pos)
 
   def moveBlock(from: Pos, to: Pos): World = posGrid.get(from) match
-    case None => copy(controls = controls.selectPos(to))
+    case None => selectPos(to)
     case Some((block, name)) => // make sure there is a block at from
       posGrid.get(to) match
-        case Some(_) => this
+        case Some(_) => selectPos(to)
         case None => // make sure there is no block at to
-          val newGrid     = posGrid.removed(from).updated(to, (block, name))
-          val newControls = controls.toggleMove.selectPos(to)
-          resetFormulas.copy(posGrid = newGrid, controls = newControls)
+          val newGrid = posGrid.removed(from).updated(to, (block, name))
+          resetFormulas.selectPos(to).toggleMove.copy(posGrid = newGrid)
 
   // this is tricky; since fake names are also involved.
   def addNameToBlockAt(pos: Pos, name: Name): World = posGrid.get(pos) match

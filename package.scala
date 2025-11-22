@@ -28,7 +28,8 @@ package tarski:
 
   package testing:
     export constants.{Constants, DefaultSize, Epsilon}
-    export model.{World, PosGrid, Shape, Block, NameGrid, Status, Result, Sizes, Tone}
+    export model.{World, PosGrid, Shape, Block, NameGrid}
+    export model.{Status, Result, Sizes, Tone, Controls, Pos}
     export controller.{Interpreter, Converter, Handler}
 
   package main:

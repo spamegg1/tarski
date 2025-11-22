@@ -23,6 +23,7 @@ class HandlersTest extends munit.FunSuite:
     .addFormula(f2)
     .addNameToBlockAt(p0, "f")
 
+  // For UI controls tests
   // No position selected
   val w000 = Handler.uiButtons((0, 0), w0)    // Eval
   val w001 = Handler.uiButtons((0, 1), w000)  // Eval
@@ -72,6 +73,28 @@ class HandlersTest extends munit.FunSuite:
   val y110 = Handler.uiButtons((1, 10), y104) // Tri
   val y102 = Handler.uiButtons((1, 2), y110)  // Del
 
+  // For board controls tests
+  val z0  = Handler.boardPos(p0, w0) // no pos selected, clicked p0 has a block
+  val z2  = Handler.boardPos(p2, w0) // no pos selected, clicked p2 has no block
+  val z00 = Handler.boardPos(p0, z0) // selected p0 == clicked p0
+
+  // Selected != clicked
+  // Move enabled
+  val z0e1  = z0.toggleMove              // selected p0 has block b0
+  val z0e11 = Handler.boardPos(p1, z0e1) // block b1 at clicked p1
+  val z0e12 = Handler.boardPos(p2, z0e1) // no block at clicked p2
+  val z0e2  = z0e1.selectPos(p2)         // selected p2 has no block
+  val z0e21 = Handler.boardPos(p1, z0e2) // block b1 at clicked p1
+  val z0e23 = Handler.boardPos(p3, z0e2) // no block at clicked p3
+  // Move disabled
+  val z0d1  = z0                         // selected p0 has block b0
+  val z0d11 = Handler.boardPos(p1, z0d1) // block b1 at clicked p1
+  val z0d12 = Handler.boardPos(p2, z0d1) // no block at clicked p2
+  val z0d2  = z0d1.selectPos(p2)         // selected p2 has no block
+  val z0d21 = Handler.boardPos(p1, z0d2) // block b1 at clicked p1
+  val z0d23 = Handler.boardPos(p3, z0d2) // no block at clicked p3
+
+  // UI controls tests
   test("Eval button in a world with 2 blocks and 3 formulas"):
     assertEquals(w000.formulas(f0), Valid, s"formula $f0 should be true, but is false")
     assertEquals(w001.formulas(f1), Invalid, s"formula $f1 should be false, but is true")
@@ -183,3 +206,62 @@ class HandlersTest extends munit.FunSuite:
     assertEquals(y102.controls.sizeOpt, Some(Small))
     assertEquals(y102.controls.toneOpt, Some(Blue))
     assertEquals(y102.controls.posOpt, Some(p2))
+
+  // Board controls tests
+  test("Board position, with no position selected"):
+    // Clicked pos has a block
+    val ctl = Controls(Some(Small), Some(Cir), Some(Blue), Some(p0), false)
+    val msg = "Clicking on a block should update controls and block display, but does not"
+    assertEquals(z0.controls, ctl, msg)
+
+    // Clicked pos has no block
+    val msg2 = s"Clicking pos $p2 should select it and do nothing else, but does not"
+    assertEquals(z2, w0.selectPos(p2), msg2)
+
+  test("Board position, when selected and clicked positions are the same"):
+    val ctl = Controls(None, None, None, None, false)
+    val msg = s"Clicking pos $p0 should reset UI controls and block display, but does not"
+    assertEquals(z00.controls, ctl, msg)
+
+  test("Board position, selected differs from clicked pos and move is enabled"):
+    val msgz0e11 = s"Clicking $p1 should select it, but does not"
+    val ctlz0e11 = Controls(Some(Mid), Some(Tri), Some(Green), Some(p1), true)
+    assertEquals(z0e11.controls, ctlz0e11, msgz0e11)
+
+    val msgz0e12 = s"Clicking $p2 should move $b0 to it and disable move, but does not"
+    val ctlz0e12 = Controls(Some(Small), Some(Cir), Some(Blue), Some(p2), false)
+    assertEquals(z0e12.controls, ctlz0e12, msgz0e12)
+
+    val msgz0e21 = s"Clicking $p1 should select it, but does not"
+    val ctlz0e21 = Controls(Some(Mid), Some(Tri), Some(Green), Some(p1), true)
+    assertEquals(z0e21.controls, ctlz0e21, msgz0e21)
+
+    val msgz0e23 = s"Clicking $p3 should select it, but does not"
+    val ctlz0e23 = Controls(Some(Small), Some(Cir), Some(Blue), Some(p3), true)
+    assertEquals(z0e23.controls, ctlz0e23, msgz0e23)
+
+  // Move disabled
+  // val z0d1  = z0                         // selected p0 has block b0
+  // val z0d11 = Handler.boardPos(p1, z0d1) // block b1 at clicked p1
+  // val z0d12 = Handler.boardPos(p2, z0d1) // no block at clicked p2
+  // val z0d2  = z0d1.selectPos(p2)         // selected p2 has no block
+  // val z0d21 = Handler.boardPos(p1, z0d2) // block b1 at clicked p1
+  // val z0d23 = Handler.boardPos(p3, z0d2) // no block at clicked p3
+  // val b0 = Block(Small, Cir, Blue)
+  // val b1 = Block(Mid, Tri, Green)
+  test("Board position, selected differs from clicked pos and move is disabled"):
+    val msgz0d11 = s"Clicking $p1 should select it, but does not"
+    val ctlz0d11 = Controls(Some(Mid), Some(Tri), Some(Green), Some(p1), false)
+    assertEquals(z0d11.controls, ctlz0d11, msgz0d11)
+
+    val msgz0d12 = s"Clicking $p2 should select it, but does not"
+    val ctlz0d12 = Controls(Some(Small), Some(Cir), Some(Blue), Some(p2), false)
+    assertEquals(z0d12.controls, ctlz0d12, msgz0d12)
+
+    val msgz0d21 = s"Clicking $p1 should select it, but does not"
+    val ctlz0d21 = Controls(Some(Mid), Some(Tri), Some(Green), Some(p1), false)
+    assertEquals(z0d21.controls, ctlz0d21, msgz0d21)
+
+    val msgz0d23 = s"Clicking $p3 should select it, but does not"
+    val ctlz0d23 = Controls(Some(Small), Some(Cir), Some(Blue), Some(p3), false)
+    assertEquals(z0d23.controls, ctlz0d23, msgz0d23)

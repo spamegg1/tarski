@@ -70,45 +70,43 @@ We need to consider selected position and clicked position.
 
 #### Selected = None
 
-- Clicking the position should make it selected.
-  - If clicked position has a block on it, UI display should be updated:
-    - update size
-    - update color
-    - update shape
-    - update block display
-  - If clicked position has no block, then nothing changes.
+- ✅ Clicking the position should make it selected.
+- If clicked position has a block on it, UI display should:
+  - ✅ update size
+  - ✅ update color
+  - ✅ update shape
+  - ✅ update block display
+- ✅ If clicked position has no block, then nothing changes.
 
 #### Selected = clicked
 
-- Clicking the position should de-select it.
-  - UI controls and block display should not change.
+- ✅ Clicking the position should de-select it.
+- ✅ UI controls and block display should be reset to None.
 
 #### Selected is different than clicked
 
-- It should set the clicked position as the new selected position.
+- It should:
+  - ✅ set the clicked position as the new selected position,
+  - ✅ change UI and block display accordingly (if clicked has block, update).
 
-##### Clicked position has no block on it
-
-- If move is enabled:
-  - if there is a block at selected position, it should:
-    - move block from selected to clicked,
-    - disable move.
-    - UI and block display do not change (except for move).
-  - if there is no block at selected position, it should do nothing.
-- If move is disabled, it should:
-  - If there is a block at clicked position, update UI and block display accordingly.
-
-##### Clicked position has a block on it
+Additionally,
 
 - If move is enabled:
-  - if there is a block at selected position, it should:
-    - move block from selected to clicked,
-    - disable move.
-    - UI and block display do not change (except for move).
-  - if there is no block at selected position, it should:
-    - asd
-- If move is disabled, it should:
-  - If there is a block at clicked position, update UI and block display accordingly.
+  - if selected has a block:
+    - ✅ if clicked has a block: do nothing.
+    - if clicked has no block:
+      - ✅ move the block,
+      - ✅ disable move.
+  - if selected has no block:
+    - ✅ if clicked has a block: do nothing.
+    - ✅ if clicked has no block: do nothing.
+- If move is disabled:
+  - if selected has a block:
+    - If clicked has a block: do nothing.
+    - If clicked has no block: do nothing.
+  - if selected has no block:
+    - If clicked has a block: do nothing.
+    - If clicked has no block: do nothing.
 
 ## Interpreter tests
 
