@@ -65,8 +65,12 @@ class HandlersTest extends munit.FunSuite:
 
   // Selected position has a block on it
   val y    = x002.selectPos(p2)
-  val y002 = Handler.uiButtons((0, 2), y)    // Add
-  val y004 = Handler.uiButtons((0, 4), y002) // a
+  val y002 = Handler.uiButtons((0, 2), y)     // Add
+  val y004 = Handler.uiButtons((0, 4), y002)  // a
+  val y010 = Handler.uiButtons((0, 10), y004) // Blue
+  val y104 = Handler.uiButtons((1, 4), y010)  // Small
+  val y110 = Handler.uiButtons((1, 10), y104) // Tri
+  val y102 = Handler.uiButtons((1, 2), y110)  // Del
 
   test("Eval button in a world with 2 blocks and 3 formulas"):
     assertEquals(w000.formulas(f0), Valid, s"formula $f0 should be true, but is false")
@@ -74,14 +78,12 @@ class HandlersTest extends munit.FunSuite:
     assertEquals(w001.formulas(f2), Ready, s"formula $f2 should not be evaluated, but is")
 
   test("Move button should toggle move"):
-    test("enabling move"):
-      val msg = "Move should be enabled, but is disabled"
-      assertEquals(w100, w001.toggleMove, msg)
-      assert(w100.controls.move, msg)
-    test("disabling move"):
-      val msg = "Move should be disabled, but is enabled"
-      assertEquals(w101, w100.toggleMove, msg)
-      assert(!w101.controls.move, msg)
+    val msg1 = "Move should be enabled, but is disabled"
+    val msg2 = "Move should be disabled, but is enabled"
+    assertEquals(w100, w001.toggleMove, msg1)
+    assert(w100.controls.move, msg1)
+    assertEquals(w101, w100.toggleMove, msg2)
+    assert(!w101.controls.move, msg2)
 
   test("Block display should do nothing if clicked"):
     val msg = "Clicking the block display should not do anything, but does"
@@ -125,15 +127,12 @@ class HandlersTest extends munit.FunSuite:
   test("Size buttons with no position selected"):
     def msg1(s: Sizes) = s"Size should be $s, but is not"
     def msg2(s: Sizes) = s"Clicking $s twice should not do anything, but does"
-    test("Clicking Small"):
-      assertEquals(w104.controls.sizeOpt.get, Small, msg1(Small))
-      assertEquals(w105, w104, msg2(Small))
-    test("Clicking Mid"):
-      assertEquals(w106.controls.sizeOpt.get, Mid, msg1(Mid))
-      assertEquals(w107, w106, msg2(Mid))
-    test("Clicking Large"):
-      assertEquals(w108.controls.sizeOpt.get, Large, msg1(Large))
-      assertEquals(w109, w108, msg2(Large))
+    assertEquals(w104.controls.sizeOpt.get, Small, msg1(Small))
+    assertEquals(w105, w104, msg2(Small))
+    assertEquals(w106.controls.sizeOpt.get, Mid, msg1(Mid))
+    assertEquals(w107, w106, msg2(Mid))
+    assertEquals(w108.controls.sizeOpt.get, Large, msg1(Large))
+    assertEquals(w109, w108, msg2(Large))
 
   test("Shape buttons with no position selected"):
     def msg(obt: Option[Shape], exp: Option[Shape]) =
@@ -146,11 +145,9 @@ class HandlersTest extends munit.FunSuite:
     assertEquals(obt3, exp3, msg(obt3, exp3))
 
   test("Add button with an empty position selected"):
-    test("when block display has a block available"):
-      val msg = s"Pos $p2 should have block $b2 added, but does not"
-      assertEquals(x002.posGrid(p2).block, b2, msg)
-    test("when block display does not have a block available"):
-      assertEquals(x003, x002_, "Adding a None block shouldn't do anything, but does")
+    val msg = s"Pos $p2 should have block $b2 added, but does not"
+    assertEquals(x002.posGrid(p2).block, b2, msg)
+    assertEquals(x003, x002_, "Adding a None block shouldn't do anything, but does")
 
   test("Add button with a block at selected position"):
     assertEquals(y002, y, "Adding with a block at selected pos should not work, but does")
@@ -158,15 +155,31 @@ class HandlersTest extends munit.FunSuite:
   test("Name button with a block at selected position"):
     val b             = b2.setLabel("a")
     val (block, name) = y004.posGrid(p2)
-    assertEquals(block, b, s"Block at $p2 should be $block, but is $b")
+    assertEquals(block, b, s"Block at $p2 should be $b, but is $block")
     assertEquals(name, "a", s"Name of block should be a, but is $name")
     assertEquals(y004.names("a"), Occupied, "Naming a block should occupy the name, but does not")
 
-  // test(""):
-  //   assert(true)
+  test("Color buttons with a block at selected position"):
+    val b = y010.posGrid(p2).block
+    assertEquals(b.tone, Blue, s"Block $b at position $p2 should be Blue, but is not")
+    assertEquals(y010.controls.toneOpt, Some(Blue), "Color should be Blue, but is not")
 
-  // test(""):
-  //   assert(true)
+  test("Size buttons with a block at selected position"):
+    val b = y104.posGrid(p2).block
+    assertEquals(b.size, Small, s"Block $b at position $p2 should be Small, but is not")
+    assertEquals(y104.controls.sizeOpt, Some(Small), "Size should be Small, but is not")
 
-  // test(""):
-  //   assert(true)
+  test("Shape buttons with a block at selected position"):
+    val b = y110.posGrid(p2).block
+    assertEquals(b.shape, Tri, s"Block $b at position $p2 should be Tri, but is not")
+    assertEquals(y110.controls.shapeOpt, Some(Tri), "Shape should be Tri, but is not")
+
+  test("Delete button with a block at selected position"):
+    assertEquals(y102.posGrid.get(p2), None, s"Block at pos $p2 should be deleted, but is not")
+    assertEquals(y102.names("a"), Available, "Name a of deleted block should be Available, but is not")
+
+  test("Block display and selected pos should not change after deletion"):
+    assertEquals(y102.controls.shapeOpt, Some(Tri))
+    assertEquals(y102.controls.sizeOpt, Some(Small))
+    assertEquals(y102.controls.toneOpt, Some(Blue))
+    assertEquals(y102.controls.posOpt, Some(p2))

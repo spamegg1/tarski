@@ -50,19 +50,19 @@ Same (not tested again):
   - ✅ add the name to the selected block if it is available:
     - ✅ The name should become occupied.
 - Color buttons (Blue, Green, Gray) should:
-  - change the color of the block at selected position,
+  - ✅ change the color of the block at selected position (test only 1, not all 3),
   - change the selected color. (same, not tested again)
-- Delete button should:
-  - delete the block at selected position,
-  - if the block has a name, avail that name.
-  - The block display does not change (remains the same as deleted block).
-  - Selected position also does not change.
 - Size buttons (Small, Mid, Large) should:
-  - change the size of the selected block,
+  - ✅ change the size of the selected block (test only 1, not all 3),
   - change the selected size. (same, not tested again)
 - Shape buttons (Tri, Squ, Cir) should:
-  - change the shape of the selected block,
+  - ✅ change the shape of the selected block (test only 1, not all 3),
   - change the selected shape. (same, not tested again)
+- Delete button should:
+  - ✅ delete the block at selected position,
+  - ✅ if the block has a name, avail that name.
+  - ✅ The block display does not change (remains the same as deleted block).
+  - ✅ Selected position also does not change.
 
 ### Clicking on the board
 
