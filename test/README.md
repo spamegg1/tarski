@@ -102,11 +102,11 @@ Additionally,
     - ✅ if clicked has no block: do nothing.
 - If move is disabled:
   - if selected has a block:
-    - If clicked has a block: do nothing.
-    - If clicked has no block: do nothing.
+    - ✅ if clicked has a block: do nothing.
+    - ✅ if clicked has no block: do nothing.
   - if selected has no block:
-    - If clicked has a block: do nothing.
-    - If clicked has no block: do nothing.
+    - ✅ if clicked has a block: do nothing.
+    - ✅ if clicked has no block: do nothing.
 
 ## Interpreter tests
 
