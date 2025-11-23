@@ -2,15 +2,19 @@
 
 ## Converter tests
 
-TODO
+A converter should:
+
+- ✅ correctly convert `Pos` to `Point`.
+- ✅ correctly convert `Point` to `Pos`.
+- ✅ give the same conversion `Pos` result for every `Point` inside the same block.
 
 ## Handler tests
 
 ### Clicking the UI buttons
 
 - Eval button should:
-  - ✅ evaluate the formulas that have all of the necessary named blocks
-  - ✅ leave formulas unevaluated if they have missing named blocks
+  - ✅ evaluate the formulas that have all of the necessary named blocks,
+  - ✅ leave formulas unevaluated if they have missing named blocks.
 - ✅ Move button should toggle move.
 - ✅ Block display should do nothing if clicked.
 
@@ -74,10 +78,10 @@ We need to consider selected position and clicked position.
 
 - ✅ Clicking the position should make it selected.
 - If clicked position has a block on it, UI display should:
-  - ✅ update size
-  - ✅ update color
-  - ✅ update shape
-  - ✅ update block display
+  - ✅ update size,
+  - ✅ update color,
+  - ✅ update shape,
+  - ✅ update block display.
 - ✅ If clicked position has no block, then nothing changes.
 
 #### Selected = clicked
@@ -112,8 +116,51 @@ Additionally,
 
 ## Interpreter tests
 
-TODO
+Interpreter should:
+
+- ✅ correctly interpret complex sentences in a world with many objects.
+- ✅ throw `NoSuchElementException` on formulas with missing objects.
 
 ## World tests
 
-TODO
+### Empty world
+
+An empty world should:
+
+- ✅ have no named blocks.
+- ✅ have no positioned blocks.
+- ✅ have all 6 names (a, b, c, d, e, f) available.
+- ✅ fail to remove a block.
+- ✅ fail to move a block from one position to another.
+- ✅ fail to remove name from a block.
+
+### World with 1 unnamed block
+
+In a world with only 1 block, which is unnamed:
+
+- ✅ the position grid should only have one position in its keys.
+- ✅ there should be a block at the only grid position.
+- ✅ all 6 names should still be available.
+- ✅ removing a block at a wrong position should fail.
+- ✅ removing a name from a block at a wrong position should fail.
+- ✅ removing a name from the unnamed block should fail.
+- ✅ adding a name to a block at a wrong position should fail.
+- adding a name to the unnamed block should:
+  - ✅ change its label correctly,
+  - ✅ make exactly 1 name occupied, leaving the other 5 names available.
+- ✅ adding a name to an already named block should fail.
+- ✅ moving a block at a wrong position should fail.
+- ✅ moving the only block at the correct position should succeed.
+  - ✅ It should not affect name availability (still 1 occupied, 5 available).
+- ✅ adding a second block on top of the existing block should fail.
+- ✅ adding a second, unnamed, block on an empty position should succeed.
+  - ✅ It should not affect the name of the existing block,
+  - ✅ it should not affect name availability (still 1 occupied, 5 available).
+
+### World with 2 blocks (1 named, 1 unnamed)
+
+- ✅ Moving a block to a position occupied by the other block should fail.
+- ✅ Removing the name from the named block should:
+  - ✅ succeed,
+  - ✅ make the removed name available,
+  - ✅ reset the label of the block to the empty string.
