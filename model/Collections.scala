@@ -8,7 +8,11 @@ type NameGrid = Map[Name, (block: Block, pos: Pos)]
 type Formulas = Map[FOLFormula, Result]
 
 object Formulas:
-  def fromSeq(fs: Seq[FOLFormula]): Formulas = fs.map(f => f -> Ready).toMap
+  def fromSeq(fs: Seq[FOLFormula]): Formulas = fs.map(f => f -> Result.Ready).toMap
+
+extension (formulas: Formulas)
+  def reset              = formulas.map((f, _) => f -> Result.Ready)
+  def add(f: FOLFormula) = formulas + (f -> Result.Ready)
 
 object PosGrid:
   def fromGrid(pb: Grid): PosGrid = pb.map: (pos, block) =>

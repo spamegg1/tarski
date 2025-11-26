@@ -2,7 +2,7 @@ package tarski
 package testing
 
 class InterpreterTest extends munit.FunSuite:
-  given c: Constants = Constants(DefaultSize)
+  private given c: Constants = Constants(DefaultSize)
   import Shape.*, Sizes.*, Tone.*
 
   val b0 = Block(Small, Cir, Gray, "b")
@@ -11,7 +11,7 @@ class InterpreterTest extends munit.FunSuite:
   val b3 = Block(Small, Squ, Blue)
   val b4 = Block(Small, Squ, Blue, "a")
 
-  val grid: PosGrid = Map(
+  private val grid: PosGrid = Map(
     (1, 1) -> (b0, "b"),
     (1, 5) -> (b1, "block0"),
     (3, 3) -> (b2, "c"),
@@ -19,9 +19,9 @@ class InterpreterTest extends munit.FunSuite:
     (6, 6) -> (b4, "a")
   )
 
-  val world = World(grid)
+  private val world = World(grid)
 
-  val sentences = Seq(
+  private val sentences = Seq(
     fof"∃x ∃y ∃z (Squ(x) ∧ Cir(y) ∧ Tri(z))",
     fof"¬(∃x Large(x))", // careful with this, negation needs parentheses!
     fof"∀x (Cir(x) → ∃y (Squ(y) ∧ Above(x, y)))",
@@ -37,7 +37,7 @@ class InterpreterTest extends munit.FunSuite:
     fof"Small(b) ∧ Cir(b) ∧ Gray(b)"
   )
 
-  given NameGrid = world.nameGrid
+  private given NameGrid = world.nameGrid
 
   test("interpreter is correct on complex sentences in a world with 5 objects"):
     val results = sentences.map(Interpreter.eval)

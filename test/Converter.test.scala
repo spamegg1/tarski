@@ -2,9 +2,9 @@ package tarski
 package testing
 
 class ConverterTest extends munit.FunSuite:
-  given Constants = Constants(DefaultSize)
-  val positions   = Seq((0, 0), (0, 7), (7, 0), (7, 7), (2, 3), (5, 4))
-  val points = Seq(
+  private given Constants = Constants(DefaultSize)
+  private val positions   = Seq((0, 0), (0, 7), (7, 0), (7, 7), (2, 3), (5, 4))
+  private val points = Seq(
     Point(-350, 350),
     Point(350, 350),
     Point(-350, -350),
@@ -14,7 +14,7 @@ class ConverterTest extends munit.FunSuite:
   )
 
   extension (p: Point)
-    def isCloseTo(that: Point) =
+    private def isCloseTo(that: Point) =
       math.abs(p.x - that.x) < Epsilon && math.abs(p.y - that.y) < Epsilon
 
   test("correctly convert Pos to Point on standard chess board"):

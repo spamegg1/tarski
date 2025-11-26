@@ -9,13 +9,13 @@ type Name  = String
 type Names = Map[Name, Status] // a,b,c,d,e,f
 
 object Name:
-  var counter = -1
+  private var counter = -1
   def generateFake: Name =
     counter += 1
     s"block$counter"
 
 object Names:
-  val TheNames = Set("a", "b", "c", "d", "e", "f")
+  private val TheNames = Set("a", "b", "c", "d", "e", "f")
 
   def fromNameGrid(ng: NameGrid): Names = TheNames
     .map: name =>

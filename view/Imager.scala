@@ -2,7 +2,7 @@ package tarski
 package view
 
 object Imager:
-  type Obj = Block | FOLFormula | Result
+  private type Obj = Block | FOLFormula | Result
 
   def apply(o: Obj)(using c: Constants): Image =
     o match

@@ -2,7 +2,7 @@ package tarski
 package testing
 
 class WorldTest extends munit.FunSuite:
-  given c: Constants = Constants(DefaultSize)
+  private given c: Constants = Constants(DefaultSize)
   import Shape.*, Status.*, Sizes.*, Tone.*
 
   val b0  = Block(Small, Cir, Gray)                   // at (1,2), then (3,4)

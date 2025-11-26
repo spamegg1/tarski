@@ -2,10 +2,10 @@ package tarski
 package view
 
 class ShapeButtons(using c: Constants):
-  val util = summon[Utility]
-  val ui   = summon[UI]
+  private val util = summon[Utility]
+  private val ui   = summon[UI]
 
-  val shapeButtons =
+  private val shapeButtons =
     Image
       .triangle(util.wid, util.hgh)
       .fillColor(black)
@@ -21,7 +21,7 @@ class ShapeButtons(using c: Constants):
           .fillColor(black)
           .at(ui.cirPt)
 
-  def shapeIndicator(shape: Shape) =
+  private def shapeIndicator(shape: Shape) =
     import Shape.*
     shape match
       case Tri => util.indicator(ui.triPt)

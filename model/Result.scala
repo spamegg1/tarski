@@ -3,4 +3,3 @@ package model
 
 enum Result:
   case Ready, Valid, Invalid
-export Result.*

@@ -2,15 +2,15 @@ package tarski
 package view
 
 class NameButtons(using c: Constants):
-  val util = summon[Utility]
+  private val util = summon[Utility]
 
-  val nameButtons = Seq("a", "b", "c", "d", "e", "f")
+  private val nameButtons = Seq("a", "b", "c", "d", "e", "f")
     .map: name =>
       val point = Converter.ui.toPoint(UI.grid(name))
       util.button(name, point, 1)
     .foldLeft[Image](Image.empty)(_.on(_))
 
-  def nameIndicator(name: String) =
+  private def nameIndicator(name: String) =
     val point = Converter.ui.toPoint(UI.grid(name))
     util.indicator(point, 1)
 

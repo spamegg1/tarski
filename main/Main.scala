@@ -18,14 +18,14 @@ def run(grid: Grid, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
 object Example:
   import Shape.*, Sizes.*, Tone.*
 
-  val grid: Grid = Map(
+  private val grid: Grid = Map(
     (1, 2) -> Block(Small, Tri, Green, "a"),
     (3, 4) -> Block(Mid, Tri, Blue),
     (5, 6) -> Block(Large, Cir, Gray, "d"),
     (6, 3) -> Block(Small, Squ, Blue)
   )
 
-  val formulas = Seq(
+  private val formulas = Seq(
     fof"¬(∃x Large(x))",
     fof"∀x Squ(x)",
     fof"∀x ¬ Cir(x)",

@@ -3,7 +3,6 @@ package model
 
 enum Tone:
   case Blue, Green, Gray
-export Tone.*
 
 object Tone:
   given Conversion[Tone, Color] =

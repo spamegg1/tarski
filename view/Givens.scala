@@ -8,3 +8,4 @@ given Constants => NameButtons = new NameButtons
 given Constants => OpButtons = new OpButtons
 given Constants => ShapeButtons = new ShapeButtons
 given Constants => SizeButtons = new SizeButtons
+given Constants => Render = new Render

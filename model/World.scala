@@ -7,8 +7,8 @@ case class World(
     formulas: Formulas = Map(),
     controls: Controls = Controls()
 ):
-  def resetFormulas             = copy(formulas = formulas.map((f, _) => f -> Ready))
-  def addFormula(f: FOLFormula) = copy(formulas = formulas + (f -> Ready))
+  def resetFormulas             = copy(formulas = formulas.reset)
+  def addFormula(f: FOLFormula) = copy(formulas = formulas.add(f))
   def selectPos(pos: Pos)       = copy(controls = controls.selectPos(pos).setBlock(posGrid.get(pos)))
   def deselectPos               = copy(controls = controls.deselectPos)
   def toggleMove                = copy(controls = controls.toggleMove)
