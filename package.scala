@@ -1,3 +1,7 @@
+/** Package for Tarski's world. It contains packages: [[constants]], [[model]], [[view]], [[controller]], [[testing]]
+  * and [[main]]. Dependency is linear: constants -> model -> controller -> (view and testing) -> main. The only
+  * external dependencies are [[org.scala-lang.toolkit]], [[at.logic.gapt.gapt]] and [[org.creativescala.doodle]].
+  */
 package tarski:
   export doodle.core.{Color, Point}
   export Color.{deepSkyBlue, lightGray, white, black, yellowGreen, red, green, blue}
@@ -5,20 +9,34 @@ package tarski:
   export gapt.expr.stringInterpolationForExpressions
   export gapt.expr.formula.fol.{FOLVar, FOLConst, FOLAtom, FOLFormula}
 
+  /** Package for all the global constants used everywhere and the [[Constants]] class. */
   package constants:
     export concurrent.duration.FiniteDuration
     export doodle.core.font.{Font, FontSize}
     export doodle.java2d.effect.Frame
 
+  /** Package for all the data definitions used throughout Tarski's world. It contains many types, the most important
+    * being the [[World]] class. It is used by [[controller]], [[view]], [[testing]] and [[main]]. Depends on
+    * [[constants]].
+    */
   package model:
     export constants.{BlueColor, GreenColor, GrayColor, Constants}
 
+  /** Package to draw and render the interface. It is designed in a pure way and does not hold any mutable state.
+    * [[Render]] simply consumes a [[World]] and produces a [[doodle.image.Image]]. It is used by [[main]]. Depends on
+    * [[constants]], [[model]] and [[controller]].
+    */
   package view:
     export constants.Constants
     export model.{Pos, PosGrid, World, Sizes, Tone}, Sizes.given, Tone.given
     export model.{Result, Formulas, Controls, Names, Status, Shape, Block}
     export controller.Converter
 
+  /** Package to handle user input and communicate between [[model]] and [[view]]. Depends on [[constants]] and
+    * [[model]]. It is used by [[view]], [[testing]] and [[main]]. It provides the [[Converter]] class that translates
+    * between [[model.Pos]] and [[doodle.core.Point]]. It also provides the [[Handler]] object that manages user mouse
+    * input to update the [[World]] state, and the [[Interpreter]] object that evaluates first order logic formulas.
+    */
   package controller:
     export gapt.expr.subst.FOLSubstitution
     export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
@@ -26,12 +44,19 @@ package tarski:
     export model.{Pos, Block, NameGrid, PosGrid, Status, Tone, Attr}
     export model.{World, Shape, Controls, Names, Result, Sizes}
 
+  /** This package tests [[World]] from [[model]], and [[Converter]], [[Handler]] and [[Interpreter]] from
+    * [[controller]]. Depends on [[constants]], [[model]] and [[controller]].
+    */
   package testing:
     export constants.{Constants, DefaultSize, Epsilon}
     export model.{World, PosGrid, Shape, Block, NameGrid}
     export model.{Status, Result, Sizes, Tone, Controls, Pos}
     export controller.{Interpreter, Converter, Handler}
 
+  /** This package is the user-facing part of Tarski's world. Depends on [[constants]], [[model]], [[controller]] and
+    * [[view]]. It provides the necessary data types from [[model]] for users to define their own worlds and write their
+    * own first order logic formulas, and the [[run]] method to evaluate them in a world.
+    */
   package main:
     export cats.effect.unsafe.implicits.global
     export doodle.reactor.syntax.all.animateWithFrame
