@@ -4,21 +4,22 @@ package constants
 type Dims     = (h: Double, w: Double)
 type GridSize = (rows: Int, cols: Int)
 
-// pure constants
-val DefaultSize = 100.0
-val BgColor     = white
-val BlueColor   = deepSkyBlue
-val GrayColor   = lightGray
-val GreenColor  = yellowGreen
-val Title       = "Tarski's World"
-val TickRate    = FiniteDuration(1000, "ms")
-val BoardRows   = 8
-val BoardCols   = 8
-val UIRows      = 2
-val UICols      = 16
-val Epsilon     = 0.0001
-val BoardSize   = (rows = BoardRows, cols = BoardCols)
-val UISize      = (rows = UIRows, cols = UICols)
+object Constants:
+  // pure constants
+  val DefaultSize = 100.0
+  val BgColor     = white
+  val BlueColor   = deepSkyBlue
+  val GrayColor   = lightGray
+  val GreenColor  = yellowGreen
+  val Title       = "Tarski's World"
+  val TickRate    = FiniteDuration(1000, "ms")
+  val BoardRows   = 8
+  val BoardCols   = 8
+  val UIRows      = 2
+  val UICols      = 16
+  val Epsilon     = 0.0001
+  val BoardSize   = (rows = BoardRows, cols = BoardCols)
+  val UISize      = (rows = UIRows, cols = UICols)
 
 case class Constants(size: Double):
   // derived constants
@@ -56,6 +57,6 @@ case class Constants(size: Double):
 
   val MainFrame = Frame.default
     .withSize(Width, Height)
-    .withBackground(BgColor)
-    .withTitle(Title)
+    .withBackground(Constants.BgColor)
+    .withTitle(Constants.Title)
     .withCenterAtOrigin

@@ -20,7 +20,7 @@ package tarski:
     * [[constants]].
     */
   package model:
-    export constants.{BlueColor, GreenColor, GrayColor, Constants}
+    export constants.Constants, Constants.{BlueColor, GreenColor, GrayColor}
 
   /** Package to draw and render the interface. It is designed in a pure way and does not hold any mutable state.
     * [[Render]] simply consumes a [[World]] and produces a [[doodle.image.Image]]. It is used by [[main]]. Depends on
@@ -40,7 +40,7 @@ package tarski:
   package controller:
     export gapt.expr.subst.FOLSubstitution
     export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
-    export constants.{Constants, Dims, GridSize, BoardSize, UISize}
+    export constants.{Constants, Dims, GridSize}, Constants.{BoardSize, UISize}
     export model.{Pos, Block, NameGrid, PosGrid, Status, Tone, Attr}
     export model.{World, Shape, Controls, Names, Result, Sizes}
 
@@ -48,7 +48,7 @@ package tarski:
     * [[controller]]. Depends on [[constants]], [[model]] and [[controller]].
     */
   package testing:
-    export constants.{Constants, DefaultSize, Epsilon}
+    export constants.Constants, Constants.{DefaultSize, Epsilon}
     export model.{World, PosGrid, Shape, Block, NameGrid}
     export model.{Status, Result, Sizes, Tone, Controls, Pos}
     export controller.{Interpreter, Converter, Handler}
@@ -62,7 +62,7 @@ package tarski:
     export doodle.reactor.syntax.all.animateWithFrame
     export doodle.reactor.Reactor
     export doodle.java2d.{java2dAnimationRenderer, java2dCanvasAlgebra, java2dRenderer}
-    export constants.{Constants, DefaultSize, TickRate}
+    export constants.Constants, Constants.{DefaultSize, TickRate}
     export model.{World, Block, Shape, Controls, Grid, Formulas, Sizes, Tone}
     export view.Render
     export controller.React
