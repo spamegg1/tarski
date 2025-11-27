@@ -40,7 +40,7 @@ package tarski:
   package controller:
     export gapt.expr.subst.FOLSubstitution
     export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
-    export constants.{Constants, Dims, GridSize}, Constants.{BoardSize, UISize}
+    export constants.Constants, Constants.{BoardSize, UISize, Dims, GridSize}
     export model.{Pos, Block, NameGrid, PosGrid, Status, Tone, Attr}
     export model.{World, Shape, Controls, Names, Result, Sizes}
 

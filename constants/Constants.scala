@@ -1,10 +1,10 @@
 package tarski
 package constants
 
-type Dims     = (h: Double, w: Double)
-type GridSize = (rows: Int, cols: Int)
-
 object Constants:
+  type Dims     = (h: Double, w: Double)
+  type GridSize = (rows: Int, cols: Int)
+
   // pure constants
   val DefaultSize = 100.0
   val BgColor     = white
