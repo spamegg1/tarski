@@ -20,6 +20,7 @@ local.sbt
 
 # scala-cli
 .scala-build/
+scala-doc/
 
 # Bloop
 .bsp

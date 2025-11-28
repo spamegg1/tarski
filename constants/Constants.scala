@@ -1,8 +1,8 @@
 package tarski
 package constants
 
-/** Contains type aliases [[Dims]] and [[GridSize]] used in [[controller]], and all the pure constants that do not
-  * depend on the size of the user interface.
+/** Contains type aliases [[Dims]] and [[GridSize]] used in [[controller.Converter]], and all the pure constants that do
+  * not depend on the size of the user interface.
   */
 object Constants:
   /** Type alias for the dimensions of a square on the board. Used in [[controller.Converter]]. */
@@ -10,8 +10,6 @@ object Constants:
 
   /** Type alias for the number of rows and columns of various grids. Used in [[controller.Converter]]. */
   type GridSize = (rows: Int, cols: Int)
-
-  // pure constants
 
   /** The default size of one side of a square on the board. */
   val DefaultSize = 100.0
@@ -31,13 +29,13 @@ object Constants:
   /** The default title for the window. */
   private val Title = "Tarski's World"
 
-  /** Tick rate used in [[doodle.reactor.Reactor]]. */
+  /** Tick rate passed to [[doodle.reactor.Reactor]] as an argument. */
   val TickRate = FiniteDuration(1000, "ms")
 
-  /** Number of rows on the chess board. */
+  /** Number of rows on the chess board. Must be an even positive integer. */
   private val BoardRows = 8
 
-  /** Number of columns on the chess board. */
+  /** Number of columns on the chess board. Must be an even positive integer. */
   private val BoardCols = 8
 
   /** Number of rows of the user interface controls. */
@@ -49,16 +47,16 @@ object Constants:
   /** Tolerance value used in equality checks for Double values. */
   val Epsilon = 0.0001
 
-  /** Default numbers of rows and columns of the board. Used in [[controller]]. */
+  /** Default numbers of rows and columns of the board. Used in [[controller.Converter]]. */
   val BoardSize = (rows = BoardRows, cols = BoardCols)
 
-  /** Default numbers of rows and columns of the user interface controls. Used in [[controller]]. */
+  /** Default numbers of rows and columns of the user interface controls. Used in [[controller.Converter]]. */
   val UISize = (rows = UIRows, cols = UICols)
 
 /** Contains all the constants that depend on the size of the user interface, the board image, and the frame in which
   * the interface is displayed and run.
   *
-  * This class is instantiated in [[main]] depending on the [[scaleFactor]] that the user provides to scale the
+  * This class is instantiated in [[main.run]] depending on the [[scaleFactor]] that the user provides to scale the
   * interface. Then it is used implicitly by all the other modules.
   *
   * @param size
@@ -66,41 +64,95 @@ object Constants:
   *   interface is 16 x 8, multiplied by size, in pixels (so, the default is 1600 x 800).
   */
 case class Constants(size: Double):
-  // derived constants
+  /** Stroke width for color and text. */
   private val StrokeW = size * 0.08
-  private val Pts     = size * 0.25
-  private val Height  = size * 8.0
-  private val Width   = Height * 2.0
-  private val FontSz  = FontSize.points(Pts.toInt)
 
-  val Small         = size * 0.4
-  val Mid           = size * 0.7
-  val Large         = size * 0.95
-  val SmallStroke   = StrokeW * 0.25
-  val UIBottom      = Height * 0.375
-  val BoardOrigin   = Point(-Width * 0.25, 0)
-  val UIOrigin      = Point(Width * 0.25, Height * 0.4375)
-  val FormulaOrigin = Point(Width * 0.25, -Height * 0.0625)
-  val TheFont       = Font.defaultSansSerif.size(FontSz)
-  val BoardDims     = (h = Height, w = Width * 0.5)
-  val UIDims        = (h = Height * 0.125, w = Width * 0.5)
+  /** Height of the interface, based on [[size]] and number of rows on the board. */
+  private val Height = size * Constants.BoardSize.rows
 
-  // basic shapes
-  private val SmallSq = Image.square(Pts)
-  private val Sqr     = Image.square(size)
+  /** Width of the interface, based on [[size]] and number of columns on the board. */
+  private val Width = size * 2 * Constants.BoardSize.cols
+
+  /** Used to scale the font size according to interface dimensions. */
+  private val Pts = Width * 0.015625
+
+  /** The size of the font used in buttons and formulas. */
+  private val FontSz = FontSize.points(Pts.toInt)
+
+  /** Size of small blocks, used in the enum [[model.Sizes]]. */
+  val Small = size * 0.4
+
+  /** Size of mid-sized blocks, used in the enum [[model.Sizes]]. */
+  val Mid = size * 0.7
+
+  /** Size of large blocks, used in the enum [[model.Sizes]]. */
+  val Large = size * 0.95
+
+  /** A smaller stroke width for some color boxes. */
+  val SmallStroke = StrokeW * 0.25
+
+  /** The right half of the interface is divided into two parts: UI controls and formulas. This value determines the
+    * line between them. Used by [[controller.Handler.click]].
+    */
+  val UIBottom = Height / 2.0 - size
+
+  /** The origin of the chess board that holds the blocks. Used by [[controller.Handler.click]] */
+  val BoardOrigin = Point(-Width * 0.25, 0)
+
+  /** The origin of the UI control buttons on the top right of the interface. Used by [[controller.Handler.click]] */
+  val UIOrigin = Point(Width * 0.25, Height / 2.0 - size / 2.0)
+
+  /** The origin of the formulas display on the right half of the interface. Used by [[controller.Handler.click]] */
+  val FormulaOrigin = Point(Width * 0.25, -size / 2.0)
+
+  /** Default font. */
+  val TheFont = Font.defaultSansSerif.size(FontSz)
+
+  /** Dimensions of the chess board that holds the blocks. */
+  val BoardDims = (h = Height, w = Width * 0.5)
+
+  /** Dimensions of the UI controls on the top right of the interface. */
+  val UIDims = (h = size, w = Width * 0.5)
+
+  /** Default square used on the chess board that holds the blocks, uncolored. */
+  private val Sqr = Image.square(size)
+
+  /** Default white square used on the chess board. */
   private val WhiteSq = Sqr.fillColor(white)
+
+  /** Default black square used on the chess board. */
   private val BlackSq = Sqr.fillColor(black)
 
-  // derived shapes
-  private val Wb      = WhiteSq beside BlackSq
-  private val Bw      = BlackSq beside WhiteSq
-  private val Wb8     = Wb beside Wb beside Wb beside Wb
-  private val Bw8     = Bw beside Bw beside Bw beside Bw
-  private val Quarter = Wb8 above Bw8
-  private val Half    = Quarter above Quarter
+  /** Builder method for the rows and columns of the chess board.
+    *
+    * @param builder
+    *   function parameter that combines two images, e.g. beside, above.
+    * @param count
+    *   number of rows or columns. Assumes it is an even positive integer.
+    * @param img1
+    *   first image to be combined
+    * @param img2
+    *   first image to be combined
+    * @return
+    *   the amalgamated image.
+    */
+  private def build(builder: (Image, Image) => Image)(count: Int)(img1: Image, img2: Image) =
+    require(count % 2 == 0)
+    require(0 < count)
+    (0 until count / 2)
+      .foldLeft[Image](Image.empty): (line, _) =>
+        builder(line, builder(img1, img2))
 
-  val Board = Half above Half
+  /** A row of alternating squares: white-black-white-black... */
+  private val Wb = build(_.beside(_))(Constants.BoardSize.cols)(WhiteSq, BlackSq)
 
+  /** A row of alternating squares: black-white-black-white... */
+  private val Bw = build(_.beside(_))(Constants.BoardSize.cols)(BlackSq, WhiteSq)
+
+  /** The board image in full. */
+  val Board = build(_.above(_))(Constants.BoardSize.rows)(Wb, Bw)
+
+  /** The frame in which [[doodle.reactor.Reactor]] runs the [[main.run]] method. */
   val MainFrame = Frame.default
     .withSize(Width, Height)
     .withBackground(Constants.BgColor)
