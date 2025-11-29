@@ -20,6 +20,9 @@ The image above is taken from there.
 
 ## Installation
 
+**This library has not been released yet! Coming soon...**
+**But once it is released, you can do the following.**
+
 For Scala-cli, add to your `project.scala` (or any file):
 
 ```scala
