@@ -20,11 +20,80 @@ The image above is taken from there.
 
 ## Installation
 
-TODO
+For Scala-cli, add to your `project.scala` (or any file):
+
+```scala
+//> using dep io.github.spamegg1::tarski:<version>
+```
+
+For SBT, add to your `build.sbt`:
+
+```scala
+libraryDependencies += "io.github.spamegg1" %% "tarski" % "<version>"
+```
+
+Replace `<version>` with the latest version on the right =>
 
 ## Usage
 
-TODO
+To get a quick look and feel, you can execute `tarski.main.Example.runExample`.
+
+Tarski's world is intended to be used interactively inside an IDE
+such as IntelliJ or Visual Studio Code.
+Generally, in an educational setting, a world and a list of formulas are given to you.
+Then you run the program to evaluate the formulas, move or change the blocks,
+add or change the formulas if necessary, based on what you are asked to do in exercises.
+
+All you need is to `import tarski.main.*`.
+Optionally you can also `import Shape.*, Sizes.*, Tone.*`
+to avoid repeatedly writing `Shape.`, `Sizes.` or `Tone.`.
+
+Then you can write a `Grid`, a map of positions `Pos` to `Block`s, to define the board;
+and write a list of first order logic formulas, `FOLFormula`.
+The formulas use a special string interpolator `fof"..."`,
+and can use the Unicode symbols or their ASCII equivalents for logical connectives:
+
+|Connective|ASCII|Unicode|
+|:-|:-|:-|
+|and|`&`|`∧`|
+|or|`\|`|`∨`|
+|not|`-`|`¬`|
+|implies|`->`|`→`|
+|biconditional|`<->`|`↔`|
+|forall|`!`|`∀`|
+|exists|`?`|`∃`|
+
+Then run it with `runWorld` to start interacting. Here are the details:
+
+```scala
+import tarski.main.*, Shape.*, Sizes.*, Tone.*
+
+val grid: Grid = Map(
+  (1, 2) -> Block(Small, Tri, Green, "a"),
+  (4, 3) -> Block(Mid, Tri, Blue),
+  (5, 6) -> Block(Large, Cir, Gray, "d"),
+  (6, 3) -> Block(Small, Squ, Blue)
+)
+
+val formulas = Seq(
+  fof"¬(∃x Large(x))",
+  fof"∀x Squ(x)",
+  fof"∀x ¬ Cir(x)",
+  fof"¬(∀x Small(x))",
+  fof"∃x Tri(x)",
+  fof"∀x Large(x)",
+  fof"∃x Cir(x)",
+  fof"a = b",
+  fof"∀x ∃y Larger(x, y)",
+  fof"c != d",
+  fof"∀x (Squ(x) → Tri(x))",
+  fof"∃x (Tri(x) ↔ Mid(x))",
+  fof"¬(∃x (Cir(x) ∧ Small(x)))",
+)
+
+@main
+def runExample = runWorld(grid, formulas)
+```
 
 ## Dev Blog
 

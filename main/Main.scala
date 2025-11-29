@@ -1,7 +1,18 @@
 package tarski
 package main
 
-def run(grid: Grid, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
+/** This method is how a user runs Tarski's world.
+  *
+  * @param grid
+  *   A map from grid positions to blocks.
+  * @param formulas
+  *   A sequence of first-order formulas.
+  * @param scaleFactor
+  *   Used to scale the user interface size. Must be positive. Default is 1.0, which results in a 1600 x 800 window.
+  *   Provide values < 1.0 to make it smaller, > 1.0 to make it bigger.
+  */
+def runWorld(grid: Grid, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
+  require(scaleFactor > 0.0)
   given c: Constants = Constants(DefaultSize * scaleFactor)
   val world          = World.from(grid, formulas)
   val render         = new Render
@@ -15,6 +26,12 @@ def run(grid: Grid, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
     .withTickRate(TickRate)
     .animateWithFrame(c.MainFrame)
 
+/** An example of how Tarski's world is used.
+  *
+  * We need a grid (positions -> blocks), and a list of formulas, then call [[main.runWorld]] with them.
+  *
+  * To see the example, you can execute [[Example.runExample]].
+  */
 object Example:
   import Shape.*, Sizes.*, Tone.*
 
@@ -40,9 +57,9 @@ object Example:
     fof"∀x (Squ(x) ∨ Tri(x))",
     fof"∀x (Large(x) ∨ Squ(x))",
     fof"∃x (Tri(x) ∧ Mid(x))",
-    fof"¬(∃x (Cir(x) ∧ Small(x)))",
-    fof"∃y (Squ(y) ∧ Small(y))"
+    fof"¬(∃x (Cir(x) → Small(x)))",
+    fof"∃y (Squ(y) <-> Small(y))"
   )
 
   @main
-  def runExample = run(grid, formulas)
+  def runExample = runWorld(grid, formulas)

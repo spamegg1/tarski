@@ -1,36 +1,93 @@
 package tarski
 package controller
 
+/** Converts between [[model.Pos]] and [[doodle.core.Point]] in a rectangle. The rectangle can be: the board, the UI
+  * controls, or the formula display.
+  *
+  * @param dims
+  *   the height and width of the rectangle being converted.
+  * @param gs
+  *   the number of rows and columns of the rectangle being converted.
+  */
 case class Converter(dims: Dims, gs: GridSize):
+  /** The height of one square block on the rectangle. */
   val blockHeight = dims.h / gs.rows
-  val blockWidth  = dims.w / gs.cols
-  val top         = dims.h / 2
-  val left        = -dims.w / 2
 
+  /** The width of one square block on the rectangle. */
+  val blockWidth = dims.w / gs.cols
+
+  /** The top y-coordinate of the rectangle. */
+  val top = dims.h / 2
+
+  /** The left-most x-coordinate of the rectangle. */
+  val left = -dims.w / 2
+
+  /** Converts [[model.Pos]] to [[doodle.core.Point]] in a rectangle with given dimensions and grid size.
+    *
+    * @param pos
+    *   The integer grid positions of the point inside the rectangle.
+    * @return
+    *   The Cartesian coordinates corresponding to `pos`.
+    */
   def toPoint(pos: Pos): Point =
     val x = left + (0.5 + pos.col) * blockWidth
     val y = top - (0.5 + pos.row) * blockHeight
     Point(x, y)
 
+  /** Converts [[model.Pos]] to [[doodle.core.Point]] in a rectangle with given dimensions and grid size. Used for
+    * buttons that are wider, so the center is slightly shifted right.
+    *
+    * @param pos
+    *   The integer grid positions of the point inside the rectangle.
+    * @return
+    *   The Cartesian coordinates corresponding to `pos`, slightly shifted right for a wider button so that it is
+    *   centered correctly.
+    */
   def toPointX(pos: Pos): Point =
     val x = left + (1.0 + pos.col) * blockWidth
     val y = top - (0.5 + pos.row) * blockHeight
     Point(x, y)
 
+  /** Converts [[model.Pos]] to [[doodle.core.Point]] in a rectangle with given dimensions and grid size. Used for
+    * buttons that are taller, so the center is slightly shifted down.
+    *
+    * @param pos
+    *   The integer grid positions of the point inside the rectangle.
+    * @return
+    *   The Cartesian coordinates corresponding to `pos`, slightly shifted down for a taller button so that it is
+    *   centered correctly.
+    */
   def toPointY(pos: Pos): Point =
     val x = left + (0.5 + pos.col) * blockWidth
     val y = top - (1.0 + pos.row) * blockHeight
     Point(x, y)
 
+  /** Converts [[doodle.core.Point]] to [[model.Pos]]. All `Point`s inside the same square block are converted to the
+    * same `Pos`.
+    *
+    * @param point
+    *   The Cartesian coordinates of the point inside the rectangle.
+    * @return
+    *   The integer grid positions that corresponds to the point.
+    */
   def toPos(point: Point): Pos =
     val row = (top - point.y) / blockHeight
     val col = (-left + point.x) / blockWidth
     (row.toInt, col.toInt)
 
+/** Contains [[Converter]] instances for the board and the user interface, along with a mapping between grid positions
+  * and UI control buttons.
+  */
 object Converter:
+  /** Converts between [[model.Pos]] and [[doodle.core.Point]] on the chess board. Used by [[React.click]] and
+    * [[view.Render]].
+    */
   def board(using c: Constants) = Converter(c.BoardDims, BoardSize)
-  def ui(using c: Constants)    = Converter(c.UIDims, UISize)
 
+  /** Converts between [[model.Pos]] and [[doodle.core.Point]] for the user interface controls. Used in [[view]]. */
+  def ui(using c: Constants) = Converter(c.UIDims, UISize)
+
+  /** Used in [[Handler]] to look up which grid position on the user interface controls corresponds to which button. */
   val uiMap = Map[Pos, String](
     (0, 0)  -> "Eval",
     (0, 1)  -> "Eval",

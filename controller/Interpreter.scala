@@ -1,7 +1,22 @@
 package tarski
 package controller
 
+/** Contains methods used in evaluation of first-order formulas in a given world. */
 object Interpreter:
+  /** Evaluates first-order logic formulas according to the blocks on the board.
+    *
+    * It is recursive but without tailrec optimization or memoization. The computation is expected to be very simple, so
+    * performance is not a priority.
+    *
+    * Can throw an `IllegalArgumentException` from its helper, [[evalAtom]].
+    *
+    * @param formula
+    *   A first-order formula to be evaluated.
+    * @param ng
+    *   A map of named objects, and their blocks and positions.
+    * @return
+    *   true if the first-order formula holds in the given board and blocks, false otherwise.
+    */
   def eval(formula: FOLFormula)(using ng: NameGrid): Boolean = formula match
     case a: FOLAtom => evalAtom(a)
     case And(a, b)  => eval(a) && eval(b)
@@ -14,6 +29,30 @@ object Interpreter:
     case All(x, f) => ng.keys.forall(name => eval(f.sub(x, FOLConst(name))))
     case Ex(x, f)  => ng.keys.exists(name => eval(f.sub(x, FOLConst(name))))
 
+  /** Helper to evaluate atomic formulas in a given world.
+    *
+    * Atomic formulas are restricted to the following predicate symbols:
+    *
+    * Unary: `Small`, `Mid`, `Large`, `Tri`, `Squ`, `Cir`, `Blue`, `Green`, `Gray`
+    *
+    * Binary: `Left`, `Right`, `Below`, `Above`, `Adjoins`, `Smaller`, `Larger`, `=`, `SameSize`, `SameShape`,
+    * `SameTone`, `SameRow`, `SameCol`
+    *
+    * Ternary: `Betw`
+    *
+    * Throws an `IllegalArgumentException` if any other predicate symbol is used.
+    *
+    * Look-ups of named objects in the input map are performed without the safety of `.get`, which can result in
+    * `java.util.NoSuchElementException`; but this is caught in [[Handler.handleEval]] in the outer boundary. The reason
+    * for this design is to leave a formula unevaluated if it refers to a named object that does not exist.
+    *
+    * @param a
+    *   An atomic formula to be evaluated.
+    * @param ng
+    *   A map of named objects, and their blocks and positions.
+    * @return
+    *   true if the atomic formula holds in the given board and blocks, false otherwise.
+    */
   private def evalAtom(a: FOLAtom)(using ng: NameGrid): Boolean =
     import Pos.*, Sizes.*, Tone.*, Shape.*
     a match
@@ -42,4 +81,15 @@ object Interpreter:
       case FOLAtom("Betw", Seq(FOLConst(c), FOLConst(d), FOLConst(e))) => ng(c).pos.between(ng(d).pos, ng(e).pos)
       case _ => throw IllegalArgumentException(s"Atom $a is parsed incorrectly")
 
-  extension (f: FOLFormula) def sub(x: FOLVar, c: FOLConst) = FOLSubstitution((x, c)).apply(f)
+  extension (f: FOLFormula)
+    /** Extension method to substitute a [[FOLConst]] into a [[FOLFormula]] for all free occurrences of a variable. Used
+      * in [[eval]].
+      *
+      * @param x
+      *   A first-order variable
+      * @param c
+      *   A first-order constant
+      * @return
+      *   the formula, with all free occurrences of `x` replaced by `c`.
+      */
+    def sub(x: FOLVar, c: FOLConst) = FOLSubstitution((x, c)).apply(f)

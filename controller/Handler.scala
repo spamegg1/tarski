@@ -1,7 +1,19 @@
 package tarski
 package controller
 
+/** Handles user interface controls, for the chess board and for the user interface control buttons.
+  */
 object Handler:
+
+  /** Handles what happens when a user clicks somewhere on the board.
+    *
+    * @param pos
+    *   The integer grid positions that the user clicked on.
+    * @param world
+    *   Current state of the world.
+    * @return
+    *   New state of the world, updated according to which square was clicked on.
+    */
   def boardPos(pos: Pos, world: World): World =
     world.controls.posOpt match
       case Some(p) if p == pos =>
@@ -12,6 +24,15 @@ object Handler:
         val newControls = world.controls.selectPos(pos).setBlock(world.posGrid.get(pos))
         world.copy(controls = newControls)
 
+  /** Handles what happens when a user clicks somewhere on the user interface controls.
+    *
+    * @param pos
+    *   The integer grid positions that the user clicked on.
+    * @param world
+    *   Current state of the world.
+    * @return
+    *   New state of the world, updated according to which button was clicked on.
+    */
   def uiButtons(pos: Pos, world: World): World =
     Converter.uiMap.get(pos) match
       case None => world
@@ -28,6 +49,13 @@ object Handler:
           case "Tri" | "Squ" | "Cir"             => handleAttr(value, world)
           case _                                 => world
 
+  /** Handles the evaluation of formulas if the user clicked on the Eval button.
+    *
+    * @param world
+    *   The current state of the world.
+    * @return
+    *   New state of the world, updated by evaluating the formulas.
+    */
   private def handleEval(world: World): World =
     import Result.*
     val results = world.formulas.map: (formula, result) =>
@@ -35,10 +63,19 @@ object Handler:
       try
         val bool = Interpreter.eval(formula)(using world.nameGrid)
         status = if bool then Valid else Invalid
-      catch case _ => ()
+      catch case ex: java.util.NoSuchElementException => ()
       formula -> status
     world.copy(formulas = results)
 
+  /** Handles the named objects if the user clicked on one of the name buttons.
+    *
+    * @param name
+    *   The name of the button that was clicked (a, b, c, d, e or f).
+    * @param world
+    *   The current state of the world.
+    * @return
+    *   New state of the world, updated according to which name was clicked.
+    */
   private def handleName(name: String, world: World): World =
     import Status.*
     world.names.get(name) match
@@ -52,6 +89,16 @@ object Handler:
           case None           => world
           case Some((_, pos)) => world.removeNameFromBlockAt(pos)
 
+  /** Handles attributes ([[model.Tone]], [[model.Shape]] or [[model.Sizes]]) if the user clicks on one of those
+    * buttons.
+    *
+    * @param attr
+    *   The attribute that was clicked.
+    * @param world
+    *   The current state of the world.
+    * @return
+    *   New state of the world, updated according to which attribute was clicked.
+    */
   private def handleAttr(attr: String, world: World): World =
     val newAttr     = attr.toAttr
     val newControls = world.controls.setAttr(newAttr)
@@ -66,6 +113,11 @@ object Handler:
     world.copy(controls = newControls, posGrid = newGrid)
 
   extension (s: String)
+    /** Extension method to convert a `String` to a [[model.Attr]].
+      *
+      * @return
+      *   The attribute that corresponds to the `String`.
+      */
     def toAttr: Attr = s match
       case "Blue"  => Tone.Blue
       case "Gray"  => Tone.Gray

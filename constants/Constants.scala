@@ -56,12 +56,12 @@ object Constants:
 /** Contains all the constants that depend on the size of the user interface, the board image, and the frame in which
   * the interface is displayed and run.
   *
-  * This class is instantiated in [[main.run]] depending on the [[scaleFactor]] that the user provides to scale the
-  * interface. Then it is used implicitly by all the other modules.
+  * This class is instantiated in [[main.runWorld]] depending on its `scaleFactor` parameter that the user provides to
+  * scale the interface. Then it is used implicitly by all the other modules.
   *
   * @param size
-  *   defines the side length of a block on the board. Default is [[DefaultSize]]: 100.0. The dimensions of the user
-  *   interface is 16 x 8, multiplied by size, in pixels (so, the default is 1600 x 800).
+  *   defines the side length of a block on the board. Default is [[Constants.DefaultSize]]: 100.0. The dimensions of
+  *   the user interface is 16 x 8, multiplied by size, in pixels (so, the default is 1600 x 800).
   */
 case class Constants(size: Double):
   /** Stroke width for color and text. */
@@ -76,9 +76,6 @@ case class Constants(size: Double):
   /** Used to scale the font size according to interface dimensions. */
   private val Pts = Width * 0.015625
 
-  /** The size of the font used in buttons and formulas. */
-  private val FontSz = FontSize.points(Pts.toInt)
-
   /** Size of small blocks, used in the enum [[model.Sizes]]. */
   val Small = size * 0.4
 
@@ -92,21 +89,21 @@ case class Constants(size: Double):
   val SmallStroke = StrokeW * 0.25
 
   /** The right half of the interface is divided into two parts: UI controls and formulas. This value determines the
-    * line between them. Used by [[controller.Handler.click]].
+    * line between them. Used by [[controller.React.click]].
     */
   val UIBottom = Height / 2.0 - size
 
-  /** The origin of the chess board that holds the blocks. Used by [[controller.Handler.click]] */
+  /** The origin of the chess board that holds the blocks. Used by [[controller.React.click]] */
   val BoardOrigin = Point(-Width * 0.25, 0)
 
-  /** The origin of the UI control buttons on the top right of the interface. Used by [[controller.Handler.click]] */
+  /** The origin of the UI control buttons on the top right of the interface. Used by [[controller.React.click]] */
   val UIOrigin = Point(Width * 0.25, Height / 2.0 - size / 2.0)
 
-  /** The origin of the formulas display on the right half of the interface. Used by [[controller.Handler.click]] */
+  /** The origin of the formulas display on the right half of the interface. Used by [[controller.React.click]] */
   val FormulaOrigin = Point(Width * 0.25, -size / 2.0)
 
   /** Default font. */
-  val TheFont = Font.defaultSansSerif.size(FontSz)
+  val TheFont = Font(FontFamily.monospaced, FontStyle.normal, FontWeight.normal, FontSize.points(Pts.toInt))
 
   /** Dimensions of the chess board that holds the blocks. */
   val BoardDims = (h = Height, w = Width * 0.5)
@@ -152,7 +149,7 @@ case class Constants(size: Double):
   /** The board image in full. */
   val Board = build(_.above(_))(Constants.BoardSize.rows)(Wb, Bw)
 
-  /** The frame in which [[doodle.reactor.Reactor]] runs the [[main.run]] method. */
+  /** The frame in which [[doodle.reactor.Reactor]] runs the [[main.runWorld]] method. */
   val MainFrame = Frame.default
     .withSize(Width, Height)
     .withBackground(Constants.BgColor)

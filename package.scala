@@ -2,13 +2,12 @@ package tarski:
   export doodle.core.{Color, Point}
   export Color.{deepSkyBlue, lightGray, white, black, yellowGreen, red, green, blue}
   export doodle.image.Image, Image.Elements.Text
-  export gapt.expr.stringInterpolationForExpressions
   export gapt.expr.formula.fol.{FOLVar, FOLConst, FOLAtom, FOLFormula}
 
   /** Package for all the global constants used everywhere and the [[Constants]] class. */
   package constants:
     export concurrent.duration.FiniteDuration
-    export doodle.core.font.{Font, FontSize}
+    export doodle.core.font.{Font, FontFamily, FontStyle, FontWeight, FontSize}
     export doodle.java2d.effect.Frame
 
   /** Package for all the data definitions used throughout Tarski's world. It contains many types, the most important
@@ -44,6 +43,7 @@ package tarski:
     * [[controller]]. Depends on [[constants]], [[model]] and [[controller]].
     */
   package testing:
+    export gapt.expr.stringInterpolationForExpressions
     export constants.Constants, Constants.{DefaultSize, Epsilon}
     export model.{World, PosGrid, Shape, Block, NameGrid}
     export model.{Status, Result, Sizes, Tone, Controls, Pos}
@@ -55,6 +55,7 @@ package tarski:
     */
   package main:
     export cats.effect.unsafe.implicits.global
+    export gapt.expr.stringInterpolationForExpressions
     export doodle.reactor.syntax.all.animateWithFrame
     export doodle.reactor.Reactor
     export doodle.java2d.{java2dAnimationRenderer, java2dCanvasAlgebra, java2dRenderer}
