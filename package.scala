@@ -1,7 +1,3 @@
-/** Package for Tarski's world. It contains packages: [[constants]], [[model]], [[view]], [[controller]], [[testing]]
-  * and [[main]]. Dependency is linear: constants -> model -> controller -> (view and testing) -> main. The only
-  * external dependencies are [[org.scala-lang.toolkit]], [[at.logic.gapt.gapt]] and [[org.creativescala.doodle]].
-  */
 package tarski:
   export doodle.core.{Color, Point}
   export Color.{deepSkyBlue, lightGray, white, black, yellowGreen, red, green, blue}
