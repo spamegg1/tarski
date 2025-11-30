@@ -11,10 +11,9 @@
 //> using publish.developers "spamegg1|Spamegg|https://github.com/spamegg1"
 //> using publish.url https://github.com/spamegg1/tarski
 //> using publish.vcs github:spamegg1/tarski
-//> using publish.repository central github
+//> using publish.repository "central|github"
 //> using publish.user env:SONATYPE_USERNAME
 //> using publish.password env:SONATYPE_PASSWORD
 //> using publish.gpgKey A467BFB403160D9F
 //> using publish.secretKey env:PGP_SECRET
 //> using publish.secretKeyPassword env:PGP_PASSPHRASE
-//> using github.token env:TARSKI_GITHUB_TOKEN
