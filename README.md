@@ -18,85 +18,6 @@ They use 3D objects (cube, tetrahedron, dodecahedron) but I'm going with 2D as i
 [Epp's book](https://github.com/spamegg1/Epp-Discrete-Math-5th-solutions/).
 The image above is taken from there.
 
-## Installation
-
-Current version is 0.0.3. (Nov 30, 2025)
-
-For Scala-cli, add to your `project.scala` (or any file):
-
-```scala
-//> using dep io.github.spamegg1::tarski:<version>
-```
-
-For SBT, add to your `build.sbt`:
-
-```scala
-libraryDependencies += "io.github.spamegg1" %% "tarski" % "<version>"
-```
-
-Replace `<version>` with the latest version.
-
-## Usage
-
-To get a quick look and feel, you can execute `tarski.main.Example.runExample`.
-
-Tarski's world is intended to be used interactively inside an IDE
-such as IntelliJ or Visual Studio Code.
-Generally, in an educational setting, a world and a list of formulas are given to you.
-Then you run the program to evaluate the formulas, move or change the blocks,
-add or change the formulas if necessary, based on what you are asked to do in exercises.
-
-All you need is to `import tarski.main.*`.
-Optionally you can also `import Shape.*, Sizes.*, Tone.*`
-to avoid repeatedly writing `Shape.`, `Sizes.` or `Tone.`.
-
-Then you can write a `Grid`, a map of positions `Pos` to `Block`s, to define the board;
-and write a list of first order logic formulas, `FOLFormula`.
-The formulas use a special string interpolator `fof"..."`,
-and can use the Unicode symbols or their ASCII equivalents for logical connectives:
-
-|Connective|ASCII|Unicode|
-|:-|:-|:-|
-|and|`&`|`∧`|
-|or|`\|`|`∨`|
-|not|`-`|`¬`|
-|implies|`->`|`→`|
-|biconditional|`<->`|`↔`|
-|forall|`!`|`∀`|
-|exists|`?`|`∃`|
-
-Then run it with `runWorld` to start interacting. Here are the details:
-
-```scala
-import tarski.main.*, Shape.*, Sizes.*, Tone.*
-
-val grid: Grid = Map(
-  (1, 2) -> Block(Small, Tri, Green, "a"),
-  (4, 3) -> Block(Mid, Tri, Blue),
-  (5, 6) -> Block(Large, Cir, Gray, "d"),
-  (6, 3) -> Block(Small, Squ, Blue)
-)
-
-val formulas = Seq(
-  fof"¬(∃x Large(x))",
-  fof"∀x Squ(x)",
-  fof"∀x ¬ Cir(x)",
-  fof"¬(∀x Small(x))",
-  fof"∃x Tri(x)",
-  fof"∀x Large(x)",
-  fof"∃x Cir(x)",
-  fof"a = b",
-  fof"∀x ∃y Larger(x, y)",
-  fof"c != d",
-  fof"∀x (Squ(x) → Tri(x))",
-  fof"∃x (Tri(x) ↔ Mid(x))",
-  fof"¬(∃x (Cir(x) ∧ Small(x)))",
-)
-
-@main
-def runExample = runWorld(grid, formulas)
-```
-
 ## Dev Blog
 
 See my adventures in bad design on my
@@ -129,6 +50,162 @@ You can read more about each module at:
 - [View](view/README.md)
 - [Test](test/README.md)
 - [Main](main/README.md)
+
+## Installation
+
+Current version is 0.0.3 (Nov 30, 2025). Released for Scala 3 only.
+
+For Scala-cli, add to your `project.scala` (or any file):
+
+```scala
+//> using dep io.github.spamegg1::tarski:<version>
+```
+
+For SBT, add to your `build.sbt`:
+
+```scala
+libraryDependencies += "io.github.spamegg1" %% "tarski" % "<version>"
+```
+
+Replace `<version>` with the latest version.
+
+## API Docs
+
+Can be found at [Javadoc](https://javadoc.io/doc/io.github.spamegg1/tarski_3/latest/index.html)
+
+## Usage
+
+To get a quick look and feel, you can execute `tarski.main.Example.runExample`.
+
+Tarski's world is intended to be used interactively inside an IDE
+such as IntelliJ or Visual Studio Code.
+
+Generally, in an educational setting, a world and a list of formulas are given to you.
+Then you run the program to evaluate the formulas, move or change the blocks,
+add or change the formulas if necessary, based on what you are asked to do in exercises.
+Of course, you can write your own worlds and formulas too.
+
+### Running: an example
+
+Then run it with `runWorld` to start interacting.
+You will see the interactive window like the one above in the video.
+Here are the details:
+
+```scala
+//> using dep io.github.spamegg1::tarski:0.0.3
+
+import tarski.main.*, Shape.*, Sizes.*, Tone.*
+
+val grid: Grid = Map(
+  (1, 2) -> Block(Small, Tri, Green, "a"),
+  (4, 3) -> Block(Mid, Tri, Blue),
+  (5, 6) -> Block(Large, Cir, Gray, "d"),
+  (6, 3) -> Block(Small, Squ, Blue)
+)
+
+val formulas = Seq(
+  fof"¬(∃x Large(x))",
+  fof"∀x Squ(x)",
+  fof"∀x ¬ Cir(x)",
+  fof"¬(∀x Small(x))",
+  fof"∃x Tri(x)",
+  fof"∀x Large(x)",
+  fof"∃x Cir(x)",
+  fof"a = b",
+  fof"∀x ∃y Larger(x, y)",
+  fof"c != d",
+  fof"∀x (Squ(x) → Tri(x))",
+  fof"∃x (Tri(x) ↔ Mid(x))",
+  fof"¬(∃x (Cir(x) ∧ Small(x)))",
+)
+
+@main
+def runExample = runWorld(grid, formulas)
+```
+
+### Imports
+
+All you need is to `import tarski.main.*`.
+Optionally you can also `import Shape.*, Sizes.*, Tone.*`
+to avoid repeatedly writing `Shape.`, `Sizes.` or `Tone.`.
+
+### Blocks
+
+Blocks have 3 attributes, each of which has 3 possible values:
+
+|Attribute|value1|value2|value3|
+|:-|:-|:-|:-|
+|Tone|Blue|Green|Gray|
+|Shape|Tri|Squ|Cir|
+|Sizes|Small|Mid|Large|
+
+Blocks can also have an optional name, only one of: `a, b, c, d, e, f`.
+Other names are not allowed. Formulas can then refer to these names as constants.
+
+### Predicates
+
+The following predicates are supported:
+
+#### Unary
+
+|Syntax|Semantics|
+|:-|:-|
+|`Tri(x)`| "x is a triangle"|
+|`Squ(x)`| "x is a square"|
+|`Cir(x)`| "x is a circle"|
+|`Blue(x)`| "x has color blue"|
+|`Green(x)`| "x has color green"|
+|`Gray(x)`| "x has color gray"|
+|`Small(x)`| "x has size small"|
+|`Mid(x)`| "x has size mid"|
+|`Large(x)`| "x has size large"|
+
+#### Binary
+
+|Syntax|Semantics|
+|:-|:-|
+|`Left(x, y)`|"x is to the left of y"|
+|`Right(x, y)`|"x is to the right of y"|
+|`Below(x, y)`|"x is below y"|
+|`Above(x, y)`|"x is above y"|
+|`Adjoins(x, y)`|"x is above, below, to the left of, or to the right of, y"|
+|`Smaller(x, y)`|"x is smaller than y"|
+|`Larger(x, y)`|"x is larger than y"|
+|`x = y`|"x is equal to y"|
+|`SameRow(x, y)`|"x is on the same row as y"|
+|`SameCol(x, y)`|"x is on the same column as y"|
+|`SameSize(x, y)`|"x has the same size as y"|
+|`SameShape(x, y)`|"x has the same shape as y"|
+|`SameTone(x, y)`|"x has the same tone as y"|
+
+#### Ternary
+
+|Syntax|Semantics|
+|:-|:-|
+|`Betw(x, y, z)`|"x is between y and z (vertically, horizontally or diagonally)"|
+
+### Grids
+
+Then you can write a `Grid`, a map of positions `Pos` to `Block`s, to define the board.
+See below for details and an example.
+
+### Formulas
+
+Then you can write a list of first order logic formulas, `FOLFormula`
+(courtesy of [Gapt](https://github.com/gapt/gapt)).
+
+The formulas use a special string interpolator `fof"..."`,
+and can use the Unicode symbols or their ASCII equivalents for logical connectives:
+
+|Connective|ASCII|Unicode|
+|:-|:-|:-|
+|and|`&`|`∧`|
+|or|`\|`|`∨`|
+|not|`-`|`¬`|
+|implies|`->`|`→`|
+|biconditional|`<->`|`↔`|
+|forall|`!`|`∀`|
+|exists|`?`|`∃`|
 
 ## Work in progress
 
