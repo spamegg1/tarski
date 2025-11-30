@@ -12,7 +12,7 @@ jobs:
         fetch-depth: 0
     - uses: coursier/cache-action@v7.0.0
     - uses: VirtusLab/scala-cli-setup@v1.10.1
-    - run: scala-cli --power publish . --signer gpg --gpg-key A467BFB403160D9F
+    - run: scala-cli --signer gpg --gpg-key A467BFB403160D9F && scala-cli --power publish .
       env:
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
