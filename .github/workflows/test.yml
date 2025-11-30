@@ -14,4 +14,4 @@ jobs:
         fetch-depth: 0
     - uses: coursier/cache-action@v7.0.0
     - uses: VirtusLab/scala-cli-setup@v1.10.1
-    - run: scala-cli format --check && scala-cli test .
+    - run: scala-cli --power format --check && scala-cli --power test .
