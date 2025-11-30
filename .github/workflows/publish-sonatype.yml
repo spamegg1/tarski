@@ -14,8 +14,6 @@ jobs:
     - uses: VirtusLab/scala-cli-setup@v1.10.1
     - run: |
         ./.github/workflows/import-gpg.sh
-          scala-cli --power config publish.credentials central.sonatype.com env:SONATYPE_USERNAME env:SONATYPE_PASSWORD
-          scala-cli --power config publish.credentials ossrh-staging-api.central.sonatype.com env:SONATYPE_USERNAME env:SONATYPE_PASSWORD
           scala-cli --power publish .
       env:
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
