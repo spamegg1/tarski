@@ -20,10 +20,7 @@ The image above is taken from there.
 
 ## Installation
 
-Current version is 0.0.1
-
-**This library has not been released yet! Coming soon...**
-**But once it is released, you can do the following.**
+Current version is 0.0.3. (Nov 30, 2025)
 
 For Scala-cli, add to your `project.scala` (or any file):
 
@@ -37,7 +34,7 @@ For SBT, add to your `build.sbt`:
 libraryDependencies += "io.github.spamegg1" %% "tarski" % "<version>"
 ```
 
-Replace `<version>` with the latest version on the right =>
+Replace `<version>` with the latest version.
 
 ## Usage
 
