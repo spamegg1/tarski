@@ -1,0 +1,18 @@
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v6.0.0
+      with:
+        fetch-depth: 0
+    - uses: coursier/cache-action@v7.0.0
+    - uses: VirtusLab/scala-cli-setup@v1.10.1
+    - run: ./.github/workflows/import-gpg.sh && scala-cli --power publish . --publish-repository github
+      env:
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
