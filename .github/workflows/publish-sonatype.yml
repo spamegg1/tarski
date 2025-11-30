@@ -16,7 +16,7 @@ jobs:
         ./.github/workflows/import-gpg.sh
           scala-cli --power config publish.credentials central.sonatype.com env:SONATYPE_USERNAME env:SONATYPE_PASSWORD
           scala-cli --power config publish.credentials ossrh-staging-api.central.sonatype.com env:SONATYPE_USERNAME env:SONATYPE_PASSWORD
-          scala-cli publish .
+          scala-cli --power publish .
       env:
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
