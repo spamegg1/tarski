@@ -14,6 +14,5 @@
 //> using publish.repository "central|github"
 //> using publish.user env:SONATYPE_USERNAME
 //> using publish.password env:SONATYPE_PASSWORD
-//> using publish.gpgKey A467BFB403160D9F
 //> using publish.secretKey env:PGP_SECRET
 //> using publish.secretKeyPassword env:PGP_PASSPHRASE
