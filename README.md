@@ -20,7 +20,7 @@ The image above is taken from there.
 
 ## Installation
 
-Current version is 0.0.1.
+Current version is 0.0.1
 
 **This library has not been released yet! Coming soon...**
 **But once it is released, you can do the following.**
