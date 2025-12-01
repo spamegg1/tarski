@@ -7,7 +7,7 @@ package view
   *   A given instance of [[Constants]], needed to derive [[Utility]] and [[UI]] instances.
   */
 class ColorButtons(using c: Constants):
-  /** An instance of [[Utility]] summned here for width and height calculations. */
+  /** An instance of [[Utility]] summoned here for width and height calculations, and to draw buttons and indicators. */
   private val util = summon[Utility]
 
   /** An instance of [[UI]] summoned here to calculate positions of the color buttons. */

@@ -1,31 +1,31 @@
 package tarski
 package controller
 
-/** Converts between [[model.Pos]] and [[doodle.core.Point]] in a rectangle. The rectangle can be: the board, the UI
-  * controls, or the formula display.
+/** Converts between [[model.Pos]] and [[doodle.core.Point]] on a rectangle that is divided into a grid of rows and
+  * columns. The grid can be: the chess board, the UI controls, or the formula display.
   *
   * @param dims
-  *   the height and width of the rectangle being converted.
+  *   the total height and width of the grid.
   * @param gs
-  *   the number of rows and columns of the rectangle being converted.
+  *   the numbers of rows and columns of the grid.
   */
 case class Converter(dims: Dims, gs: GridSize):
-  /** The height of one square block on the rectangle. */
+  /** The height of one block unit on the grid. */
   val blockHeight = dims.h / gs.rows
 
-  /** The width of one square block on the rectangle. */
+  /** The width of one block unit on the grid. */
   val blockWidth = dims.w / gs.cols
 
-  /** The top y-coordinate of the rectangle. */
+  /** The top y-coordinate of the grid. */
   val top = dims.h / 2
 
-  /** The left-most x-coordinate of the rectangle. */
+  /** The left-most x-coordinate of the grid. */
   val left = -dims.w / 2
 
-  /** Converts [[model.Pos]] to [[doodle.core.Point]] in a rectangle with given dimensions and grid size.
+  /** Converts [[model.Pos]] to [[doodle.core.Point]] on a grid with given dimensions and grid size.
     *
     * @param pos
-    *   The integer grid positions of the point inside the rectangle.
+    *   The integer positions of the point inside the grid.
     * @return
     *   The Cartesian coordinates corresponding to `pos`.
     */
@@ -34,11 +34,11 @@ case class Converter(dims: Dims, gs: GridSize):
     val y = top - (0.5 + pos.row) * blockHeight
     Point(x, y)
 
-  /** Converts [[model.Pos]] to [[doodle.core.Point]] in a rectangle with given dimensions and grid size. Used for
-    * buttons that are wider, so the center is slightly shifted right.
+  /** Converts [[model.Pos]] to [[doodle.core.Point]] on a grid with given dimensions and grid size. Used for buttons
+    * that are wider, so the center is slightly shifted right.
     *
     * @param pos
-    *   The integer grid positions of the point inside the rectangle.
+    *   The integer positions of the point inside the grid.
     * @return
     *   The Cartesian coordinates corresponding to `pos`, slightly shifted right for a wider button so that it is
     *   centered correctly.
@@ -48,11 +48,11 @@ case class Converter(dims: Dims, gs: GridSize):
     val y = top - (0.5 + pos.row) * blockHeight
     Point(x, y)
 
-  /** Converts [[model.Pos]] to [[doodle.core.Point]] in a rectangle with given dimensions and grid size. Used for
-    * buttons that are taller, so the center is slightly shifted down.
+  /** Converts [[model.Pos]] to [[doodle.core.Point]] on a grid with given dimensions and grid size. Used for buttons
+    * that are taller, so the center is slightly shifted down.
     *
     * @param pos
-    *   The integer grid positions of the point inside the rectangle.
+    *   The integer positions of the point inside the grid.
     * @return
     *   The Cartesian coordinates corresponding to `pos`, slightly shifted down for a taller button so that it is
     *   centered correctly.
@@ -62,11 +62,11 @@ case class Converter(dims: Dims, gs: GridSize):
     val y = top - (1.0 + pos.row) * blockHeight
     Point(x, y)
 
-  /** Converts [[doodle.core.Point]] to [[model.Pos]]. All `Point`s inside the same square block are converted to the
-    * same `Pos`.
+  /** Converts [[doodle.core.Point]] to [[model.Pos]]. All `Point`s inside the same block unit are converted to the same
+    * `Pos`.
     *
     * @param point
-    *   The Cartesian coordinates of the point inside the rectangle.
+    *   The Cartesian coordinates of the point inside the grid.
     * @return
     *   The integer grid positions that corresponds to the point.
     */

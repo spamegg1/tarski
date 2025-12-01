@@ -1,27 +1,44 @@
 package tarski
 package view
 
+/** Converts every type of object to an image. */
 object Imager:
+  /** Type alias for all the types that can be converted to an image. */
   private type Obj = Block | FOLFormula | Result
 
+  /** Converts an [[Obj]] to a [[doodle.image.Image]].
+    *
+    * @param o
+    *   An instance of [[Block]], [[FOLFormula]] or [[Result]].
+    * @param c
+    *   A given instance of [[Constants]], needed for the fonts.
+    * @return
+    *   An image of the object.
+    */
   def apply(o: Obj)(using c: Constants): Image =
     o match
       case b: Block =>
         val shapeImg =
-          import Shape.*
           b.shape match
-            case Tri => Image.triangle(b.size, b.size).fillColor(b.tone)
-            case Squ => Image.square(b.size).fillColor(b.tone)
-            case Cir => Image.circle(b.size).fillColor(b.tone)
+            case Shape.Tri => Image.triangle(b.size, b.size).fillColor(b.tone)
+            case Shape.Squ => Image.square(b.size).fillColor(b.tone)
+            case Shape.Cir => Image.circle(b.size).fillColor(b.tone)
         Text(b.label).font(c.TheFont).on(shapeImg)
       case f: FOLFormula => Text(f.toString).font(c.TheFont)
-      case r: Result =>
-        import Result.*
+      case r: Result     =>
         r match
-          case Ready   => Text("  ?").font(c.TheFont).strokeColor(blue)
-          case Valid   => Text("  T").font(c.TheFont).strokeColor(green)
-          case Invalid => Text("  F").font(c.TheFont).strokeColor(red)
+          case Result.Ready   => Text(" ?").font(c.TheFont).strokeColor(blue)
+          case Result.Valid   => Text(" T").font(c.TheFont).strokeColor(green)
+          case Result.Invalid => Text(" F").font(c.TheFont).strokeColor(red)
 
+  /** Alternate imaging method for possibly missing objects. For example, [[Controls]] does not display a block unless
+    * all three attributes are set, so an empty image has to be displayed.
+    *
+    * @param opt
+    *   An optional [[Obj]].
+    * @return
+    *   The image of the object, or an empty image if the object is missing.
+    */
   def apply(opt: Option[Obj])(using Constants): Image = opt match
     case None      => Image.empty
     case Some(obj) => Imager(obj)

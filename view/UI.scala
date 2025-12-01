@@ -1,6 +1,7 @@
 package tarski
 package view
 
+/** Contains a mapping between UI button names and their grid positions. Used by the companion class. */
 object UI:
   val grid = Map[String, Pos](
     "Eval"  -> (0, 0),
@@ -25,6 +26,11 @@ object UI:
     "Cir"   -> (1, 12)
   )
 
+/** Calculates the Cartesian points for all the UI buttons.
+  *
+  * @param _
+  *   A given instance of [[Constants]], needed for [[Converter.ui]].
+  */
 class UI(using Constants):
   val evalPt  = Converter.ui.toPointX(UI.grid("Eval"))
   val movePt  = Converter.ui.toPointX(UI.grid("Move"))

@@ -62,4 +62,4 @@ object Example:
   )
 
   @main
-  def runExample = runWorld(grid, formulas, 1.2)
+  def runExample = runWorld(grid, formulas)

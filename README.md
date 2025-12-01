@@ -123,6 +123,10 @@ val formulas = Seq(
 def runExample = runWorld(grid, formulas)
 ```
 
+You can add or remove blocks interactively.
+Unfortunately editing the formulas inside the interface is not supported yet.
+To edit the formulas, close the window, edit them in your IDE, then restart.
+
 ### Imports
 
 All you need is to `import tarski.main.*`.
@@ -187,7 +191,7 @@ The following predicates are supported:
 ### Grids
 
 Then you can write a `Grid`, a map of positions `Pos` to `Block`s, to define the board.
-See below for details and an example.
+See above for details and an example.
 
 ### Formulas
 
@@ -206,6 +210,12 @@ and can use the Unicode symbols or their ASCII equivalents for logical connectiv
 |biconditional|`<->`|`↔`|
 |forall|`!`|`∀`|
 |exists|`?`|`∃`|
+
+## Exercises
+
+I will create some exercises that you can do, in the future. You can always try the
+Tarski's world [textbook](https://www.gradegrinder.net/Products/tw-index.html).
+(Not sponsored or an endorsement; I think it's just a cool book.)
 
 ## Work in progress
 
