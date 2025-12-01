@@ -103,7 +103,7 @@ case class Constants(size: Double):
   val FormulaOrigin = Point(Width * 0.25, -size / 2.0)
 
   /** Default font. */
-  val TheFont = Font(FontFamily.monospaced, FontStyle.normal, FontWeight.normal, FontSize.points(Pts.toInt))
+  val TheFont = Font(FontFamily.named("DejaVu Sans"), FontStyle.normal, FontWeight.normal, FontSize.points(Pts.toInt))
 
   /** Dimensions of the chess board that holds the blocks. */
   val BoardDims = (h = Height, w = Width * 0.5)
