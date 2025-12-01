@@ -2,9 +2,7 @@
 
 ![world](.images/world.png)
 
-Working prototype with some features missing and some bugs:
-
-<https://github.com/user-attachments/assets/b6eb04ee-151d-46f3-9e47-ee536aaa79c6>
+<https://github.com/user-attachments/assets/66219d4a-a76c-444d-a945-ec81c240c94d>
 
 ## About
 
