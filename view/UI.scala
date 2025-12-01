@@ -29,7 +29,7 @@ object UI:
 /** Calculates the Cartesian points for all the UI buttons.
   *
   * @param _
-  *   A given instance of [[Constants]], needed for [[Converter.ui]].
+  *   A given instance of [[Constants]], needed for [[Converter]].
   */
 class UI(using Constants):
   val evalPt  = Converter.ui.toPointX(UI.grid("Eval"))

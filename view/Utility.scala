@@ -4,7 +4,7 @@ package view
 /** Utility class that draws buttons and indicators common to many button types.
   *
   * @param c
-  *   A given instance of [[Constants]], needed to use [[Converter.ui]].
+  *   A given instance of [[Constants]], needed to use [[Converter]].
   */
 class Utility(using c: Constants):
   /** The width of one block unit of the user interface controls. */
