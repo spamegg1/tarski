@@ -53,7 +53,7 @@ case class Controls(
     *   A new [[Controls]] instance, updated to display the attributes of the selected block on the user interface.
     */
   def setBlock(opt: Option[(block: Block, name: Name)]) = opt match
-    case None => this
+    case None         => this
     case Some((b, _)) =>
       copy(
         sizeOpt = Some(b.size),

@@ -22,7 +22,7 @@ object Handler:
         val newControls = world.controls.deselectPos.unsetBlock
         world.copy(controls = newControls)
       case Some(p) if world.controls.move => world.moveBlock(from = p, to = pos)
-      case _ =>
+      case _                              =>
         val newControls = world.controls.selectPos(pos).setBlock(world.posGrid.get(pos))
         world.copy(controls = newControls)
 
@@ -37,7 +37,7 @@ object Handler:
     */
   def uiButtons(pos: Pos, world: World): World =
     Converter.uiMap.get(pos) match
-      case None => world
+      case None        => world
       case Some(value) => // make sure a button is clicked
         value match
           case "Eval"                            => handleEval(world)
@@ -81,7 +81,7 @@ object Handler:
   private def handleName(name: String, world: World): World =
     import Status.*
     world.names.get(name) match
-      case None => world
+      case None            => world
       case Some(Available) =>
         world.controls.posOpt match
           case None      => world
@@ -102,13 +102,13 @@ object Handler:
     *   New state of the world, updated according to which attribute was clicked.
     */
   private def handleAttr(attr: String, world: World): World =
-    val newAttr     = attr.toAttr
-    val newControls = world.controls.setAttr(newAttr)
+    val newAttr                = attr.toAttr
+    val newControls            = world.controls.setAttr(newAttr)
     val (newGrid, newFormulas) = world.controls.posOpt match
-      case None => (world.posGrid, world.formulas)
+      case None      => (world.posGrid, world.formulas)
       case Some(pos) =>
         world.posGrid.get(pos) match
-          case None => (world.posGrid, world.formulas)
+          case None                => (world.posGrid, world.formulas)
           case Some((block, name)) =>
             val newBlock = block.setAttr(newAttr)
             (world.posGrid.updated(pos, (newBlock, name)), world.formulas.reset)

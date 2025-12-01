@@ -4,7 +4,7 @@ package testing
 class ConverterTest extends munit.FunSuite:
   private given Constants = Constants(DefaultSize)
   private val positions   = Seq((0, 0), (0, 7), (7, 0), (7, 7), (2, 3), (5, 4))
-  private val points = Seq(
+  private val points      = Seq(
     Point(-350, 350),
     Point(350, 350),
     Point(-350, -350),

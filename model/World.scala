@@ -86,7 +86,7 @@ case class World(
     */
   def addBlockAt(pos: Pos, block: Block) = posGrid.get(pos) match
     case Some(_) => this
-    case None => // make sure there is no block at position
+    case None    => // make sure there is no block at position
       val fakeName = Name.generateFake
       val newGrid  = posGrid.updated(pos, (block, fakeName))
       resetFormulas.copy(posGrid = newGrid)
@@ -101,7 +101,7 @@ case class World(
     */
   def addBlockFromControls: World =
     Block.fromControls(controls) match
-      case None => this
+      case None        => this
       case Some(block) => // make sure a block can be created
         controls.posOpt match
           case None      => this
@@ -115,7 +115,7 @@ case class World(
     *   A copy of this world with the block at `pos` (if any) removed, and formula results reset.
     */
   def removeBlockAt(pos: Pos) = posGrid.get(pos) match
-    case None => this
+    case None            => this
     case Some((_, name)) => // make sure there is a block at position
       val newGrid  = posGrid.removed(pos)
       val newNames = names.avail(name)
@@ -141,11 +141,11 @@ case class World(
     *   the move is successful, Move will also be disabled.
     */
   def moveBlock(from: Pos, to: Pos): World = posGrid.get(from) match
-    case None => selectPos(to)
+    case None                => selectPos(to)
     case Some((block, name)) => // make sure there is a block at from
       posGrid.get(to) match
         case Some(_) => selectPos(to)
-        case None => // make sure there is no block at to
+        case None    => // make sure there is no block at to
           val newGrid = posGrid.removed(from).updated(to, (block, name))
           resetFormulas.selectPos(to).toggleMove.copy(posGrid = newGrid)
 
@@ -160,14 +160,14 @@ case class World(
     *   results reset.
     */
   def addNameToBlockAt(pos: Pos, name: Name): World = posGrid.get(pos) match
-    case None => this
+    case None                   => this
     case Some((block, oldName)) => // make sure there is a block at position
       names.get(oldName) match
         case Some(_) => this
-        case None => // make sure the block does not already have a real name
+        case None    => // make sure the block does not already have a real name
           names.get(name) match
-            case None           => this
-            case Some(Occupied) => this
+            case None            => this
+            case Some(Occupied)  => this
             case Some(Available) => // make sure the name is available
               val newBlock = block.setLabel(name)
               val newGrid  = posGrid.updated(pos, (newBlock, name))
@@ -184,12 +184,12 @@ case class World(
     *   name.
     */
   def removeNameFromBlockAt(pos: Pos): World = posGrid.get(pos) match
-    case None => this
+    case None                => this
     case Some((block, name)) => // make sure there is a block at position
       names.get(name) match
         case None            => this
         case Some(Available) => this
-        case Some(Occupied) => // make sure name is already occupied
+        case Some(Occupied)  => // make sure name is already occupied
           val newBlock = block.removeLabel
           val newName  = Name.generateFake
           val newGrid  = posGrid.updated(pos, (newBlock, newName))

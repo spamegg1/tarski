@@ -18,11 +18,11 @@ object Interpreter:
     *   true if the first-order formula holds in the given board and blocks, false otherwise.
     */
   def eval(formula: FOLFormula)(using ng: NameGrid): Boolean = formula match
-    case a: FOLAtom => evalAtom(a)
-    case And(a, b)  => eval(a) && eval(b)
-    case Or(a, b)   => eval(a) || eval(b)
-    case Neg(a)     => !eval(a)
-    case Imp(a, b)  => if eval(a) then eval(b) else true
+    case a: FOLAtom                        => evalAtom(a)
+    case And(a, b)                         => eval(a) && eval(b)
+    case Or(a, b)                          => eval(a) || eval(b)
+    case Neg(a)                            => !eval(a)
+    case Imp(a, b)                         => if eval(a) then eval(b) else true
     case Iff(a: FOLFormula, b: FOLFormula) =>
       val (ea, eb) = (eval(a), eval(b))
       ea && eb || !ea && !eb
