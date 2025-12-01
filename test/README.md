@@ -26,6 +26,7 @@ There are 3 situations for selecting a position on the board.
 - ✅ Add button should do nothing.
 - Name buttons (a, b, c, d, e, f) should:
   - ✅ avail the name if it is occupied,
+    - ✅ and reset formulas to un-evaluated,
   - ✅ do nothing if the name is available.
 - ✅ Color buttons (Blue, Green, Gray) should change the selected color.
 - ✅ Delete button should do nothing.
@@ -37,11 +38,13 @@ There are 3 situations for selecting a position on the board.
 Different:
 
 - ✅ Add button should add selected block (if available) to the position.
+  - ✅ It should also reset the formulas to un-evaluated.
 
 Same (not tested again):
 
 - Name buttons (a, b, c, d, e, f) should:
   - avail the name if it is occupied,
+    - and reset formulas to un-evaluated,
   - do nothing if the name is available.
 - Color buttons (Blue, Green, Gray) should change the selected color.
 - Delete button should do nothing.
@@ -53,19 +56,25 @@ Same (not tested again):
 - ✅ Add button should do nothing.
 - Name buttons (a, b, c, d, e, f) should:
   - avail the name if it is occupied, (same, not tested again)
+    - and reset formulas to un-evaluated, (same, not tested again)
   - ✅ add the name to the selected block if it is available:
     - ✅ The name should become occupied.
+    - ✅ And formulas should be reset to un-evaluated.
 - Color buttons (Blue, Green, Gray) should:
   - ✅ change the color of the block at selected position (test only 1, not all 3),
+  - ✅ reset formulas to un-evaluated,
   - change the selected color. (same, not tested again)
 - Size buttons (Small, Mid, Large) should:
   - ✅ change the size of the selected block (test only 1, not all 3),
+  - ✅ reset formulas to un-evaluated,
   - change the selected size. (same, not tested again)
 - Shape buttons (Tri, Squ, Cir) should:
   - ✅ change the shape of the selected block (test only 1, not all 3),
+  - ✅ reset formulas to un-evaluated,
   - change the selected shape. (same, not tested again)
 - Delete button should:
   - ✅ delete the block at selected position,
+  - ✅ reset formulas to un-evaluated,
   - ✅ if the block has a name, avail that name.
   - ✅ The block display does not change (remains the same as deleted block).
   - ✅ Selected position also does not change.
@@ -102,7 +111,8 @@ Additionally,
     - ✅ if clicked has a block: do nothing.
     - if clicked has no block:
       - ✅ move the block,
-      - ✅ disable move.
+      - ✅ disable move,
+      - ✅ reset formulas.
   - if selected has no block:
     - ✅ if clicked has a block: do nothing.
     - ✅ if clicked has no block: do nothing.

@@ -1,6 +1,8 @@
 package tarski
 package controller
 
+import tarski.model.reset
+
 /** Handles user interface controls, for the chess board and for the user interface control buttons.
   */
 object Handler:
@@ -90,7 +92,7 @@ object Handler:
           case Some((_, pos)) => world.removeNameFromBlockAt(pos)
 
   /** Handles attributes ([[model.Tone]], [[model.Shape]] or [[model.Sizes]]) if the user clicks on one of those
-    * buttons.
+    * buttons. If there is a block at selected position, the block's attributes are changed, and formulas are reset.
     *
     * @param attr
     *   The attribute that was clicked.
@@ -102,15 +104,15 @@ object Handler:
   private def handleAttr(attr: String, world: World): World =
     val newAttr     = attr.toAttr
     val newControls = world.controls.setAttr(newAttr)
-    val newGrid = world.controls.posOpt match
-      case None => world.posGrid
+    val (newGrid, newFormulas) = world.controls.posOpt match
+      case None => (world.posGrid, world.formulas)
       case Some(pos) =>
         world.posGrid.get(pos) match
-          case None => world.posGrid
+          case None => (world.posGrid, world.formulas)
           case Some((block, name)) =>
             val newBlock = block.setAttr(newAttr)
-            world.posGrid.updated(pos, (newBlock, name))
-    world.copy(controls = newControls, posGrid = newGrid)
+            (world.posGrid.updated(pos, (newBlock, name)), world.formulas.reset)
+    world.copy(controls = newControls, posGrid = newGrid, formulas = newFormulas)
 
   extension (s: String)
     /** Extension method to convert a `String` to a [[model.Attr]].

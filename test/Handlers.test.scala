@@ -25,53 +25,60 @@ class HandlersTest extends munit.FunSuite:
 
   // For UI controls tests
   // No position selected
-  val w000 = Handler.uiButtons((0, 0), w0)    // Eval
-  val w001 = Handler.uiButtons((0, 1), w000)  // Eval
-  val w100 = Handler.uiButtons((1, 0), w001)  // Move
-  val w101 = Handler.uiButtons((1, 1), w100)  // Move
-  val w013 = Handler.uiButtons((0, 13), w101) // Block
-  val w014 = Handler.uiButtons((0, 14), w013) // Block
-  val w015 = Handler.uiButtons((0, 15), w014) // Block
-  val w113 = Handler.uiButtons((1, 13), w015) // Block
-  val w114 = Handler.uiButtons((1, 14), w113) // Block
-  val w115 = Handler.uiButtons((1, 15), w114) // Block
-  val w002 = Handler.uiButtons((0, 2), w115)  // Add
-  val w003 = Handler.uiButtons((0, 3), w115)  // Add
-  val w004 = Handler.uiButtons((0, 4), w003)  // a
-  val w005 = Handler.uiButtons((0, 5), w004)  // b
-  val w006 = Handler.uiButtons((0, 6), w005)  // c
-  val w007 = Handler.uiButtons((0, 7), w006)  // d
-  val w008 = Handler.uiButtons((0, 8), w007)  // e
-  val w009 = Handler.uiButtons((0, 9), w008)  // f
-  val w010 = Handler.uiButtons((0, 10), w009) // Blue
-  val w011 = Handler.uiButtons((0, 11), w010) // Green
-  val w012 = Handler.uiButtons((0, 12), w011) // Gray
-  val w102 = Handler.uiButtons((1, 2), w012)  // Del
-  val w103 = Handler.uiButtons((1, 3), w102)  // Del
-  val w104 = Handler.uiButtons((1, 4), w103)  // Small
-  val w105 = Handler.uiButtons((1, 5), w104)  // Small
-  val w106 = Handler.uiButtons((1, 6), w105)  // Mid
-  val w107 = Handler.uiButtons((1, 7), w106)  // Mid
-  val w108 = Handler.uiButtons((1, 8), w107)  // Large
-  val w109 = Handler.uiButtons((1, 9), w108)  // Large
-  val w110 = Handler.uiButtons((1, 10), w109) // Tri
-  val w111 = Handler.uiButtons((1, 11), w110) // Squ
-  val w112 = Handler.uiButtons((1, 12), w111) // Cir
+  val w000  = Handler.uiButtons((0, 0), w0)    // Eval
+  val w001  = Handler.uiButtons((0, 1), w000)  // Eval
+  val w100  = Handler.uiButtons((1, 0), w001)  // Move
+  val w101  = Handler.uiButtons((1, 1), w100)  // Move
+  val w013  = Handler.uiButtons((0, 13), w101) // Block
+  val w014  = Handler.uiButtons((0, 14), w013) // Block
+  val w015  = Handler.uiButtons((0, 15), w014) // Block
+  val w113  = Handler.uiButtons((1, 13), w015) // Block
+  val w114  = Handler.uiButtons((1, 14), w113) // Block
+  val w115  = Handler.uiButtons((1, 15), w114) // Block
+  val w002  = Handler.uiButtons((0, 2), w115)  // Add
+  val w003  = Handler.uiButtons((0, 3), w115)  // Add
+  val w004  = Handler.uiButtons((0, 4), w003)  // a
+  val w005  = Handler.uiButtons((0, 5), w004)  // b
+  val w006  = Handler.uiButtons((0, 6), w005)  // c
+  val w007  = Handler.uiButtons((0, 7), w006)  // d
+  val w008  = Handler.uiButtons((0, 8), w007)  // e
+  val w008_ = Handler.uiButtons((0, 0), w008)  // Eval
+  val w009  = Handler.uiButtons((0, 9), w008_) // f
+  val w010  = Handler.uiButtons((0, 10), w009) // Blue
+  val w011  = Handler.uiButtons((0, 11), w010) // Green
+  val w012  = Handler.uiButtons((0, 12), w011) // Gray
+  val w102  = Handler.uiButtons((1, 2), w012)  // Del
+  val w103  = Handler.uiButtons((1, 3), w102)  // Del
+  val w104  = Handler.uiButtons((1, 4), w103)  // Small
+  val w105  = Handler.uiButtons((1, 5), w104)  // Small
+  val w106  = Handler.uiButtons((1, 6), w105)  // Mid
+  val w107  = Handler.uiButtons((1, 7), w106)  // Mid
+  val w108  = Handler.uiButtons((1, 8), w107)  // Large
+  val w109  = Handler.uiButtons((1, 9), w108)  // Large
+  val w110  = Handler.uiButtons((1, 10), w109) // Tri
+  val w111  = Handler.uiButtons((1, 11), w110) // Squ
+  val w112  = Handler.uiButtons((1, 12), w111) // Cir
 
   // Selected position is empty
   val x     = w112.selectPos(p2)
-  val x002  = Handler.uiButtons((0, 2), x)     // Add Gray Large Cir
+  val x000  = Handler.uiButtons((0, 0), x)     // Eval
+  val x002  = Handler.uiButtons((0, 2), x000)  // Add Gray Large Cir
   val x002_ = x002.unsetBlock.selectPos(p3)
   val x003  = Handler.uiButtons((0, 3), x002_) // Add no block
 
   // Selected position has a block on it
-  val y    = x002.selectPos(p2)
-  val y002 = Handler.uiButtons((0, 2), y)     // Add
-  val y004 = Handler.uiButtons((0, 4), y002)  // a
-  val y010 = Handler.uiButtons((0, 10), y004) // Blue
-  val y104 = Handler.uiButtons((1, 4), y010)  // Small
-  val y110 = Handler.uiButtons((1, 10), y104) // Tri
-  val y102 = Handler.uiButtons((1, 2), y110)  // Del
+  val y     = x002.selectPos(p2)
+  val y002  = Handler.uiButtons((0, 2), y)      // Add
+  val y002_ = Handler.uiButtons((0, 0), y002)   // Eval
+  val y004  = Handler.uiButtons((0, 4), y002_)  // a
+  val y004_ = Handler.uiButtons((0, 0), y004)   // Eval
+  val y010  = Handler.uiButtons((0, 10), y004_) // Blue
+  val y010_ = Handler.uiButtons((0, 0), y010)   // Eval
+  val y104  = Handler.uiButtons((1, 4), y010_)  // Small
+  val y104_ = Handler.uiButtons((0, 0), y104)   // Eval
+  val y110  = Handler.uiButtons((1, 10), y104_) // Tri
+  val y110_ = Handler.uiButtons((0, 0), y110)   // Eval
+  val y102  = Handler.uiButtons((1, 2), y110_)  // Del
 
   // For board controls tests
   val z0  = Handler.boardPos(p0, w0) // no pos selected, clicked p0 has a block
@@ -80,12 +87,13 @@ class HandlersTest extends munit.FunSuite:
 
   // Selected != clicked
   // Move enabled
-  val z0e1  = z0.toggleMove              // selected p0 has block b0
-  val z0e11 = Handler.boardPos(p1, z0e1) // block b1 at clicked p1
-  val z0e12 = Handler.boardPos(p2, z0e1) // no block at clicked p2
-  val z0e2  = z0e1.selectPos(p2)         // selected p2 has no block
-  val z0e21 = Handler.boardPos(p1, z0e2) // block b1 at clicked p1
-  val z0e23 = Handler.boardPos(p3, z0e2) // no block at clicked p3
+  val z0e1  = z0.toggleMove                   // selected p0 has block b0
+  val z0e11 = Handler.boardPos(p1, z0e1)      // block b1 at clicked p1
+  val z0e1_ = Handler.uiButtons((0, 0), z0e1) // Eval
+  val z0e12 = Handler.boardPos(p2, z0e1_)     // no block at clicked p2
+  val z0e2  = z0e1.selectPos(p2)              // selected p2 has no block
+  val z0e21 = Handler.boardPos(p1, z0e2)      // block b1 at clicked p1
+  val z0e23 = Handler.boardPos(p3, z0e2)      // no block at clicked p3
   // Move disabled
   val z0d1  = z0                         // selected p0 has block b0
   val z0d11 = Handler.boardPos(p1, z0d1) // block b1 at clicked p1
@@ -125,12 +133,14 @@ class HandlersTest extends munit.FunSuite:
   test("Name buttons with no position selected"):
     def msg(n: String) = s"Button for available name $n should not do anything, but does"
     val msgF           = "Button f should avail the occupied name, but does not"
+    val msgFormulas    = "Availing an occupied name should reset all formulas, but does not"
     assertEquals(w004, w003, msg("a"))
     assertEquals(w005, w004, msg("b"))
     assertEquals(w006, w005, msg("c"))
     assertEquals(w007, w006, msg("d"))
     assertEquals(w008, w007, msg("e"))
     assertEquals(w009.names("f"), Available, msgF)
+    assert(w009.formulas.values.forall(_ == Ready), msgFormulas)
 
   test("Color buttons with no position selected"):
     def msg(obt: Option[Tone], exp: Option[Tone]) =
@@ -168,8 +178,10 @@ class HandlersTest extends munit.FunSuite:
     assertEquals(obt3, exp3, msg(obt3, exp3))
 
   test("Add button with an empty position selected"):
-    val msg = s"Pos $p2 should have block $b2 added, but does not"
-    assertEquals(x002.posGrid(p2).block, b2, msg)
+    val msg1 = s"Pos $p2 should have block $b2 added, but does not"
+    val msg2 = "Adding a block should reset all formulas, but does not"
+    assertEquals(x002.posGrid(p2).block, b2, msg1)
+    assert(x002.formulas.values.forall(_ == Ready), msg2)
     assertEquals(x003, x002_, "Adding a None block shouldn't do anything, but does")
 
   test("Add button with a block at selected position"):
@@ -181,25 +193,33 @@ class HandlersTest extends munit.FunSuite:
     assertEquals(block, b, s"Block at $p2 should be $b, but is $block")
     assertEquals(name, "a", s"Name of block should be a, but is $name")
     assertEquals(y004.names("a"), Occupied, "Naming a block should occupy the name, but does not")
+    assert(y004.formulas.values.forall(_ == Ready), "Adding a name to a block should reset all formulas, but does not")
 
   test("Color buttons with a block at selected position"):
-    val b = y010.posGrid(p2).block
+    val b   = y010.posGrid(p2).block
+    val msg = "Changing the color of a block should reset all formulas, but does not"
     assertEquals(b.tone, Blue, s"Block $b at position $p2 should be Blue, but is not")
     assertEquals(y010.controls.toneOpt, Some(Blue), "Color should be Blue, but is not")
+    assert(y010.formulas.values.forall(_ == Ready), msg)
 
   test("Size buttons with a block at selected position"):
-    val b = y104.posGrid(p2).block
+    val b   = y104.posGrid(p2).block
+    val msg = "Changing the size of a block should reset all formulas, but does not"
     assertEquals(b.size, Small, s"Block $b at position $p2 should be Small, but is not")
     assertEquals(y104.controls.sizeOpt, Some(Small), "Size should be Small, but is not")
+    assert(y104.formulas.values.forall(_ == Ready), msg)
 
   test("Shape buttons with a block at selected position"):
-    val b = y110.posGrid(p2).block
+    val b   = y110.posGrid(p2).block
+    val msg = "Changing the shape of a block should reset all formulas, but does not"
     assertEquals(b.shape, Tri, s"Block $b at position $p2 should be Tri, but is not")
     assertEquals(y110.controls.shapeOpt, Some(Tri), "Shape should be Tri, but is not")
+    assert(y110.formulas.values.forall(_ == Ready), msg)
 
   test("Delete button with a block at selected position"):
     assertEquals(y102.posGrid.get(p2), None, s"Block at pos $p2 should be deleted, but is not")
     assertEquals(y102.names("a"), Available, "Name a of deleted block should be Available, but is not")
+    assert(y102.formulas.values.forall(_ == Ready), "Deleting a block should reset all formulas, but does not")
 
   test("Block display and selected pos should not change after deletion"):
     assertEquals(y102.controls.shapeOpt, Some(Tri))
@@ -231,6 +251,7 @@ class HandlersTest extends munit.FunSuite:
     val msgz0e12 = s"Clicking $p2 should move $b0 to it and disable move, but does not"
     val ctlz0e12 = Controls(Some(Small), Some(Cir), Some(Blue), Some(p2), false)
     assertEquals(z0e12.controls, ctlz0e12, msgz0e12)
+    assert(z0e12.formulas.values.forall(_ == Ready), "Moving a block should reset all formulas, but does not")
 
     val msgz0e21 = s"Clicking $p1 should select it, but does not"
     val ctlz0e21 = Controls(Some(Mid), Some(Tri), Some(Green), Some(p1), true)
@@ -241,14 +262,6 @@ class HandlersTest extends munit.FunSuite:
     assertEquals(z0e23.controls, ctlz0e23, msgz0e23)
 
   // Move disabled
-  // val z0d1  = z0                         // selected p0 has block b0
-  // val z0d11 = Handler.boardPos(p1, z0d1) // block b1 at clicked p1
-  // val z0d12 = Handler.boardPos(p2, z0d1) // no block at clicked p2
-  // val z0d2  = z0d1.selectPos(p2)         // selected p2 has no block
-  // val z0d21 = Handler.boardPos(p1, z0d2) // block b1 at clicked p1
-  // val z0d23 = Handler.boardPos(p3, z0d2) // no block at clicked p3
-  // val b0 = Block(Small, Cir, Blue)
-  // val b1 = Block(Mid, Tri, Green)
   test("Board position, selected differs from clicked pos and move is disabled"):
     val msgz0d11 = s"Clicking $p1 should select it, but does not"
     val ctlz0d11 = Controls(Some(Mid), Some(Tri), Some(Green), Some(p1), false)
