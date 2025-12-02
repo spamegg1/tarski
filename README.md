@@ -59,18 +59,18 @@ You can read more about each module at:
 
 ## Installation
 
-Current version is 0.1.0 (Dec 02, 2025). Released for Scala 3 only.
+Current version is 0.0.3 (Nov 30, 2025). Released for Scala 3 only.
 
 For Scala-cli, add to your `project.scala` (or any file):
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.1.0
+//> using dep io.github.spamegg1::tarski:0.0.3
 ```
 
 For SBT, add to your `build.sbt`:
 
 ```scala
-libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.1.0"
+libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.0.3"
 ```
 
 ## API Docs
@@ -96,7 +96,7 @@ You will see the interactive window like the one above in the video.
 Here are the details:
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.1.0
+//> using dep io.github.spamegg1::tarski:0.0.3
 
 import tarski.main.*, Shape.*, Sizes.*, Tone.*
 
