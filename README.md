@@ -16,6 +16,14 @@ They use 3D objects (cube, tetrahedron, dodecahedron) but I'm going with 2D as i
 [Epp's book](https://github.com/spamegg1/Epp-Discrete-Math-5th-solutions/).
 The image above is taken from there.
 
+## Acknowledgements
+
+Thanks a lot to [Noel Welsh](https://github.com/noelwelsh) for his awesome Doodle library
+and all the help on Discord.
+
+Thanks to Jon Barwise (1942-2000) and John Etchemendy for their awesome idea and book
+on Tarski's world.
+
 ## Dev Blog
 
 See my adventures in bad design on my
@@ -51,18 +59,18 @@ You can read more about each module at:
 
 ## Installation
 
-Current version is 0.0.3 (Nov 30, 2025). Released for Scala 3 only.
+Current version is 0.1.0 (Dec 02, 2025). Released for Scala 3 only.
 
 For Scala-cli, add to your `project.scala` (or any file):
 
 ```scala
-//> using dep io.github.spamegg1::tarski:<version>
+//> using dep io.github.spamegg1::tarski:0.1.0
 ```
 
 For SBT, add to your `build.sbt`:
 
 ```scala
-libraryDependencies += "io.github.spamegg1" %% "tarski" % "<version>"
+libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.1.0"
 ```
 
 Replace `<version>` with the latest version.
@@ -90,7 +98,7 @@ You will see the interactive window like the one above in the video.
 Here are the details:
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.0.3
+//> using dep io.github.spamegg1::tarski:0.1.0
 
 import tarski.main.*, Shape.*, Sizes.*, Tone.*
 
@@ -117,8 +125,10 @@ val formulas = Seq(
   fof"¬(∃x (Cir(x) ∧ Small(x)))",
 )
 
+// The interface is 1600x800 by default.
+// if the interface is too small or too large, try a different scale factor than 1.0:
 @main
-def runExample = runWorld(grid, formulas)
+def runExample = runWorld(grid, formulas, 1.0)
 ```
 
 You can add or remove blocks interactively.
