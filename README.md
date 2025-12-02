@@ -73,8 +73,6 @@ For SBT, add to your `build.sbt`:
 libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.1.0"
 ```
 
-Replace `<version>` with the latest version.
-
 ## API Docs
 
 Can be found at [Javadoc](https://javadoc.io/doc/io.github.spamegg1/tarski_3/latest/index.html)
