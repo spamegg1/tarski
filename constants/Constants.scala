@@ -59,9 +59,6 @@ object Constants:
   /** Creates a font from the included font file. */
   val FontFromFile = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, FontFile)
 
-  /** The family of the included font, to be passed to [[doodle.core.font.Font]]. */
-  val Family = FontFromFile.getFamily()
-
 /** Contains all the constants that depend on the size of the user interface, the board image, and the frame in which
   * the interface is displayed and run.
   *
@@ -111,8 +108,17 @@ case class Constants(size: Double):
   /** The origin of the formulas display on the right half of the interface. Used by [[controller.React.click]] */
   val FormulaOrigin = Point(Width * 0.25, -size / 2.0)
 
+  /** The derived font, resized to scale with the overall UI. */
+  val DerivedFont = Constants.FontFromFile.deriveFont(Pts)
+
+  val ge = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
+  ge.registerFont(DerivedFont)
+
+  /** The family of the bundled font, to be passed to [[doodle.core.font.Font]]. */
+  val Family = DerivedFont.getFamily()
+
   /** Default font. */
-  val TheFont = Font(FontFamily.named(Constants.Family), FontStyle.normal, FontWeight.normal, FontSize.points(Pts))
+  val TheFont = Font(FontFamily.named(Family), FontStyle.normal, FontWeight.normal, FontSize.points(Pts))
 
   /** Dimensions of the chess board that holds the blocks. */
   val BoardDims = (h = Height, w = Width * 0.5)
