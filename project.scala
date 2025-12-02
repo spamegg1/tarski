@@ -1,5 +1,6 @@
 //> using scala 3.7.4
 //> using toolkit 0.7.0
+//> using resourceDir ./font
 //> using dep org.creativescala::doodle:0.32.0
 //> using dep at.logic.gapt::gapt:2.18.1
 //> using option -explain-cyclic
@@ -12,7 +13,7 @@
 //> using publish.url https://github.com/spamegg1/tarski
 //> using publish.vcs github:spamegg1/tarski
 //> using publish.repository central
-//> using publish.user env:SONATYPE_USERNAME
-//> using publish.password env:SONATYPE_PASSWORD
-//> using publish.secretKey env:PGP_SECRET
-//> using publish.secretKeyPassword env:PGP_PASSPHRASE
+// //> using publish.user env:SONATYPE_USERNAME
+// //> using publish.password env:SONATYPE_PASSWORD
+// // > using publish.secretKey env:PGP_SECRET
+// //> using publish.secretKeyPassword env:PGP_PASSPHRASE

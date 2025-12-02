@@ -54,7 +54,7 @@ object Constants:
   val UISize = (rows = UIRows, cols = UICols)
 
   /** The included font file. */
-  val FontFile = java.io.File("font/DejaVuSans.ttf")
+  val FontFile = getClass.getResourceAsStream("/DejaVuSans.ttf")
 
   /** Creates a font from the included font file. */
   val FontFromFile = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, FontFile)
