@@ -62,18 +62,19 @@ You can read more about each module at:
 
 ## Installation
 
-Current version is 0.0.4 (Dec 02, 2025). Released for Scala 3 only.
+Current version is 0.1.1 (Dec 02, 2025). Released for Scala 3 only.
+(0.1.0 is broken, don't use it.)
 
 For Scala-cli, add to your `project.scala` (or any file):
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.0.4
+//> using dep io.github.spamegg1::tarski:0.1.1
 ```
 
 For SBT, add to your `build.sbt`:
 
 ```scala
-libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.0.4"
+libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.1.1"
 ```
 
 ## API Docs
@@ -99,7 +100,7 @@ You will see the interactive window like the one above in the video.
 Here are the details:
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.0.4
+//> using dep io.github.spamegg1::tarski:0.1.1
 
 import tarski.main.*, Shape.*, Sizes.*, Tone.*
 
@@ -158,11 +159,12 @@ Other names are not allowed. Formulas can then refer to these names as constants
 ### Grids
 
 Then you can write a `Grid`, a map of positions `Pos` to `Block`s, to define the board.
+It's an 8x8 standard chess board; coordinates are 0-indexed.
 See above for details and an example.
 
 ### Formulas
 
-Then you can write a list of first order logic formulas, `FOLFormula`
+Then you can write a list of first-order logic formulas, `FOLFormula`
 (courtesy of [Gapt](https://github.com/gapt/gapt)).
 
 The formulas use a special string interpolator `fof"..."`,
