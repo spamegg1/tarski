@@ -1,5 +1,8 @@
 # Tarski's world
 
+An educational tool for the semantics of
+[first-order logic](https://en.wikipedia.org/wiki/First-order_logic)
+
 ![world](.images/world.png)
 
 <https://github.com/user-attachments/assets/66219d4a-a76c-444d-a945-ec81c240c94d>
@@ -59,18 +62,18 @@ You can read more about each module at:
 
 ## Installation
 
-Current version is 0.0.3 (Nov 30, 2025). Released for Scala 3 only.
+Current version is 0.0.4 (Dec 02, 2025). Released for Scala 3 only.
 
 For Scala-cli, add to your `project.scala` (or any file):
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.0.3
+//> using dep io.github.spamegg1::tarski:0.0.4
 ```
 
 For SBT, add to your `build.sbt`:
 
 ```scala
-libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.0.3"
+libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.0.4"
 ```
 
 ## API Docs
@@ -96,7 +99,7 @@ You will see the interactive window like the one above in the video.
 Here are the details:
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.0.3
+//> using dep io.github.spamegg1::tarski:0.0.4
 
 import tarski.main.*, Shape.*, Sizes.*, Tone.*
 
