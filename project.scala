@@ -13,7 +13,7 @@
 //> using publish.url https://github.com/spamegg1/tarski
 //> using publish.vcs github:spamegg1/tarski
 //> using publish.repository central
-// //> using publish.user env:SONATYPE_USERNAME
-// //> using publish.password env:SONATYPE_PASSWORD
-// // > using publish.secretKey env:PGP_SECRET
-// //> using publish.secretKeyPassword env:PGP_PASSPHRASE
+//> using publish.user env:SONATYPE_USERNAME
+//> using publish.password env:SONATYPE_PASSWORD
+//> using publish.secretKey env:PGP_SECRET
+//> using publish.secretKeyPassword env:PGP_PASSPHRASE
