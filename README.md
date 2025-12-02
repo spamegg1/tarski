@@ -85,7 +85,7 @@ Of course, you can write your own worlds and formulas too.
 
 ### Running: an example
 
-Then run it with `runWorld` to start interacting.
+Then run it with `tarski.main.runWorld` to start interacting.
 You will see the interactive window like the one above in the video.
 Here are the details:
 
@@ -144,7 +144,30 @@ Blocks have 3 attributes, each of which has 3 possible values:
 Blocks can also have an optional name, only one of: `a, b, c, d, e, f`.
 Other names are not allowed. Formulas can then refer to these names as constants.
 
-### Predicates
+### Grids
+
+Then you can write a `Grid`, a map of positions `Pos` to `Block`s, to define the board.
+See above for details and an example.
+
+### Formulas
+
+Then you can write a list of first order logic formulas, `FOLFormula`
+(courtesy of [Gapt](https://github.com/gapt/gapt)).
+
+The formulas use a special string interpolator `fof"..."`,
+and can use the Unicode symbols or their ASCII equivalents for logical connectives:
+
+|Connective|ASCII|Unicode|
+|:-|:-|:-|
+|and|`&`|`∧`|
+|or|`\|`|`∨`|
+|not|`-`|`¬`|
+|implies|`->`|`→`|
+|biconditional|`<->`|`↔`|
+|forall|`!`|`∀`|
+|exists|`?`|`∃`|
+
+### Predicates for atomic formulas
 
 The following predicates are supported:
 
@@ -185,29 +208,6 @@ The following predicates are supported:
 |Syntax|Semantics|
 |:-|:-|
 |`Betw(x, y, z)`|"x is between y and z (vertically, horizontally or diagonally)"|
-
-### Grids
-
-Then you can write a `Grid`, a map of positions `Pos` to `Block`s, to define the board.
-See above for details and an example.
-
-### Formulas
-
-Then you can write a list of first order logic formulas, `FOLFormula`
-(courtesy of [Gapt](https://github.com/gapt/gapt)).
-
-The formulas use a special string interpolator `fof"..."`,
-and can use the Unicode symbols or their ASCII equivalents for logical connectives:
-
-|Connective|ASCII|Unicode|
-|:-|:-|:-|
-|and|`&`|`∧`|
-|or|`\|`|`∨`|
-|not|`-`|`¬`|
-|implies|`->`|`→`|
-|biconditional|`<->`|`↔`|
-|forall|`!`|`∀`|
-|exists|`?`|`∃`|
 
 ## Exercises
 

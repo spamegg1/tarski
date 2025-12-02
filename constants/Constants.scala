@@ -53,6 +53,15 @@ object Constants:
   /** Default numbers of rows and columns of the user interface controls. Used in [[controller.Converter]]. */
   val UISize = (rows = UIRows, cols = UICols)
 
+  /** The included font file. */
+  val FontFile = java.io.File("font/DejaVuSans.ttf")
+
+  /** Creates a font from the included font file. */
+  val FontFromFile = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, FontFile)
+
+  /** The family of the included font, to be passed to [[doodle.core.font.Font]]. */
+  val Family = FontFromFile.getFamily()
+
 /** Contains all the constants that depend on the size of the user interface, the board image, and the frame in which
   * the interface is displayed and run.
   *
@@ -74,7 +83,7 @@ case class Constants(size: Double):
   private val Width = size * 2 * Constants.BoardSize.cols
 
   /** Used to scale the font size according to interface dimensions. */
-  private val Pts = Width * 0.015625
+  private val Pts = (Width * 0.015625).toInt
 
   /** Size of small blocks, used in the enum [[model.Sizes]]. */
   val Small = size * 0.4
@@ -103,7 +112,7 @@ case class Constants(size: Double):
   val FormulaOrigin = Point(Width * 0.25, -size / 2.0)
 
   /** Default font. */
-  val TheFont = Font(FontFamily.named("DejaVu Sans"), FontStyle.normal, FontWeight.normal, FontSize.points(Pts.toInt))
+  val TheFont = Font(FontFamily.named(Constants.Family), FontStyle.normal, FontWeight.normal, FontSize.points(Pts))
 
   /** Dimensions of the chess board that holds the blocks. */
   val BoardDims = (h = Height, w = Width * 0.5)
