@@ -35,6 +35,7 @@ def runWorld(grid: Grid, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
 object Example:
   import Shape.*, Sizes.*, Tone.*
 
+  /** An example grid with 4 blocks. Two of them are named. */
   private val grid: Grid = Map(
     (1, 2) -> Block(Small, Tri, Green, "a"),
     (4, 3) -> Block(Mid, Tri, Blue),
@@ -42,6 +43,7 @@ object Example:
     (6, 3) -> Block(Small, Squ, Blue)
   )
 
+  /** An example list of first-order formulas, showcasing all logical connectives. */
   private val formulas = Seq(
     fof"¬(∃x Large(x))",
     fof"∀x Squ(x)",
@@ -61,5 +63,6 @@ object Example:
     fof"∃y (Squ(y) <-> Small(y))"
   )
 
+  /** Runs the example (also the only entry point into the project). */
   @main
   def runExample = runWorld(grid, formulas)
