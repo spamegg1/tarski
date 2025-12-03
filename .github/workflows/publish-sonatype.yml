@@ -5,6 +5,8 @@ on:
 
 jobs:
   publish:
+    permissions:
+      contents: read
     runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@v6.0.0
