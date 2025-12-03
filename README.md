@@ -65,7 +65,16 @@ You can read more about each module at:
 Current version is 0.1.1 (Dec 02, 2025). Released for Scala 3 only.
 (0.1.0 is broken, don't use it.)
 
-For Scala-cli, add to your `project.scala` (or any file):
+You will need a JVM, and Scala 3. [This](https://www.scala-lang.org/download/)
+should give you everything you need.
+
+Also you'll need an IDE:
+
+- [Metals](https://scalameta.org/metals/) extension on
+  [Visual Studio Code](https://code.visualstudio.com/)
+- [IntelliJ](https://www.jetbrains.com/idea/download/) with Scala plugin
+
+For Scala-cli (or just plain `scala`), add to your `project.scala` (or any file):
 
 ```scala
 //> using dep io.github.spamegg1::tarski:0.1.1
@@ -130,7 +139,7 @@ val formulas = Seq(
 // The interface is 1600x800 by default.
 // if the interface is too small or too large, try a different scale factor than 1.0:
 @main
-def runExample = runWorld(grid, formulas, 1.0)
+def run = runWorld(grid, formulas, 1.0)
 ```
 
 You can add or remove blocks interactively.
