@@ -60,7 +60,8 @@ object Example:
     fof"∀x (Large(x) ∨ Squ(x))",
     fof"∃x (Tri(x) ∧ Mid(x))",
     fof"¬(∃x (Cir(x) → Small(x)))",
-    fof"∃y (Squ(y) <-> Small(y))"
+    fof"∃y (Squ(y) <-> Small(y))",
+    fof"Mid(a)"
   )
 
   /** Runs the example (also the only entry point into the project). */

@@ -24,7 +24,7 @@ object Imager:
             case Shape.Squ => Image.square(b.size).fillColor(b.tone)
             case Shape.Cir => Image.circle(b.size).fillColor(b.tone)
         Text(b.label).font(c.TheFont).on(shapeImg)
-      case f: FOLFormula => Text(f.toString).font(c.TheFont)
+      case f: FOLFormula => Text(f.toUntypedString).font(c.TheFont)
       case r: Result     =>
         r match
           case Result.Ready   => Text(" ?").font(c.TheFont).strokeColor(blue)

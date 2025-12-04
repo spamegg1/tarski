@@ -215,7 +215,7 @@ The following predicates are supported:
 |`Right(x, y)`|"x is to the right of y"|
 |`Below(x, y)`|"x is below y"|
 |`Above(x, y)`|"x is above y"|
-|`Adjoins(x, y)`|"x is above, below, to the left of, or to the right of, y"|
+|`Adjoins(x, y)`|"x is adjacent (but not diagonally) to y"|
 |`Smaller(x, y)`|"x is smaller than y"|
 |`Larger(x, y)`|"x is larger than y"|
 |`x = y`|"x is equal to y"|
@@ -233,9 +233,8 @@ The following predicates are supported:
 
 ## Exercises
 
-I will create some exercises that you can do, in the future. You can always try the
-Tarski's world [textbook](https://www.gradegrinder.net/Products/tw-index.html).
-(Not sponsored or an endorsement; I think it's just a cool book.)
+You can work through the examples in the
+[companion repository](https://github.com/spamegg1/tarski-examples)
 
 ## Work in progress
 
