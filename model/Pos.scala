@@ -150,6 +150,42 @@ object Pos:
       */
     private def colBtw2(q: Pos, r: Pos) = p.colBtw(q, r) || p.colBtw(r, q)
 
+    /** Checks if another position is on a bottom-right diagonal from this position.
+      *
+      * @param q
+      *   Another position.
+      * @return
+      *   true if, from top-left to bottom-right, they are diagonally ordered as p-q; false otherwise.
+      */
+    private def diagTLBR(q: Pos) = p.row < q.row && p.col < q.col && p.row - q.row == p.col - q.col
+
+    /** Checks if another position is on a top-left diagonal from this position.
+      *
+      * @param q
+      *   Another position.
+      * @return
+      *   true if, from bottom-right to top-left, they are diagonally ordered as p-q; false otherwise.
+      */
+    private def diagBRTL(q: Pos) = q.diagTLBR(p)
+
+    /** Checks if another position is on a bottom-left diagonal from this position.
+      *
+      * @param q
+      *   Another position.
+      * @return
+      *   true if, from top-right to bottom-left, they are diagonally ordered as p-q; false otherwise.
+      */
+    private def diagTRBL(q: Pos) = p.row < q.row && p.col > q.col && -(p.row - q.row) == p.col - q.col
+
+    /** Checks if another position is on a top-right diagonal from this position.
+      *
+      * @param q
+      *   Another position.
+      * @return
+      *   true if, from bottom-left to top-right, they are diagonally ordered as p-q; false otherwise.
+      */
+    private def diagBLTR(q: Pos) = q.diagTRBL(p)
+
     /** Checks if three positions are on a bottom-left to top-right diagonal in a particular order.
       *
       * @param q
@@ -157,8 +193,9 @@ object Pos:
       * @param r
       *   Another position.
       * @return
+      *   true if, from bottom-left to top-right, they are diagonally ordered as q-p-r; false otherwise.
       */
-    private def botDiag(q: Pos, r: Pos) = p.colBtw(q, r) && p.rowBtw(r, q)
+    private def botDiag(q: Pos, r: Pos) = q.diagBLTR(p) && p.diagBLTR(r)
 
     /** Checks if three positions are on a top-left to bottom-right diagonal in a particular order.
       *
@@ -167,8 +204,9 @@ object Pos:
       * @param r
       *   Another position.
       * @return
+      *   true if, from top-left to bottom-right, they are diagonally ordered as q-p-r; false otherwise.
       */
-    private def topDiag(q: Pos, r: Pos) = p.colBtw(q, r) && p.rowBtw(q, r)
+    private def topDiag(q: Pos, r: Pos) = q.diagTLBR(p) && p.diagTLBR(r)
 
     /** Checks if three positions are on a bottom-left to top-right diagonal.
       *

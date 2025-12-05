@@ -2,8 +2,9 @@ package tarski
 package testing
 
 class InterpreterTest extends munit.FunSuite:
-  private given c: Constants = Constants(DefaultSize)
   import Shape.*, Sizes.*, Tone.*
+
+  private given c: Constants = Constants(DefaultSize)
 
   val b0 = Block(Small, Cir, Gray, "b")
   val b1 = Block(Small, Cir, Gray)
@@ -37,10 +38,9 @@ class InterpreterTest extends munit.FunSuite:
     fof"Small(b) ∧ Cir(b) ∧ Gray(b)"
   )
 
-  private given NameGrid = world.nameGrid
-
   test("interpreter is correct on complex sentences in a world with 5 objects"):
-    val results = sentences.map(Interpreter.eval)
+    given NameGrid = world.nameGrid
+    val results    = sentences.map(Interpreter.eval)
     sentences
       .zip(results)
       .foreach: (sentence, result) =>
@@ -48,9 +48,27 @@ class InterpreterTest extends munit.FunSuite:
 
   test("Interpreter should throw NSE exception on formulas with missing objects in them"):
     import java.util.NoSuchElementException as NSE
+    given NameGrid = world.nameGrid
     try
       Interpreter.eval(fof"c = d")
       assert(false) // should not reach here! must throw ex on prev line
     catch
       case ex: NSE => assert(true)
       case _       => assert(false) // should not throw any other kind of ex
+
+  test("Interpreter should handle `Betw` predicate correctly"):
+    given NameGrid = Map(
+      "d" -> (Block(Large, Squ, Blue, "d"), (0, 1)),
+      "e" -> (Block(Large, Cir, Green, "e"), (0, 4)),
+      "f" -> (Block(Large, Tri, Gray, "f"), (0, 7)),
+      "c" -> (Block(Mid, Squ, Green, "c"), (4, 3)),
+      "a" -> (Block(Small, Tri, Green, "a"), (6, 1)),
+      "b" -> (Block(Small, Squ, Gray, "b"), (6, 4))
+    )
+    assert(!Interpreter.eval(fof"Betw(d, e, f)"))
+    assert(Interpreter.eval(fof"Betw(e, d, f)"))
+    assert(Interpreter.eval(fof"Betw(c, a, f)"))
+    assert(!Interpreter.eval(fof"Betw(c, d, b)"))
+    assert(!Interpreter.eval(fof"Betw(c, b, e)"))
+    assert(!Interpreter.eval(fof"Betw(c, c, c)"))
+    assert(!Interpreter.eval(fof"Betw(c, a, e)"))

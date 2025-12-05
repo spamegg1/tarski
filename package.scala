@@ -46,8 +46,8 @@ package tarski:
   package testing:
     export gapt.expr.stringInterpolationForExpressions
     export constants.Constants, Constants.{DefaultSize, Epsilon}
-    export model.{World, PosGrid, Shape, Block, NameGrid}
-    export model.{Status, Result, Sizes, Tone, Controls, Pos}
+    export model.{World, Block, Pos, PosGrid, Grid, NameGrid}
+    export model.{Status, Result, Shape, Sizes, Tone, Controls}
     export controller.{Interpreter, Converter, Handler}
 
   /** This package is the user-facing part of Tarski's world. Depends on [[constants]], [[model]], [[controller]] and
