@@ -35,8 +35,7 @@ object Interpreter:
     *
     * Unary: `Small`, `Mid`, `Large`, `Tri`, `Squ`, `Cir`, `Blue`, `Green`, `Gray`
     *
-    * Binary: `Left`, `Right`, `Below`, `Above`, `Adjoins`, `Smaller`, `Larger`, `=`, `SameSize`, `SameShape`,
-    * `SameTone`, `SameRow`, `SameCol`
+    * Binary: `Left`, `Right`, `Below`, `Above`, `Adj`, `Smaller`, `Larger`, `=`, `Size`, `Shape`, `Tone`, `Row`, `Col`
     *
     * Ternary: `Betw`
     *
@@ -69,15 +68,15 @@ object Interpreter:
       case FOLAtom("Right", Seq(FOLConst(c), FOLConst(d)))             => ng(c).pos.rightOf(ng(d).pos)
       case FOLAtom("Below", Seq(FOLConst(c), FOLConst(d)))             => ng(c).pos.below(ng(d).pos)
       case FOLAtom("Above", Seq(FOLConst(c), FOLConst(d)))             => ng(c).pos.above(ng(d).pos)
-      case FOLAtom("Adjoins", Seq(FOLConst(c), FOLConst(d)))           => ng(c).pos.adjoins(ng(d).pos)
+      case FOLAtom("Adj", Seq(FOLConst(c), FOLConst(d)))               => ng(c).pos.adjoins(ng(d).pos)
       case FOLAtom("Smaller", Seq(FOLConst(c), FOLConst(d)))           => ng(c).block.smaller(ng(d).block)
       case FOLAtom("Larger", Seq(FOLConst(c), FOLConst(d)))            => ng(c).block.larger(ng(d).block)
       case FOLAtom("=", Seq(FOLConst(c), FOLConst(d)))                 => ng(c).block == ng(d).block
-      case FOLAtom("SameRow", Seq(FOLConst(c), FOLConst(d)))           => ng(c).pos.sameRow(ng(d).pos)
-      case FOLAtom("SameCol", Seq(FOLConst(c), FOLConst(d)))           => ng(c).pos.sameCol(ng(d).pos)
-      case FOLAtom("SameSize", Seq(FOLConst(c), FOLConst(d)))          => ng(c).block.sameSize(ng(d).block)
-      case FOLAtom("SameShape", Seq(FOLConst(c), FOLConst(d)))         => ng(c).block.sameShape(ng(d).block)
-      case FOLAtom("SameTone", Seq(FOLConst(c), FOLConst(d)))          => ng(c).block.sameColor(ng(d).block)
+      case FOLAtom("Row", Seq(FOLConst(c), FOLConst(d)))               => ng(c).pos.sameRow(ng(d).pos)
+      case FOLAtom("Col", Seq(FOLConst(c), FOLConst(d)))               => ng(c).pos.sameCol(ng(d).pos)
+      case FOLAtom("Size", Seq(FOLConst(c), FOLConst(d)))              => ng(c).block.sameSize(ng(d).block)
+      case FOLAtom("Shape", Seq(FOLConst(c), FOLConst(d)))             => ng(c).block.sameShape(ng(d).block)
+      case FOLAtom("Tone", Seq(FOLConst(c), FOLConst(d)))              => ng(c).block.sameColor(ng(d).block)
       case FOLAtom("Betw", Seq(FOLConst(c), FOLConst(d), FOLConst(e))) => ng(c).pos.between(ng(d).pos, ng(e).pos)
       case _ => throw IllegalArgumentException(s"Atom $a is parsed incorrectly")
 

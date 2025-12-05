@@ -215,15 +215,15 @@ The following predicates are supported:
 |`Right(x, y)`|"x is to the right of y"|
 |`Below(x, y)`|"x is below y"|
 |`Above(x, y)`|"x is above y"|
-|`Adjoins(x, y)`|"x is adjacent (but not diagonally) to y"|
+|`Adj(x, y)`|"x is adjacent (but not diagonally) to y"|
 |`Smaller(x, y)`|"x is smaller than y"|
 |`Larger(x, y)`|"x is larger than y"|
 |`x = y`|"x is equal to y"|
-|`SameRow(x, y)`|"x is on the same row as y"|
-|`SameCol(x, y)`|"x is on the same column as y"|
-|`SameSize(x, y)`|"x has the same size as y"|
-|`SameShape(x, y)`|"x has the same shape as y"|
-|`SameTone(x, y)`|"x has the same tone as y"|
+|`Row(x, y)`|"x is on the same row as y"|
+|`Col(x, y)`|"x is on the same column as y"|
+|`Size(x, y)`|"x has the same size as y"|
+|`Shape(x, y)`|"x has the same shape as y"|
+|`Tone(x, y)`|"x has the same tone as y"|
 
 #### Ternary
 
