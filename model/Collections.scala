@@ -42,7 +42,7 @@ extension (grid: PosGrid)
 type NameGrid = Map[Name, (block: Block, pos: Pos)]
 
 /** A mapping between first-order formulas and their evaluation results. */
-type Formulas = Map[FOLFormula, Result]
+type Formulas = ListMap[FOLFormula, Result]
 
 /** Contains helper methods for the [[Formulas]] type alias. */
 object Formulas:
@@ -53,7 +53,8 @@ object Formulas:
     * @return
     *   A map from formulas to [[Result]]s where each formula is ready to be evaluated.
     */
-  def fromSeq(fs: Seq[FOLFormula]): Formulas = fs.map(f => f -> Result.Ready).toMap
+  def fromSeq(fs: Seq[FOLFormula]): Formulas = ListMap.from:
+    fs.map(f => f -> Result.Ready)
 
 extension (formulas: Formulas)
   /** Extension method for the [[Formulas]] type alias that resets evaluation results.

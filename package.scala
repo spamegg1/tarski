@@ -15,6 +15,7 @@ package tarski:
     * [[constants]].
     */
   package model:
+    export collection.immutable.ListMap
     export constants.Constants, Constants.{BlueColor, GreenColor, GrayColor}
 
   /** Package to draw and render the interface. It is designed in a pure way and does not hold any mutable state.

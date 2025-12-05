@@ -17,7 +17,7 @@ package model
 case class World(
     posGrid: PosGrid = Map(),
     names: Names = World.initNames,
-    formulas: Formulas = Map(),
+    formulas: Formulas = ListMap(),
     controls: Controls = Controls()
 ):
   /** Resets all formulas back to the [[Result.Ready]] status (i.e. un-evaluated).
