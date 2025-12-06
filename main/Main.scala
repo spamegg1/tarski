@@ -4,14 +4,14 @@ package main
 /** This method is how a user runs Tarski's world.
   *
   * @param grid
-  *   A map from grid positions to blocks.
+  *   A map from grid positions to blocks. Default is empty.
   * @param formulas
   *   A sequence of first-order formulas.
   * @param scaleFactor
   *   Used to scale the user interface size. Must be positive. Default is 1.0, which results in a 1600 x 800 window.
   *   Provide values < 1.0 to make it smaller, > 1.0 to make it bigger.
   */
-def runWorld(grid: Grid, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
+def runWorld(grid: Grid = Grid.empty, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
   require(scaleFactor > 0.0)
   given c: Constants = Constants(DefaultSize * scaleFactor)
   val world          = World.from(grid, formulas)

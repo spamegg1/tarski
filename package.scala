@@ -1,12 +1,10 @@
 package tarski:
-  export doodle.core.{Color, Point}
-  export Color.{deepSkyBlue, lightGray, white, black, yellowGreen, red, green, blue}
-  export doodle.image.Image, Image.Elements.Text
-  export gapt.expr.formula.fol.{FOLVar, FOLConst, FOLAtom, FOLFormula}
-
   /** Package for all the global constants used everywhere and the [[Constants]] class. */
   package constants:
     export concurrent.duration.FiniteDuration
+    export doodle.core.{Color, Point}
+    export Color.{deepSkyBlue, lightGray, white, black, yellowGreen}
+    export doodle.image.Image
     export doodle.core.font.{Font, FontFamily, FontStyle, FontWeight, FontSize}
     export doodle.java2d.effect.Frame
 
@@ -16,6 +14,8 @@ package tarski:
     */
   package model:
     export collection.immutable.ListMap
+    export doodle.core.Color
+    export gapt.expr.formula.fol.FOLFormula
     export constants.Constants, Constants.{BlueColor, GreenColor, GrayColor}
 
   /** Package to draw and render the interface. It is designed in a pure way and does not hold any mutable state.
@@ -23,6 +23,10 @@ package tarski:
     * [[constants]], [[model]] and [[controller]].
     */
   package view:
+    export doodle.core.{Color, Point}
+    export Color.{black, red, green, blue}
+    export doodle.image.Image, Image.Elements.Text
+    export gapt.expr.formula.fol.FOLFormula
     export constants.Constants
     export model.{Pos, PosGrid, World, Sizes, Tone}, Sizes.given, Tone.given
     export model.{Result, Formulas, Controls, Names, Status, Shape, Block}
@@ -34,6 +38,8 @@ package tarski:
     * input to update the [[World]] state, and the [[Interpreter]] object that evaluates first order logic formulas.
     */
   package controller:
+    export doodle.core.Point
+    export gapt.expr.formula.fol.{FOLVar, FOLConst, FOLAtom, FOLFormula}
     export gapt.expr.subst.FOLSubstitution
     export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
     export constants.Constants, Constants.{BoardSize, UISize, Dims, GridSize}
@@ -44,6 +50,7 @@ package tarski:
     * [[controller]]. Depends on [[constants]], [[model]] and [[controller]].
     */
   package testing:
+    export doodle.core.Point
     export gapt.expr.stringInterpolationForExpressions
     export constants.Constants, Constants.{DefaultSize, Epsilon}
     export model.{World, Block, Pos, PosGrid, Grid, NameGrid}
@@ -57,10 +64,11 @@ package tarski:
   package main:
     export cats.effect.unsafe.implicits.global
     export gapt.expr.stringInterpolationForExpressions
+    export gapt.expr.formula.fol.FOLFormula
     export doodle.reactor.syntax.all.animateWithFrame
     export doodle.reactor.Reactor
     export doodle.java2d.{java2dAnimationRenderer, java2dCanvasAlgebra, java2dRenderer}
     export constants.Constants, Constants.{DefaultSize, TickRate}
-    export model.{World, Block, Shape, Controls, Grid, Formulas, Sizes, Tone}
+    export model.{World, Block, Grid, Formulas, Shape, Sizes, Tone}
     export view.Render
     export controller.React

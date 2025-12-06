@@ -14,6 +14,15 @@ type Grid = Map[Pos, Block]
   */
 type PosGrid = Map[Pos, (block: Block, name: Name)]
 
+/** Contains helper methods for the [[Grid]] type alias. */
+object Grid:
+  /** Creates an empty [[Grid]]. Useful for initializing a [[World]]. Used by [[main.runWorld]].
+    *
+    * @return
+    *   an empty [[Grid]].
+    */
+  def empty: Grid = Map.empty[Pos, Block]
+
 /** Contains helper methods for the [[PosGrid]] type alias. */
 object PosGrid:
   /** Converts a user-provided [[Grid]] to a [[PosGrid]] so that it can be internally used by a [[World]].
