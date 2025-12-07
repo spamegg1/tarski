@@ -62,7 +62,7 @@ You can read more about each module at:
 
 ## Installation
 
-Current version is 0.1.3 (Dec 05, 2025). Released for Scala 3 only.
+Current version is 0.1.4 (Dec 07, 2025). Released for Scala 3 only.
 
 You will need a JVM, and Scala 3. [This](https://www.scala-lang.org/download/)
 should give you everything you need.
@@ -76,13 +76,13 @@ Also you'll need an IDE:
 For Scala-cli (or just plain `scala`), add to your `project.scala` (or any file):
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.1.3
+//> using dep io.github.spamegg1::tarski:0.1.4
 ```
 
 For SBT, add to your `build.sbt`:
 
 ```scala
-libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.1.3"
+libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.1.4"
 ```
 
 ## API Docs
@@ -108,7 +108,7 @@ You will see the interactive window like the one above in the video.
 Here are the details:
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.1.3
+//> using dep io.github.spamegg1::tarski:0.1.4
 
 import tarski.main.*, Shape.*, Sizes.*, Tone.*
 
@@ -125,7 +125,7 @@ val formulas = Seq(
   fof"∀x ¬ Cir(x)",
   fof"¬(∀x Small(x))",
   fof"∃x Tri(x)",
-  fof"∀x Large(x)",
+  fof"∀x (¬(Shape(c, x) ∨ Smaller(x, c)) → ¬Tone(x, c))",
   fof"∃x Cir(x)",
   fof"a = b",
   fof"∀x ∃y Larger(x, y)",
