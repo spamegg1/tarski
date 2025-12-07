@@ -24,7 +24,7 @@ object Imager:
             case Shape.Squ => Image.square(b.size).fillColor(b.tone)
             case Shape.Cir => Image.circle(b.size).fillColor(b.tone)
         Text(b.label).font(c.TheFont).on(shapeImg)
-      case f: FOLFormula => Text(f.toUntypedString).font(c.TheFont)
+      case f: FOLFormula => colorText(f.toUntypedString)
       case r: Result     =>
         r match
           case Result.Ready   => Text(" ?").font(c.TheFont).strokeColor(blue)
@@ -42,3 +42,33 @@ object Imager:
   def apply(opt: Option[Obj])(using Constants): Image = opt match
     case None      => Image.empty
     case Some(obj) => Imager(obj)
+
+  /** Adds a small amount of syntax highlighing to logical connectives in formulas.
+    *
+    * @param formula
+    *   The (untyped) string representation of a formula.
+    * @param c
+    *   A given instance of [[Constants]], needed for the fonts.
+    * @return
+    *   An image of the input string with colors for logical connectives.
+    */
+  def colorText(formula: String)(using c: Constants): Image = formula
+    .foldLeft(Image.empty): (img, char) =>
+      img.beside:
+        Text(char.toString)
+          .font(c.TheFont)
+          .strokeColor(char.toColor)
+
+  extension (c: Char)
+    /** Converts a character for a logical symbol to a color for syntax highlighing.
+      *
+      * @return
+      *   A [[Color]].
+      */
+    def toColor: Color = c match
+      case '¬' => red
+      case '∧' => blue
+      case '∨' => green
+      case '→' => brown
+      case '↔' => brown
+      case _   => black

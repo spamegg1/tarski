@@ -24,7 +24,7 @@ package tarski:
     */
   package view:
     export doodle.core.{Color, Point}
-    export Color.{black, red, green, blue}
+    export Color.{black, red, green, blue, brown}
     export doodle.image.Image, Image.Elements.Text
     export gapt.expr.formula.fol.FOLFormula
     export constants.Constants

@@ -50,11 +50,10 @@ object Example:
     fof"∀x ¬ Cir(x)",
     fof"¬(∀x Small(x))",
     fof"∃x Tri(x)",
-    fof"∀x Large(x)",
+    fof"∀x (¬(Shape(c, x) ∨ Smaller(x, c)) → ¬Tone(x, c))",
     fof"∃x Cir(x)",
     fof"a = b",
     fof"∀x ∃y Larger(x, y)",
-    fof"a = b",
     fof"c != d",
     fof"∀x (Squ(x) ∨ Tri(x))",
     fof"∀x (Large(x) ∨ Squ(x))",
@@ -66,4 +65,4 @@ object Example:
 
   /** Runs the example (also the only entry point into the project). */
   @main
-  def runExample = runWorld(grid, formulas)
+  def runExample = runWorld(grid, formulas, 1.2)
