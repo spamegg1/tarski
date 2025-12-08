@@ -196,6 +196,21 @@ case class World(
           val newNames = names.avail(name)
           resetFormulas.copy(posGrid = newGrid, names = newNames)
 
+  /** Rotates the board positions according to given rotator. Normally this is 90 degrees clockwise or
+    * counter-clockwise, but it supports any function that maps positions to positions.
+    *
+    * @param rotator
+    *   A function [[Pos]] => [[Pos]]. This normally comes from [[controller.Converter.board.rotate]].
+    * @return
+    *   New world where block positions and the selected position are rotated according to `rotator`.
+    */
+  def rotate(rotator: Pos => Pos): World =
+    val newPosGrid  = posGrid.map((pos, value) => (rotator(pos), value))
+    val newControls = controls.posOpt.match
+      case None      => controls
+      case Some(pos) => controls.selectPos(rotator(pos))
+    resetFormulas.copy(posGrid = newPosGrid, controls = newControls)
+
 /** Contains values and helper methods for [[World]]. */
 object World:
   /** The only allowed names: a,b,c,d,e,f; and their initial availability. */

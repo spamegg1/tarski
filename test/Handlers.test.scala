@@ -29,11 +29,11 @@ class HandlersTest extends munit.FunSuite:
   val w001  = Handler.uiButtons((0, 1), w000)  // Eval
   val w100  = Handler.uiButtons((1, 0), w001)  // Move
   val w101  = Handler.uiButtons((1, 1), w100)  // Move
-  val w013  = Handler.uiButtons((0, 13), w101) // Block
-  val w014  = Handler.uiButtons((0, 14), w013) // Block
+  val w013  = Handler.uiButtons((0, 13), w101) // Left
+  val w014  = Handler.uiButtons((0, 14), w100) // Block
   val w015  = Handler.uiButtons((0, 15), w014) // Block
-  val w113  = Handler.uiButtons((1, 13), w015) // Block
-  val w114  = Handler.uiButtons((1, 14), w113) // Block
+  val w113  = Handler.uiButtons((1, 13), w015) // Right
+  val w114  = Handler.uiButtons((1, 14), w015) // Block
   val w115  = Handler.uiButtons((1, 15), w114) // Block
   val w002  = Handler.uiButtons((0, 2), w115)  // Add
   val w003  = Handler.uiButtons((0, 3), w115)  // Add
@@ -116,13 +116,17 @@ class HandlersTest extends munit.FunSuite:
     assertEquals(w101, w100.toggleMove, msg2)
     assert(!w101.controls.move, msg2)
 
+  test("Left button should rotate board counter-clockwise"):
+    assertEquals(w113, w113, "") // TODO
+
+  test("Right button should rotate board clockwise"):
+    assertEquals(w013, w013, "") // TODO
+
   test("Block display should do nothing if clicked"):
     val msg = "Clicking the block display should not do anything, but does"
-    assertEquals(w013, w101, msg)
-    assertEquals(w014, w013, msg)
+    assertEquals(w014, w100, msg)
     assertEquals(w015, w014, msg)
-    assertEquals(w113, w015, msg)
-    assertEquals(w114, w113, msg)
+    assertEquals(w114, w015, msg)
     assertEquals(w115, w114, msg)
 
   test("Adding a block with no position selected"):

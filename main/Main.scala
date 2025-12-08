@@ -46,12 +46,11 @@ object Example:
   /** An example list of first-order formulas, showcasing all logical connectives. */
   private val formulas = Seq(
     fof"¬(∃x Large(x))",
-    fof"∀x Squ(x)",
+    fof"∀x Squ(x) ∨ Above(a, d)",
     fof"∀x ¬ Cir(x)",
-    fof"¬(∀x Small(x))",
-    fof"∃x Tri(x)",
+    fof"¬(∀x (Small(x) ∨ Left(x, a)))",
+    fof"∃x (Tri(x) → Right(x, d))",
     fof"∀x (¬(Shape(c, x) ∨ Smaller(x, c)) → ¬Tone(x, c))",
-    fof"∃x Cir(x)",
     fof"a = b",
     fof"∀x ∃y Larger(x, y)",
     fof"c != d",

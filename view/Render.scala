@@ -41,14 +41,16 @@ class Render(using c: Constants):
     * @param world
     *   The world we want to render.
     * @return
-    *   An image of Eval, Add, Move, Del buttons, 6 name buttons, 3 color buttons, 3 shape buttons, 3 size buttons and
-    *   the selected block, all together.
+    *   An image of Eval, Add, Move, Del, L/R, buttons, 6 name buttons, 3 color buttons, 3 shape buttons, 3 size buttons
+    *   and the selected block, all together.
     */
   private def renderUI(world: World) =
     opBtn.evalButton
       .on(opBtn.moveButton(world.controls.move))
       .on(opBtn.addButton)
       .on(opBtn.delButton)
+      .on(opBtn.leftBtn)
+      .on(opBtn.rightBtn)
       .on(nameBtn.allNames(world.names))
       .on(sizeBtn.sizes(world.controls.sizeOpt))
       .on(colBtn.colorBoxes(world.controls.toneOpt))

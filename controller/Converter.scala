@@ -49,16 +49,16 @@ case class Converter(dims: Dims, gs: GridSize):
     Point(x, y)
 
   /** Converts [[model.Pos]] to [[doodle.core.Point]] on a grid with given dimensions and grid size. Used for buttons
-    * that are taller, so the center is slightly shifted down.
+    * that are wider and taller, so the center is slightly shifted down and right.
     *
     * @param pos
     *   The integer positions of the point inside the grid.
     * @return
-    *   The Cartesian coordinates corresponding to `pos`, slightly shifted down for a taller button so that it is
-    *   centered correctly.
+    *   The Cartesian coordinates corresponding to `pos`, slightly shifted down and right for a wider and taller button
+    *   so that it is centered correctly.
     */
-  def toPointY(pos: Pos): Point =
-    val x = left + (0.5 + pos.col) * blockWidth
+  def toPointXY(pos: Pos): Point =
+    val x = left + (1.0 + pos.col) * blockWidth
     val y = top - (1.0 + pos.row) * blockHeight
     Point(x, y)
 
@@ -102,7 +102,7 @@ object Converter:
     (0, 10) -> "Blue",
     (0, 11) -> "Green",
     (0, 12) -> "Orange",
-    (0, 13) -> "Block",
+    (0, 13) -> "Left",
     (0, 14) -> "Block",
     (0, 15) -> "Block",
     (1, 0)  -> "Move",
@@ -118,7 +118,7 @@ object Converter:
     (1, 10) -> "Tri",
     (1, 11) -> "Squ",
     (1, 12) -> "Cir",
-    (1, 13) -> "Block",
+    (1, 13) -> "Right",
     (1, 14) -> "Block",
     (1, 15) -> "Block"
   )

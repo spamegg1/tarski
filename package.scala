@@ -43,7 +43,7 @@ package tarski:
     export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
     export constants.Constants, Constants.{BoardSize, UISize, Dims, GridSize}
     export model.{Pos, Block, NameGrid, PosGrid, Status, Tone, Attr}
-    export model.{World, Shape, Controls, Names, Result, Sizes}
+    export model.{World, Shape, Controls, Names, Result, Sizes, reset}
 
   /** This package tests [[World]] from [[model]], and [[Converter]], [[Handler]] and [[Interpreter]] from
     * [[controller]]. Depends on [[constants]], [[model]] and [[controller]].

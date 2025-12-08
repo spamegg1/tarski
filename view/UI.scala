@@ -15,6 +15,7 @@ object UI:
     "Blue"   -> (0, 10),
     "Green"  -> (0, 11),
     "Orange" -> (0, 12),
+    "Left"   -> (0, 13),
     "Block"  -> (0, 14),
     "Move"   -> (1, 0),
     "Del"    -> (1, 2),
@@ -23,7 +24,8 @@ object UI:
     "Large"  -> (1, 8),
     "Tri"    -> (1, 10),
     "Squ"    -> (1, 11),
-    "Cir"    -> (1, 12)
+    "Cir"    -> (1, 12),
+    "Right"  -> (1, 13)
   )
 
 /** Calculates the Cartesian points for all the UI buttons.
@@ -45,4 +47,6 @@ class UI(using Constants):
   val triPt    = Converter.ui.toPoint(UI.grid("Tri"))
   val squPt    = Converter.ui.toPoint(UI.grid("Squ"))
   val cirPt    = Converter.ui.toPoint(UI.grid("Cir"))
-  val blockPt  = Converter.ui.toPointY(UI.grid("Block"))
+  val leftPt   = Converter.ui.toPoint(UI.grid("Left"))
+  val rightPt  = Converter.ui.toPoint(UI.grid("Right"))
+  val blockPt  = Converter.ui.toPointXY(UI.grid("Block"))

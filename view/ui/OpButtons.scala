@@ -1,7 +1,7 @@
 package tarski
 package view
 
-/** Buttons for Eval, Add, Move and Del.
+/** Buttons for Eval, Add, Move, Del, Left and Right (rotations).
   *
   * @param c
   *   A given instance of [[Constants]], needed to derive [[Utility]] and [[UI]] instances.
@@ -24,6 +24,12 @@ class OpButtons(using c: Constants):
 
   /** The Move button. */
   val moveBtn = util.button("Move", ui.movePt, 2)
+
+  /** The left (counter-clockwise) rotation button. */
+  val leftBtn = util.button("L", ui.leftPt)
+
+  /** The right (clockwise) rotation button. */
+  val rightBtn = util.button("R", ui.rightPt)
 
   /** Move button, with indicator if needed.
     *

@@ -1,12 +1,9 @@
 package tarski
 package controller
 
-import tarski.model.reset
-
 /** Handles user interface controls, for the chess board and for the user interface control buttons.
   */
 object Handler:
-
   /** Handles what happens when a user clicks somewhere on the board.
     *
     * @param pos
@@ -49,6 +46,7 @@ object Handler:
           case "Blue" | "Green" | "Orange"       => handleAttr(value, world)
           case "Small" | "Mid" | "Large"         => handleAttr(value, world)
           case "Tri" | "Squ" | "Cir"             => handleAttr(value, world)
+          case "Left" | "Right"                  => handleRotate(value, world)
           case _                                 => world
 
   /** Handles the evaluation of formulas if the user clicked on the Eval button.
@@ -90,6 +88,18 @@ object Handler:
         world.nameGrid.get(name) match
           case None           => world
           case Some((_, pos)) => world.removeNameFromBlockAt(pos)
+
+  /** Handles the rotation of the board if the user clicked on one of the rotation buttons.
+    *
+    * @param dir
+    *   "Left" (counter-clockwise) or "Right" (clockwise).
+    * @param world
+    *   the current state of the world.
+    * @return
+    *   New state of the world, where positions of the blocks are rotated 90 degrees in given direction.
+    */
+  private def handleRotate(dir: String, world: World): World =
+    world.rotate(Rotator.board.rotate(dir))
 
   /** Handles attributes ([[model.Tone]], [[model.Shape]] or [[model.Sizes]]) if the user clicks on one of those
     * buttons. If there is a block at selected position, the block's attributes are changed, and formulas are reset.
