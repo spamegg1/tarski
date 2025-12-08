@@ -28,7 +28,7 @@ There are 3 situations for selecting a position on the board.
   - ✅ avail the name if it is occupied,
     - ✅ and reset formulas to un-evaluated,
   - ✅ do nothing if the name is available.
-- ✅ Color buttons (Blue, Green, Orange) should change the selected color.
+- ✅ Color buttons (Blue, Green, Coral) should change the selected color.
 - ✅ Delete button should do nothing.
 - ✅ Size buttons (Small, Mid, Large) should change the selected size.
 - ✅ Shape buttons (Tri, Squ, Cir) should change the selected shape.
@@ -46,7 +46,7 @@ Same (not tested again):
   - avail the name if it is occupied,
     - and reset formulas to un-evaluated,
   - do nothing if the name is available.
-- Color buttons (Blue, Green, Orange) should change the selected color.
+- Color buttons (Blue, Green, Coral) should change the selected color.
 - Delete button should do nothing.
 - Size buttons (Small, Mid, Large) should change the selected size.
 - Shape buttons (Tri, Squ, Cir) should change the selected shape.
@@ -60,7 +60,7 @@ Same (not tested again):
   - ✅ add the name to the selected block if it is available:
     - ✅ The name should become occupied.
     - ✅ And formulas should be reset to un-evaluated.
-- Color buttons (Blue, Green, Orange) should:
+- Color buttons (Blue, Green, Coral) should:
   - ✅ change the color of the block at selected position (test only 1, not all 3),
   - ✅ reset formulas to un-evaluated,
   - change the selected color. (same, not tested again)

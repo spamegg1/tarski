@@ -33,9 +33,9 @@ object Interpreter:
     *
     * Atomic formulas are restricted to the following predicate symbols:
     *
-    * Unary: `Small`, `Mid`, `Large`, `Tri`, `Squ`, `Cir`, `Blue`, `Green`, `Orange`
+    * Unary: `Small`, `Mid`, `Large`, `Tri`, `Squ`, `Cir`, `Blue`, `Green`, `Coral`
     *
-    * Binary: `Left`, `Right`, `Below`, `Above`, `Adj`, `Smaller`, `Larger`, `=`, `Size`, `Shape`, `Tone`, `Row`, `Col`
+    * Binary: `Left`, `Right`, `Below`, `Above`, `Adj`, `Less`, `More`, `=`, `Size`, `Shape`, `Tone`, `Row`, `Col`
     *
     * Ternary: `Betw`
     *
@@ -63,14 +63,14 @@ object Interpreter:
       case FOLAtom("Squ", Seq(FOLConst(c)))                            => ng(c).block.shape == Squ
       case FOLAtom("Blue", Seq(FOLConst(c)))                           => ng(c).block.tone == Blue
       case FOLAtom("Green", Seq(FOLConst(c)))                          => ng(c).block.tone == Green
-      case FOLAtom("Orange", Seq(FOLConst(c)))                         => ng(c).block.tone == Orange
+      case FOLAtom("Coral", Seq(FOLConst(c)))                          => ng(c).block.tone == Coral
       case FOLAtom("Left", Seq(FOLConst(c), FOLConst(d)))              => ng(c).pos.leftOf(ng(d).pos)
       case FOLAtom("Right", Seq(FOLConst(c), FOLConst(d)))             => ng(c).pos.rightOf(ng(d).pos)
       case FOLAtom("Below", Seq(FOLConst(c), FOLConst(d)))             => ng(c).pos.below(ng(d).pos)
       case FOLAtom("Above", Seq(FOLConst(c), FOLConst(d)))             => ng(c).pos.above(ng(d).pos)
       case FOLAtom("Adj", Seq(FOLConst(c), FOLConst(d)))               => ng(c).pos.adjoins(ng(d).pos)
-      case FOLAtom("Smaller", Seq(FOLConst(c), FOLConst(d)))           => ng(c).block.smaller(ng(d).block)
-      case FOLAtom("Larger", Seq(FOLConst(c), FOLConst(d)))            => ng(c).block.larger(ng(d).block)
+      case FOLAtom("Less", Seq(FOLConst(c), FOLConst(d)))              => ng(c).block.smaller(ng(d).block)
+      case FOLAtom("More", Seq(FOLConst(c), FOLConst(d)))              => ng(c).block.larger(ng(d).block)
       case FOLAtom("=", Seq(FOLConst(c), FOLConst(d)))                 => ng(c).block == ng(d).block
       case FOLAtom("Row", Seq(FOLConst(c), FOLConst(d)))               => ng(c).pos.sameRow(ng(d).pos)
       case FOLAtom("Col", Seq(FOLConst(c), FOLConst(d)))               => ng(c).pos.sameCol(ng(d).pos)

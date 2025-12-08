@@ -17,17 +17,17 @@ class ShapeButtons(using c: Constants):
   private val shapeButtons =
     Image
       .triangle(util.wid, util.hgh)
-      .fillColor(black)
+      .fillColor(Color.black)
       .at(ui.triPt)
       .on:
         Image
           .square(util.wid)
-          .fillColor(black)
+          .fillColor(Color.black)
           .at(ui.squPt)
       .on:
         Image
           .circle(util.wid)
-          .fillColor(black)
+          .fillColor(Color.black)
           .at(ui.cirPt)
 
   /** Draws a red indicator rectangle around a shape button, if it is selected / clicked.

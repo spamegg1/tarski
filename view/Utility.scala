@@ -35,7 +35,7 @@ class Utility(using c: Constants):
     */
   def indicator(point: Point, factor: Int = 1) = Image
     .rectangle(wid * factor, hgh)
-    .strokeColor(red)
+    .strokeColor(Color.red)
     .strokeWidth(c.SmallStroke)
     .at(point)
 

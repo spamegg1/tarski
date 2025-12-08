@@ -36,11 +36,11 @@ class ColorButtons(using c: Constants):
   /** Button for the green tone. */
   private val greenBox = colorBox(Green, ui.greenPt)
 
-  /** Button for the orange tone. */
-  private val orangeBox = colorBox(Orange, ui.orangePt)
+  /** Button for the coral tone. */
+  private val coralBox = colorBox(Coral, ui.coralPt)
 
   /** All three color buttons together. */
-  private val colors = blueBox on greenBox on orangeBox
+  private val colors = blueBox on greenBox on coralBox
 
   /** Draws a red indicator rectangle around a color button, if it is selected / clicked.
     *
@@ -50,9 +50,9 @@ class ColorButtons(using c: Constants):
     *   A red-edged, empty rectangle that fits around the color button.
     */
   private def colorIndicator(tone: Tone) = tone match
-    case Blue   => util.indicator(ui.bluePt, 1)
-    case Green  => util.indicator(ui.greenPt, 1)
-    case Orange => util.indicator(ui.orangePt, 1)
+    case Blue  => util.indicator(ui.bluePt, 1)
+    case Green => util.indicator(ui.greenPt, 1)
+    case Coral => util.indicator(ui.coralPt, 1)
 
   /** Draws all three color buttons together, with indicator.
     *

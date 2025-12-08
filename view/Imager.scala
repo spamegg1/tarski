@@ -27,9 +27,9 @@ object Imager:
       case f: FOLFormula => colorText(f.toUntypedString)
       case r: Result     =>
         r match
-          case Result.Ready   => Text(" ?").font(c.TheFont).strokeColor(blue)
-          case Result.Valid   => Text(" T").font(c.TheFont).strokeColor(green)
-          case Result.Invalid => Text(" F").font(c.TheFont).strokeColor(red)
+          case Result.Ready   => Text(" ?").font(c.TheFont).strokeColor(Color.blue)
+          case Result.Valid   => Text(" T").font(c.TheFont).strokeColor(Color.green)
+          case Result.Invalid => Text(" F").font(c.TheFont).strokeColor(Color.red)
 
   /** Alternate imaging method for possibly missing objects. For example, [[Controls]] does not display a block unless
     * all three attributes are set, so an empty image has to be displayed.
@@ -66,9 +66,9 @@ object Imager:
       *   A [[Color]].
       */
     def toColor: Color = c match
-      case '¬' => red
-      case '∧' => blue
-      case '∨' => green
-      case '→' => brown
-      case '↔' => brown
-      case _   => black
+      case '¬' => Color.red
+      case '∧' => Color.blue
+      case '∨' => Color.green
+      case '→' => Color.brown
+      case '↔' => Color.brown
+      case _   => Color.black

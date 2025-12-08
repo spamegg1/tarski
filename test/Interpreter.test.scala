@@ -6,8 +6,8 @@ class InterpreterTest extends munit.FunSuite:
 
   private given c: Constants = Constants(DefaultSize)
 
-  val b0 = Block(Small, Cir, Orange, "b")
-  val b1 = Block(Small, Cir, Orange)
+  val b0 = Block(Small, Cir, Coral, "b")
+  val b1 = Block(Small, Cir, Coral)
   val b2 = Block(Mid, Tri, Green, "c")
   val b3 = Block(Small, Squ, Blue)
   val b4 = Block(Small, Squ, Blue, "a")
@@ -28,12 +28,12 @@ class InterpreterTest extends munit.FunSuite:
     fof"∀x (Cir(x) → ∃y (Squ(y) ∧ Above(x, y)))",
     fof"∃x ∃y (x != y ∧ ∀w ((w = x | w = y) → ∀z ¬Above(z, w)))",
     fof"∀x (Squ(x) ↔ ∃y (Tri(y) ∧ Above(y, x)))",
-    fof"∀x ∀y (Larger(x, y) → ∃z Betw(x, y, z))",
+    fof"∀x ∀y (More(x, y) → ∃z Betw(x, y, z))",
     fof"¬(∀x ∀y (Left(x, y) ∨ Right(x, y)))", // same here!
     fof"∃x ∃y ¬(Below(x, y) ∨ Above(x, y))",
     fof"Small(a) ∧ Squ(a) ∧ Blue(a)",
     fof"Mid(c) ∧ Tri(c) ∧ Green(c)",
-    fof"Small(b) ∧ Cir(b) ∧ Orange(b)"
+    fof"Small(b) ∧ Cir(b) ∧ Coral(b)"
   )
 
   private val world = World.from(grid, sentences)
@@ -60,10 +60,10 @@ class InterpreterTest extends munit.FunSuite:
     given NameMap = Map(
       "d" -> (Block(Large, Squ, Blue, "d"), (0, 1)),
       "e" -> (Block(Large, Cir, Green, "e"), (0, 4)),
-      "f" -> (Block(Large, Tri, Orange, "f"), (0, 7)),
+      "f" -> (Block(Large, Tri, Coral, "f"), (0, 7)),
       "c" -> (Block(Mid, Squ, Green, "c"), (4, 3)),
       "a" -> (Block(Small, Tri, Green, "a"), (6, 1)),
-      "b" -> (Block(Small, Squ, Orange, "b"), (6, 4))
+      "b" -> (Block(Small, Squ, Coral, "b"), (6, 4))
     )
     assert(!Interpreter.eval(fof"Betw(d, e, f)"))
     assert(Interpreter.eval(fof"Betw(e, d, f)"))

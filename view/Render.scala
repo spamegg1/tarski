@@ -82,7 +82,7 @@ class Render(using c: Constants):
       case Some(pos) =>
         Image
           .rectangle(Converter.board.blockWidth, Converter.board.blockHeight)
-          .strokeColor(red)
+          .strokeColor(Color.red)
           .strokeWidth(c.SmallStroke)
           .at(Converter.board.toPoint(pos))
 

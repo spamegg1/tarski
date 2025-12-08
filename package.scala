@@ -15,7 +15,7 @@ package tarski:
     export collection.immutable.ListMap
     export doodle.core.Color
     export gapt.expr.formula.fol.FOLFormula
-    export constants.Constants, Constants.{BlueColor, GreenColor, OrangeColor, GridSize, BoardSize}
+    export constants.Constants, Constants.{GridSize, BoardSize}
 
   /** Package to draw and render the interface. It is designed in a pure way and does not hold any mutable state.
     * [[Render]] simply consumes a [[World]] and produces a [[doodle.image.Image]]. It is used by [[main]]. Depends on
@@ -23,12 +23,10 @@ package tarski:
     */
   package view:
     export doodle.core.{Color, Point}
-    export Color.{black, red, green, blue, brown}
     export doodle.image.Image, Image.Elements.Text
     export gapt.expr.formula.fol.FOLFormula
     export constants.Constants
-    export model.{Pos, Board, World, Sizes, Tone}, Sizes.given, Tone.given
-    export model.{Result, Formulas, Controls, Names, Status, Shape, Block}
+    export model.{Pos, Board, World, Sizes, Tone, Result, Formulas, Controls, Names, Status, Shape, Block}
     export controller.Converter
 
   /** Package to handle user input and communicate between [[model]] and [[view]]. Depends on [[constants]] and
@@ -42,8 +40,7 @@ package tarski:
     export gapt.expr.subst.FOLSubstitution
     export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
     export constants.Constants, Constants.{BoardSize, UISize, Dims, GridSize}
-    export model.{Pos, Block, NameMap, Board, Status, Tone, Attr}
-    export model.{World, Shape, Controls, Names, Result, Sizes, reset}
+    export model.{Pos, Block, NameMap, Board, Status, Tone, Attr, World, Shape, Controls, Names, Result, Sizes, reset}
 
   /** This package tests [[World]] from [[model]], and [[Converter]], [[Handler]] and [[Interpreter]] from
     * [[controller]]. Depends on [[constants]], [[model]] and [[controller]].
@@ -52,8 +49,7 @@ package tarski:
     export doodle.core.Point
     export gapt.expr.stringInterpolationForExpressions
     export constants.Constants, Constants.{DefaultSize, Epsilon}
-    export model.{World, Block, Pos, Board, Grid, NameMap}
-    export model.{Status, Result, Shape, Sizes, Tone, Controls}
+    export model.{World, Block, Pos, Board, Grid, NameMap, Status, Result, Shape, Sizes, Tone, Controls}
     export controller.{Interpreter, Converter, Handler}
 
   /** This package is the user-facing part of Tarski's world. Depends on [[constants]], [[model]], [[controller]] and

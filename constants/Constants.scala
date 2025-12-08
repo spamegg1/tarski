@@ -17,15 +17,6 @@ object Constants:
   /** The default background color used in the interface. */
   private val BgColor = Color.white
 
-  /** Renamed color value from [[doodle.core.Color]], used later in the enum [[model.Tone]]. */
-  val BlueColor = Color.deepSkyBlue
-
-  /** Renamed color value from [[doodle.core.Color]], used later in the enum [[model.Tone]]. */
-  val OrangeColor = Color.orange
-
-  /** Renamed color value from [[doodle.core.Color]], used later in the enum [[model.Tone]]. */
-  val GreenColor = Color.yellowGreen
-
   /** The default title for the window. */
   private val Title = "Tarski's World"
 

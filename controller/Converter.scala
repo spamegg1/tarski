@@ -101,7 +101,7 @@ object Converter:
     (0, 9)  -> "f",
     (0, 10) -> "Blue",
     (0, 11) -> "Green",
-    (0, 12) -> "Orange",
+    (0, 12) -> "Coral",
     (0, 13) -> "Left",
     (0, 14) -> "Block",
     (0, 15) -> "Block",

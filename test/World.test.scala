@@ -5,7 +5,7 @@ class WorldTest extends munit.FunSuite:
   private given c: Constants = Constants(DefaultSize)
   import Shape.*, Status.*, Sizes.*, Tone.*
 
-  val b0  = Block(Small, Cir, Orange)                 // at (1,2), then (3,4)
+  val b0  = Block(Small, Cir, Coral)                  // at (1,2), then (3,4)
   val b1  = Block(Mid, Tri, Green)                    // at (5,6)
   val w0  = World.empty
   val w1  = w0.removeBlockAt((1, 2))

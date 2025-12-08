@@ -39,7 +39,7 @@ object Example:
   private val grid: Grid = Map(
     (1, 2) -> Block(Small, Tri, Green, "a"),
     (4, 3) -> Block(Mid, Tri, Blue),
-    (5, 6) -> Block(Large, Cir, Orange, "d"),
+    (5, 6) -> Block(Large, Cir, Coral, "d"),
     (6, 3) -> Block(Small, Squ, Blue)
   )
 
@@ -50,9 +50,9 @@ object Example:
     fof"∀x ¬ Cir(x)",
     fof"¬(∀x (Small(x) ∨ Left(x, a)))",
     fof"∃x (Tri(x) → Right(x, d))",
-    fof"∀x (¬(Shape(c, x) ∨ Smaller(x, c)) → ¬Tone(x, c))",
+    fof"∀x (¬(Shape(c, x) ∨ Less(x, c)) → ¬Tone(x, c))",
     fof"a = b",
-    fof"∀x ∃y Larger(x, y)",
+    fof"∀x ∃y More(x, y)",
     fof"c != d",
     fof"∀x (Squ(x) ∨ Tri(x))",
     fof"∀x (Large(x) ∨ Squ(x))",
