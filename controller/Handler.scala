@@ -43,7 +43,7 @@ object Handler:
           case "Move"                            => world.toggleMove
           case "Block"                           => world
           case "a" | "b" | "c" | "d" | "e" | "f" => handleName(value, world)
-          case "Blue" | "Green" | "Coral"       => handleAttr(value, world)
+          case "Blue" | "Green" | "Coral"        => handleAttr(value, world)
           case "Small" | "Mid" | "Large"         => handleAttr(value, world)
           case "Tri" | "Squ" | "Cir"             => handleAttr(value, world)
           case "Left" | "Right"                  => handleRotate(value, world)
