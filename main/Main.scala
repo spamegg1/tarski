@@ -64,4 +64,4 @@ object Example:
 
   /** Runs the example (also the only entry point into the project). */
   @main
-  def runExample = runWorld(grid, formulas, 1.2)
+  def runExample = runWorld(grid, formulas)
