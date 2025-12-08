@@ -8,7 +8,7 @@ package model
   * @param shape
   *   one of Tri, Squ, Cir
   * @param tone
-  *   one of Blue, Green, Gray
+  *   one of Blue, Green, Orange
   * @param label
   *   an optional name, defaults to the empty string.
   */

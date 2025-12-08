@@ -115,7 +115,7 @@ import tarski.main.*, Shape.*, Sizes.*, Tone.*
 val grid: Grid = Map(
   (1, 2) -> Block(Small, Tri, Green, "a"),
   (4, 3) -> Block(Mid, Tri, Blue),
-  (5, 6) -> Block(Large, Cir, Gray, "d"),
+  (5, 6) -> Block(Large, Cir, Orange, "d"),
   (6, 3) -> Block(Small, Squ, Blue)
 )
 
@@ -157,7 +157,7 @@ Blocks have 3 attributes, each of which has 3 possible values:
 
 |Attribute|value1|value2|value3|
 |:-|:-|:-|:-|
-|Tone|Blue|Green|Gray|
+|Tone|Blue|Green|Orange|
 |Shape|Tri|Squ|Cir|
 |Sizes|Small|Mid|Large|
 
@@ -201,7 +201,7 @@ The following predicates are supported:
 |`Cir(x)`| "x is a circle"|
 |`Blue(x)`| "x has color blue"|
 |`Green(x)`| "x has color green"|
-|`Gray(x)`| "x has color gray"|
+|`Orange(x)`| "x has color orange"|
 |`Small(x)`| "x has size small"|
 |`Mid(x)`| "x has size mid"|
 |`Large(x)`| "x has size large"|

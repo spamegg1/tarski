@@ -33,7 +33,7 @@ object Interpreter:
     *
     * Atomic formulas are restricted to the following predicate symbols:
     *
-    * Unary: `Small`, `Mid`, `Large`, `Tri`, `Squ`, `Cir`, `Blue`, `Green`, `Gray`
+    * Unary: `Small`, `Mid`, `Large`, `Tri`, `Squ`, `Cir`, `Blue`, `Green`, `Orange`
     *
     * Binary: `Left`, `Right`, `Below`, `Above`, `Adj`, `Smaller`, `Larger`, `=`, `Size`, `Shape`, `Tone`, `Row`, `Col`
     *
@@ -63,7 +63,7 @@ object Interpreter:
       case FOLAtom("Squ", Seq(FOLConst(c)))                            => ng(c).block.shape == Squ
       case FOLAtom("Blue", Seq(FOLConst(c)))                           => ng(c).block.tone == Blue
       case FOLAtom("Green", Seq(FOLConst(c)))                          => ng(c).block.tone == Green
-      case FOLAtom("Gray", Seq(FOLConst(c)))                           => ng(c).block.tone == Gray
+      case FOLAtom("Orange", Seq(FOLConst(c)))                         => ng(c).block.tone == Orange
       case FOLAtom("Left", Seq(FOLConst(c), FOLConst(d)))              => ng(c).pos.leftOf(ng(d).pos)
       case FOLAtom("Right", Seq(FOLConst(c), FOLConst(d)))             => ng(c).pos.rightOf(ng(d).pos)
       case FOLAtom("Below", Seq(FOLConst(c), FOLConst(d)))             => ng(c).pos.below(ng(d).pos)

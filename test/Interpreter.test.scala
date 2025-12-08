@@ -6,8 +6,8 @@ class InterpreterTest extends munit.FunSuite:
 
   private given c: Constants = Constants(DefaultSize)
 
-  val b0 = Block(Small, Cir, Gray, "b")
-  val b1 = Block(Small, Cir, Gray)
+  val b0 = Block(Small, Cir, Orange, "b")
+  val b1 = Block(Small, Cir, Orange)
   val b2 = Block(Mid, Tri, Green, "c")
   val b3 = Block(Small, Squ, Blue)
   val b4 = Block(Small, Squ, Blue, "a")
@@ -35,7 +35,7 @@ class InterpreterTest extends munit.FunSuite:
     fof"∃x ∃y ¬(Below(x, y) ∨ Above(x, y))",
     fof"Small(a) ∧ Squ(a) ∧ Blue(a)",
     fof"Mid(c) ∧ Tri(c) ∧ Green(c)",
-    fof"Small(b) ∧ Cir(b) ∧ Gray(b)"
+    fof"Small(b) ∧ Cir(b) ∧ Orange(b)"
   )
 
   test("interpreter is correct on complex sentences in a world with 5 objects"):
@@ -60,10 +60,10 @@ class InterpreterTest extends munit.FunSuite:
     given NameGrid = Map(
       "d" -> (Block(Large, Squ, Blue, "d"), (0, 1)),
       "e" -> (Block(Large, Cir, Green, "e"), (0, 4)),
-      "f" -> (Block(Large, Tri, Gray, "f"), (0, 7)),
+      "f" -> (Block(Large, Tri, Orange, "f"), (0, 7)),
       "c" -> (Block(Mid, Squ, Green, "c"), (4, 3)),
       "a" -> (Block(Small, Tri, Green, "a"), (6, 1)),
-      "b" -> (Block(Small, Squ, Gray, "b"), (6, 4))
+      "b" -> (Block(Small, Squ, Orange, "b"), (6, 4))
     )
     assert(!Interpreter.eval(fof"Betw(d, e, f)"))
     assert(Interpreter.eval(fof"Betw(e, d, f)"))

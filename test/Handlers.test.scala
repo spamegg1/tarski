@@ -7,7 +7,7 @@ class HandlersTest extends munit.FunSuite:
 
   val b0 = Block(Small, Cir, Blue)
   val b1 = Block(Mid, Tri, Green)
-  val b2 = Block(Large, Cir, Gray)
+  val b2 = Block(Large, Cir, Orange)
   val p0 = (1, 2)
   val p1 = (3, 4)
   val p2 = (5, 6)
@@ -46,7 +46,7 @@ class HandlersTest extends munit.FunSuite:
   val w009  = Handler.uiButtons((0, 9), w008_) // f
   val w010  = Handler.uiButtons((0, 10), w009) // Blue
   val w011  = Handler.uiButtons((0, 11), w010) // Green
-  val w012  = Handler.uiButtons((0, 12), w011) // Gray
+  val w012  = Handler.uiButtons((0, 12), w011) // Orange
   val w102  = Handler.uiButtons((1, 2), w012)  // Del
   val w103  = Handler.uiButtons((1, 3), w102)  // Del
   val w104  = Handler.uiButtons((1, 4), w103)  // Small
@@ -62,7 +62,7 @@ class HandlersTest extends munit.FunSuite:
   // Selected position is empty
   val x     = w112.selectPos(p2)
   val x000  = Handler.uiButtons((0, 0), x)     // Eval
-  val x002  = Handler.uiButtons((0, 2), x000)  // Add Gray Large Cir
+  val x002  = Handler.uiButtons((0, 2), x000)  // Add Orange Large Cir
   val x002_ = x002.unsetBlock.selectPos(p3)
   val x003  = Handler.uiButtons((0, 3), x002_) // Add no block
 
@@ -147,7 +147,7 @@ class HandlersTest extends munit.FunSuite:
       s"Color should be $exp but is $obt"
     val (obt1, exp1) = (w010.controls.toneOpt, Some(Blue))
     val (obt2, exp2) = (w011.controls.toneOpt, Some(Green))
-    val (obt3, exp3) = (w012.controls.toneOpt, Some(Gray))
+    val (obt3, exp3) = (w012.controls.toneOpt, Some(Orange))
     assertEquals(obt1, exp1, msg(obt1, exp1))
     assertEquals(obt2, exp2, msg(obt2, exp2))
     assertEquals(obt3, exp3, msg(obt3, exp3))

@@ -46,7 +46,7 @@ object Handler:
           case "Move"                            => world.toggleMove
           case "Block"                           => world
           case "a" | "b" | "c" | "d" | "e" | "f" => handleName(value, world)
-          case "Blue" | "Green" | "Gray"         => handleAttr(value, world)
+          case "Blue" | "Green" | "Orange"       => handleAttr(value, world)
           case "Small" | "Mid" | "Large"         => handleAttr(value, world)
           case "Tri" | "Squ" | "Cir"             => handleAttr(value, world)
           case _                                 => world
@@ -121,12 +121,12 @@ object Handler:
       *   The attribute that corresponds to the `String`.
       */
     def toAttr: Attr = s match
-      case "Blue"  => Tone.Blue
-      case "Gray"  => Tone.Gray
-      case "Green" => Tone.Green
-      case "Small" => Sizes.Small
-      case "Mid"   => Sizes.Mid
-      case "Large" => Sizes.Large
-      case "Tri"   => Shape.Tri
-      case "Squ"   => Shape.Squ
-      case "Cir"   => Shape.Cir
+      case "Blue"   => Tone.Blue
+      case "Orange" => Tone.Orange
+      case "Green"  => Tone.Green
+      case "Small"  => Sizes.Small
+      case "Mid"    => Sizes.Mid
+      case "Large"  => Sizes.Large
+      case "Tri"    => Shape.Tri
+      case "Squ"    => Shape.Squ
+      case "Cir"    => Shape.Cir

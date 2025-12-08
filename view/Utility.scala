@@ -22,7 +22,7 @@ class Utility(using c: Constants):
     */
   def btn(factor: Int = 1) = Image
     .rectangle(wid * factor, hgh)
-    .fillColor(Tone.Gray)
+    .fillColor(Color.lightGray)
 
   /** A generic indicator rectangle that can be scaled wide.
     *

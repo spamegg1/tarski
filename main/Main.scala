@@ -39,7 +39,7 @@ object Example:
   private val grid: Grid = Map(
     (1, 2) -> Block(Small, Tri, Green, "a"),
     (4, 3) -> Block(Mid, Tri, Blue),
-    (5, 6) -> Block(Large, Cir, Gray, "d"),
+    (5, 6) -> Block(Large, Cir, Orange, "d"),
     (6, 3) -> Block(Small, Squ, Blue)
   )
 

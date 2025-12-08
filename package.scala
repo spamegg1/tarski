@@ -3,7 +3,6 @@ package tarski:
   package constants:
     export concurrent.duration.FiniteDuration
     export doodle.core.{Color, Point}
-    export Color.{deepSkyBlue, lightGray, white, black, yellowGreen}
     export doodle.image.Image
     export doodle.core.font.{Font, FontFamily, FontStyle, FontWeight, FontSize}
     export doodle.java2d.effect.Frame
@@ -16,7 +15,7 @@ package tarski:
     export collection.immutable.ListMap
     export doodle.core.Color
     export gapt.expr.formula.fol.FOLFormula
-    export constants.Constants, Constants.{BlueColor, GreenColor, GrayColor}
+    export constants.Constants, Constants.{BlueColor, GreenColor, OrangeColor}
 
   /** Package to draw and render the interface. It is designed in a pure way and does not hold any mutable state.
     * [[Render]] simply consumes a [[World]] and produces a [[doodle.image.Image]]. It is used by [[main]]. Depends on

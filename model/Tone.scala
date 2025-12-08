@@ -5,7 +5,7 @@ package model
   * We do not use [[doodle.core.Color]] directly, in order to benefit from exhaustive pattern matching and safety.
   */
 enum Tone:
-  case Blue, Green, Gray
+  case Blue, Green, Orange
 
 /** Contains given instances to work with [[Tone]]. */
 object Tone:
@@ -13,6 +13,6 @@ object Tone:
   given Conversion[Tone, Color] =
     (t: Tone) =>
       t match
-        case Blue  => BlueColor
-        case Green => GreenColor
-        case Gray  => GrayColor
+        case Blue   => BlueColor
+        case Green  => GreenColor
+        case Orange => OrangeColor

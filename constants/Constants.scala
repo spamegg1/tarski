@@ -15,16 +15,16 @@ object Constants:
   val DefaultSize = 100.0
 
   /** The default background color used in the interface. */
-  private val BgColor = white
+  private val BgColor = Color.white
 
   /** Renamed color value from [[doodle.core.Color]], used later in the enum [[model.Tone]]. */
-  val BlueColor = deepSkyBlue
+  val BlueColor = Color.deepSkyBlue
 
   /** Renamed color value from [[doodle.core.Color]], used later in the enum [[model.Tone]]. */
-  val GrayColor = lightGray
+  val OrangeColor = Color.orange
 
   /** Renamed color value from [[doodle.core.Color]], used later in the enum [[model.Tone]]. */
-  val GreenColor = yellowGreen
+  val GreenColor = Color.yellowGreen
 
   /** The default title for the window. */
   private val Title = "Tarski's World"
@@ -130,10 +130,10 @@ case class Constants(size: Double):
   private val Sqr = Image.square(size)
 
   /** Default white square used on the chess board. */
-  private val WhiteSq = Sqr.fillColor(white)
+  private val WhiteSq = Sqr.fillColor(Color.white)
 
   /** Default black square used on the chess board. */
-  private val BlackSq = Sqr.fillColor(black)
+  private val BlackSq = Sqr.fillColor(Color.black)
 
   /** Builder method for the rows and columns of the chess board.
     *
