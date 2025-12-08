@@ -42,7 +42,7 @@ package tarski:
     export gapt.expr.subst.FOLSubstitution
     export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
     export constants.Constants, Constants.{BoardSize, UISize, Dims, GridSize}
-    export model.{Pos, Block, NameGrid, Board, Status, Tone, Attr}
+    export model.{Pos, Block, NameMap, Board, Status, Tone, Attr}
     export model.{World, Shape, Controls, Names, Result, Sizes, reset}
 
   /** This package tests [[World]] from [[model]], and [[Converter]], [[Handler]] and [[Interpreter]] from
@@ -52,7 +52,7 @@ package tarski:
     export doodle.core.Point
     export gapt.expr.stringInterpolationForExpressions
     export constants.Constants, Constants.{DefaultSize, Epsilon}
-    export model.{World, Block, Pos, Board, Grid, NameGrid}
+    export model.{World, Block, Pos, Board, Grid, NameMap}
     export model.{Status, Result, Shape, Sizes, Tone, Controls}
     export controller.{Interpreter, Converter, Handler}
 

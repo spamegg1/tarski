@@ -4,7 +4,8 @@ package model
 /** The main data type for Tarski's world.
   *
   * @param board
-  *   A board of position -> (block, name) pairs. Represents the blocks on the chess board and their names.
+  *   A board of position -> (block, name) pairs. Represents the blocks on the chess board and their names. Also
+  *   contains the grid size, i.e. the number of rows and columns of the board.
   * @param names
   *   Tracks which of the 6 names are available and which are assigned to blocks. Initially all names are available
   *   unless assigned.
@@ -66,12 +67,12 @@ case class World(
     */
   def unsetBlock = copy(controls = controls.unsetBlock)
 
-  /** [[World]] wrapper for [[toNameGrid]].
+  /** [[World]] wrapper for [[grid.toNameMap]].
     *
     * @return
-    *   The name grid obtained from the position grid of the current world.
+    *   The name map obtained from the position grid of the current world. Useful when evaluating formulas.
     */
-  def nameGrid = board.toNameGrid
+  def nameMap = board.grid.toNameMap
 
   /** Adds given block to the world at the given position, if possible. Newly added blocks are always nameless, the name
     * can only be added later.
@@ -242,9 +243,9 @@ object World:
     *   un-evaluated.
     */
   def from(grid: Grid, formulas: Seq[FOLFormula]) =
-    val pg = Board.fromGrid(grid)
+    val board = Board.fromGrid(grid)
     World(
-      board = pg,
-      names = Names.fromNameGrid(pg.toNameGrid),
+      board = board,
+      names = Names.fromNameMap(board.grid.toNameMap),
       formulas = Formulas.fromSeq(formulas)
     )

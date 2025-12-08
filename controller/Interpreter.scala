@@ -17,7 +17,7 @@ object Interpreter:
     * @return
     *   true if the first-order formula holds in the given board and blocks, false otherwise.
     */
-  def eval(formula: FOLFormula)(using ng: NameGrid): Boolean = formula match
+  def eval(formula: FOLFormula)(using ng: NameMap): Boolean = formula match
     case a: FOLAtom                        => evalAtom(a)
     case And(a, b)                         => eval(a) && eval(b)
     case Or(a, b)                          => eval(a) || eval(b)
@@ -52,7 +52,7 @@ object Interpreter:
     * @return
     *   true if the atomic formula holds in the given board and blocks, false otherwise.
     */
-  private def evalAtom(a: FOLAtom)(using ng: NameGrid): Boolean =
+  private def evalAtom(a: FOLAtom)(using ng: NameMap): Boolean =
     import Pos.*, Sizes.*, Tone.*, Shape.*
     a match
       case FOLAtom("Small", Seq(FOLConst(c)))                          => ng(c).block.size == Small

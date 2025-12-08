@@ -9,53 +9,6 @@ type Attr = Sizes | Shape | Tone
 /** The type that defines a simpler version of the chess board. It is also the user-facing grid type. */
 type Grid = Map[Pos, Block]
 
-/** This is the core grid type used by [[World]]. Users don't directly use it, it's for internal usage. Evaluating
-  * formulas requires also knowing the names of objects, so the names are also included.
-  */
-case class Board(grid: Map[Pos, (block: Block, name: Name)], gs: GridSize = BoardSize):
-  require:
-    grid.keys.forall: pos =>
-      0 <= pos.row && pos.row < gs.rows && 0 <= pos.col && pos.col < gs.cols
-
-  /** Converts a [[Board]] to a [[NameGrid]] by inverting the names and positions.
-    *
-    * @return
-    *   The board's grid inverted as position -> (block, name).
-    */
-  def toNameGrid: NameGrid = grid.map:
-    case (pos, (block, name)) => name -> (block, pos)
-
-  /** Useful when we only want to update `grid` but not the grid size.
-    *
-    * @param newGrid
-    *   An updated map of position -> (block, name) pairs.
-    * @return
-    *   A new board with its grid updated and the grid size unchanged.
-    */
-  def apply(newGrid: Map[Pos, (block: Block, name: Name)]) = copy(grid = newGrid)
-
-/** Contains helper methods for the [[Board]] type alias. */
-object Board:
-  /** Converts a user-provided [[Grid]] to a [[Board]] so that it can be internally used by a [[World]].
-    *
-    * @param grid
-    *   The grid of positions mapped to blocks, provided by the user.
-    * @return
-    *   The same grid that also accounts for the names of blocks (with fake names generated if needed).
-    */
-  def fromGrid(g: Grid, gs: GridSize = BoardSize) =
-    val grid = g.map: (pos, block) =>
-      val name = if block.label.isEmpty then Name.generateFake else block.label
-      pos -> (block, name)
-    Board(grid, gs)
-
-  /** Defines an empty board. Convenient for initializing a [[World]].
-    *
-    * @return
-    *   A board with default [[BoardSize]] and no blocks on it.
-    */
-  def empty: Board = Board(Map())
-
 /** Contains helper methods for the [[Grid]] type alias. */
 object Grid:
   /** Creates an empty [[Grid]]. Useful for initializing a [[World]]. Used by [[main.runWorld]].
@@ -65,10 +18,22 @@ object Grid:
     */
   def empty: Grid = Map.empty[Pos, Block]
 
+/** The core grid type used by [[Block]] and subsequently [[World]]. */
+type NameGrid = Map[Pos, (block: Block, name: Name)]
+
+extension (grid: NameGrid)
+  /** Extension method that converts a [[NameGrid]] to a [[NameMap]] by inverting the names and positions.
+    *
+    * @return
+    *   The grid inverted as position -> (block, name).
+    */
+  def toNameMap: NameMap = grid.map:
+    case (pos, (block, name)) => name -> (block, pos)
+
 /** This is like the inverse of [[Board]], allowing us to look-up blocks by name instead of position. Needed for
   * [[controller.Interpreter.eval]].
   */
-type NameGrid = Map[Name, (block: Block, pos: Pos)]
+type NameMap = Map[Name, (block: Block, pos: Pos)]
 
 /** A mapping between first-order formulas and their evaluation results. */
 type Formulas = ListMap[FOLFormula, Result]

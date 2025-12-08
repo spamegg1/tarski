@@ -27,7 +27,7 @@ class WorldTest extends munit.FunSuite:
   val w16 = w15.removeNameFromBlockAt((3, 4))         // b1 at 5,6
 
   test("Empty world with no blocks or grid and all names available"):
-    assert(w0.nameGrid.isEmpty, s"empty world should have no blocks, but has ${w0.nameGrid}")
+    assert(w0.nameMap.isEmpty, s"empty world should have no blocks, but has ${w0.nameMap}")
     assert(w0.board.grid.isEmpty, s"empty world should have no grid, but has ${w0.board.grid}")
     assert(
       w0.names.values.forall(_ == Available),
@@ -45,7 +45,7 @@ class WorldTest extends munit.FunSuite:
     assertEquals(ob41, ex41, s"world should have grid keys $ex41 but has $ob41")
     val ob42 = w4.board.grid((1, 2)).block
     assertEquals(ob42, b0, s"world should have block $b0 at pos (1, 2), but has $ob42")
-    val ob43 = w4.nameGrid.values.toSeq
+    val ob43 = w4.nameMap.values.toSeq
     val ex43 = Seq((b0, (1, 2)))
     assertEquals(ob43, ex43, s"world should have blocks values $ex43 but has $ob43")
     assert(
@@ -60,7 +60,7 @@ class WorldTest extends munit.FunSuite:
 
   test("Adding a name to a block, in wrong / correct position"):
     assertEquals(w8, w7, "adding name to block at wrong pos should not work, but does")
-    assertEquals(w9.nameGrid("b").block, b0n, "adding name to block should change its label correctly, but does not")
+    assertEquals(w9.nameMap("b").block, b0n, "adding name to block should change its label correctly, but does not")
     assert(
       w9.names.forall: (name, status) =>
         status == (if name == "b" then Occupied else Available),
@@ -80,7 +80,7 @@ class WorldTest extends munit.FunSuite:
       "moving a block from correct position should work, but does not"
     )
     assertEquals(
-      w12.nameGrid,
+      w12.nameMap,
       Map("b" -> (b0n, (3, 4))),
       "moving a block from correct position should work, but does not"
     )
@@ -103,7 +103,7 @@ class WorldTest extends munit.FunSuite:
       s"adding a second block $b1 with fake name should work, but does not"
     )
     assertEquals(
-      w14.nameGrid.values.toSeq,
+      w14.nameMap.values.toSeq,
       Seq((b0n, (3, 4)), (b1, (5, 6))),
       s"adding a second block with fake name should work correctly, but does not"
     )
@@ -120,7 +120,7 @@ class WorldTest extends munit.FunSuite:
     assertEquals(w16.board.grid((3, 4)).block, b0, "removing name from named block should work correctly, but does not")
     assertEquals(w16.board.grid((5, 6)).block, b1, "removing name from named block should work correctly, but does not")
     assertEquals(
-      w16.nameGrid.values.toSeq,
+      w16.nameMap.values.toSeq,
       Seq((b0, (3, 4)), (b1, (5, 6))),
       "removing name from named block should work correctly, but does not"
     )

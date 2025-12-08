@@ -61,7 +61,7 @@ object Handler:
     val results = world.formulas.map: (formula, result) =>
       var status = Ready
       try
-        val bool = Interpreter.eval(formula)(using world.nameGrid)
+        val bool = Interpreter.eval(formula)(using world.nameMap)
         status = if bool then Valid else Invalid
       catch case ex: java.util.NoSuchElementException => ()
       formula -> status
@@ -85,7 +85,7 @@ object Handler:
           case None      => world
           case Some(pos) => world.addNameToBlockAt(pos, name)
       case Some(Occupied) =>
-        world.nameGrid.get(name) match
+        world.nameMap.get(name) match
           case None           => world
           case Some((_, pos)) => world.removeNameFromBlockAt(pos)
 

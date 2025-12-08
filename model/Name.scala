@@ -1,11 +1,6 @@
 package tarski
 package model
 
-/** Enum to keep track of named objects. We cannot assign the same name to more than one object */
-enum Status:
-  case Available, Occupied
-export Status.*
-
 /** Type alias for the name of an object. */
 type Name = String
 
@@ -37,14 +32,14 @@ object Names:
   /** Creates a [[Names]] instance from a given name grid by checking which names are occupied or not. Useful for
     * initializing a [[World]] instance at the beginning of a world.
     *
-    * @param ng
-    *   A name grid, i.e. a map of name -> (block, pos) pairs.
+    * @param nameMap
+    *   A map of name -> (block, pos) pairs.
     * @return
     *   A map of names and their availability statuses.
     */
-  def fromNameGrid(ng: NameGrid): Names = TheNames
+  def fromNameMap(nameMap: NameMap): Names = TheNames
     .map: name =>
-      name -> (if ng.contains(name) then Occupied else Available)
+      name -> (if nameMap.contains(name) then Occupied else Available)
     .toMap
 
 extension (names: Names)
