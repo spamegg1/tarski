@@ -20,7 +20,7 @@ object Handler:
         world.copy(controls = newControls)
       case Some(p) if world.controls.move => world.moveBlock(from = p, to = pos)
       case _                              =>
-        val newControls = world.controls.selectPos(pos).setBlock(world.posGrid.get(pos))
+        val newControls = world.controls.selectPos(pos).setBlock(world.board.grid.get(pos))
         world.copy(controls = newControls)
 
   /** Handles what happens when a user clicks somewhere on the user interface controls.
@@ -115,14 +115,14 @@ object Handler:
     val newAttr                = attr.toAttr
     val newControls            = world.controls.setAttr(newAttr)
     val (newGrid, newFormulas) = world.controls.posOpt match
-      case None      => (world.posGrid, world.formulas)
+      case None      => (world.board.grid, world.formulas)
       case Some(pos) =>
-        world.posGrid.get(pos) match
-          case None                => (world.posGrid, world.formulas)
+        world.board.grid.get(pos) match
+          case None                => (world.board.grid, world.formulas)
           case Some((block, name)) =>
             val newBlock = block.setAttr(newAttr)
-            (world.posGrid.updated(pos, (newBlock, name)), world.formulas.reset)
-    world.copy(controls = newControls, posGrid = newGrid, formulas = newFormulas)
+            (world.board.grid.updated(pos, (newBlock, name)), world.formulas.reset)
+    world.copy(controls = newControls, board = world.board(newGrid), formulas = newFormulas)
 
   extension (s: String)
     /** Extension method to convert a `String` to a [[model.Attr]].

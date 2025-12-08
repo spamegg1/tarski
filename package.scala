@@ -15,7 +15,7 @@ package tarski:
     export collection.immutable.ListMap
     export doodle.core.Color
     export gapt.expr.formula.fol.FOLFormula
-    export constants.Constants, Constants.{BlueColor, GreenColor, OrangeColor}
+    export constants.Constants, Constants.{BlueColor, GreenColor, OrangeColor, GridSize, BoardSize}
 
   /** Package to draw and render the interface. It is designed in a pure way and does not hold any mutable state.
     * [[Render]] simply consumes a [[World]] and produces a [[doodle.image.Image]]. It is used by [[main]]. Depends on
@@ -27,7 +27,7 @@ package tarski:
     export doodle.image.Image, Image.Elements.Text
     export gapt.expr.formula.fol.FOLFormula
     export constants.Constants
-    export model.{Pos, PosGrid, World, Sizes, Tone}, Sizes.given, Tone.given
+    export model.{Pos, Board, World, Sizes, Tone}, Sizes.given, Tone.given
     export model.{Result, Formulas, Controls, Names, Status, Shape, Block}
     export controller.Converter
 
@@ -42,7 +42,7 @@ package tarski:
     export gapt.expr.subst.FOLSubstitution
     export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
     export constants.Constants, Constants.{BoardSize, UISize, Dims, GridSize}
-    export model.{Pos, Block, NameGrid, PosGrid, Status, Tone, Attr}
+    export model.{Pos, Block, NameGrid, Board, Status, Tone, Attr}
     export model.{World, Shape, Controls, Names, Result, Sizes, reset}
 
   /** This package tests [[World]] from [[model]], and [[Converter]], [[Handler]] and [[Interpreter]] from
@@ -52,7 +52,7 @@ package tarski:
     export doodle.core.Point
     export gapt.expr.stringInterpolationForExpressions
     export constants.Constants, Constants.{DefaultSize, Epsilon}
-    export model.{World, Block, Pos, PosGrid, Grid, NameGrid}
+    export model.{World, Block, Pos, Board, Grid, NameGrid}
     export model.{Status, Result, Shape, Sizes, Tone, Controls}
     export controller.{Interpreter, Converter, Handler}
 

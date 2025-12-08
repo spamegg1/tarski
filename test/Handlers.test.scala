@@ -184,7 +184,7 @@ class HandlersTest extends munit.FunSuite:
   test("Add button with an empty position selected"):
     val msg1 = s"Pos $p2 should have block $b2 added, but does not"
     val msg2 = "Adding a block should reset all formulas, but does not"
-    assertEquals(x002.posGrid(p2).block, b2, msg1)
+    assertEquals(x002.board.grid(p2).block, b2, msg1)
     assert(x002.formulas.values.forall(_ == Ready), msg2)
     assertEquals(x003, x002_, "Adding a None block shouldn't do anything, but does")
 
@@ -193,35 +193,35 @@ class HandlersTest extends munit.FunSuite:
 
   test("Name button with a block at selected position"):
     val b             = b2.setLabel("a")
-    val (block, name) = y004.posGrid(p2)
+    val (block, name) = y004.board.grid(p2)
     assertEquals(block, b, s"Block at $p2 should be $b, but is $block")
     assertEquals(name, "a", s"Name of block should be a, but is $name")
     assertEquals(y004.names("a"), Occupied, "Naming a block should occupy the name, but does not")
     assert(y004.formulas.values.forall(_ == Ready), "Adding a name to a block should reset all formulas, but does not")
 
   test("Color buttons with a block at selected position"):
-    val b   = y010.posGrid(p2).block
+    val b   = y010.board.grid(p2).block
     val msg = "Changing the color of a block should reset all formulas, but does not"
     assertEquals(b.tone, Blue, s"Block $b at position $p2 should be Blue, but is not")
     assertEquals(y010.controls.toneOpt, Some(Blue), "Color should be Blue, but is not")
     assert(y010.formulas.values.forall(_ == Ready), msg)
 
   test("Size buttons with a block at selected position"):
-    val b   = y104.posGrid(p2).block
+    val b   = y104.board.grid(p2).block
     val msg = "Changing the size of a block should reset all formulas, but does not"
     assertEquals(b.size, Small, s"Block $b at position $p2 should be Small, but is not")
     assertEquals(y104.controls.sizeOpt, Some(Small), "Size should be Small, but is not")
     assert(y104.formulas.values.forall(_ == Ready), msg)
 
   test("Shape buttons with a block at selected position"):
-    val b   = y110.posGrid(p2).block
+    val b   = y110.board.grid(p2).block
     val msg = "Changing the shape of a block should reset all formulas, but does not"
     assertEquals(b.shape, Tri, s"Block $b at position $p2 should be Tri, but is not")
     assertEquals(y110.controls.shapeOpt, Some(Tri), "Shape should be Tri, but is not")
     assert(y110.formulas.values.forall(_ == Ready), msg)
 
   test("Delete button with a block at selected position"):
-    assertEquals(y102.posGrid.get(p2), None, s"Block at pos $p2 should be deleted, but is not")
+    assertEquals(y102.board.grid.get(p2), None, s"Block at pos $p2 should be deleted, but is not")
     assertEquals(y102.names("a"), Available, "Name a of deleted block should be Available, but is not")
     assert(y102.formulas.values.forall(_ == Ready), "Deleting a block should reset all formulas, but does not")
 

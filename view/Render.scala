@@ -93,7 +93,7 @@ class Render(using c: Constants):
     * @return
     *   An image of the chess board, with blocks at their positions.
     */
-  private def blocksOnBoard(grid: PosGrid): Image = grid
+  private def blocksOnBoard(board: Board): Image = board.grid
     .foldLeft[Image](c.Board):
       case (image, (pos, (block, name))) =>
         Imager(block)
@@ -109,7 +109,7 @@ class Render(using c: Constants):
     */
   def all(world: World): Image =
     selectedPos(world.controls.posOpt)
-      .on(blocksOnBoard(world.posGrid))
+      .on(blocksOnBoard(world.board))
       .at(c.BoardOrigin)
       .on:
         renderUI(world)

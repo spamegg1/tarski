@@ -3,8 +3,8 @@ package model
 
 /** The main data type for Tarski's world.
   *
-  * @param posGrid
-  *   A map of position -> (block, name) pairs. Represents the blocks on the chess board and their names.
+  * @param board
+  *   A board of position -> (block, name) pairs. Represents the blocks on the chess board and their names.
   * @param names
   *   Tracks which of the 6 names are available and which are assigned to blocks. Initially all names are available
   *   unless assigned.
@@ -15,7 +15,7 @@ package model
   *   The state of the user interface controls and the selected position on the board.
   */
 case class World(
-    posGrid: PosGrid = Map(),
+    board: Board = Board.empty,
     names: Names = World.initNames,
     formulas: Formulas = ListMap(),
     controls: Controls = Controls()
@@ -43,7 +43,7 @@ case class World(
     * @return
     *   A copy of this world with controls updated to select `pos` and display the block there.
     */
-  def selectPos(pos: Pos) = copy(controls = controls.selectPos(pos).setBlock(posGrid.get(pos)))
+  def selectPos(pos: Pos) = copy(controls = controls.selectPos(pos).setBlock(board.grid.get(pos)))
 
   /** De-selects the currently selected position in [[controls]]. Wrapper for [[Controls.deselectPos]].
     *
@@ -71,7 +71,7 @@ case class World(
     * @return
     *   The name grid obtained from the position grid of the current world.
     */
-  def nameGrid = posGrid.toNameGrid
+  def nameGrid = board.toNameGrid
 
   /** Adds given block to the world at the given position, if possible. Newly added blocks are always nameless, the name
     * can only be added later.
@@ -84,12 +84,12 @@ case class World(
     *   A copy of this world with the block added at the position if possible, and formula results reset. If the block
     *   is added, it's assigned a fake name initially.
     */
-  def addBlockAt(pos: Pos, block: Block) = posGrid.get(pos) match
+  def addBlockAt(pos: Pos, block: Block) = board.grid.get(pos) match
     case Some(_) => this
     case None    => // make sure there is no block at position
       val fakeName = Name.generateFake
-      val newGrid  = posGrid.updated(pos, (block, fakeName))
-      resetFormulas.copy(posGrid = newGrid)
+      val newGrid  = board.grid.updated(pos, (block, fakeName))
+      resetFormulas.copy(board = board(newGrid))
 
   /** Adds the block that is displayed in the user interface controls to the position that is currently selected in the
     * controls. Useful when the user clicks on an empty square and then wants to add a specific block by setting its
@@ -114,12 +114,12 @@ case class World(
     * @return
     *   A copy of this world with the block at `pos` (if any) removed, and formula results reset.
     */
-  def removeBlockAt(pos: Pos) = posGrid.get(pos) match
+  def removeBlockAt(pos: Pos) = board.grid.get(pos) match
     case None            => this
     case Some((_, name)) => // make sure there is a block at position
-      val newGrid  = posGrid.removed(pos)
+      val newGrid  = board.grid.removed(pos)
       val newNames = names.avail(name)
-      resetFormulas.copy(posGrid = newGrid, names = newNames)
+      resetFormulas.copy(board = board(newGrid), names = newNames)
 
   /** Removes the block at currently selected position.
     *
@@ -140,14 +140,14 @@ case class World(
     *   A copy of this world with the block at `from` (if any) moved to `to` (if empty), and formula results reset. If
     *   the move is successful, Move will also be disabled.
     */
-  def moveBlock(from: Pos, to: Pos): World = posGrid.get(from) match
+  def moveBlock(from: Pos, to: Pos): World = board.grid.get(from) match
     case None                => selectPos(to)
     case Some((block, name)) => // make sure there is a block at from
-      posGrid.get(to) match
+      board.grid.get(to) match
         case Some(_) => selectPos(to)
         case None    => // make sure there is no block at to
-          val newGrid = posGrid.removed(from).updated(to, (block, name))
-          resetFormulas.selectPos(to).toggleMove.copy(posGrid = newGrid)
+          val newGrid = board.grid.removed(from).updated(to, (block, name))
+          resetFormulas.selectPos(to).toggleMove.copy(board = board(newGrid))
 
   /** Adds given name to the block at given position.
     *
@@ -159,7 +159,7 @@ case class World(
     *   A copy of this world with the block at `pos` (if any) assigned the name `name` (if available), and formula
     *   results reset.
     */
-  def addNameToBlockAt(pos: Pos, name: Name): World = posGrid.get(pos) match
+  def addNameToBlockAt(pos: Pos, name: Name): World = board.grid.get(pos) match
     case None                   => this
     case Some((block, oldName)) => // make sure there is a block at position
       names.get(oldName) match
@@ -170,9 +170,9 @@ case class World(
             case Some(Occupied)  => this
             case Some(Available) => // make sure the name is available
               val newBlock = block.setLabel(name)
-              val newGrid  = posGrid.updated(pos, (newBlock, name))
+              val newGrid  = board.grid.updated(pos, (newBlock, name))
               val newNames = names.occupy(name)
-              resetFormulas.copy(posGrid = newGrid, names = newNames)
+              resetFormulas.copy(board = board(newGrid), names = newNames)
 
   /** Removes the name from the block at given position.
     *
@@ -183,7 +183,7 @@ case class World(
     *   formula results reset. If the name removal is successful, the now-nameless block will receive a generated fake
     *   name.
     */
-  def removeNameFromBlockAt(pos: Pos): World = posGrid.get(pos) match
+  def removeNameFromBlockAt(pos: Pos): World = board.grid.get(pos) match
     case None                => this
     case Some((block, name)) => // make sure there is a block at position
       names.get(name) match
@@ -192,9 +192,9 @@ case class World(
         case Some(Occupied)  => // make sure name is already occupied
           val newBlock = block.removeLabel
           val newName  = Name.generateFake
-          val newGrid  = posGrid.updated(pos, (newBlock, newName))
+          val newGrid  = board.grid.updated(pos, (newBlock, newName))
           val newNames = names.avail(name)
-          resetFormulas.copy(posGrid = newGrid, names = newNames)
+          resetFormulas.copy(board = board(newGrid), names = newNames)
 
   /** Rotates the board positions according to given rotator. Normally this is 90 degrees clockwise or
     * counter-clockwise, but it supports any function that maps positions to positions.
@@ -205,11 +205,12 @@ case class World(
     *   New world where block positions and the selected position are rotated according to `rotator`.
     */
   def rotate(rotator: Pos => Pos): World =
-    val newPosGrid  = posGrid.map((pos, value) => (rotator(pos), value))
+    val newGrid     = board.grid.map((pos, value) => (rotator(pos), value))
+    val newGridSize = (rows = board.gs.cols, cols = board.gs.rows)
     val newControls = controls.posOpt.match
       case None      => controls
       case Some(pos) => controls.selectPos(rotator(pos))
-    resetFormulas.copy(posGrid = newPosGrid, controls = newControls)
+    resetFormulas.copy(board = Board(newGrid, newGridSize), controls = newControls)
 
 /** Contains values and helper methods for [[World]]. */
 object World:
@@ -241,9 +242,9 @@ object World:
     *   un-evaluated.
     */
   def from(grid: Grid, formulas: Seq[FOLFormula]) =
-    val pg = PosGrid.fromGrid(grid)
+    val pg = Board.fromGrid(grid)
     World(
-      posGrid = pg,
+      board = pg,
       names = Names.fromNameGrid(pg.toNameGrid),
       formulas = Formulas.fromSeq(formulas)
     )

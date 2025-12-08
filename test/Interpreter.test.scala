@@ -12,15 +12,13 @@ class InterpreterTest extends munit.FunSuite:
   val b3 = Block(Small, Squ, Blue)
   val b4 = Block(Small, Squ, Blue, "a")
 
-  private val grid: PosGrid = Map(
-    (1, 1) -> (b0, "b"),
-    (1, 5) -> (b1, "block0"),
-    (3, 3) -> (b2, "c"),
-    (4, 2) -> (b3, "block1"),
-    (6, 6) -> (b4, "a")
+  private val grid: Grid = Map(
+    (1, 1) -> b0,
+    (1, 5) -> b1,
+    (3, 3) -> b2,
+    (4, 2) -> b3,
+    (6, 6) -> b4
   )
-
-  private val world = World(grid)
 
   private val sentences = Seq(
     fof"∃x ∃y ∃z (Squ(x) ∧ Cir(y) ∧ Tri(z))",
@@ -37,6 +35,8 @@ class InterpreterTest extends munit.FunSuite:
     fof"Mid(c) ∧ Tri(c) ∧ Green(c)",
     fof"Small(b) ∧ Cir(b) ∧ Orange(b)"
   )
+
+  private val world = World.from(grid, sentences)
 
   test("interpreter is correct on complex sentences in a world with 5 objects"):
     given NameGrid = world.nameGrid
