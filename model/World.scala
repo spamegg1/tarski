@@ -67,7 +67,7 @@ case class World(
     */
   def unsetBlock = copy(controls = controls.unsetBlock)
 
-  /** [[World]] wrapper for [[grid.toNameMap]].
+  /** [[World]] wrapper for [[toNameMap]].
     *
     * @return
     *   The name map obtained from the position grid of the current world. Useful when evaluating formulas.
@@ -201,7 +201,7 @@ case class World(
     * counter-clockwise, but it supports any function that maps positions to positions.
     *
     * @param rotator
-    *   A function [[Pos]] => [[Pos]]. This normally comes from [[controller.Converter.board.rotate]].
+    *   A function [[Pos]] => [[Pos]]. This normally comes from [[controller.Converter.board]].
     * @return
     *   New world where block positions and the selected position are rotated according to `rotator`.
     */
