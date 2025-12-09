@@ -59,7 +59,8 @@ object Example:
     fof"∃x (Tri(x) ∧ Mid(x))",
     fof"¬(∃x (Cir(x) → Sml(x)))",
     fof"∃y (Sqr(y) <-> Sml(y))",
-    fof"Mid(a)"
+    fof"Mid(a)",
+    fof"Happy(c)" // error
   )
 
   /** Runs the example (also the only entry point into the project). */

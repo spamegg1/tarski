@@ -54,7 +54,8 @@ object Handler:
     * @param world
     *   The current state of the world.
     * @return
-    *   New state of the world, updated by evaluating the formulas.
+    *   New state of the world, updated by evaluating the formulas. If a formula refers to a named object that's not
+    *   present on the board, it is left unevaluated. If a formula uses an unsupported predicate symbol, it errors.
     */
   private def handleEval(world: World): World =
     import Result.*
@@ -63,7 +64,9 @@ object Handler:
       try
         val bool = Interpreter.eval(formula)(using world.nameMap)
         status = if bool then Valid else Invalid
-      catch case ex: java.util.NoSuchElementException => ()
+      catch
+        case ex: java.util.NoSuchElementException   => status = Ready
+        case ex: java.lang.IllegalArgumentException => status = Error
       formula -> status
     world.copy(formulas = results)
 
