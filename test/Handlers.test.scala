@@ -5,14 +5,14 @@ class HandlersTest extends munit.FunSuite:
   given c: Constants = Constants(DefaultSize)
   import Shape.*, Status.*, Result.*, Sizes.*, Tone.*
 
-  val b0 = Block(Small, Cir, Blue)
-  val b1 = Block(Mid, Tri, Green)
-  val b2 = Block(Large, Cir, Coral)
+  val b0 = Block(Sml, Cir, Blu)
+  val b1 = Block(Mid, Tri, Lim)
+  val b2 = Block(Big, Cir, Red)
   val p0 = (1, 2)
   val p1 = (3, 4)
   val p2 = (5, 6)
   val p3 = (4, 1)
-  val f0 = fof"¬(∃x Large(x))"
+  val f0 = fof"¬(∃x Big(x))"
   val f1 = fof"!x Cir(x)"
   val f2 = fof"a = b"
   val w0 = World.empty
@@ -44,25 +44,25 @@ class HandlersTest extends munit.FunSuite:
   val w008  = Handler.uiButtons((0, 8), w007)  // e
   val w008_ = Handler.uiButtons((0, 0), w008)  // Eval
   val w009  = Handler.uiButtons((0, 9), w008_) // f
-  val w010  = Handler.uiButtons((0, 10), w009) // Blue
-  val w011  = Handler.uiButtons((0, 11), w010) // Green
+  val w010  = Handler.uiButtons((0, 10), w009) // Blu
+  val w011  = Handler.uiButtons((0, 11), w010) // Lim
   val w012  = Handler.uiButtons((0, 12), w011) // Coral
   val w102  = Handler.uiButtons((1, 2), w012)  // Del
   val w103  = Handler.uiButtons((1, 3), w102)  // Del
-  val w104  = Handler.uiButtons((1, 4), w103)  // Small
-  val w105  = Handler.uiButtons((1, 5), w104)  // Small
+  val w104  = Handler.uiButtons((1, 4), w103)  // Sml
+  val w105  = Handler.uiButtons((1, 5), w104)  // Sml
   val w106  = Handler.uiButtons((1, 6), w105)  // Mid
   val w107  = Handler.uiButtons((1, 7), w106)  // Mid
-  val w108  = Handler.uiButtons((1, 8), w107)  // Large
-  val w109  = Handler.uiButtons((1, 9), w108)  // Large
+  val w108  = Handler.uiButtons((1, 8), w107)  // Big
+  val w109  = Handler.uiButtons((1, 9), w108)  // Big
   val w110  = Handler.uiButtons((1, 10), w109) // Tri
-  val w111  = Handler.uiButtons((1, 11), w110) // Squ
+  val w111  = Handler.uiButtons((1, 11), w110) // Sqr
   val w112  = Handler.uiButtons((1, 12), w111) // Cir
 
   // Selected position is empty
   val x     = w112.selectPos(p2)
   val x000  = Handler.uiButtons((0, 0), x)     // Eval
-  val x002  = Handler.uiButtons((0, 2), x000)  // Add Coral Large Cir
+  val x002  = Handler.uiButtons((0, 2), x000)  // Add Coral Big Cir
   val x002_ = x002.unsetBlock.selectPos(p3)
   val x003  = Handler.uiButtons((0, 3), x002_) // Add no block
 
@@ -72,9 +72,9 @@ class HandlersTest extends munit.FunSuite:
   val y002_ = Handler.uiButtons((0, 0), y002)   // Eval
   val y004  = Handler.uiButtons((0, 4), y002_)  // a
   val y004_ = Handler.uiButtons((0, 0), y004)   // Eval
-  val y010  = Handler.uiButtons((0, 10), y004_) // Blue
+  val y010  = Handler.uiButtons((0, 10), y004_) // Blu
   val y010_ = Handler.uiButtons((0, 0), y010)   // Eval
-  val y104  = Handler.uiButtons((1, 4), y010_)  // Small
+  val y104  = Handler.uiButtons((1, 4), y010_)  // Sml
   val y104_ = Handler.uiButtons((0, 0), y104)   // Eval
   val y110  = Handler.uiButtons((1, 10), y104_) // Tri
   val y110_ = Handler.uiButtons((0, 0), y110)   // Eval
@@ -149,9 +149,9 @@ class HandlersTest extends munit.FunSuite:
   test("Color buttons with no position selected"):
     def msg(obt: Option[Tone], exp: Option[Tone]) =
       s"Color should be $exp but is $obt"
-    val (obt1, exp1) = (w010.controls.toneOpt, Some(Blue))
-    val (obt2, exp2) = (w011.controls.toneOpt, Some(Green))
-    val (obt3, exp3) = (w012.controls.toneOpt, Some(Coral))
+    val (obt1, exp1) = (w010.controls.toneOpt, Some(Blu))
+    val (obt2, exp2) = (w011.controls.toneOpt, Some(Lim))
+    val (obt3, exp3) = (w012.controls.toneOpt, Some(Red))
     assertEquals(obt1, exp1, msg(obt1, exp1))
     assertEquals(obt2, exp2, msg(obt2, exp2))
     assertEquals(obt3, exp3, msg(obt3, exp3))
@@ -164,18 +164,18 @@ class HandlersTest extends munit.FunSuite:
   test("Size buttons with no position selected"):
     def msg1(s: Sizes) = s"Size should be $s, but is not"
     def msg2(s: Sizes) = s"Clicking $s twice should not do anything, but does"
-    assertEquals(w104.controls.sizeOpt.get, Small, msg1(Small))
-    assertEquals(w105, w104, msg2(Small))
+    assertEquals(w104.controls.sizeOpt.get, Sml, msg1(Sml))
+    assertEquals(w105, w104, msg2(Sml))
     assertEquals(w106.controls.sizeOpt.get, Mid, msg1(Mid))
     assertEquals(w107, w106, msg2(Mid))
-    assertEquals(w108.controls.sizeOpt.get, Large, msg1(Large))
-    assertEquals(w109, w108, msg2(Large))
+    assertEquals(w108.controls.sizeOpt.get, Big, msg1(Big))
+    assertEquals(w109, w108, msg2(Big))
 
   test("Shape buttons with no position selected"):
     def msg(obt: Option[Shape], exp: Option[Shape]) =
       s"Shape should be $exp but is $obt"
     val (obt1, exp1) = (w110.controls.shapeOpt, Some(Tri))
-    val (obt2, exp2) = (w111.controls.shapeOpt, Some(Squ))
+    val (obt2, exp2) = (w111.controls.shapeOpt, Some(Sqr))
     val (obt3, exp3) = (w112.controls.shapeOpt, Some(Cir))
     assertEquals(obt1, exp1, msg(obt1, exp1))
     assertEquals(obt2, exp2, msg(obt2, exp2))
@@ -202,15 +202,15 @@ class HandlersTest extends munit.FunSuite:
   test("Color buttons with a block at selected position"):
     val b   = y010.board.grid(p2).block
     val msg = "Changing the color of a block should reset all formulas, but does not"
-    assertEquals(b.tone, Blue, s"Block $b at position $p2 should be Blue, but is not")
-    assertEquals(y010.controls.toneOpt, Some(Blue), "Color should be Blue, but is not")
+    assertEquals(b.tone, Blu, s"Block $b at position $p2 should be Blu, but is not")
+    assertEquals(y010.controls.toneOpt, Some(Blu), "Color should be Blu, but is not")
     assert(y010.formulas.values.forall(_ == Ready), msg)
 
   test("Size buttons with a block at selected position"):
     val b   = y104.board.grid(p2).block
     val msg = "Changing the size of a block should reset all formulas, but does not"
-    assertEquals(b.size, Small, s"Block $b at position $p2 should be Small, but is not")
-    assertEquals(y104.controls.sizeOpt, Some(Small), "Size should be Small, but is not")
+    assertEquals(b.size, Sml, s"Block $b at position $p2 should be Sml, but is not")
+    assertEquals(y104.controls.sizeOpt, Some(Sml), "Size should be Sml, but is not")
     assert(y104.formulas.values.forall(_ == Ready), msg)
 
   test("Shape buttons with a block at selected position"):
@@ -227,14 +227,14 @@ class HandlersTest extends munit.FunSuite:
 
   test("Block display and selected pos should not change after deletion"):
     assertEquals(y102.controls.shapeOpt, Some(Tri))
-    assertEquals(y102.controls.sizeOpt, Some(Small))
-    assertEquals(y102.controls.toneOpt, Some(Blue))
+    assertEquals(y102.controls.sizeOpt, Some(Sml))
+    assertEquals(y102.controls.toneOpt, Some(Blu))
     assertEquals(y102.controls.posOpt, Some(p2))
 
   // Board controls tests
   test("Board position, with no position selected"):
     // Clicked pos has a block
-    val ctl = Controls(Some(Small), Some(Cir), Some(Blue), Some(p0), false)
+    val ctl = Controls(Some(Sml), Some(Cir), Some(Blu), Some(p0), false)
     val msg = "Clicking on a block should update controls and block display, but does not"
     assertEquals(z0.controls, ctl, msg)
 
@@ -249,36 +249,36 @@ class HandlersTest extends munit.FunSuite:
 
   test("Board position, selected differs from clicked pos and move is enabled"):
     val msgz0e11 = s"Clicking $p1 should select it, but does not"
-    val ctlz0e11 = Controls(Some(Mid), Some(Tri), Some(Green), Some(p1), true)
+    val ctlz0e11 = Controls(Some(Mid), Some(Tri), Some(Lim), Some(p1), true)
     assertEquals(z0e11.controls, ctlz0e11, msgz0e11)
 
     val msgz0e12 = s"Clicking $p2 should move $b0 to it and disable move, but does not"
-    val ctlz0e12 = Controls(Some(Small), Some(Cir), Some(Blue), Some(p2), false)
+    val ctlz0e12 = Controls(Some(Sml), Some(Cir), Some(Blu), Some(p2), false)
     assertEquals(z0e12.controls, ctlz0e12, msgz0e12)
     assert(z0e12.formulas.values.forall(_ == Ready), "Moving a block should reset all formulas, but does not")
 
     val msgz0e21 = s"Clicking $p1 should select it, but does not"
-    val ctlz0e21 = Controls(Some(Mid), Some(Tri), Some(Green), Some(p1), true)
+    val ctlz0e21 = Controls(Some(Mid), Some(Tri), Some(Lim), Some(p1), true)
     assertEquals(z0e21.controls, ctlz0e21, msgz0e21)
 
     val msgz0e23 = s"Clicking $p3 should select it, but does not"
-    val ctlz0e23 = Controls(Some(Small), Some(Cir), Some(Blue), Some(p3), true)
+    val ctlz0e23 = Controls(Some(Sml), Some(Cir), Some(Blu), Some(p3), true)
     assertEquals(z0e23.controls, ctlz0e23, msgz0e23)
 
   // Move disabled
   test("Board position, selected differs from clicked pos and move is disabled"):
     val msgz0d11 = s"Clicking $p1 should select it, but does not"
-    val ctlz0d11 = Controls(Some(Mid), Some(Tri), Some(Green), Some(p1), false)
+    val ctlz0d11 = Controls(Some(Mid), Some(Tri), Some(Lim), Some(p1), false)
     assertEquals(z0d11.controls, ctlz0d11, msgz0d11)
 
     val msgz0d12 = s"Clicking $p2 should select it, but does not"
-    val ctlz0d12 = Controls(Some(Small), Some(Cir), Some(Blue), Some(p2), false)
+    val ctlz0d12 = Controls(Some(Sml), Some(Cir), Some(Blu), Some(p2), false)
     assertEquals(z0d12.controls, ctlz0d12, msgz0d12)
 
     val msgz0d21 = s"Clicking $p1 should select it, but does not"
-    val ctlz0d21 = Controls(Some(Mid), Some(Tri), Some(Green), Some(p1), false)
+    val ctlz0d21 = Controls(Some(Mid), Some(Tri), Some(Lim), Some(p1), false)
     assertEquals(z0d21.controls, ctlz0d21, msgz0d21)
 
     val msgz0d23 = s"Clicking $p3 should select it, but does not"
-    val ctlz0d23 = Controls(Some(Small), Some(Cir), Some(Blue), Some(p3), false)
+    val ctlz0d23 = Controls(Some(Sml), Some(Cir), Some(Blu), Some(p3), false)
     assertEquals(z0d23.controls, ctlz0d23, msgz0d23)

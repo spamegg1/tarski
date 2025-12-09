@@ -23,7 +23,7 @@ class ShapeButtons(using c: Constants):
         Image
           .square(util.wid)
           .fillColor(Color.black)
-          .at(ui.squPt)
+          .at(ui.sqrPt)
       .on:
         Image
           .circle(util.wid)
@@ -39,7 +39,7 @@ class ShapeButtons(using c: Constants):
     */
   private def shapeIndicator(shape: Shape) = shape match
     case Shape.Tri => util.indicator(ui.triPt)
-    case Shape.Squ => util.indicator(ui.squPt)
+    case Shape.Sqr => util.indicator(ui.sqrPt)
     case Shape.Cir => util.indicator(ui.cirPt)
 
   /** Draws all three color buttons together, with indicator.

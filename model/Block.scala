@@ -4,11 +4,11 @@ package model
 /** A block to be placed on a square of the chess board.
   *
   * @param size
-  *   one of Small, Mid, Large
+  *   one of Sml, Mid, Big
   * @param shape
-  *   one of Tri, Squ, Cir
+  *   one of Tri, Sqr, Cir
   * @param tone
-  *   one of Blue, Green, Coral
+  *   one of Blu, Lim, Red
   * @param label
   *   an optional name, defaults to the empty string.
   */

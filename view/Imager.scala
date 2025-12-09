@@ -21,15 +21,15 @@ object Imager:
         val shapeImg =
           b.shape match
             case Shape.Tri => Image.triangle(b.size, b.size).fillColor(b.tone)
-            case Shape.Squ => Image.square(b.size).fillColor(b.tone)
+            case Shape.Sqr => Image.square(b.size).fillColor(b.tone)
             case Shape.Cir => Image.circle(b.size).fillColor(b.tone)
         Text(b.label).font(c.TheFont).on(shapeImg)
       case f: FOLFormula => colorText(f.toUntypedString)
       case r: Result     =>
         r match
-          case Result.Ready   => Text(" ?").font(c.TheFont).strokeColor(Color.blue)
-          case Result.Valid   => Text(" T").font(c.TheFont).strokeColor(Color.green)
-          case Result.Invalid => Text(" F").font(c.TheFont).strokeColor(Color.red)
+          case Result.Ready   => Text(" ?").font(c.BoldFont).strokeColor(Color.blue)
+          case Result.Valid   => Text(" T").font(c.BoldFont).strokeColor(Color.green)
+          case Result.Invalid => Text(" F").font(c.BoldFont).strokeColor(Color.red)
 
   /** Alternate imaging method for possibly missing objects. For example, [[Controls]] does not display a block unless
     * all three attributes are set, so an empty image has to be displayed.

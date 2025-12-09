@@ -5,7 +5,7 @@ package model
   * We do not use [[Double]] directly, in order to benefit from exhaustive pattern matching and safety.
   */
 enum Sizes:
-  case Small, Mid, Large
+  case Sml, Mid, Big
 
   /** Compares two [[Sizes]].
     *
@@ -16,10 +16,10 @@ enum Sizes:
     */
   infix def <(that: Sizes) =
     (this, that) match
-      case (Small, Mid)   => true
-      case (Small, Large) => true
-      case (Mid, Large)   => true
-      case _              => false
+      case (Sml, Mid) => true
+      case (Sml, Big) => true
+      case (Mid, Big) => true
+      case _          => false
 
 /** Contains given instances to work with [[Sizes]]. */
 object Sizes:
@@ -33,6 +33,6 @@ object Sizes:
   given (c: Constants) => Conversion[Sizes, Double] =
     (s: Sizes) =>
       s match
-        case Small => c.Small
-        case Mid   => c.Mid
-        case Large => c.Large
+        case Sml => c.Small
+        case Mid => c.Medium
+        case Big => c.Large

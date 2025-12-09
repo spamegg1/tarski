@@ -12,20 +12,20 @@ object UI:
     "d"     -> (0, 7),
     "e"     -> (0, 8),
     "f"     -> (0, 9),
-    "Blue"  -> (0, 10),
-    "Green" -> (0, 11),
-    "Coral" -> (0, 12),
+    "Blu"   -> (0, 10),
+    "Lim"   -> (0, 11),
+    "Red"   -> (0, 12),
     "Left"  -> (0, 13),
     "Block" -> (0, 14),
     "Move"  -> (1, 0),
     "Del"   -> (1, 2),
-    "Small" -> (1, 4),
+    "Sml"   -> (1, 4),
     "Mid"   -> (1, 6),
-    "Large" -> (1, 8),
+    "Big"   -> (1, 8),
     "Tri"   -> (1, 10),
-    "Squ"   -> (1, 11),
+    "Sqr"   -> (1, 11),
     "Cir"   -> (1, 12),
-    "Right" -> (1, 13)
+    "Rgt"   -> (1, 13)
   )
 
 /** Calculates the Cartesian points for all the UI buttons.
@@ -38,15 +38,15 @@ class UI(using Constants):
   val movePt  = Converter.ui.toPointX(UI.grid("Move"))
   val addPt   = Converter.ui.toPointX(UI.grid("Add"))
   val delPt   = Converter.ui.toPointX(UI.grid("Del"))
-  val smallPt = Converter.ui.toPointX(UI.grid("Small"))
+  val smallPt = Converter.ui.toPointX(UI.grid("Sml"))
   val midPt   = Converter.ui.toPointX(UI.grid("Mid"))
-  val largePt = Converter.ui.toPointX(UI.grid("Large"))
-  val bluePt  = Converter.ui.toPoint(UI.grid("Blue"))
-  val greenPt = Converter.ui.toPoint(UI.grid("Green"))
-  val coralPt = Converter.ui.toPoint(UI.grid("Coral"))
+  val largePt = Converter.ui.toPointX(UI.grid("Big"))
+  val bluePt  = Converter.ui.toPoint(UI.grid("Blu"))
+  val greenPt = Converter.ui.toPoint(UI.grid("Lim"))
+  val redPt   = Converter.ui.toPoint(UI.grid("Red"))
   val triPt   = Converter.ui.toPoint(UI.grid("Tri"))
-  val squPt   = Converter.ui.toPoint(UI.grid("Squ"))
+  val sqrPt   = Converter.ui.toPoint(UI.grid("Sqr"))
   val cirPt   = Converter.ui.toPoint(UI.grid("Cir"))
   val leftPt  = Converter.ui.toPoint(UI.grid("Left"))
-  val rightPt = Converter.ui.toPoint(UI.grid("Right"))
+  val rightPt = Converter.ui.toPoint(UI.grid("Rgt"))
   val blockPt = Converter.ui.toPointXY(UI.grid("Block"))

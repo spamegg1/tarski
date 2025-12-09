@@ -6,11 +6,11 @@ class InterpreterTest extends munit.FunSuite:
 
   private given c: Constants = Constants(DefaultSize)
 
-  val b0 = Block(Small, Cir, Coral, "b")
-  val b1 = Block(Small, Cir, Coral)
-  val b2 = Block(Mid, Tri, Green, "c")
-  val b3 = Block(Small, Squ, Blue)
-  val b4 = Block(Small, Squ, Blue, "a")
+  val b0 = Block(Sml, Cir, Red, "b")
+  val b1 = Block(Sml, Cir, Red)
+  val b2 = Block(Mid, Tri, Lim, "c")
+  val b3 = Block(Sml, Sqr, Blu)
+  val b4 = Block(Sml, Sqr, Blu, "a")
 
   private val grid: Grid = Map(
     (1, 1) -> b0,
@@ -21,19 +21,19 @@ class InterpreterTest extends munit.FunSuite:
   )
 
   private val sentences = Seq(
-    fof"∃x ∃y ∃z (Squ(x) ∧ Cir(y) ∧ Tri(z))",
-    fof"¬(∃x Large(x))", // careful with this, negation needs parentheses!
-    fof"∀x (Cir(x) → ∃y (Squ(y) ∧ Above(x, y)))",
-    fof"∀x (Cir(x) → ∃y (Squ(y) ∧ Above(x, y)))",
-    fof"∀x (Cir(x) → ∃y (Squ(y) ∧ Above(x, y)))",
-    fof"∃x ∃y (x != y ∧ ∀w ((w = x | w = y) → ∀z ¬Above(z, w)))",
-    fof"∀x (Squ(x) ↔ ∃y (Tri(y) ∧ Above(y, x)))",
-    fof"∀x ∀y (More(x, y) → ∃z Betw(x, y, z))",
-    fof"¬(∀x ∀y (Left(x, y) ∨ Right(x, y)))", // same here!
-    fof"∃x ∃y ¬(Below(x, y) ∨ Above(x, y))",
-    fof"Small(a) ∧ Squ(a) ∧ Blue(a)",
-    fof"Mid(c) ∧ Tri(c) ∧ Green(c)",
-    fof"Small(b) ∧ Cir(b) ∧ Coral(b)"
+    fof"∃x ∃y ∃z (Sqr(x) ∧ Cir(y) ∧ Tri(z))",
+    fof"¬(∃x Big(x))", // careful with this, negation needs parentheses!
+    fof"∀x (Cir(x) → ∃y (Sqr(y) ∧ Abv(x, y)))",
+    fof"∀x (Cir(x) → ∃y (Sqr(y) ∧ Abv(x, y)))",
+    fof"∀x (Cir(x) → ∃y (Sqr(y) ∧ Abv(x, y)))",
+    fof"∃x ∃y (x != y ∧ ∀w ((w = x | w = y) → ∀z ¬Abv(z, w)))",
+    fof"∀x (Sqr(x) ↔ ∃y (Tri(y) ∧ Abv(y, x)))",
+    fof"∀x ∀y (More(x, y) → ∃z Btw(x, y, z))",
+    fof"¬(∀x ∀y (Left(x, y) ∨ Rgt(x, y)))", // same here!
+    fof"∃x ∃y ¬(Bel(x, y) ∨ Abv(x, y))",
+    fof"Sml(a) ∧ Sqr(a) ∧ Blu(a)",
+    fof"Mid(c) ∧ Tri(c) ∧ Lim(c)",
+    fof"Sml(b) ∧ Cir(b) ∧ Red(b)"
   )
 
   private val world = World.from(grid, sentences)
@@ -56,19 +56,19 @@ class InterpreterTest extends munit.FunSuite:
       case ex: NSE => assert(true)
       case _       => assert(false) // should not throw any other kind of ex
 
-  test("Interpreter should handle `Betw` predicate correctly"):
+  test("Interpreter should handle `Btw` predicate correctly"):
     given NameMap = Map(
-      "d" -> (Block(Large, Squ, Blue, "d"), (0, 1)),
-      "e" -> (Block(Large, Cir, Green, "e"), (0, 4)),
-      "f" -> (Block(Large, Tri, Coral, "f"), (0, 7)),
-      "c" -> (Block(Mid, Squ, Green, "c"), (4, 3)),
-      "a" -> (Block(Small, Tri, Green, "a"), (6, 1)),
-      "b" -> (Block(Small, Squ, Coral, "b"), (6, 4))
+      "d" -> (Block(Big, Sqr, Blu, "d"), (0, 1)),
+      "e" -> (Block(Big, Cir, Lim, "e"), (0, 4)),
+      "f" -> (Block(Big, Tri, Red, "f"), (0, 7)),
+      "c" -> (Block(Mid, Sqr, Lim, "c"), (4, 3)),
+      "a" -> (Block(Sml, Tri, Lim, "a"), (6, 1)),
+      "b" -> (Block(Sml, Sqr, Red, "b"), (6, 4))
     )
-    assert(!Interpreter.eval(fof"Betw(d, e, f)"))
-    assert(Interpreter.eval(fof"Betw(e, d, f)"))
-    assert(Interpreter.eval(fof"Betw(c, a, f)"))
-    assert(!Interpreter.eval(fof"Betw(c, d, b)"))
-    assert(!Interpreter.eval(fof"Betw(c, b, e)"))
-    assert(!Interpreter.eval(fof"Betw(c, c, c)"))
-    assert(!Interpreter.eval(fof"Betw(c, a, e)"))
+    assert(!Interpreter.eval(fof"Btw(d, e, f)"))
+    assert(Interpreter.eval(fof"Btw(e, d, f)"))
+    assert(Interpreter.eval(fof"Btw(c, a, f)"))
+    assert(!Interpreter.eval(fof"Btw(c, d, b)"))
+    assert(!Interpreter.eval(fof"Btw(c, b, e)"))
+    assert(!Interpreter.eval(fof"Btw(c, c, c)"))
+    assert(!Interpreter.eval(fof"Btw(c, a, e)"))

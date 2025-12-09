@@ -13,14 +13,14 @@ class SizeButtons(using c: Constants):
   /** An instance of [[UI]] summoned here to calculate positions of the size buttons. */
   private val ui = summon[UI]
 
-  /** Button for the Small size. */
-  private val smallButton = util.button("Small", ui.smallPt, 2)
+  /** Button for the small size. */
+  private val smallButton = util.button("Sml", ui.smallPt, 2)
 
-  /** Button for the Mid size. */
+  /** Button for the medium size. */
   private val mediumButton = util.button("Mid", ui.midPt, 2)
 
-  /** Button for the Large size. */
-  private val largeButton = util.button("Large", ui.largePt, 2)
+  /** Button for the large size. */
+  private val largeButton = util.button("Big", ui.largePt, 2)
 
   /** All 3 size buttons together. */
   private val sizeButtons = smallButton on mediumButton on largeButton
@@ -33,9 +33,9 @@ class SizeButtons(using c: Constants):
     *   A red-edged, empty rectangle that fits around the size button.
     */
   private def sizeIndicator(size: Sizes) = size match
-    case Sizes.Small => util.indicator(ui.smallPt, 2)
-    case Sizes.Mid   => util.indicator(ui.midPt, 2)
-    case Sizes.Large => util.indicator(ui.largePt, 2)
+    case Sizes.Sml => util.indicator(ui.smallPt, 2)
+    case Sizes.Mid => util.indicator(ui.midPt, 2)
+    case Sizes.Big => util.indicator(ui.largePt, 2)
 
   /** Draws all three size buttons together, with indicator.
     *

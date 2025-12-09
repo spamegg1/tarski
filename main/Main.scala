@@ -37,28 +37,28 @@ object Example:
 
   /** An example grid with 4 blocks. Two of them are named. */
   private val grid: Grid = Map(
-    (1, 2) -> Block(Small, Tri, Green, "a"),
-    (4, 3) -> Block(Mid, Tri, Blue),
-    (5, 6) -> Block(Large, Cir, Coral, "d"),
-    (6, 3) -> Block(Small, Squ, Blue)
+    (1, 2) -> Block(Sml, Tri, Lim, "a"),
+    (4, 3) -> Block(Mid, Tri, Blu),
+    (5, 6) -> Block(Big, Cir, Red, "d"),
+    (6, 3) -> Block(Sml, Sqr, Blu)
   )
 
   /** An example list of first-order formulas, showcasing all logical connectives. */
   private val formulas = Seq(
-    fof"¬(∃x Large(x))",
-    fof"∀x Squ(x) ∨ Above(a, d)",
+    fof"¬(∃x Big(x))",
+    fof"∀x Sqr(x) ∨ Abv(a, d)",
     fof"∀x ¬ Cir(x)",
-    fof"¬(∀x (Small(x) ∨ Left(x, a)))",
-    fof"∃x (Tri(x) → Right(x, d))",
-    fof"∀x (¬(Shape(c, x) ∨ Less(x, c)) → ¬Tone(x, c))",
+    fof"¬(∀x (Sml(x) ∨ Left(x, a)))",
+    fof"∃x (Tri(x) → Rgt(x, d))",
+    fof"∀x (¬(Shap(c, x) ∨ Less(x, c)) → ¬Tone(x, c))",
     fof"a = b",
     fof"∀x ∃y More(x, y)",
     fof"c != d",
-    fof"∀x (Squ(x) ∨ Tri(x))",
-    fof"∀x (Large(x) ∨ Squ(x))",
+    fof"∀x (Sqr(x) ∨ Tri(x))",
+    fof"∀x (Big(x) ∨ Sqr(x))",
     fof"∃x (Tri(x) ∧ Mid(x))",
-    fof"¬(∃x (Cir(x) → Small(x)))",
-    fof"∃y (Squ(y) <-> Small(y))",
+    fof"¬(∃x (Cir(x) → Sml(x)))",
+    fof"∃y (Sqr(y) <-> Sml(y))",
     fof"Mid(a)"
   )
 

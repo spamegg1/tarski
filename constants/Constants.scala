@@ -14,9 +14,6 @@ object Constants:
   /** The default size of one side of a square on the board. */
   val DefaultSize = 100.0
 
-  /** The default background color used in the interface. */
-  private val BgColor = Color.white
-
   /** The default title for the window. */
   private val Title = "Tarski's World"
 
@@ -62,7 +59,7 @@ object Constants:
   */
 case class Constants(size: Double):
   /** Stroke width for color and text. */
-  private val StrokeW = size * 0.08
+  private val StrokeW = size * 0.10
 
   /** Height of the interface, based on [[size]] and number of rows on the board. */
   private val Height = size * Constants.BoardSize.rows
@@ -77,7 +74,7 @@ case class Constants(size: Double):
   val Small = size * 0.4
 
   /** Size of mid-sized blocks, used in the enum [[model.Sizes]]. */
-  val Mid = size * 0.7
+  val Medium = size * 0.7
 
   /** Size of large blocks, used in the enum [[model.Sizes]]. */
   val Large = size * 0.95
@@ -102,6 +99,7 @@ case class Constants(size: Double):
   /** The derived font, resized to scale with the overall UI. */
   val DerivedFont = Constants.FontFromFile.deriveFont(Pts)
 
+  // Get the local graphics environment and register the font
   val ge = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
   ge.registerFont(DerivedFont)
 
@@ -110,6 +108,9 @@ case class Constants(size: Double):
 
   /** Default font. */
   val TheFont = Font(FontFamily.named(Family), FontStyle.normal, FontWeight.normal, FontSize.points(Pts))
+
+  /** Bold font. */
+  val BoldFont = TheFont.weight(FontWeight.bold)
 
   /** Dimensions of the chess board that holds the blocks. */
   val BoardDims = (h = Height, w = Width * 0.5)
@@ -158,6 +159,6 @@ case class Constants(size: Double):
   /** The frame in which [[doodle.reactor.Reactor]] runs the [[main.runWorld]] method. */
   val MainFrame = Frame.default
     .withSize(Width, Height)
-    .withBackground(Constants.BgColor)
+    .withBackground(Color.white)
     .withTitle(Constants.Title)
     .withCenterAtOrigin

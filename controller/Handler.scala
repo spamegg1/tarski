@@ -43,10 +43,10 @@ object Handler:
           case "Move"                            => world.toggleMove
           case "Block"                           => world
           case "a" | "b" | "c" | "d" | "e" | "f" => handleName(value, world)
-          case "Blue" | "Green" | "Coral"        => handleAttr(value, world)
-          case "Small" | "Mid" | "Large"         => handleAttr(value, world)
-          case "Tri" | "Squ" | "Cir"             => handleAttr(value, world)
-          case "Left" | "Right"                  => handleRotate(value, world)
+          case "Blu" | "Lim" | "Red"             => handleAttr(value, world)
+          case "Sml" | "Mid" | "Big"             => handleAttr(value, world)
+          case "Tri" | "Sqr" | "Cir"             => handleAttr(value, world)
+          case "Left" | "Rgt"                    => handleRotate(value, world)
           case _                                 => world
 
   /** Handles the evaluation of formulas if the user clicked on the Eval button.
@@ -131,12 +131,12 @@ object Handler:
       *   The attribute that corresponds to the `String`.
       */
     def toAttr: Attr = s match
-      case "Blue"  => Tone.Blue
-      case "Coral" => Tone.Coral
-      case "Green" => Tone.Green
-      case "Small" => Sizes.Small
-      case "Mid"   => Sizes.Mid
-      case "Large" => Sizes.Large
-      case "Tri"   => Shape.Tri
-      case "Squ"   => Shape.Squ
-      case "Cir"   => Shape.Cir
+      case "Blu" => Tone.Blu
+      case "Red" => Tone.Red
+      case "Lim" => Tone.Lim
+      case "Sml" => Sizes.Sml
+      case "Mid" => Sizes.Mid
+      case "Big" => Sizes.Big
+      case "Tri" => Shape.Tri
+      case "Sqr" => Shape.Sqr
+      case "Cir" => Shape.Cir
