@@ -113,10 +113,10 @@ Here are the details:
 import tarski.main.*, Shape.*, Sizes.*, Tone.*
 
 val grid: Grid = Map(
-  (1, 2) -> Block(Sml, Tri, Lime, "a"),
-  (4, 3) -> Block(Mid, Tri, Blue),
+  (1, 2) -> Block(Sml, Tri, Lim, "a"),
+  (4, 3) -> Block(Mid, Tri, Blu),
   (5, 6) -> Block(Big, Cir, Red, "d"),
-  (6, 3) -> Block(Sml, Sqr, Blue)
+  (6, 3) -> Block(Sml, Sqr, Blu)
 )
 
 val formulas = Seq(
