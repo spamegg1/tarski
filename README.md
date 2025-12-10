@@ -5,7 +5,7 @@ An educational tool for the semantics of
 
 ![world](.images/world.png)
 
-<https://github.com/user-attachments/assets/9d0c4ec9-49ba-4545-9f89-aff774e75c59>
+<https://github.com/user-attachments/assets/3b1d3352-e1f1-436e-ac52-5110b62c98c3>
 
 ## About
 
