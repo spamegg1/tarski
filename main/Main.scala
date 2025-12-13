@@ -66,3 +66,6 @@ object Example:
   /** Runs the example (also the only entry point into the project). */
   @main
   def runExample = runWorld(grid, formulas)
+
+  @main
+  def play = controller.game.Game.playGame(fof"∃y (Sqr(y) <-> Sml(y))", World.from(grid, formulas), true)

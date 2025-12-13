@@ -22,7 +22,7 @@ object Name:
     */
   def generateFake: Name =
     counter += 1
-    s"block$counter"
+    s"b$counter"
 
 /** Contains values and methods used for [[Names]]. */
 object Names:
