@@ -8,82 +8,56 @@ import tarski.model.Name
 
 type Message = String
 
-enum Turn:
-  case You, Me
-
-enum Outcome:
-  case Win, Loss
-
 case class Game(
-    turn: Turn = Turn.You,
     commitment: Option[Boolean] = None,
-    formula: Option[FOLFormula] = None,
-    leftOpt: Option[FOLFormula] = None,
-    rightOpt: Option[FOLFormula] = None,
-    selected: Option[Name] = None,
-    outcome: Option[Outcome] = None
+    formula: FOLFormula,
+    left: Option[FOLFormula] = None,
+    right: Option[FOLFormula] = None,
+    selected: Option[Name] = None
 ):
-  def next(using nm: NameMap): Game = formula match
-    case None    => ???
-    case Some(f) =>
-      f match
-        case a: FOLAtom =>
-          commitment match
-            case None         => this
-            case Some(commit) =>
-              val result  = Interpreter.eval(a)
-              val winLose = if commit == result then "You win!" else "You lose."
-              val msg     = s"$winLose $a is $result in this world."
-              this
-        case And(a, b) =>
-          (commitment, turn) match
-            case (None, _)              => this
-            case (Some(true), Turn.You) =>
-              copy(turn = Turn.Me, formula = None, leftOpt = Some(a), rightOpt = Some(b))
-            case (Some(true), Turn.Me) => // should not happen
-              copy(turn = Turn.You, formula = None, leftOpt = Some(a), rightOpt = Some(b))
-            case (Some(false), Turn.You) =>
-              copy(formula = None, leftOpt = Some(a), rightOpt = Some(b))
-            case (Some(false), Turn.Me) => // should not happen
-              copy(formula = None, leftOpt = Some(a), rightOpt = Some(b))
-        case Or(a, b) =>
-          (commitment, turn) match
-            case (None, _)              => this
-            case (Some(true), Turn.You) =>
-              copy(formula = None, leftOpt = Some(a), rightOpt = Some(b))
-            case (Some(true), Turn.Me) => // should not happen
-              copy(formula = None, leftOpt = Some(a), rightOpt = Some(b))
-            case (Some(false), Turn.You) =>
-              copy(turn = Turn.Me, formula = None, leftOpt = Some(a), rightOpt = Some(b))
-            case (Some(false), Turn.Me) => // should not happen
-              copy(turn = Turn.You, formula = None, leftOpt = Some(a), rightOpt = Some(b))
-        case Neg(a) =>
-          (commitment, turn) match
-            case (Some(commit), Turn.You) => copy(commitment = Some(!commit), formula = Some(a))
-            case _                        => this
-        case Imp(a, b)                         => copy(formula = Some(Or(Neg(a), b)))
-        case Iff(a: FOLFormula, b: FOLFormula) => copy(formula = Some(And(Imp(a, b), Imp(b, a))))
-        case All(x, f)                         =>
-          (commitment, turn) match
-            case (None, _)               => this
-            case (Some(true), Turn.Me)   => this
-            case (Some(false), Turn.Me)  => this
-            case (Some(true), Turn.You)  => copy(turn = Turn.Me)
-            case (Some(false), Turn.You) =>
-              selected match
-                case None       => this
-                case Some(name) => this
+  def myChoice(f: FOLFormula)(using nm: NameMap): Name = ???
+  def blockChoice(using nm: NameMap): Name             = ???
+  def commitChoice: Boolean                            = ???
 
-        case Ex(x, f) =>
-          (commitment, turn) match
-            case (None, _)              => this
-            case (Some(true), Turn.Me)  => this
-            case (Some(false), Turn.Me) => this
-            case (Some(true), Turn.You) =>
-              selected match
-                case None       => this
-                case Some(name) => this
-            case (Some(false), Turn.You) => copy(commitment = Some(true), turn = Turn.Me)
+  def next(using nm: NameMap): Game = (commitment, formula) match
+    case (None, _)                  => copy(commitment = Some(commitChoice))
+    case (Some(commit), a: FOLAtom) =>
+      val result  = Interpreter.eval(a)
+      val winLose = if commit == result then "You win!" else "You lose."
+      val msg     = s"$winLose $a is $result in this world."
+      this
+    case (Some(true), And(a, b)) =>
+      val evalA  = Interpreter.eval(a)
+      val choice = if evalA then b else a
+      val msg1   = s"You believe both $a and $b are true."
+      val msg2   = s"I choose $choice as false."
+      copy(formula = choice)
+    case (Some(false), And(a, b)) =>
+      val msg1 = s"You believe at least one of $a or $b is false."
+      copy(left = Some(a), right = Some(b))
+    case (Some(true), Or(a, b)) =>
+      val msg1 = s"You believe at least one of $a or $b is true."
+      copy(left = Some(a), right = Some(b))
+    case (Some(false), Or(a, b)) =>
+      val evalA  = Interpreter.eval(a)
+      val choice = if evalA then a else b
+      val msg1   = s"You believe both $a and $b are false."
+      val msg2   = s"I choose $choice as true."
+      copy(formula = choice)
+    case (Some(commit), Neg(a))                 => copy(commitment = Some(!commit), formula = a)
+    case (_, Imp(a, b))                         => copy(formula = Or(Neg(a), b))
+    case (_, Iff(a: FOLFormula, b: FOLFormula)) => copy(formula = And(Imp(a, b), Imp(b, a)))
+    case (Some(true), All(x, f))                => this
+    case (Some(false), All(x, f))               =>
+      selected match
+        case None       => this
+        case Some(name) => this
+    case (Some(true), Ex(x, f)) =>
+      selected match
+        case None       => this
+        case Some(name) => this
+    case (Some(false), Ex(x, f)) => this
+    case _                       => this
 
 object Game:
   def playGame(formula: FOLFormula, world: World, commitment: Boolean): Unit =
