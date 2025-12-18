@@ -8,144 +8,89 @@ import tarski.model.Name
 
 type Message = String
 
+// There will be a handler that initially "sets up" the game by first
+// asking the user for their commitment. So we don't have to use Option[Boolean].
+
 case class Game(
-    commitment: Option[Boolean] = None,
+    commitment: Boolean,
     formula: FOLFormula,
     left: Option[FOLFormula] = None,
     right: Option[FOLFormula] = None,
-    selected: Option[Name] = None
+    selected: Option[Name] = None,
+    messages: List[Message] = Nil
 ):
-  def myChoice(f: FOLFormula)(using nm: NameMap): Name = ???
-  def blockChoice(using nm: NameMap): Name             = ???
-  def commitChoice: Boolean                            = ???
-
   def next(using nm: NameMap): Game = (commitment, formula) match
-    case (None, _)                  => copy(commitment = Some(commitChoice))
-    case (Some(commit), a: FOLAtom) =>
+    case (commit, a: FOLAtom) =>
       val result  = Interpreter.eval(a)
       val winLose = if commit == result then "You win!" else "You lose."
       val msg     = s"$winLose $a is $result in this world."
-      this
-    case (Some(true), And(a, b)) =>
+      copy(messages = msg :: messages)
+    case (true, And(a, b)) =>
       val evalA  = Interpreter.eval(a)
       val choice = if evalA then b else a
       val msg1   = s"You believe both $a and $b are true."
       val msg2   = s"I choose $choice as false."
-      copy(formula = choice)
-    case (Some(false), And(a, b)) =>
-      val msg1 = s"You believe at least one of $a or $b is false."
-      copy(left = Some(a), right = Some(b))
-    case (Some(true), Or(a, b)) =>
-      val msg1 = s"You believe at least one of $a or $b is true."
-      copy(left = Some(a), right = Some(b))
-    case (Some(false), Or(a, b)) =>
+      copy(formula = choice, messages = msg2 :: msg1 :: messages)
+    case (false, And(a, b)) =>
+      val msg = s"You believe at least one of $a or $b is false."
+      copy(left = Some(a), right = Some(b), messages = msg :: messages)
+    case (true, Or(a, b)) =>
+      val msg = s"You believe at least one of $a or $b is true."
+      copy(left = Some(a), right = Some(b), messages = msg :: messages)
+    case (false, Or(a, b)) =>
       val evalA  = Interpreter.eval(a)
       val choice = if evalA then a else b
       val msg1   = s"You believe both $a and $b are false."
       val msg2   = s"I choose $choice as true."
-      copy(formula = choice)
-    case (Some(commit), Neg(a))                 => copy(commitment = Some(!commit), formula = a)
-    case (_, Imp(a, b))                         => copy(formula = Or(Neg(a), b))
-    case (_, Iff(a: FOLFormula, b: FOLFormula)) => copy(formula = And(Imp(a, b), Imp(b, a)))
-    case (Some(true), All(x, f))                => this
-    case (Some(false), All(x, f))               =>
+      copy(formula = choice, messages = msg2 :: msg1 :: messages)
+    case (commit, Neg(a)) => copy(commitment = !commit, formula = a)
+    case (_, Imp(a, b))   =>
+      val f   = Or(Neg(a), b)
+      val msg = s"$formula can be written as $f"
+      copy(formula = f, messages = msg :: messages)
+    case (_, Iff(a: FOLFormula, b: FOLFormula)) =>
+      val f   = And(Imp(a, b), Imp(b, a))
+      val msg = s"$formula can be written as $f"
+      copy(formula = f, messages = msg :: messages)
+    case (true, All(x, f)) =>
+      val msg1   = s"You believe $formula is true."
+      val msg2   = s"You believe every object [${x.name}] satisfies $f"
+      val choice = nm.keys
+        .map(name => name -> Interpreter.eval(f.sub(x, name)))
+        .find(!_._2) match
+        case None            => nm.keys.head
+        case Some((name, _)) => name
+      val msg3 = s"I choose $choice as my counterexample"
+      copy(formula = f.sub(x, choice), messages = msg3 :: msg2 :: msg1 :: messages)
+    case (false, All(x, f)) =>
       selected match
-        case None       => this
-        case Some(name) => this
-    case (Some(true), Ex(x, f)) =>
+        case None       => this // choosing a block will be handled elsewhere
+        case Some(name) => copy(formula = f.sub(x, name))
+    case (true, Ex(x, f)) =>
       selected match
-        case None       => this
-        case Some(name) => this
-    case (Some(false), Ex(x, f)) => this
-    case _                       => this
+        case None       => this // choosing a block will be handled elsewhere
+        case Some(name) => copy(formula = f.sub(x, name))
+    case (false, Ex(x, f)) =>
+      val msg1   = s"You believe $formula is false."
+      val msg2   = s"You believe no object [${x.name}] satisfies $f"
+      val choice = nm.keys
+        .map(name => name -> Interpreter.eval(f.sub(x, name)))
+        .find(_._2) match
+        case None            => nm.keys.head
+        case Some((name, _)) => name
+      val msg3 = s"I choose $choice as an instance that satisfies it"
+      copy(formula = f.sub(x, choice), messages = msg3 :: msg2 :: msg1 :: messages)
+    case _ => this
 
-object Game:
-  def playGame(formula: FOLFormula, world: World, commitment: Boolean): Unit =
-    given nm: NameMap = world.board.grid.toNameMap
-    println(s"You believe $formula is $commitment")
+  def chooseBlock(name: Name, formula: FOLFormula): Game =
+    val msg2 = s"Click on a block, then click OK"
     formula match
-      case a: FOLAtom =>
-        val result = Interpreter.eval(a)
-        val msg    = if commitment == result then "You win!" else "You lose."
-        println(s"$msg $a is $result in this world.")
-      case And(a, b) =>
-        if commitment then
-          println(s"You believe both $a and $b are $commitment")
-          println(s"I will try to choose a ${!commitment} formula")
-          val resA   = Interpreter.eval(a)
-          val chosen = if resA then b else a
-          println(s"I chose $chosen as ${!commitment}")
-          playGame(chosen, world, commitment)
-        else
-          println(s"You believe at least one of $a and $b is $commitment")
-          println(s"You will try to choose a $commitment formula")
-          val chosen = handleChoice(a, b)
-          playGame(chosen, world, commitment)
-      case Or(a, b) =>
-        if commitment then
-          println(s"You believe at least one of $a and $b is $commitment")
-          println(s"You will try to choose a $commitment formula")
-          val chosen = handleChoice(a, b)
-          playGame(chosen, world, commitment)
-        else
-          println(s"You believe both $a and $b are $commitment")
-          println(s"I will try to choose a ${!commitment} formula")
-          val resA   = Interpreter.eval(a)
-          val chosen = if resA then a else b
-          println(s"I chose $chosen as ${!commitment}")
-          playGame(chosen, world, commitment)
-      case Neg(a)    => playGame(a, world, !commitment)
-      case Imp(a, b) =>
-        val rewrite = Or(Neg(a), b)
-        println(s"$formula can be written as $rewrite")
-        playGame(rewrite, world, commitment)
-      case Iff(a: FOLFormula, b: FOLFormula) =>
-        val rewrite = And(Imp(a, b), Imp(b, a))
-        println(s"$formula can be written as $rewrite")
-        playGame(rewrite, world, commitment)
       case All(x, f) =>
-        if commitment then
-          println(s"You believe every object satisfies $f")
-          println("I will try to choose a counterexample")
-          val results = nm.map:
-            case (name, (block, pos)) =>
-              name -> Interpreter.eval(f.sub(x, FOLConst(name)))
-          val choice = results.find(!_._2) match
-            case None               => results.head._1
-            case Some((name, bool)) => name
-          val newFormula = f.sub(x, FOLConst(choice))
-          println(s"I chose $newFormula as ${!commitment}")
-          playGame(newFormula, world, commitment)
-        else
-          println(s"You believe some object does not satisfy $f")
-          println("You will try to choose a counterexample")
-          println("Choose a block, then click OK")
-          val choice     = handleBlockChoice
-          val newFormula = f.sub(x, FOLConst(choice))
-          playGame(newFormula, world, commitment)
+        val msg1 = s"You believe some object [${x.name}] falsifies $f"
+        copy(formula = f.sub(x, name), messages = msg2 :: msg1 :: messages)
       case Ex(x, f) =>
-        if commitment then
-          println(s"You believe some object satisfies $f")
-          println("You will try to choose an instance that satisfies it")
-          println("Choose a block, then click OK")
-          val choice     = handleBlockChoice
-          val newFormula = f.sub(x, FOLConst(choice))
-          playGame(newFormula, world, commitment)
-        else
-          println(s"You believe no object satisfies $f")
-          println(s"I will try to choose an instance that satisfies it")
-          val results = nm.map:
-            case (name, (block, pos)) =>
-              name -> Interpreter.eval(f.sub(x, FOLConst(name)))
-          val choice = results.find(_._2) match
-            case None               => results.head._1
-            case Some((name, bool)) => name
-          val newFormula = f.sub(x, FOLConst(choice))
-          println(s"I chose $newFormula as ${!commitment}")
-          playGame(f.sub(x, FOLConst(choice)), world, commitment)
-
-  def handleChoice(a: FOLFormula, b: FOLFormula): FOLFormula = a    // TODO
-  def handleBlockChoice: Name                                = "b0" // TODO
+        val msg1 = s"You believe some object [${x.name}] satisfies $f"
+        copy(formula = f.sub(x, name), messages = msg2 :: msg1 :: messages)
 
 /*
 Buttons: OK, Back, Choose true, Choose false, Choose left, Choose right

@@ -26,8 +26,8 @@ object Interpreter:
     case Iff(a: FOLFormula, b: FOLFormula) =>
       val (ea, eb) = (eval(a), eval(b))
       ea && eb || !ea && !eb
-    case All(x, f) => ng.keys.forall(name => eval(f.sub(x, FOLConst(name))))
-    case Ex(x, f)  => ng.keys.exists(name => eval(f.sub(x, FOLConst(name))))
+    case All(x, f) => ng.keys.forall(name => eval(f.sub(x, name)))
+    case Ex(x, f)  => ng.keys.exists(name => eval(f.sub(x, name)))
 
   /** Helper to evaluate atomic formulas in a given world.
     *
@@ -81,14 +81,14 @@ object Interpreter:
       case _ => throw IllegalArgumentException(s"Atom $a is parsed incorrectly")
 
   extension (f: FOLFormula)
-    /** Extension method to substitute a [[FOLConst]] into a [[FOLFormula]] for all free occurrences of a variable. Used
-      * in [[eval]].
+    /** Extension method to substitute a [[Name]] into a [[FOLFormula]] for all free occurrences of a variable. Used in
+      * [[eval]].
       *
       * @param x
       *   A first-order variable
       * @param c
-      *   A first-order constant
+      *   A [[Name]] to be used as a first-order constant
       * @return
       *   the formula, with all free occurrences of `x` replaced by `c`.
       */
-    def sub(x: FOLVar, c: FOLConst) = FOLSubstitution((x, c)).apply(f)
+    def sub(x: FOLVar, c: Name) = FOLSubstitution((x, FOLConst(c))).apply(f)
