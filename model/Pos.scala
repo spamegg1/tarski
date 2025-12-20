@@ -254,3 +254,4 @@ object Pos:
       p.sameRow2(q, r) && p.colBtw2(q, r) ||
         p.sameCol2(q, r) && p.rowBtw2(q, r) ||
         p.diagBtw(q, r)
+end Pos

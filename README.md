@@ -201,15 +201,15 @@ The following predicates are supported:
 
 |Syntax|Semantics|
 |:-|:-|
-|`Tri(x)`| "x is a triangle"|
-|`Sqr(x)`| "x is a square"|
-|`Cir(x)`| "x is a circle"|
-|`Blu(x)`| "x has color blue"|
-|`Lim(x)`| "x has color lime"|
-|`Red(x)`| "x has color red"|
-|`Sml(x)`| "x has small size"|
-|`Mid(x)`| "x has medium size"|
-|`Big(x)`| "x has big size"|
+|`Tri(x)`|"x is a triangle"|
+|`Sqr(x)`|"x is a square"|
+|`Cir(x)`|"x is a circle"|
+|`Blu(x)`|"x has color blue"|
+|`Lim(x)`|"x has color lime"|
+|`Red(x)`|"x has color red"|
+|`Sml(x)`|"x has small size"|
+|`Mid(x)`|"x has medium size"|
+|`Big(x)`|"x has big size"|
 
 #### Binary
 

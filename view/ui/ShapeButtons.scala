@@ -29,6 +29,7 @@ class ShapeButtons(using c: Constants):
           .circle(util.wid)
           .fillColor(Color.black)
           .at(ui.cirPt)
+  end shapeButtons
 
   /** Draws a red indicator rectangle around a shape button, if it is selected / clicked.
     *

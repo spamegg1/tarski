@@ -46,6 +46,7 @@ object Constants:
 
   /** Creates a font from the included font file. */
   val FontFromFile = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, FontFile)
+end Constants
 
 /** Contains all the constants that depend on the size of the user interface, the board image, and the frame in which
   * the interface is displayed and run.
@@ -162,3 +163,4 @@ case class Constants(size: Double):
     .withBackground(Color.white)
     .withTitle(Constants.Title)
     .withCenterAtOrigin
+end Constants

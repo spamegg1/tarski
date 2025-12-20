@@ -31,6 +31,7 @@ object Imager:
           case Result.Valid   => Text(" T").font(c.BoldFont).strokeColor(Color.green)
           case Result.Invalid => Text(" F").font(c.BoldFont).strokeColor(Color.red)
           case Result.Error   => Text("Err").font(c.BoldFont).strokeColor(Color.darkRed)
+  end apply
 
   /** Alternate imaging method for possibly missing objects. For example, [[Controls]] does not display a block unless
     * all three attributes are set, so an empty image has to be displayed.

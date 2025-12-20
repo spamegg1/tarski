@@ -48,6 +48,7 @@ object Handler:
           case "Tri" | "Sqr" | "Cir"             => handleAttr(value, world)
           case "Left" | "Rgt"                    => handleRotate(value, world)
           case _                                 => world
+  end uiButtons
 
   /** Handles the evaluation of formulas if the user clicked on the Eval button.
     *
@@ -143,3 +144,4 @@ object Handler:
       case "Tri" => Shape.Tri
       case "Sqr" => Shape.Sqr
       case "Cir" => Shape.Cir
+end Handler

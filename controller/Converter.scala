@@ -74,6 +74,7 @@ case class Converter(dims: Dims, gs: GridSize):
     val row = (top - point.y) / blockHeight
     val col = (-left + point.x) / blockWidth
     (row.toInt, col.toInt)
+end Converter
 
 /** Contains [[Converter]] instances for the board and the user interface, along with a mapping between grid positions
   * and UI control buttons.
@@ -122,3 +123,4 @@ object Converter:
     (1, 14) -> "Block",
     (1, 15) -> "Block"
   )
+end Converter

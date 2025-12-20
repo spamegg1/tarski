@@ -23,6 +23,7 @@ object Name:
   def generateFake: Name =
     counter += 1
     s"b$counter"
+end Name
 
 /** Contains values and methods used for [[Names]]. */
 object Names:
@@ -41,6 +42,7 @@ object Names:
     .map: name =>
       name -> (if nameMap.contains(name) then Occupied else Available)
     .toMap
+end Names
 
 extension (names: Names)
   /** Extension method for [[Names]] to toggle the availability of a specific name. It works whether the name argument
@@ -68,3 +70,4 @@ extension (names: Names)
     case Some(Available) => names.updated(name, Occupied)
     case Some(Occupied)  => names
     case None            => names // name was fake
+end extension

@@ -27,6 +27,7 @@ object UI:
     "Cir"   -> (1, 12),
     "Rgt"   -> (1, 13)
   )
+end UI
 
 /** Calculates the Cartesian points for all the UI buttons.
   *

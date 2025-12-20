@@ -56,3 +56,4 @@ object React:
     *   false (the program never stops).
     */
   def stop(world: World): Boolean = false
+end React
