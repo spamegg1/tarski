@@ -48,3 +48,19 @@ triggers state transition => next state => display text => click => next state..
 - commit=false f=Sqr(b0) L=None R=None sel=None
   - You believe Sqr(b0) is false
   - You win! Sqr(b0) is false in this world.
+
+- Atomic true/false -> just evaluate, then check against belief -> win/lose
+- ¬f true   -> you believe f is false, eval
+- ¬f false  -> you believe f is true, eval
+- f∧g true  -> you believe both f,g are true, TW chooses false formula
+- f∧g false -> you believe at least one of f,g is false, YOU choose false formula
+- f∨g true  -> you believe at least one of f,g is true, YOU choose true formula
+- f∨g false -> you believe both f,g are false, TW chooses true formula
+- f→g true  -> rewrite as ¬f∨g
+- f→g false -> rewrite as ¬f∨g
+- f↔g true  -> rewrite as (f→g)∧(g→f)
+- f↔g false -> rewrite as (f→g)∧(g→f)
+- ∀xf true  -> you believe every object satisfies fx, TW chooses false counterexample
+- ∀xf false -> you believe some object does not satisfy fx, YOU choose false counterexample
+- ∃xf true  -> you believe some object satisfies fx, YOU choose true instance
+- ∃xf false -> you believe no object satisfies fx, TW chooses true instance
