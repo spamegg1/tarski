@@ -12,3 +12,8 @@ object Grid:
     *   an empty [[Grid]].
     */
   def empty: Grid = Map.empty[Pos, Block]
+
+extension (grid: Grid)
+  def toNameGrid: NameGrid = grid.map: (pos, block) =>
+    val name = if block.label.isEmpty then Name.generateFake else block.label
+    pos -> (block, name)

@@ -19,10 +19,26 @@ def runWorld(grid: Grid = Grid.empty, formulas: Seq[FOLFormula], scaleFactor: Do
   Reactor
     .init[World](world)
     .withOnTick(React.tick)
-    .withOnMouseClick(React.click)
+    .withOnMouseClick(React.clickWorld)
     .withOnMouseMove(React.move)
     .withStop(React.stop)
     .withRender(render.all)
+    .withTickRate(TickRate)
+    .animateWithFrame(c.MainFrame)
+
+def playGame(grid: Grid, formula: FOLFormula, scaleFactor: Double = 1.0): Unit =
+  require(scaleFactor > 0.0)
+  // val nameMap        = grid.toNameGrid.toNameMap
+  given c: Constants = Constants(DefaultSize * scaleFactor)
+  val game: Game     = ???
+  val render         = new Render
+  Reactor
+    .init[Game](game)
+    .withOnTick(React.tick)
+    .withOnMouseClick(???)
+    .withOnMouseMove(React.move)
+    .withStop(React.stop)
+    .withRender(???)
     .withTickRate(TickRate)
     .animateWithFrame(c.MainFrame)
 
@@ -63,6 +79,12 @@ object Example:
     fof"Happy(c)" // error
   )
 
-  /** Runs the example (also the only entry point into the project). */
+  private val formula = fof"∀x ∃y More(x, y)"
+
+  /** Runs the example world. */
   @main
   def runExample = runWorld(grid, formulas)
+
+  /** Plays the example game. */
+  @main
+  def playExample = playGame(grid, formula)

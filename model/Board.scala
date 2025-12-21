@@ -30,11 +30,7 @@ object Board:
     * @return
     *   The same grid that also accounts for the names of blocks (with fake names generated if needed).
     */
-  def fromGrid(grid: Grid, gs: GridSize = BoardSize) =
-    val nameMap = grid.map: (pos, block) =>
-      val name = if block.label.isEmpty then Name.generateFake else block.label
-      pos -> (block, name)
-    Board(nameMap, gs)
+  def fromGrid(grid: Grid, gs: GridSize = BoardSize) = Board(grid.toNameGrid, gs)
 
   /** Defines an empty board. Convenient for initializing a [[World]].
     *

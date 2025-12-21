@@ -40,7 +40,8 @@ package tarski:
     export gapt.expr.subst.FOLSubstitution
     export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
     export constants.Constants, Constants.{BoardSize, UISize, Dims, GridSize}
-    export model.{Pos, Block, NameMap, Name, Status, Tone, Attr, World, Shape, Controls, Names, Result, Sizes, reset}
+    export model.{Pos, Block, NameMap, Name, Status, Tone, Attr, World, Shape}
+    export model.{Controls, Names, Result, Sizes, Game, Select, Choice, reset}
 
   /** This package tests [[World]] from [[model]], and [[Converter]], [[Handler]] and [[Interpreter]] from
     * [[controller]]. Depends on [[constants]], [[model]] and [[controller]].
@@ -64,6 +65,6 @@ package tarski:
     export doodle.reactor.Reactor
     export doodle.java2d.{java2dAnimationRenderer, java2dCanvasAlgebra, java2dRenderer}
     export constants.Constants, Constants.{DefaultSize, TickRate}
-    export model.{World, Block, Grid, Formulas, Shape, Sizes, Tone}
+    export model.{World, Block, Grid, Formulas, Shape, Sizes, Tone, Game}
     export view.Render
     export controller.React

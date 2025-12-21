@@ -16,7 +16,7 @@ object React:
     * @return
     *   New state of the world, updated according to what is clicked on.
     */
-  def click(p: Point, world: World)(using c: Constants): World =
+  def clickWorld(p: Point, world: World)(using c: Constants): World =
     if p.x < 0 then
       val pos = Converter.board.toPos((p - c.BoardOrigin).toPoint)
       Handler.boardPos(pos, world)
@@ -25,35 +25,44 @@ object React:
       Handler.uiButtons(pos, world)
     else world
 
+  def clickGame(p: Point, game: Game)(using c: Constants): Game =
+    if p.x < 0 then
+      val pos = Converter.board.toPos((p - c.BoardOrigin).toPoint)
+      Handler.gameBoard(pos, game)
+    else if p.y > c.UIBottom then
+      val pos = Converter.ui.toPos((p - c.UIOrigin).toPoint)
+      Handler.gameControls(pos, game)
+    else game
+
   /** Reacts to a "tick" to advance the world. It does nothing, because the program is static except for user clicks.
-    * Used by [[main.runWorld]].
+    * Used by [[main.runWorld]] and [[main.playGame]].
     *
-    * @param world
-    *   The current state of the world.
+    * @param t
+    *   The current state of the world, or the game.
     * @return
-    *   The same world, unchanged.
+    *   The same world or game, unchanged.
     */
-  def tick(world: World): World = world
+  def tick[T](t: T): T = t
 
   /** Reacts to mouse movements. It does nothing, because the program is static except for user clicks. Used by
-    * [[main.runWorld]].
+    * [[main.runWorld]] and [[main.playGame]].
     *
     * @param point
     *   The point to which the mouse cursor is moved.
-    * @param world
-    *   The current state of the world.
+    * @param t
+    *   The current state of the world or game.
     * @return
-    *   The same world, unchanged.
+    *   The same world or game, unchanged.
     */
-  def move(point: Point, world: World) = world
+  def move[T](point: Point, t: T) = t
 
   /** Determines when the program stops, which is, never. The user needs to stop the program manually. Used by
-    * [[main.runWorld]].
+    * [[main.runWorld]] and [[main.playGame]].
     *
-    * @param world
-    *   The current state of the world.
+    * @param t
+    *   The current state of the world or game.
     * @return
     *   false (the program never stops).
     */
-  def stop(world: World): Boolean = false
+  def stop[T](t: T): Boolean = false
 end React

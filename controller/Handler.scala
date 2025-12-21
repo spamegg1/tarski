@@ -144,4 +144,98 @@ object Handler:
       case "Tri" => Shape.Tri
       case "Sqr" => Shape.Sqr
       case "Cir" => Shape.Cir
+
+  def gameBoard(pos: Pos, game: Game): Game    = game
+  def gameControls(pos: Pos, game: Game): Game = game
+  def next(g: Game)(using nm: NameMap): Game   = (g.commitment, g.formula) match
+    case (commit, a: FOLAtom) =>
+      val result  = Interpreter.eval(a)
+      val winLose = if commit == result then "You win!" else "You lose."
+      val msg     = s"$winLose $a is $result in this world."
+      g.copy(messages = msg :: g.messages)
+
+    case (true, And(a, b)) =>
+      val evalA  = Interpreter.eval(a)
+      val choice = if evalA then b else a
+      val msg1   = s"You believe both $a and $b are true."
+      val msg2   = s"I choose $choice as false."
+      g.copy(formula = choice, messages = msg2 :: msg1 :: g.messages)
+
+    case (false, And(a, b)) =>
+      g.choice match
+        case Choice.Off =>
+          val msg1 = s"You believe one of $a or $b is ${g.commitment}."
+          val msg2 = s"Choose a ${g.commitment} formula above."
+          g.copy(left = Some(a), right = Some(b), messages = msg2 :: msg1 :: g.messages, choice = Choice.Wait)
+        case Choice.Wait => g // Wait => Off transition (selecting L/R) handled elsewhere
+
+    case (true, Or(a, b)) =>
+      g.choice match
+        case Choice.Off =>
+          val msg1 = s"You believe one of $a or $b is ${g.commitment}."
+          val msg2 = s"Choose a ${g.commitment} formula above."
+          g.copy(left = Some(a), right = Some(b), messages = msg2 :: msg1 :: g.messages, choice = Choice.Wait)
+        case Choice.Wait => g // Wait => Off transition (selecting L/R) handled elsewhere
+
+    case (false, Or(a, b)) =>
+      val evalA  = Interpreter.eval(a)
+      val choice = if evalA then a else b
+      val msg1   = s"You believe both $a and $b are false."
+      val msg2   = s"I choose $choice as true."
+      g.copy(formula = choice, messages = msg2 :: msg1 :: g.messages)
+
+    case (commit, Neg(a)) => g.copy(commitment = !commit, formula = a)
+
+    case (_, Imp(a, b)) =>
+      val f   = Or(Neg(a), b)
+      val msg = s"${g.formula} can be written as $f"
+      g.copy(formula = f, messages = msg :: g.messages)
+
+    case (_, Iff(a: FOLFormula, b: FOLFormula)) =>
+      val f   = And(Imp(a, b), Imp(b, a))
+      val msg = s"${g.formula} can be written as $f"
+      g.copy(formula = f, messages = msg :: g.messages)
+
+    case (true, All(x, f)) =>
+      val msg1   = s"You believe ${g.formula} is true."
+      val msg2   = s"You believe every object [${x.name}] satisfies $f"
+      val choice = nm.keys
+        .map(name => name -> Interpreter.eval(f.sub(x, name)))
+        .find(!_._2) match
+        case None            => nm.keys.head
+        case Some((name, _)) => name
+      val msg3 = s"I choose $choice as my counterexample"
+      g.copy(formula = f.sub(x, choice), messages = msg3 :: msg2 :: msg1 :: g.messages)
+
+    case (false, All(x, f)) =>
+      g.selected match
+        case Select.Off =>
+          val msg1 = s"You believe some object [${x.name}] falsifies $f"
+          val msg2 = s"Click on a block, then click OK"
+          g.copy(messages = msg2 :: msg1 :: g.messages, selected = Select.Wait)
+        case Select.Wait     => g // Wait => On transition handled elsewhere
+        case Select.On(name) => g.copy(formula = f.sub(x, name), selected = Select.Off)
+
+    case (true, Ex(x, f)) =>
+      g.selected match
+        case Select.Off =>
+          val msg1 = s"You believe some object [${x.name}] satisfies $f"
+          val msg2 = s"Click on a block, then click OK"
+          g.copy(messages = msg2 :: msg1 :: g.messages, selected = Select.Wait)
+        case Select.Wait     => g // Wait => On transition handled elsewhere
+        case Select.On(name) => g.copy(formula = f.sub(x, name), selected = Select.Off)
+
+    case (false, Ex(x, f)) =>
+      val msg1   = s"You believe ${g.formula} is false."
+      val msg2   = s"You believe no object [${x.name}] satisfies $f"
+      val choice = nm.keys
+        .map(name => name -> Interpreter.eval(f.sub(x, name)))
+        .find(_._2) match
+        case None            => nm.keys.head
+        case Some((name, _)) => name
+      val msg3 = s"I choose $choice as an instance that satisfies it"
+      g.copy(formula = f.sub(x, choice), messages = msg3 :: msg2 :: msg1 :: g.messages)
+
+    case _ => g
+  end next
 end Handler
