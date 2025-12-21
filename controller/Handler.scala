@@ -147,7 +147,8 @@ object Handler:
 
   def gameBoard(pos: Pos, game: Game): Game    = game
   def gameControls(pos: Pos, game: Game): Game = game
-  def next(g: Game)(using nm: NameMap): Game   = (g.commitment, g.formula) match
+
+  def next(g: Game)(using nm: NameMap): Game = (g.commitment, g.formula) match
     case (commit, a: FOLAtom) =>
       val result  = Interpreter.eval(a)
       val winLose = if commit == result then "You win!" else "You lose."
