@@ -1,7 +1,7 @@
 package tarski
 package model
 
-/** The chess board that holds the blocks. Used by [[World]].
+/** The chess board that holds the blocks. Used by [[World]] and [[Game]].
   *
   * @param grid
   * @param gs

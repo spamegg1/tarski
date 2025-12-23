@@ -123,4 +123,39 @@ object Converter:
     (1, 14) -> "Block",
     (1, 15) -> "Block"
   )
+
+  val gameMap = Map[Pos, String](
+    (0, 0)  -> "Left",
+    (0, 1)  -> "Left",
+    (0, 2)  -> "Left",
+    (0, 3)  -> "Left",
+    (0, 4)  -> "Left",
+    (0, 5)  -> "Left",
+    (0, 6)  -> "Left",
+    (0, 7)  -> "Left",
+    (0, 8)  -> "Left",
+    (0, 9)  -> "Left",
+    (0, 10) -> "Left",
+    (0, 11) -> "Commit",
+    (0, 12) -> "Commit",
+    (0, 13) -> "Back",
+    (0, 14) -> "Block",
+    (0, 15) -> "Block",
+    (1, 0)  -> "Right",
+    (1, 1)  -> "Right",
+    (1, 2)  -> "Right",
+    (1, 3)  -> "Right",
+    (1, 4)  -> "Right",
+    (1, 5)  -> "Right",
+    (1, 6)  -> "Right",
+    (1, 7)  -> "Right",
+    (1, 8)  -> "Right",
+    (1, 9)  -> "Right",
+    (1, 10) -> "Right",
+    (1, 11) -> "Commit",
+    (1, 12) -> "Commit",
+    (1, 13) -> "OK",
+    (1, 14) -> "Block",
+    (1, 15) -> "Block"
+  )
 end Converter
