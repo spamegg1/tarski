@@ -19,19 +19,19 @@ object React:
   def clickWorld(p: Point, world: World)(using c: Constants): World =
     if p.x < 0 then
       val pos = Converter.board.toPos((p - c.BoardOrigin).toPoint)
-      Handler.boardPos(pos, world)
+      WorldHandler.boardPos(pos, world)
     else if p.y > c.UIBottom then
       val pos = Converter.ui.toPos((p - c.UIOrigin).toPoint)
-      Handler.uiButtons(pos, world)
+      WorldHandler.uiButtons(pos, world)
     else world
 
   def clickGame(p: Point, game: Game)(using c: Constants): Game =
     if p.x < 0 then
       val pos = Converter.board.toPos((p - c.BoardOrigin).toPoint)
-      Handler.gameBoard(pos, game)
+      GameHandler.boardPos(pos, game)
     else if p.y > c.UIBottom then
       val pos = Converter.ui.toPos((p - c.UIOrigin).toPoint)
-      Handler.gameControls(pos, game)
+      GameHandler.controls(pos, game)
     else game
 
   /** Reacts to a "tick" to advance the world. It does nothing, because the program is static except for user clicks.

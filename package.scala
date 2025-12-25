@@ -51,7 +51,7 @@ package tarski:
     export gapt.expr.stringInterpolationForExpressions
     export constants.Constants, Constants.{DefaultSize, Epsilon}
     export model.{World, Block, Pos, Board, Grid, NameMap, Status, Result, Shape, Sizes, Tone, Controls}
-    export controller.{Interpreter, Converter, Handler}
+    export controller.{Interpreter, Converter, WorldHandler}
 
   /** This package is the user-facing part of Tarski's world. Depends on [[constants]], [[model]], [[controller]] and
     * [[view]]. It provides the necessary data types from [[model]] for users to define their own worlds and write their
