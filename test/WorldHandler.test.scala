@@ -1,7 +1,7 @@
 package tarski
 package testing
 
-class HandlersTest extends munit.FunSuite:
+class WorldHandlerTest extends munit.FunSuite:
   given c: Constants = Constants(DefaultSize)
   import Shape.*, Status.*, Result.*, Sizes.*, Tone.*
 
