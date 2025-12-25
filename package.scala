@@ -14,8 +14,22 @@ package tarski:
   package model:
     export collection.immutable.ListMap
     export doodle.core.Color
-    export gapt.expr.formula.fol.FOLFormula
+    export gapt.expr.formula.fol.{FOLFormula, FOLVar, FOLConst, FOLAtom}
+    export gapt.expr.subst.FOLSubstitution
     export constants.Constants, Constants.{GridSize, BoardSize}
+
+  /** Package to handle user input and communicate between [[model]] and [[view]]. Depends on [[constants]] and
+    * [[model]]. It is used by [[view]], [[testing]] and [[main]]. It provides the [[Converter]] class that translates
+    * between [[model.Pos]] and [[doodle.core.Point]]. It also provides the [[Handler]] object that manages user mouse
+    * input to update the [[World]] state, and the [[Interpreter]] object that evaluates first order logic formulas.
+    */
+  package controller:
+    export doodle.core.Point
+    export gapt.expr.formula.fol.{FOLVar, FOLConst, FOLAtom, FOLFormula}
+    export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
+    export constants.Constants, Constants.{BoardSize, UISize, Dims, GridSize}
+    export model.{Pos, Block, NameMap, Name, Status, Tone, Attr, World, Shape}
+    export model.{Controls, Names, Result, Sizes, Game, Select, reset, toNameMap, sub}
 
   /** Package to draw and render the interface. It is designed in a pure way and does not hold any mutable state.
     * [[Render]] simply consumes a [[World]] and produces a [[doodle.image.Image]]. It is used by [[main]]. Depends on
@@ -28,20 +42,6 @@ package tarski:
     export constants.Constants
     export model.{Pos, Board, World, Sizes, Tone, Result, Formulas, Controls, Names, Status, Shape, Block}
     export controller.Converter
-
-  /** Package to handle user input and communicate between [[model]] and [[view]]. Depends on [[constants]] and
-    * [[model]]. It is used by [[view]], [[testing]] and [[main]]. It provides the [[Converter]] class that translates
-    * between [[model.Pos]] and [[doodle.core.Point]]. It also provides the [[Handler]] object that manages user mouse
-    * input to update the [[World]] state, and the [[Interpreter]] object that evaluates first order logic formulas.
-    */
-  package controller:
-    export doodle.core.Point
-    export gapt.expr.formula.fol.{FOLVar, FOLConst, FOLAtom, FOLFormula}
-    export gapt.expr.subst.FOLSubstitution
-    export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
-    export constants.Constants, Constants.{BoardSize, UISize, Dims, GridSize}
-    export model.{Pos, Block, NameMap, Name, Status, Tone, Attr, World, Shape}
-    export model.{Controls, Names, Result, Sizes, Game, Select, reset, toNameMap}
 
   /** This package tests [[World]] from [[model]], and [[Converter]], [[Handler]] and [[Interpreter]] from
     * [[controller]]. Depends on [[constants]], [[model]] and [[controller]].

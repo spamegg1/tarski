@@ -89,16 +89,3 @@ object Interpreter:
       */
     infix def iff(that: Boolean) = bool && that || !bool && !that
 end Interpreter
-
-extension (f: FOLFormula)
-  /** Extension method to substitute a [[Name]] into a [[FOLFormula]] for all free occurrences of a variable. Used in
-    * [[eval]].
-    *
-    * @param x
-    *   A first-order variable
-    * @param c
-    *   A [[Name]] to be used as a first-order constant
-    * @return
-    *   the formula, with all free occurrences of `x` replaced by `c`.
-    */
-  def sub(x: FOLVar, c: Name) = FOLSubstitution((x, FOLConst(c))).apply(f)
