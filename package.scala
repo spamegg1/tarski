@@ -15,6 +15,7 @@ package tarski:
     export collection.immutable.ListMap
     export doodle.core.Color
     export gapt.expr.formula.fol.{FOLFormula, FOLVar, FOLConst, FOLAtom}
+    export gapt.expr.formula.{And, Or, Neg, Imp, Iff, All, Ex}
     export gapt.expr.subst.FOLSubstitution
     export constants.Constants, Constants.{GridSize, BoardSize}
 
@@ -28,8 +29,8 @@ package tarski:
     export gapt.expr.formula.fol.{FOLVar, FOLConst, FOLAtom, FOLFormula}
     export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
     export constants.Constants, Constants.{BoardSize, UISize, Dims, GridSize}
-    export model.{Pos, Block, NameMap, Name, Status, Tone, Attr, World, Shape}
-    export model.{Controls, Names, Result, Sizes, Game, Select, reset, toNameMap, sub}
+    export model.{Pos, Block, NameMap, Name, Status, Tone, Attr, World, Shape, Board}, NameMap.given
+    export model.{Controls, Names, Result, Sizes, Play, Game, Select, reset, toNameMap, sub}
 
   /** Package to draw and render the interface. It is designed in a pure way and does not hold any mutable state.
     * [[Render]] simply consumes a [[World]] and produces a [[doodle.image.Image]]. It is used by [[main]]. Depends on

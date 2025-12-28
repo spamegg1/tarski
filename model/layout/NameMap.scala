@@ -5,3 +5,7 @@ package model
   * [[controller.Interpreter.eval]].
   */
 type NameMap = Map[Name, (block: Block, pos: Pos)]
+
+object NameMap:
+  given Conversion[Board, NameMap] = (b: Board) => b.grid.toNameMap
+  given (b: Board) => NameMap      = b.grid.toNameMap

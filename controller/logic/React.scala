@@ -5,7 +5,8 @@ package controller
   * stopping condition. Used in [[main]].
   */
 object React:
-  /** Reacts to mouse clicks. Uses [[Handler.boardPos]] and [[Handler.uiButtons]] to do this. Used by [[main.runWorld]].
+  /** Reacts to mouse clicks. Uses [[WorldHandler.boardPos]] and [[WorldHandler.uiButtons]] to do this. Used by
+    * [[main.runWorld]].
     *
     * @param p
     *   Point on the interface that the user clicked on.
@@ -25,6 +26,18 @@ object React:
       WorldHandler.uiButtons(pos, world)
     else world
 
+  /** Reacts to mouse clicks. Uses [[GameHandler.boardPos]] and [[GameHandler.controls]] to do this. Used by
+    * [[main.playGame]].
+    *
+    * @param p
+    *   Point on the interface that the user clicked on.
+    * @param game
+    *   The current state of the game.
+    * @param c
+    *   Implicit parameter, an instance of [[constants.Constants]].
+    * @return
+    *   New state of the game, updated according to what is clicked on.
+    */
   def clickGame(p: Point, game: Game)(using c: Constants): Game =
     if p.x < 0 then
       val pos = Converter.board.toPos((p - c.BoardOrigin).toPoint)
