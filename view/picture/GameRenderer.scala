@@ -1,12 +1,12 @@
 package tarski
 package view
 
-/** Main renderer that displays everything: the board, formulas, and all the buttons.
+/** Main renderer for the game that displays everything: the board, messages, and all the buttons.
   *
   * @param c
   *   A given instance of [[Constants]] needed for converters, all the buttons, utility and UI.
   */
-class Render(using c: Constants):
+class GameRenderer(using c: Constants):
   /** An instance of [[OPButtons]] summoned here for Eval, Add, Move, Del buttons. */
   private val opBtn = summon[OpButtons]
 

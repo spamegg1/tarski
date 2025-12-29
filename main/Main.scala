@@ -15,7 +15,7 @@ def runWorld(grid: Grid = Grid.empty, formulas: Seq[FOLFormula], scaleFactor: Do
   require(scaleFactor > 0.0)
   given c: Constants = Constants(DefaultSize * scaleFactor)
   val world          = World.from(grid, formulas)
-  val render         = new Render
+  val render         = new WorldRenderer
   Reactor
     .init[World](world)
     .withOnTick(React.tick)
@@ -31,7 +31,7 @@ def playGame(grid: Grid, formula: FOLFormula, scaleFactor: Double = 1.0): Unit =
   // val nameMap        = grid.toNameGrid.toNameMap
   given c: Constants = Constants(DefaultSize * scaleFactor)
   val game: Game     = ???
-  val render         = new Render
+  val render         = new WorldRenderer
   Reactor
     .init[Game](game)
     .withOnTick(React.tick)
