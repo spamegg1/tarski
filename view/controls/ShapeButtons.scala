@@ -3,16 +3,12 @@ package view
 
 /** Buttons to select shapes or to change the shape of a selected block.
   *
-  * @param c
-  *   A given instance of [[Constants]], needed to derive [[Utility]] and [[UI]] instances.
+  * @param util
+  *   An instance of the [[Utility]] class needed for buttons.
+  * @param ui
+  *   An instance of the [[UI]] class needed for button positions.
   */
-class ShapeButtons(using c: Constants):
-  /** An instance of [[Utility]] summoned here for width and height calculations, and to draw buttons and indicators. */
-  private val util = summon[Utility]
-
-  /** An instance of [[UI]] summoned here to calculate positions of the shape buttons. */
-  private val ui = summon[UI]
-
+case class ShapeButtons(util: Utility, ui: UI):
   /** All 3 shape buttons, together. */
   private val shapeButtons =
     Image

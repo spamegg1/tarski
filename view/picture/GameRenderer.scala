@@ -6,25 +6,14 @@ package view
   * @param c
   *   A given instance of [[Constants]] needed for converters, all the buttons, utility and UI.
   */
-class GameRenderer(using c: Constants):
-  /** An instance of [[OPButtons]] summoned here for Eval, Add, Move, Del buttons. */
-  private val opBtn = summon[OpButtons]
-
-  /** An instance of [[NameButtons]] summoned here for the 6 name buttons. */
-  private val nameBtn = summon[NameButtons]
-
-  /** An instance of [[SizeButtons]] summoned here for the 3 size buttons. */
-  private val sizeBtn = summon[SizeButtons]
-
-  /** An instance of [[ColorButtons]] summoned here for the 3 color buttons. */
-  private val colBtn = summon[ColorButtons]
-
-  /** An instance of [[ShapeButtons]] summoned here for the 3 shape buttons. */
-  private val shapeBtn = summon[ShapeButtons]
-
-  /** An instance of [[UI]] summoned here to calculate positions. */
-  private val ui = summon[UI]
-
+class GameRenderer(
+    opBtn: OpButtons,
+    nameBtn: NameButtons,
+    sizeBtn: SizeButtons,
+    colBtn: ColorButtons,
+    shapeBtn: ShapeButtons,
+    ui: UI
+)(using c: Constants):
   /** Displays the block on the user interface controls.
     *
     * @param ct

@@ -3,16 +3,12 @@ package view
 
 /** Buttons for Eval, Add, Move, Del, Left and Right (rotations).
   *
-  * @param c
-  *   A given instance of [[Constants]], needed to derive [[Utility]] and [[UI]] instances.
+  * @param util
+  *   An instance of the [[Utility]] class needed for buttons.
+  * @param ui
+  *   An instance of the [[UI]] class needed for button positions.
   */
-class OpButtons(using c: Constants):
-  /** An instance of [[Utility]] summoned here for drawing buttons and indicators. */
-  private val util = summon[Utility]
-
-  /** An instance of [[UI]] summoned here to calculate positions of buttons. */
-  private val ui = summon[UI]
-
+case class OpButtons(util: Utility, ui: UI):
   /** The Eval button. */
   val evalButton = util.button("Eval", ui.evalPt, 2)
 

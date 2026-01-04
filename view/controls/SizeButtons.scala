@@ -3,16 +3,12 @@ package view
 
 /** Buttons to select sizes or to change the size of a selected block.
   *
-  * @param c
-  *   A given instance of [[Constants]], needed to derive [[Utility]] and [[UI]] instances.
+  * @param util
+  *   An instance of the [[Utility]] class needed for buttons.
+  * @param ui
+  *   An instance of the [[UI]] class needed for button positions.
   */
-class SizeButtons(using c: Constants):
-  /** An instance of [[Utility]] summoned here to draw buttons and indicators. */
-  private val util = summon[Utility]
-
-  /** An instance of [[UI]] summoned here to calculate positions of the size buttons. */
-  private val ui = summon[UI]
-
+case class SizeButtons(util: Utility, ui: UI):
   /** Button for the small size. */
   private val smallButton = util.button("Sml", ui.smallPt, 2)
 

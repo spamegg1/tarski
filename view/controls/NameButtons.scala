@@ -3,13 +3,12 @@ package view
 
 /** Buttons that toggle the names (a,b,c,d,e,f) for blocks on the board.
   *
-  * @param c
-  *   A given instance of [[Constants]], needed to summon a [[Utility]] instance.
+  * @param util
+  *   An instance of the [[Utility]] class needed for buttons.
+  * @param _
+  *   A given instance of [[Constants]] needed in [[Converter.ui]].
   */
-class NameButtons(using c: Constants):
-  /** A given instance of [[Utility]] summoned here, to draw buttons and indicators. */
-  private val util = summon[Utility]
-
+case class NameButtons(util: Utility)(using Constants):
   /** All 6 name buttons together. */
   private val nameButtons = Seq("a", "b", "c", "d", "e", "f")
     .map: name =>

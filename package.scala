@@ -67,5 +67,5 @@ package tarski:
     export doodle.java2d.{java2dAnimationRenderer, java2dCanvasAlgebra, java2dRenderer}
     export constants.Constants, Constants.{DefaultSize, TickRate}
     export model.{World, Block, Grid, Formulas, Shape, Sizes, Tone, Game}
-    export view.{WorldRenderer}
+    export view.WorldRenderer
     export controller.React

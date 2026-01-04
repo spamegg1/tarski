@@ -3,28 +3,29 @@ package view
 
 /** Main renderer for the world that displays everything: the board, formulas, and all the buttons.
   *
+  * @param opBtn
+  *   An instance of [[OpButtons]].
+  * @param nameBtn
+  *   An instance of [[NameButtons]].
+  * @param sizeBtn
+  *   An instance of [[SizeButtons]].
+  * @param colBtn
+  *   An instance of [[ColorButtons]].
+  * @param shapeBtn
+  *   An instance of [[ShapeButtons]].
+  * @param ui
+  *   An instance of [[UI]] needed for block positions.
   * @param c
-  *   A given instance of [[Constants]] needed for converters, all the buttons, utility and UI.
+  *   A given instance of [[Constants]]
   */
-class WorldRenderer(using c: Constants):
-  /** An instance of [[OPButtons]] summoned here for Eval, Add, Move, Del buttons. */
-  private val opBtn = summon[OpButtons]
-
-  /** An instance of [[NameButtons]] summoned here for the 6 name buttons. */
-  private val nameBtn = summon[NameButtons]
-
-  /** An instance of [[SizeButtons]] summoned here for the 3 size buttons. */
-  private val sizeBtn = summon[SizeButtons]
-
-  /** An instance of [[ColorButtons]] summoned here for the 3 color buttons. */
-  private val colBtn = summon[ColorButtons]
-
-  /** An instance of [[ShapeButtons]] summoned here for the 3 shape buttons. */
-  private val shapeBtn = summon[ShapeButtons]
-
-  /** An instance of [[UI]] summoned here to calculate positions. */
-  private val ui = summon[UI]
-
+case class WorldRenderer(
+    opBtn: OpButtons,
+    nameBtn: NameButtons,
+    sizeBtn: SizeButtons,
+    colBtn: ColorButtons,
+    shapeBtn: ShapeButtons,
+    ui: UI
+)(using c: Constants):
   /** Displays the block on the user interface controls.
     *
     * @param ct
@@ -117,3 +118,24 @@ class WorldRenderer(using c: Constants):
       .on:
         formulaDisplay(world.formulas)
           .at(c.FormulaOrigin)
+
+/** Companion object for [[WorldRenderer]] that contains a convenient alternate constructor.
+  */
+object WorldRenderer:
+  /** Convenient alternate constructor that only requires [[Constants]] and sets up all the [[Utility]], [[UI]] and all
+    * the button class instances.
+    *
+    * @param c
+    *   A given instance of [[Constants]].
+    * @return
+    *   An instance of [[WorldRenderer]].
+    */
+  def apply(using c: Constants): WorldRenderer =
+    val util     = new Utility
+    val ui       = new UI
+    val opBtn    = OpButtons(util, ui)
+    val nameBtn  = NameButtons(util)
+    val sizeBtn  = SizeButtons(util, ui)
+    val colBtn   = ColorButtons(util, ui)
+    val shapeBtn = ShapeButtons(util, ui)
+    WorldRenderer(opBtn, nameBtn, sizeBtn, colBtn, shapeBtn, ui)
