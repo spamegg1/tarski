@@ -88,7 +88,9 @@ object Converter:
   /** Converts between [[model.Pos]] and [[doodle.core.Point]] for the user interface controls. Used in [[view]]. */
   def ui(using c: Constants) = Converter(c.UIDims, UISize)
 
-  /** Used in [[Handler]] to look up which grid position on the user interface controls corresponds to which button. */
+  /** Used in [[WorldHandler]] to look up which grid position on the user interface controls corresponds to which
+    * button.
+    */
   val uiMap = Map[Pos, String](
     (0, 0)  -> "Eval",
     (0, 1)  -> "Eval",
@@ -124,6 +126,8 @@ object Converter:
     (1, 15) -> "Block"
   )
 
+  /** Used in [[GameHandler]] to look up which grid position on the user interface controls corresponds to which button.
+    */
   val gameMap = Map[Pos, String](
     (0, 0)  -> "Left",
     (0, 1)  -> "Left",

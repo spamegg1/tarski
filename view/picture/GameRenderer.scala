@@ -3,10 +3,15 @@ package view
 
 /** Main renderer for the game that displays everything: the board, messages, and all the buttons.
   *
+  * @param opBtn
+  * @param nameBtn
+  * @param sizeBtn
+  * @param colBtn
+  * @param shapeBtn
+  * @param ui
   * @param c
-  *   A given instance of [[Constants]] needed for converters, all the buttons, utility and UI.
   */
-class GameRenderer(
+case class GameRenderer(
     opBtn: OpButtons,
     nameBtn: NameButtons,
     sizeBtn: SizeButtons,
