@@ -25,17 +25,16 @@ case class WorldRenderer(
     colBtn: ColorButtons,
     shapeBtn: ShapeButtons,
     ui: UI
-)(using c: Constants):
-  /** Displays the block on the user interface controls.
+)(using c: Constants)
+    extends BoardRenderer(ui):
+  /** Displays the selected block on the user interface controls.
     *
     * @param ct
     *   A [[Controls]] instance, normally coming from a [[World]].
     * @return
-    *   An image of the block obtained from the attributes in [[Controls]], or an empty image if not all attributes are
-    *   set.
+    *   An image of the selected block block, or an empty image if not all attributes are set.
     */
-  private def selectedBlock(ct: Controls): Image =
-    Imager(Block.fromControls(ct)).at(ui.blockPt)
+  private def selectedBlock(ct: Controls): Image = renderBlock(Block.fromControls(ct))
 
   /** Draws all the buttons of the user interface controls.
     *
@@ -69,37 +68,6 @@ case class WorldRenderer(
     .foldLeft[Image](Image.empty):
       case (image, (formula, result)) =>
         image.above(Imager(formula).beside(Imager(result)))
-
-  /** Draws a red indicator box around the selected position on the board.
-    *
-    * @param pos
-    *   The position of the selected square on the chess board.
-    * @return
-    *   A red-edged, empty square to fit around the selected square on the chess board.
-    */
-  private def selectedPos(pos: Option[Pos]): Image =
-    pos match
-      case None      => Image.empty
-      case Some(pos) =>
-        Image
-          .rectangle(Converter.board.blockWidth, Converter.board.blockHeight)
-          .strokeColor(Color.red)
-          .strokeWidth(c.SmallStroke)
-          .at(Converter.board.toPoint(pos))
-
-  /** Draws all the blocks on the chess board.
-    *
-    * @param grid
-    *   A map of positions and blocks
-    * @return
-    *   An image of the chess board, with blocks at their positions.
-    */
-  private def blocksOnBoard(board: Board): Image = board.grid
-    .foldLeft[Image](c.Board):
-      case (image, (pos, (block, name))) =>
-        Imager(block)
-          .at(Converter.board.toPoint(pos))
-          .on(image)
 
   /** Draws the entire Tarski's world application.
     *

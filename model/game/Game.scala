@@ -23,7 +23,7 @@ type Step = (play: Play, msgs: Messages)
   * @param board
   *   The board that holds the blocks for the game.
   */
-case class Game(step: Step, prev: List[Step] = Nil, pos: Select[Pos] = Off, board: Board):
+case class Game(step: Step, board: Board, prev: List[Step] = Nil, pos: Select[Pos] = Off):
   import Select.*
 
   /** Used to change the position when the user clicks on the board. If the user clicked on an empty spot with no block,
@@ -61,3 +61,12 @@ case class Game(step: Step, prev: List[Step] = Nil, pos: Select[Pos] = Off, boar
     *   New game that advances the state of play to the given play and messages.
     */
   def addStep(play: Play, msgs: Messages) = copy(step = (play, msgs), prev = step :: prev)
+
+  /** Looks up the block at selected position on the board.
+    *
+    * @return
+    *   The block at selected position on the board, if any.
+    */
+  def getBlock: Option[Block] = pos.opt match
+    case None    => None
+    case Some(p) => board.grid.get(p).map(_.block)

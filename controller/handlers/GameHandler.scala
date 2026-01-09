@@ -98,8 +98,8 @@ object GameHandler:
     *   New state of the game, depending on the commitment and formula.
     */
   private def handleOK(game: Game): Game = game match
-    case Game((Play(All(x, f), Some(false), _, _), _), _, On(pos), _) => subst(game, x, f, pos)
-    case Game((Play(Ex(x, f), Some(true), _, _), _), _, On(pos), _)   => subst(game, x, f, pos)
+    case Game((Play(All(x, f), Some(false), _, _), _), _, _, On(pos)) => subst(game, x, f, pos)
+    case Game((Play(Ex(x, f), Some(true), _, _), _), _, _, On(pos))   => subst(game, x, f, pos)
 
     case Game((Play(All(x, f), Some(true), _, _), _), _, _, _) =>
       given nm: NameMap = game.board.grid.toNameMap
@@ -112,7 +112,7 @@ object GameHandler:
       val newMsgs  = generateMessages(nextPlay, Off)(using game.board)
       game.addStep(nextPlay, newMsgs)
 
-    case Game((Play(Ex(x, f), Some(false), _, _), _), _, On(pos), _) =>
+    case Game((Play(Ex(x, f), Some(false), _, _), _), _, _, On(pos)) =>
       given nm: NameMap = game.board.grid.toNameMap
       val choice        = nm.keys
         .map(name => name -> Interpreter.eval(f.sub(x, name)))

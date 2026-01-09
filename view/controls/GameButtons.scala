@@ -27,7 +27,7 @@ case class GameButtons(util: Utility, gameUI: GameUI)(using Constants):
     * @return
     *   A button displaying the formula at the bottom left quarter of the game UI.
     */
-  def rightButton(rightOpt: Option[FOLFormula]) = util.button(rightOpt.show, gameUI.rightPt, 11)
+  def bot(rightOpt: Option[FOLFormula]) = util.button(rightOpt.show, gameUI.rightPt, 11)
 
   /** The button for the `True` commitment. */
   val trueButton = util.button("True", gameUI.truePt, 2)

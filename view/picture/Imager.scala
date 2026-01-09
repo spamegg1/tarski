@@ -4,12 +4,12 @@ package view
 /** Converts every type of object to an image. */
 object Imager:
   /** Type alias for all the types that can be converted to an image. */
-  private type Obj = Block | FOLFormula | Result
+  private type Obj = Block | FOLFormula | Result | Message
 
   /** Converts an [[Obj]] to a [[doodle.image.Image]].
     *
     * @param o
-    *   An instance of [[Block]], [[FOLFormula]] or [[Result]].
+    *   An instance of [[Block]], [[FOLFormula]], [[Result]] or [[Message]].
     * @param c
     *   A given instance of [[Constants]], needed for the fonts.
     * @return
@@ -31,6 +31,7 @@ object Imager:
           case Result.Valid   => Text(" T").font(c.BoldFont).strokeColor(Color.green)
           case Result.Invalid => Text(" F").font(c.BoldFont).strokeColor(Color.red)
           case Result.Error   => Text("Err").font(c.BoldFont).strokeColor(Color.darkRed)
+      case msg: Message => Text(msg).font(c.TheFont)
   end apply
 
   /** Alternate imaging method for possibly missing objects. For example, [[Controls]] does not display a block unless

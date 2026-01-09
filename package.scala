@@ -41,7 +41,8 @@ package tarski:
     export doodle.image.Image, Image.Elements.Text
     export gapt.expr.formula.fol.FOLFormula
     export constants.Constants
-    export model.{Pos, Board, World, Sizes, Tone, Result, Formulas, Controls, Names, Status, Shape, Block}
+    export model.{Pos, Board, World, Sizes, Tone, Result, Controls}
+    export model.{Formulas, Names, Status, Shape, Block, Game, Message, Messages}
     export controller.Converter
 
   /** This package tests [[World]] from [[model]], and [[Converter]], [[Handler]] and [[Interpreter]] from
@@ -66,6 +67,6 @@ package tarski:
     export doodle.reactor.Reactor
     export doodle.java2d.{java2dAnimationRenderer, java2dCanvasAlgebra, java2dRenderer}
     export constants.Constants, Constants.{DefaultSize, TickRate}
-    export model.{World, Block, Grid, Formulas, Shape, Sizes, Tone, Game}
-    export view.WorldRenderer
+    export model.{World, Block, Board, Grid, Formulas, Shape, Sizes, Tone, Game, Play}
+    export view.{WorldRenderer, GameRenderer}
     export controller.React

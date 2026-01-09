@@ -30,15 +30,15 @@ def playGame(grid: Grid, formula: FOLFormula, scaleFactor: Double = 1.0): Unit =
   require(scaleFactor > 0.0)
   // val nameMap        = grid.toNameGrid.toNameMap
   given c: Constants = Constants(DefaultSize * scaleFactor)
-  val game: Game     = ???
-  val render         = WorldRenderer.apply
+  val game: Game     = Game((Play(formula), Nil), Board.fromGrid(grid))
+  val render         = GameRenderer.apply
   Reactor
     .init[Game](game)
     .withOnTick(React.tick)
-    .withOnMouseClick(???)
+    .withOnMouseClick(React.clickGame)
     .withOnMouseMove(React.move)
     .withStop(React.stop)
-    .withRender(???)
+    .withRender(render.all)
     .withTickRate(TickRate)
     .animateWithFrame(c.MainFrame)
 
