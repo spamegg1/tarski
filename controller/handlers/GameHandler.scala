@@ -4,7 +4,7 @@ package controller
 object GameHandler:
   import Select.*
 
-  /** We can click on the board only when we are asked to pick an object for a false universal formula, or a true
+  /** We can click on the board only when we are asked to pick an object for a false universal formula or a true
     * existential formula. In this case, the game's `pos` [[Select]] state must be `Wait` or `On`. Otherwise, clicking
     * on the board has no effect.
     *
@@ -35,12 +35,38 @@ object GameHandler:
       case None        => game
       case Some(value) => // make sure a button is clicked
         value match
+          case "True" | "False" => handleStart(value, game)
           case "Left" | "Right" => handleChoice(value, game)
           case "Back"           => handleBack(game)
           case "OK"             => handleOK(game)
-          case "Commit"         => game
           case "Block"          => game
           case _                => game
+
+  /** Handles what happens when the user clicks on the True/False buttons.
+    *
+    * We can only click the True/False buttons if `commitment` is set to `None`, i.e. we are at the very beginning of
+    * the game.
+    *
+    * @param choice
+    *   Either `"True"` or `"False"`.
+    * @param game
+    *   Current state of the game.
+    * @return
+    *   New state of the game that sets the user's commitment and starts the game.
+    */
+  def handleStart(choice: String, game: Game): Game = game.step.play.commitment match
+    case Some(_) => game // commitment is already set, we cannot click
+    case None    =>
+      choice match
+        case "True" =>
+          val nextPlay = game.step.play.commitTo(true)
+          val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
+          game.addStep(nextPlay, nextMsgs)
+        case "False" =>
+          val nextPlay = game.step.play.commitTo(false)
+          val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
+          game.addStep(nextPlay, nextMsgs)
+        case _ => game
 
   /** Handles what happens when the user clicks on one of the two choice buttons.
     *
@@ -71,8 +97,8 @@ object GameHandler:
       case (Play(Or(a, b), Some(true), Some(l), Some(_)), "Left")    => play.setFormula(l)
       case (Play(Or(a, b), Some(true), Some(_), Some(r)), "Right")   => play.setFormula(r)
       case _                                                         => play
-    val newMsgs = generateMessages(nextPlay, game.pos)(using game.board)
-    game.addStep(nextPlay, newMsgs)
+    val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
+    game.addStep(nextPlay, nextMsgs)
 
   /** Moves the game back in time by one step.
     *
@@ -109,8 +135,8 @@ object GameHandler:
         case None            => nm.keys.head
         case Some((name, _)) => name
       val nextPlay = game.step.play.sub(choice, x, f)
-      val newMsgs  = generateMessages(nextPlay, Off)(using game.board)
-      game.addStep(nextPlay, newMsgs)
+      val nextMsgs = generateMessages(nextPlay, Off)(using game.board)
+      game.addStep(nextPlay, nextMsgs)
 
     case Game((Play(Ex(x, f), Some(false), _, _), _), _, _, On(pos)) =>
       given nm: NameMap = game.board.grid.toNameMap
@@ -120,37 +146,37 @@ object GameHandler:
         case None            => nm.keys.head
         case Some((name, _)) => name
       val nextPlay = game.step.play.sub(choice, x, f)
-      val newMsgs  = generateMessages(nextPlay, Off)(using game.board)
-      game.addStep(nextPlay, newMsgs)
+      val nextMsgs = generateMessages(nextPlay, Off)(using game.board)
+      game.addStep(nextPlay, nextMsgs)
 
     case Game((Play(Neg(_), _, _, _), _), _, _, _) =>
       val nextPlay = game.step.play.negate
-      val newMsgs  = generateMessages(nextPlay, game.pos)(using game.board)
-      game.addStep(nextPlay, newMsgs)
+      val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
+      game.addStep(nextPlay, nextMsgs)
 
     case Game((Play(And(a, b), Some(true), _, _), _), _, _, _) =>
       val evalA    = Interpreter.eval(a)(using game.board)
       val choice   = if evalA then b else a
       val nextPlay = game.step.play.setFormula(choice)
-      val newMsgs  = generateMessages(nextPlay, game.pos)(using game.board)
-      game.addStep(nextPlay, newMsgs)
+      val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
+      game.addStep(nextPlay, nextMsgs)
 
     case Game((Play(Or(a, b), Some(false), _, _), _), _, _, _) =>
       val evalA    = Interpreter.eval(a)(using game.board)
       val choice   = if evalA then a else b
       val nextPlay = game.step.play.setFormula(choice)
-      val newMsgs  = generateMessages(nextPlay, game.pos)(using game.board)
-      game.addStep(nextPlay, newMsgs)
+      val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
+      game.addStep(nextPlay, nextMsgs)
 
     case Game((Play(Imp(a, b), _, _, _), _), _, _, _) =>
       val nextPlay = game.step.play.setFormula(Or(Neg(a), b))
-      val newMsgs  = generateMessages(nextPlay, game.pos)(using game.board)
-      game.addStep(nextPlay, newMsgs)
+      val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
+      game.addStep(nextPlay, nextMsgs)
 
     case Game((Play(Iff(a: FOLFormula, b: FOLFormula), _, _, _), _), _, _, _) =>
       val nextPlay = game.step.play.setFormula(And(Imp(a, b), Imp(b, a)))
-      val newMsgs  = generateMessages(nextPlay, game.pos)(using game.board)
-      game.addStep(nextPlay, newMsgs)
+      val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
+      game.addStep(nextPlay, nextMsgs)
 
     case _ => game
 
@@ -173,8 +199,8 @@ object GameHandler:
       case None                => game
       case Some((block, name)) =>
         val nextPlay = game.step.play.sub(name, x, f)
-        val newMsgs  = generateMessages(nextPlay, Off)(using game.board)
-        game.addStep(nextPlay, newMsgs).unsetPos
+        val nextMsgs = generateMessages(nextPlay, Off)(using game.board)
+        game.addStep(nextPlay, nextMsgs).unsetPos
 
   /** Generates messages to be displayed to the user about the current state of the game.
     *
@@ -249,7 +275,7 @@ object GameHandler:
           case None            => nm.keys.head
           case Some((name, _)) => name
         val msg3 = s"I choose $choice as my counterexample"
-        msg3 :: msg1 :: msg2 :: Nil
+        msg1 :: msg2 :: msg3 :: Nil
 
       case (Some(false), All(x, f)) =>
         pos match
@@ -278,7 +304,7 @@ object GameHandler:
           case None            => nm.keys.head
           case Some((name, _)) => name
         val msg3 = s"I choose $choice as an instance that satisfies it"
-        msg3 :: msg1 :: msg2 :: Nil
+        msg1 :: msg2 :: msg3 :: Nil
 
       case _ => Nil
   end generateMessages

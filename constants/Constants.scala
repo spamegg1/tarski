@@ -68,7 +68,7 @@ case class Constants(size: Double):
   /** Width of the interface, based on [[size]] and number of columns on the board. */
   private val Width = size * 2 * Constants.BoardSize.cols
 
-  /** Used to scale the font size according to interface dimensions. */
+  /** Scales the font size according to interface dimensions. */
   private val Pts = (Width * 0.015625).toInt
 
   /** Size of small blocks, used in the enum [[model.Sizes]]. */

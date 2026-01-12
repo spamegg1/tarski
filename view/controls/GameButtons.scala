@@ -20,14 +20,16 @@ case class GameButtons(util: Utility, gameUI: GameUI)(using Constants):
     */
   def top(leftOpt: Option[FOLFormula]) = util.button(leftOpt.show, gameUI.leftPt, 11)
 
-  /** The bottom formula choice button, for the `right` formula in a [[Play]].
+  /** The bottom formula choice button, for the `right` formula in a [[Play]]. It does double duty by also displaying
+    * the current formula when a choice is not present.
     *
-    * @param rightOpt
-    *   An optional `FOLFormula`. Normally comes from [[Play.right]].
+    * @param rightOrF
+    *   An `FOLFormula`. Normally comes from [[Play.right]] or [[Play.formula]].
     * @return
-    *   A button displaying the formula at the bottom left quarter of the game UI.
+    *   A button displaying either one of the 2 choices, or the current formula, at the bottom left quarter of the game
+    *   UI.
     */
-  def bot(rightOpt: Option[FOLFormula]) = util.button(rightOpt.show, gameUI.rightPt, 11)
+  def bot(rightOrF: FOLFormula) = util.button(rightOrF.toUntypedString, gameUI.rightPt, 11)
 
   /** The button for the `True` commitment. */
   val trueButton = util.button("True", gameUI.truePt, 2)

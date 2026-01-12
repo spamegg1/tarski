@@ -18,7 +18,7 @@ case class GameRenderer(gameBtn: GameButtons, ui: UI)(using c: Constants) extend
   private def renderUI(game: Game) =
     gameBtn
       .top(game.step.play.left)
-      .on(gameBtn.bot(game.step.play.right))
+      .on(gameBtn.bot(game.step.play.show))
       .on(gameBtn.trueButton)
       .on(gameBtn.falseButton)
       .on(gameBtn.backButton)

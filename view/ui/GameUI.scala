@@ -1,8 +1,9 @@
 package tarski
 package view
 
-/** Contains a mapping between game UI button names and their grid positions. Used by the companion class. */
+/** Contains values used by the companion class. */
 object GameUI:
+  /** A mapping between game UI button names and their grid positions. */
   val grid = Map[String, Pos](
     "Left"  -> (0, 5),
     "True"  -> (0, 11),

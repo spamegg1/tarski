@@ -8,8 +8,8 @@ package main
   * @param formulas
   *   A sequence of first-order formulas.
   * @param scaleFactor
-  *   Used to scale the user interface size. Must be positive. Default is 1.0, which results in a 1600 x 800 window.
-  *   Provide values < 1.0 to make it smaller, > 1.0 to make it bigger.
+  *   Scales the user interface size. Must be positive. Default is 1.0, which results in a 1600 x 800 window. Provide
+  *   values < 1.0 to make it smaller, > 1.0 to make it bigger.
   */
 def runWorld(grid: Grid = Grid.empty, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
   require(scaleFactor > 0.0)
@@ -28,9 +28,8 @@ def runWorld(grid: Grid = Grid.empty, formulas: Seq[FOLFormula], scaleFactor: Do
 
 def playGame(grid: Grid, formula: FOLFormula, scaleFactor: Double = 1.0): Unit =
   require(scaleFactor > 0.0)
-  // val nameMap        = grid.toNameGrid.toNameMap
   given c: Constants = Constants(DefaultSize * scaleFactor)
-  val game: Game     = Game((Play(formula), Nil), Board.fromGrid(grid))
+  val game           = Game(formula, grid)
   val render         = GameRenderer.apply
   Reactor
     .init[Game](game)
