@@ -62,7 +62,7 @@ You can read more about each module at:
 
 ## Installation
 
-Current version is 0.1.7 (Dec 09, 2025). Released for Scala 3 only.
+Current version is 0.1.8 (Jan 27, 2026). Released for Scala 3 only.
 
 You will need a JVM, and Scala 3. [This](https://www.scala-lang.org/download/)
 should give you everything you need.
@@ -76,13 +76,13 @@ Also you'll need an IDE:
 For Scala-cli (or just plain `scala`), add to your `project.scala` (or any file):
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.1.7
+//> using dep io.github.spamegg1::tarski:0.1.8
 ```
 
 For SBT, add to your `build.sbt`:
 
 ```scala
-libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.1.7"
+libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.1.8"
 ```
 
 ## API Docs
@@ -92,6 +92,9 @@ Can be found at [Javadoc](https://javadoc.io/doc/io.github.spamegg1/tarski_3/lat
 ## Usage
 
 To get a quick look and feel, you can execute `tarski.main.Example.runExample`.
+
+To play a quick game, you can execute `tarski.main.Example.playGame`.
+See below for more on game mode.
 
 Tarski's world is intended to be used interactively inside an IDE
 such as IntelliJ or Visual Studio Code.
@@ -108,7 +111,7 @@ You will see the interactive window like the one above in the video.
 Here are the details:
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.1.7
+//> using dep io.github.spamegg1::tarski:0.1.8
 
 import tarski.main.*, Shape.*, Sizes.*, Tone.*
 
@@ -142,7 +145,6 @@ def run = runWorld(grid, formulas, 1.0)
 ```
 
 You can add or remove blocks interactively.
-Unfortunately editing the formulas inside the interface is not supported yet.
 To edit the formulas, close the window, edit them in your IDE, then restart.
 
 ### Imports
@@ -234,6 +236,34 @@ The following predicates are supported:
 |Syntax|Semantics|
 |:-|:-|
 |`Btw(x, y, z)`|"x is between y and z (vertically, horizontally or diagonally)"|
+
+## Game mode
+
+<https://github.com/user-attachments/assets/b9b08a2d-42dd-4ec4-882c-3fd1d41cf307>
+
+You can play a game against Tarski's world to defend your position
+about the truth of a formula in a world.
+You need a grid and a formula, then run `playGame` with them:
+
+```scala
+//> using dep io.github.spamegg1::tarski:0.1.8
+
+import tarski.main.*, Shape.*, Sizes.*, Tone.*
+
+val grid: Grid = Map(
+  (1, 2) -> Block(Sml, Tri, Lim, "a"),
+  (4, 3) -> Block(Mid, Tri, Blu),
+  (5, 6) -> Block(Big, Cir, Red, "d"),
+  (6, 3) -> Block(Sml, Sqr, Blu)
+)
+
+val formula = fof"∀x ∃y (More(x, y) ∨ Abv(y, x))"
+
+// The interface is 1600x800 by default.
+// if the interface is too small or too large, try a different scale factor than 1.0:
+@main
+def run = playGame(grid, formula, 1.0)
+```
 
 ## Exercises
 
