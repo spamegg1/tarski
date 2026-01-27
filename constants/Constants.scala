@@ -111,7 +111,7 @@ case class Constants(size: Double):
   val TheFont = Font(FontFamily.named(Family), FontStyle.normal, FontWeight.normal, FontSize.points(Pts))
 
   /** Bold font. */
-  val BoldFont = TheFont.weight(FontWeight.bold)
+  val BoldFont = TheFont.withBold
 
   /** Dimensions of the chess board that holds the blocks. */
   val BoardDims = (h = Height, w = Width * 0.5)
