@@ -78,7 +78,7 @@ object Example:
     fof"Happy(c)" // error
   )
 
-  private val formula = fof"∀x ∃y More(x, y)"
+  private val formula = fof"∀x ∃y (More(x, y) ∨ Abv(y, x))"
 
   /** Runs the example world. */
   @main

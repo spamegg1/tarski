@@ -29,7 +29,31 @@ case class Play(
     * @return
     *   New state of play updated with the given commitment.
     */
-  def commitTo(commit: Boolean) = copy(commitment = Some(commit))
+  def commitTo(commit: Boolean) = copy(commitment = Some(commit)).checkChoice
+
+  /** Checks if we should wait for user input for the board position
+    *
+    * We wait for user input if the formula is a true existential, or a false universal.
+    *
+    * @return
+    *   `true` if we have to wait for user input, `false` otherwise.
+    */
+  def checkWait = (commitment, formula) match
+    case (Some(true), Ex(x, f))   => true
+    case (Some(false), All(x, f)) => true
+    case _                        => false
+
+  /** Checks if we have to wait for user input for the formula selection, and sets up the two choices.
+    *
+    * We have to wait for user input if the formula is a true Or, or a false And.
+    *
+    * @return
+    *   A copy of this `Play`, with `left` and `right` set accordingly if needed, unchanged otherwise.
+    */
+  def checkChoice = (commitment, formula) match
+    case (Some(true), Or(a, b))   => copy(left = Some(a), right = Some(b))
+    case (Some(false), And(a, b)) => copy(left = Some(a), right = Some(b))
+    case _                        => this
 
   /** Advances the state of play when the user selects one of two formulas.
     *
@@ -38,7 +62,7 @@ case class Play(
     * @return
     *   New state of play where the formula is updated and left/right are both set to `None`.
     */
-  def setFormula(f: FOLFormula) = copy(left = None, right = None, formula = f)
+  def setFormula(f: FOLFormula) = copy(left = None, right = None, formula = f).checkChoice
 
   /** The formula to be displayed at bottom, depending on whether a choice is pending.
     *
@@ -61,7 +85,7 @@ case class Play(
     * @return
     *   New state of play where the formula has its free occurrences of `x` replaced by the given name.
     */
-  def sub(c: Name, x: FOLVar, f: FOLFormula) = copy(formula = f.sub(x, c))
+  def sub(c: Name, x: FOLVar, f: FOLFormula) = copy(formula = f.sub(x, c)).checkChoice
 
   /** Advances the play to the next state when the formula is a negation.
     *
@@ -69,5 +93,5 @@ case class Play(
     *   New state of play where commitment is reversed and negation is eliminated from the formula.
     */
   def negate = (formula, commitment) match
-    case (Neg(f), Some(commit)) => copy(formula = f, commitment = Some(!commit))
+    case (Neg(f), Some(commit)) => copy(formula = f, commitment = Some(!commit)).checkChoice
     case _                      => this

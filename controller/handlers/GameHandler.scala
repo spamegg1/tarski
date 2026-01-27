@@ -138,7 +138,7 @@ object GameHandler:
       val nextMsgs = generateMessages(nextPlay, Off)(using game.board)
       game.addStep(nextPlay, nextMsgs)
 
-    case Game((Play(Ex(x, f), Some(false), _, _), _), _, _, On(pos)) =>
+    case Game((Play(Ex(x, f), Some(false), _, _), _), _, _, _) =>
       given nm: NameMap = game.board.grid.toNameMap
       val choice        = nm.keys
         .map(name => name -> Interpreter.eval(f.sub(x, name)))
@@ -224,34 +224,38 @@ object GameHandler:
       case (Some(true), And(a, b)) =>
         val evalA  = Interpreter.eval(a)
         val choice = if evalA then b else a
-        val msg1   = s"You believe both $a and $b are true."
-        val msg2   = s"I choose $choice as false."
-        msg1 :: msg2 :: Nil
+        val msg1   = s"You believe both are true:"
+        val msg2   = s"$a and $b"
+        val msg3   = s"I choose $choice as false."
+        msg1 :: msg2 :: msg3 :: Nil
 
       case (Some(false), And(a, b)) =>
         pos match
           case Off =>
-            val msg1 = s"You believe one of $a or $b is ${play.commitment}."
-            val msg2 = s"Choose a ${play.commitment} formula above."
-            msg1 :: msg2 :: Nil
+            val msg1 = s"You believe at least one is false:"
+            val msg2 = s"$a or $b"
+            val msg3 = s"Choose a false formula above."
+            msg1 :: msg2 :: msg3 :: Nil
           case Wait  => Nil
           case On(_) => Nil
 
       case (Some(true), Or(a, b)) =>
         pos match
           case Off =>
-            val msg1 = s"You believe one of $a or $b is ${play.commitment}."
-            val msg2 = s"Choose a ${play.commitment} formula above."
-            msg1 :: msg2 :: Nil
+            val msg1 = s"You believe one of these is true:"
+            val msg2 = s"$a or $b"
+            val msg3 = s"Choose a true formula above."
+            msg1 :: msg2 :: msg3 :: Nil
           case Wait  => Nil
           case On(_) => Nil
 
       case (Some(false), Or(a, b)) =>
         val evalA  = Interpreter.eval(a)
         val choice = if evalA then a else b
-        val msg1   = s"You believe both $a and $b are false."
-        val msg2   = s"I choose $choice as true."
-        msg1 :: msg2 :: Nil
+        val msg1   = s"You believe both are false:"
+        val msg2   = s"$a and $b"
+        val msg3   = s"I choose $choice as true."
+        msg1 :: msg2 :: msg3 :: Nil
 
       case (Some(commit), Neg(a)) => s"You believe ${play.formula} is $commit." :: Nil
 
@@ -267,8 +271,8 @@ object GameHandler:
         msg1 :: msg2 :: Nil
 
       case (Some(true), All(x, f)) =>
-        val msg1   = s"You believe ${play.formula} is true."
-        val msg2   = s"You believe every object [${x.name}] satisfies $f"
+        val msg1   = s"You believe every object [${x.name}] satisfies:"
+        val msg2   = s"${f.toUntypedString}"
         val choice = nm.keys
           .map(name => name -> Interpreter.eval(f.sub(x, name)))
           .find(!_._2) match
@@ -280,30 +284,32 @@ object GameHandler:
       case (Some(false), All(x, f)) =>
         pos match
           case Off =>
-            val msg1 = s"You believe some object [${x.name}] falsifies $f"
-            val msg2 = s"Click on a block, then click OK"
-            msg1 :: msg2 :: Nil
+            val msg1 = s"You believe some object [${x.name}] falsifies:"
+            val msg2 = s"${f.toUntypedString}"
+            val msg3 = s"Click on a block, then click OK"
+            msg1 :: msg2 :: msg3 :: Nil
           case Wait     => Nil
           case On(name) => Nil
 
       case (Some(true), Ex(x, f)) =>
         pos match
           case Off =>
-            val msg1 = s"You believe some object [${x.name}] satisfies $f"
-            val msg2 = s"Click on a block, then click OK"
-            msg1 :: msg2 :: Nil
+            val msg1 = s"You believe some object [${x.name}] satisfies:"
+            val msg2 = s"${f.toUntypedString}"
+            val msg3 = s"Click on a block, then click OK"
+            msg1 :: msg2 :: msg3 :: Nil
           case Wait     => Nil
           case On(name) => Nil
 
       case (Some(false), Ex(x, f)) =>
-        val msg1   = s"You believe ${play.formula} is false."
-        val msg2   = s"You believe no object [${x.name}] satisfies $f"
+        val msg1   = s"You believe no object [${x.name}] satisfies:"
+        val msg2   = s"${f.toUntypedString}"
         val choice = nm.keys
           .map(name => name -> Interpreter.eval(f.sub(x, name)))
           .find(_._2) match
           case None            => nm.keys.head
           case Some((name, _)) => name
-        val msg3 = s"I choose $choice as an instance that satisfies it"
+        val msg3 = s"I choose $choice as an example"
         msg1 :: msg2 :: msg3 :: Nil
 
       case _ => Nil

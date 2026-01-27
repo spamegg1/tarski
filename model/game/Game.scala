@@ -23,7 +23,7 @@ type Step = (play: Play, msgs: Messages)
   * @param board
   *   The board that holds the blocks for the game.
   */
-case class Game(step: Step, board: Board, prev: List[Step] = Nil, pos: Select[Pos] = Off):
+case class Game(step: Step, board: Board, prev: List[Step], pos: Select[Pos]):
   import Select.*
 
   /** Changes the position when the user clicks on the board. Does not advance the step or produce messages.
@@ -60,7 +60,7 @@ case class Game(step: Step, board: Board, prev: List[Step] = Nil, pos: Select[Po
     *   State of the immediately previous game, if available.
     */
   def rewind = prev match
-    case head :: next => copy(step = head, prev = next)
+    case head :: next => copy(step = head, prev = next).checkAndSetWait
     case Nil          => this
 
   /** Advances the game forward by adding one step.
@@ -72,7 +72,14 @@ case class Game(step: Step, board: Board, prev: List[Step] = Nil, pos: Select[Po
     * @return
     *   New game that advances the state of play to the given play and messages.
     */
-  def addStep(play: Play, msgs: Messages) = copy(step = (play, msgs), prev = step :: prev)
+  def addStep(play: Play, msgs: Messages) = copy(step = (play, msgs), prev = step :: prev).checkAndSetWait
+
+  /** Checks if the formula puts us in a `Wait` state for the board position, and sets `pos` to `Wait` accordingly.
+    *
+    * @return
+    *   A copy of this game, with `pos` set to `Wait` if needed, not changed if not needed.
+    */
+  def checkAndSetWait = if step.play.checkWait then waitPos else this
 
   /** Looks up the block at selected position on the board.
     *
@@ -97,4 +104,4 @@ object Game:
     *   The initial state of a [[Game]] with given formula and given grid used as the board.
     */
   def apply(formula: FOLFormula, grid: Grid): Game =
-    Game((play = Play(formula), msgs = initMsgs), Board.fromGrid(grid))
+    new Game((play = Play(formula), msgs = initMsgs), Board.fromGrid(grid), Nil, Off)
