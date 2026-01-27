@@ -74,6 +74,7 @@ case class Converter(dims: Dims, gs: GridSize):
     val row = (top - point.y) / blockHeight
     val col = (-left + point.x) / blockWidth
     (row.toInt, col.toInt)
+end Converter
 
 /** Contains [[Converter]] instances for the board and the user interface, along with a mapping between grid positions
   * and UI control buttons.
@@ -87,7 +88,9 @@ object Converter:
   /** Converts between [[model.Pos]] and [[doodle.core.Point]] for the user interface controls. Used in [[view]]. */
   def ui(using c: Constants) = Converter(c.UIDims, UISize)
 
-  /** Used in [[Handler]] to look up which grid position on the user interface controls corresponds to which button. */
+  /** Used in [[WorldHandler]] to look up which grid position on the user interface controls corresponds to which
+    * button.
+    */
   val uiMap = Map[Pos, String](
     (0, 0)  -> "Eval",
     (0, 1)  -> "Eval",
@@ -122,3 +125,41 @@ object Converter:
     (1, 14) -> "Block",
     (1, 15) -> "Block"
   )
+
+  /** Used in [[GameHandler]] to look up which grid position on the user interface controls corresponds to which button.
+    */
+  val gameMap = Map[Pos, String](
+    (0, 0)  -> "Left",
+    (0, 1)  -> "Left",
+    (0, 2)  -> "Left",
+    (0, 3)  -> "Left",
+    (0, 4)  -> "Left",
+    (0, 5)  -> "Left",
+    (0, 6)  -> "Left",
+    (0, 7)  -> "Left",
+    (0, 8)  -> "Left",
+    (0, 9)  -> "Left",
+    (0, 10) -> "Left",
+    (0, 11) -> "True",
+    (0, 12) -> "True",
+    (0, 13) -> "Back",
+    (0, 14) -> "Block",
+    (0, 15) -> "Block",
+    (1, 0)  -> "Right",
+    (1, 1)  -> "Right",
+    (1, 2)  -> "Right",
+    (1, 3)  -> "Right",
+    (1, 4)  -> "Right",
+    (1, 5)  -> "Right",
+    (1, 6)  -> "Right",
+    (1, 7)  -> "Right",
+    (1, 8)  -> "Right",
+    (1, 9)  -> "Right",
+    (1, 10) -> "Right",
+    (1, 11) -> "False",
+    (1, 12) -> "False",
+    (1, 13) -> "OK",
+    (1, 14) -> "Block",
+    (1, 15) -> "Block"
+  )
+end Converter

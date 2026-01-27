@@ -12,7 +12,7 @@ object Name:
   /** An internal counter used to generate distinct names for every block. */
   private var counter = -1
 
-  /** Generates a "fake" name for a blocks that does not have one of the labels `"a", "b", "c", "d", "e", "f"`. This is
+  /** Generates a "fake" name for a block that does not have one of the labels `"a", "b", "c", "d", "e", "f"`. This is
     * necessary because every first-order constant requires a string argument, like `FOLConst("block0")`. If a block has
     * the empty label `""` then it is assigned a fake name so that it can be used as a constant in atomic formulas
     * during evaluation.
@@ -22,7 +22,8 @@ object Name:
     */
   def generateFake: Name =
     counter += 1
-    s"block$counter"
+    s"b$counter"
+end Name
 
 /** Contains values and methods used for [[Names]]. */
 object Names:
@@ -41,6 +42,7 @@ object Names:
     .map: name =>
       name -> (if nameMap.contains(name) then Occupied else Available)
     .toMap
+end Names
 
 extension (names: Names)
   /** Extension method for [[Names]] to toggle the availability of a specific name. It works whether the name argument
@@ -68,3 +70,4 @@ extension (names: Names)
     case Some(Available) => names.updated(name, Occupied)
     case Some(Occupied)  => names
     case None            => names // name was fake
+end extension

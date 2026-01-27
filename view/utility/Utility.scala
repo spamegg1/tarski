@@ -46,7 +46,7 @@ class Utility(using c: Constants):
     * @param point
     *   The point at which we want to draw the button.
     * @param factor
-    *   Can be 1 or 2 (for the double-sized, wide buttons).
+    *   Scales the width for creating wider buttons.
     * @return
     *   An image of a button with a gray background, normally the size of one block, stretched by `factor`, with text
     *   displayed on it.

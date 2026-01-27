@@ -8,18 +8,33 @@ package main
   * @param formulas
   *   A sequence of first-order formulas.
   * @param scaleFactor
-  *   Used to scale the user interface size. Must be positive. Default is 1.0, which results in a 1600 x 800 window.
-  *   Provide values < 1.0 to make it smaller, > 1.0 to make it bigger.
+  *   Scales the user interface size. Must be positive. Default is 1.0, which results in a 1600 x 800 window. Provide
+  *   values < 1.0 to make it smaller, > 1.0 to make it bigger.
   */
 def runWorld(grid: Grid = Grid.empty, formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
   require(scaleFactor > 0.0)
   given c: Constants = Constants(DefaultSize * scaleFactor)
   val world          = World.from(grid, formulas)
-  val render         = new Render
+  val render         = WorldRenderer.apply
   Reactor
     .init[World](world)
     .withOnTick(React.tick)
-    .withOnMouseClick(React.click)
+    .withOnMouseClick(React.clickWorld)
+    .withOnMouseMove(React.move)
+    .withStop(React.stop)
+    .withRender(render.all)
+    .withTickRate(TickRate)
+    .animateWithFrame(c.MainFrame)
+
+def playGame(grid: Grid, formula: FOLFormula, scaleFactor: Double = 1.0): Unit =
+  require(scaleFactor > 0.0)
+  given c: Constants = Constants(DefaultSize * scaleFactor)
+  val game           = Game(formula, grid)
+  val render         = GameRenderer.apply
+  Reactor
+    .init[Game](game)
+    .withOnTick(React.tick)
+    .withOnMouseClick(React.clickGame)
     .withOnMouseMove(React.move)
     .withStop(React.stop)
     .withRender(render.all)
@@ -63,6 +78,12 @@ object Example:
     fof"Happy(c)" // error
   )
 
-  /** Runs the example (also the only entry point into the project). */
+  private val formula = fof"∀x ∃y (More(x, y) ∨ Abv(y, x))"
+
+  /** Runs the example world. */
   @main
   def runExample = runWorld(grid, formulas)
+
+  /** Plays the example game. */
+  @main
+  def playExample = playGame(grid, formula)

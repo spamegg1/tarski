@@ -46,6 +46,7 @@ object Constants:
 
   /** Creates a font from the included font file. */
   val FontFromFile = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, FontFile)
+end Constants
 
 /** Contains all the constants that depend on the size of the user interface, the board image, and the frame in which
   * the interface is displayed and run.
@@ -67,7 +68,7 @@ case class Constants(size: Double):
   /** Width of the interface, based on [[size]] and number of columns on the board. */
   private val Width = size * 2 * Constants.BoardSize.cols
 
-  /** Used to scale the font size according to interface dimensions. */
+  /** Scales the font size according to interface dimensions. */
   private val Pts = (Width * 0.015625).toInt
 
   /** Size of small blocks, used in the enum [[model.Sizes]]. */
@@ -110,7 +111,7 @@ case class Constants(size: Double):
   val TheFont = Font(FontFamily.named(Family), FontStyle.normal, FontWeight.normal, FontSize.points(Pts))
 
   /** Bold font. */
-  val BoldFont = TheFont.weight(FontWeight.bold)
+  val BoldFont = TheFont.withBold
 
   /** Dimensions of the chess board that holds the blocks. */
   val BoardDims = (h = Height, w = Width * 0.5)
@@ -162,3 +163,4 @@ case class Constants(size: Double):
     .withBackground(Color.white)
     .withTitle(Constants.Title)
     .withCenterAtOrigin
+end Constants

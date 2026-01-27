@@ -23,11 +23,9 @@ object Interpreter:
     case Or(a, b)                          => eval(a) || eval(b)
     case Neg(a)                            => !eval(a)
     case Imp(a, b)                         => if eval(a) then eval(b) else true
-    case Iff(a: FOLFormula, b: FOLFormula) =>
-      val (ea, eb) = (eval(a), eval(b))
-      ea && eb || !ea && !eb
-    case All(x, f) => ng.keys.forall(name => eval(f.sub(x, FOLConst(name))))
-    case Ex(x, f)  => ng.keys.exists(name => eval(f.sub(x, FOLConst(name))))
+    case Iff(a: FOLFormula, b: FOLFormula) => eval(a) iff eval(b)
+    case All(x, f)                         => ng.keys.forall(name => eval(f.sub(x, name)))
+    case Ex(x, f)                          => ng.keys.exists(name => eval(f.sub(x, name)))
 
   /** Helper to evaluate atomic formulas in a given world.
     *
@@ -79,16 +77,15 @@ object Interpreter:
       case FOLAtom("Tone", Seq(FOLConst(c), FOLConst(d)))             => ng(c).block.sameColor(ng(d).block)
       case FOLAtom("Btw", Seq(FOLConst(c), FOLConst(d), FOLConst(e))) => ng(c).pos.between(ng(d).pos, ng(e).pos)
       case _ => throw IllegalArgumentException(s"Atom $a is parsed incorrectly")
+  end evalAtom
 
-  extension (f: FOLFormula)
-    /** Extension method to substitute a [[FOLConst]] into a [[FOLFormula]] for all free occurrences of a variable. Used
-      * in [[eval]].
+  extension (bool: Boolean)
+    /** Extension method for the biconditional connective.
       *
-      * @param x
-      *   A first-order variable
-      * @param c
-      *   A first-order constant
+      * @param that
+      *   Another [[Boolean]]
       * @return
-      *   the formula, with all free occurrences of `x` replaced by `c`.
+      *   true if both booleans are true or both are false, false otherwise.
       */
-    def sub(x: FOLVar, c: FOLConst) = FOLSubstitution((x, c)).apply(f)
+    infix def iff(that: Boolean) = bool && that || !bool && !that
+end Interpreter

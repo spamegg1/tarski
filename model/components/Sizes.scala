@@ -20,6 +20,7 @@ enum Sizes:
       case (Sml, Big) => true
       case (Mid, Big) => true
       case _          => false
+end Sizes
 
 /** Contains given instances to work with [[Sizes]]. */
 object Sizes:

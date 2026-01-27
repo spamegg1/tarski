@@ -1,8 +1,10 @@
 package tarski
 package model
 
-/** This is the core grid type used by [[World]]. Users don't directly use it, it's for internal usage. Evaluating
-  * formulas requires also knowing the names of objects, so the names are also included.
+/** The chess board that holds the blocks. Used by [[World]] and [[Game]].
+  *
+  * @param grid
+  * @param gs
   */
 case class Board(grid: NameGrid, gs: GridSize = BoardSize):
   require:
@@ -17,6 +19,7 @@ case class Board(grid: NameGrid, gs: GridSize = BoardSize):
     *   A new board with its grid updated and the grid size unchanged.
     */
   def apply(newGrid: NameGrid) = copy(grid = newGrid)
+end Board
 
 /** Contains helper methods for [[Board]]. */
 object Board:
@@ -27,11 +30,7 @@ object Board:
     * @return
     *   The same grid that also accounts for the names of blocks (with fake names generated if needed).
     */
-  def fromGrid(grid: Grid, gs: GridSize = BoardSize) =
-    val nameMap = grid.map: (pos, block) =>
-      val name = if block.label.isEmpty then Name.generateFake else block.label
-      pos -> (block, name)
-    Board(nameMap, gs)
+  def fromGrid(grid: Grid, gs: GridSize = BoardSize) = Board(grid.toNameGrid, gs)
 
   /** Defines an empty board. Convenient for initializing a [[World]].
     *
@@ -39,3 +38,4 @@ object Board:
     *   A board with default [[BoardSize]] and no blocks on it.
     */
   def empty: Board = Board(Map())
+end Board

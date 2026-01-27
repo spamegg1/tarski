@@ -92,6 +92,7 @@ case class Block(
     case sz: Sizes => copy(size = sz)
     case sh: Shape => copy(shape = sh)
     case t: Tone   => copy(tone = t)
+end Block
 
 /** Contains some helper methods for the [[Block]] class. */
 object Block:

@@ -212,6 +212,7 @@ case class World(
       case None      => controls
       case Some(pos) => controls.selectPos(rotator(pos))
     resetFormulas.copy(board = Board(newGrid, newGridSize), controls = newControls)
+end World
 
 /** Contains values and helper methods for [[World]]. */
 object World:
@@ -249,3 +250,4 @@ object World:
       names = Names.fromNameMap(board.grid.toNameMap),
       formulas = Formulas.fromSeq(formulas)
     )
+end World
