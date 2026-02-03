@@ -237,6 +237,17 @@ The following predicates are supported:
 |:-|:-|
 |`Btw(x, y, z)`|"x is between y and z (vertically, horizontally or diagonally)"|
 
+##### Note on equality
+
+Normally in first-order logic, equality is interpreted as "reference equality",
+meaning, `x = y` if both `x` and `y` refer to the same object (number, set, etc.)
+The original Tarski's World lets you assign multiple names to the same block,
+which makes it possible for `x = y` reference equality to be true.
+Here we do not allow that (blocks can only have up to 1 name),
+so `x = y` would always be false under reference equality.
+Instead we interpret `=` as "value equality", so two different blocks can be equal
+(if they have all the same attributes).
+
 ## Game mode
 
 <https://github.com/user-attachments/assets/b9b08a2d-42dd-4ec4-882c-3fd1d41cf307>
