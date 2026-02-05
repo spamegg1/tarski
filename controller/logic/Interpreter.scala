@@ -18,14 +18,22 @@ object Interpreter:
     *   true if the first-order formula holds in the given board and blocks, false otherwise.
     */
   def eval(formula: FOLFormula)(using ng: NameMap): Boolean = formula match
-    case a: FOLAtom                        => evalAtom(a)
-    case And(a, b)                         => eval(a) && eval(b)
-    case Or(a, b)                          => eval(a) || eval(b)
-    case Neg(a)                            => !eval(a)
-    case Imp(a, b)                         => if eval(a) then eval(b) else true
-    case Iff(a: FOLFormula, b: FOLFormula) => eval(a) iff eval(b)
-    case All(x, f)                         => ng.keys.forall(name => eval(f.sub(x, name)))
-    case Ex(x, f)                          => ng.keys.exists(name => eval(f.sub(x, name)))
+    case a: FOLAtom => evalAtom(a)
+    case And(a, b)  =>
+      val (ea, eb) = (eval(a), eval(b)) // make sure both parts parse OK
+      ea && eb
+    case Or(a, b) =>
+      val (ea, eb) = (eval(a), eval(b)) // make sure both parts parse OK
+      ea || eb
+    case Neg(a)    => !eval(a)
+    case Imp(a, b) =>
+      val (ea, eb) = (eval(a), eval(b)) // make sure both parts parse OK
+      if ea then eb else true
+    case Iff(a: FOLFormula, b: FOLFormula) =>
+      val (ea, eb) = (eval(a), eval(b)) // make sure both parts parse OK
+      ea iff eb
+    case All(x, f) => ng.keys.forall(name => eval(f.sub(x, name)))
+    case Ex(x, f)  => ng.keys.exists(name => eval(f.sub(x, name)))
 
   /** Helper to evaluate atomic formulas in a given world.
     *
