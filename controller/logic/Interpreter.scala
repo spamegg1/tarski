@@ -72,6 +72,7 @@ object Interpreter:
       case FOLAtom("=", Seq(FOLConst(c), FOLConst(d)))                => ng(c).block == ng(d).block
       case FOLAtom("Row", Seq(FOLConst(c), FOLConst(d)))              => ng(c).pos.sameRow(ng(d).pos)
       case FOLAtom("Col", Seq(FOLConst(c), FOLConst(d)))              => ng(c).pos.sameCol(ng(d).pos)
+      case FOLAtom("Loc", Seq(FOLConst(c), FOLConst(d)))              => ng(c).pos == ng(d).pos
       case FOLAtom("Size", Seq(FOLConst(c), FOLConst(d)))             => ng(c).block.sameSize(ng(d).block)
       case FOLAtom("Shap", Seq(FOLConst(c), FOLConst(d)))             => ng(c).block.sameShape(ng(d).block)
       case FOLAtom("Tone", Seq(FOLConst(c), FOLConst(d)))             => ng(c).block.sameColor(ng(d).block)

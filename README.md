@@ -215,21 +215,22 @@ The following predicates are supported:
 
 #### Binary
 
-|Syntax|Semantics|
-|:-|:-|
-|`Left(x, y)`|"x is to the left of y"|
-|`Rgt(x, y)`|"x is to the right of y"|
-|`Bel(x, y)`|"x is below y"|
-|`Abv(x, y)`|"x is above y"|
-|`Adj(x, y)`|"x is adjacent (but not diagonally) to y"|
-|`Less(x, y)`|"x is smaller in size than y"|
-|`More(x, y)`|"x is larger in size than y"|
-|`Row(x, y)`|"x is on the same row as y"|
-|`Col(x, y)`|"x is on the same column as y"|
-|`Size(x, y)`|"x has the same size as y"|
-|`Shap(x, y)`|"x has the same shape as y"|
-|`Tone(x, y)`|"x has the same tone as y"|
-|`x = y`|"x is equal to y (in size, shape and tone)"|
+|Syntax      |Semantics                                    |
+|:-----------|:--------------------------------------------|
+|`Left(x, y)`|"x is to the left of y"                      |
+|`Rgt(x, y)` |"x is to the right of y"                     |
+|`Bel(x, y)` |"x is below y"                               |
+|`Abv(x, y)` |"x is above y"                               |
+|`Adj(x, y)` |"x is adjacent (but not diagonally) to y"    |
+|`Less(x, y)`|"x is smaller in size than y"                |
+|`More(x, y)`|"x is larger in size than y"                 |
+|`Row(x, y)` |"x is on the same row as y"                  |
+|`Col(x, y)` |"x is on the same column as y"               |
+|`Size(x, y)`|"x has the same size as y"                   |
+|`Shap(x, y)`|"x has the same shape as y"                  |
+|`Tone(x, y)`|"x has the same tone as y"                   |
+|`Loc(x,y)`  |"x and y have the same location on the board"|
+|`x = y`     |"x is equal to y (in size, shape and tone)"  |
 
 #### Ternary
 
@@ -241,12 +242,19 @@ The following predicates are supported:
 
 Normally in first-order logic, equality is interpreted as "reference equality",
 meaning, `x = y` if both `x` and `y` refer to the same object (number, set, etc.)
-The original Tarski's World lets you assign multiple names to the same block,
+The original Tarski's World app lets you assign multiple names to the same block,
 which makes it possible for `x = y` reference equality to be true.
-Here we do not allow that (blocks can only have up to 1 name),
-so `x = y` would always be false under reference equality.
-Instead we interpret `=` as "value equality", so two different blocks can be equal
-(if they have all the same attributes).
+Here we do not allow that, because having multiple names is a bit confusing.
+Our blocks can only have up to 1 name, so `x = y` would always be false
+under reference equality whenever `x` and `y` refer to separate blocks.
+Instead we interpret `=` as "value equality", so two separate blocks can be equal
+if they have all the same attributes (size, shape, tone).
+However this makes it difficult (but not impossible) to express things like
+"there is exactly one..." or "there are exactly four...".
+To simplify this we have another binary predicate `Loc(x,y)` which says that
+`x` and `y` are at the same location (row and column) on the board,
+therefore they represent the same block (reference equality).
+So we have both kinds of equality available to us 😄
 
 ## Game mode
 
