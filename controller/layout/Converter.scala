@@ -80,8 +80,8 @@ end Converter
   * and UI control buttons.
   */
 object Converter:
-  /** Converts between [[model.Pos]] and [[doodle.core.Point]] on the chess board. Used by [[React.click]] and
-    * [[view.Render]].
+  /** Converts between [[model.Pos]] and [[doodle.core.Point]] on the chess board. Used by [[React]] and
+    * [[view.BoardRenderer]].
     */
   def board(using c: Constants) = Converter(c.BoardDims, BoardSize)
 

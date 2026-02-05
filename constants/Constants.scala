@@ -84,17 +84,17 @@ case class Constants(size: Double):
   val SmallStroke = StrokeW * 0.25
 
   /** The right half of the interface is divided into two parts: UI controls and formulas. This value determines the
-    * line between them. Used by [[controller.React.click]].
+    * line between them. Used by [[controller.React]].
     */
   val UIBottom = Height / 2.0 - size
 
-  /** The origin of the chess board that holds the blocks. Used by [[controller.React.click]] */
+  /** The origin of the chess board that holds the blocks. Used by [[controller.React]]. */
   val BoardOrigin = Point(-Width * 0.25, 0)
 
-  /** The origin of the UI control buttons on the top right of the interface. Used by [[controller.React.click]] */
+  /** The origin of the UI control buttons on the top right of the interface. Used by [[controller.React]]. */
   val UIOrigin = Point(Width * 0.25, Height / 2.0 - size / 2.0)
 
-  /** The origin of the formulas display on the right half of the interface. Used by [[controller.React.click]] */
+  /** The origin of the formulas display on the right half of the interface. Used by [[controller.React]] */
   val FormulaOrigin = Point(Width * 0.25, -size / 2.0)
 
   /** The derived font, resized to scale with the overall UI. */

@@ -6,7 +6,7 @@ package view
   * @param util
   *   An instance of the [[Utility]] class needed for buttons.
   * @param _
-  *   A given instance of [[Constants]] needed in [[Converter.ui]].
+  *   A given instance of [[Constants]] needed in [[controller.Converter.ui]].
   */
 case class NameButtons(util: Utility)(using Constants):
   /** All 6 name buttons together. */

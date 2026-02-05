@@ -35,7 +35,7 @@ end extension
 
 extension (f: FOLFormula)
   /** Extension method to substitute a [[Name]] into a [[FOLFormula]] for all free occurrences of a variable. Used in
-    * [[eval]].
+    * [[controller.Interpreter.eval]].
     *
     * @param x
     *   A first-order variable

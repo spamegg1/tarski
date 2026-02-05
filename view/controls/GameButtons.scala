@@ -11,20 +11,20 @@ package view
   *   A given instance of [[Constants]] needed for [[Imager]].
   */
 case class GameButtons(util: Utility, gameUI: GameUI)(using Constants):
-  /** The top formula choice button, for the `left` formula in a [[Play]].
+  /** The top formula choice button, for the `left` formula in a [[model.Play]].
     *
     * @param leftOpt
-    *   An optional `FOLFormula`. Normally comes from [[Play.left]].
+    *   An optional `FOLFormula`. Normally comes from [[model.Play.left]].
     * @return
     *   A button displaying the formula at the top left quarter of the game UI.
     */
   def top(leftOpt: Option[FOLFormula]) = util.button(leftOpt.show, gameUI.leftPt, 11)
 
-  /** The bottom formula choice button, for the `right` formula in a [[Play]]. It does double duty by also displaying
-    * the current formula when a choice is not present.
+  /** The bottom formula choice button, for the `right` formula in a [[model.Play]]. It does double duty by also
+    * displaying the current formula when a choice is not present.
     *
     * @param rightOrF
-    *   An `FOLFormula`. Normally comes from [[Play.right]] or [[Play.formula]].
+    *   An `FOLFormula`. Normally comes from [[model.Play.right]] or [[model.Play.formula]].
     * @return
     *   A button displaying either one of the 2 choices, or the current formula, at the bottom left quarter of the game
     *   UI.
