@@ -15,7 +15,7 @@ object Constants:
   val DefaultSize = 100.0
 
   /** The default title for the window. */
-  private val Title = "Tarski's World"
+  val Title = "Tarski's World: evaluating "
 
   /** Tick rate passed to [[doodle.reactor.Reactor]] as an argument. */
   val TickRate = FiniteDuration(1000, "ms")
@@ -161,6 +161,5 @@ case class Constants(size: Double):
   val MainFrame = Frame.default
     .withSize(Width, Height)
     .withBackground(Color.white)
-    .withTitle(Constants.Title)
     .withCenterAtOrigin
 end Constants
