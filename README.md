@@ -85,9 +85,11 @@ For SBT, add to your `build.sbt`:
 libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.1.9"
 ```
 
-## API Docs
+## API Docs and artifacts
 
-Can be found at [Javadoc](https://javadoc.io/doc/io.github.spamegg1/tarski_3/latest/index.html)
+Docs can be found at [Javadoc](https://javadoc.io/doc/io.github.spamegg1/tarski_3/latest/index.html)
+
+Artifacts at [Maven Central](https://repo1.maven.org/maven2/io/github/spamegg1/tarski_3/)
 
 ## Usage
 
