@@ -26,7 +26,7 @@ class InterpreterTest extends munit.FunSuite:
     fof"∀x (Cir(x) → ∃y (Sqr(y) ∧ Abv(x, y)))",
     fof"∀x (Cir(x) → ∃y (Sqr(y) ∧ Abv(x, y)))",
     fof"∀x (Cir(x) → ∃y (Sqr(y) ∧ Abv(x, y)))",
-    fof"∃x ∃y (x != y ∧ ∀w ((w = x | w = y) → ∀z ¬Abv(z, w)))",
+    fof"∃x ∃y (¬Loc(x, y) ∧ ∀w ((w = x | w = y) → ∀z ¬Abv(z, w)))",
     fof"∀x (Sqr(x) ↔ ∃y (Tri(y) ∧ Abv(y, x)))",
     fof"∀x ∀y (More(x, y) → ∃z Btw(x, y, z))",
     fof"¬(∀x ∀y (Left(x, y) ∨ Rgt(x, y)))", // same here!
