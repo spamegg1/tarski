@@ -61,29 +61,29 @@ object Interpreter:
   private def evalAtom(a: FOLAtom)(using ng: NameMap): Boolean =
     import Pos.*, Sizes.*, Tone.*, Shape.*
     a match
-      case FOLAtom("Sml", Seq(FOLConst(c)))                           => ng(c).block.size == Sml
-      case FOLAtom("Mid", Seq(FOLConst(c)))                           => ng(c).block.size == Mid
-      case FOLAtom("Big", Seq(FOLConst(c)))                           => ng(c).block.size == Big
-      case FOLAtom("Cir", Seq(FOLConst(c)))                           => ng(c).block.shape == Cir
-      case FOLAtom("Tri", Seq(FOLConst(c)))                           => ng(c).block.shape == Tri
-      case FOLAtom("Sqr", Seq(FOLConst(c)))                           => ng(c).block.shape == Sqr
-      case FOLAtom("Blu", Seq(FOLConst(c)))                           => ng(c).block.tone == Blu
-      case FOLAtom("Lim", Seq(FOLConst(c)))                           => ng(c).block.tone == Lim
-      case FOLAtom("Red", Seq(FOLConst(c)))                           => ng(c).block.tone == Red
-      case FOLAtom("Left", Seq(FOLConst(c), FOLConst(d)))             => ng(c).pos.leftOf(ng(d).pos)
-      case FOLAtom("Rgt", Seq(FOLConst(c), FOLConst(d)))              => ng(c).pos.rightOf(ng(d).pos)
-      case FOLAtom("Bel", Seq(FOLConst(c), FOLConst(d)))              => ng(c).pos.below(ng(d).pos)
-      case FOLAtom("Abv", Seq(FOLConst(c), FOLConst(d)))              => ng(c).pos.above(ng(d).pos)
-      case FOLAtom("Adj", Seq(FOLConst(c), FOLConst(d)))              => ng(c).pos.adjoins(ng(d).pos)
-      case FOLAtom("Less", Seq(FOLConst(c), FOLConst(d)))             => ng(c).block.smaller(ng(d).block)
-      case FOLAtom("More", Seq(FOLConst(c), FOLConst(d)))             => ng(c).block.larger(ng(d).block)
-      case FOLAtom("=", Seq(FOLConst(c), FOLConst(d)))                => ng(c).block == ng(d).block
-      case FOLAtom("Row", Seq(FOLConst(c), FOLConst(d)))              => ng(c).pos.sameRow(ng(d).pos)
-      case FOLAtom("Col", Seq(FOLConst(c), FOLConst(d)))              => ng(c).pos.sameCol(ng(d).pos)
-      case FOLAtom("Loc", Seq(FOLConst(c), FOLConst(d)))              => ng(c).pos == ng(d).pos
-      case FOLAtom("Size", Seq(FOLConst(c), FOLConst(d)))             => ng(c).block.sameSize(ng(d).block)
-      case FOLAtom("Shap", Seq(FOLConst(c), FOLConst(d)))             => ng(c).block.sameShape(ng(d).block)
-      case FOLAtom("Tone", Seq(FOLConst(c), FOLConst(d)))             => ng(c).block.sameColor(ng(d).block)
+      case FOLAtom("Sml", Seq(FOLConst(c)))               => ng(c).block.size == Sml
+      case FOLAtom("Mid", Seq(FOLConst(c)))               => ng(c).block.size == Mid
+      case FOLAtom("Big", Seq(FOLConst(c)))               => ng(c).block.size == Big
+      case FOLAtom("Cir", Seq(FOLConst(c)))               => ng(c).block.shape == Cir
+      case FOLAtom("Tri", Seq(FOLConst(c)))               => ng(c).block.shape == Tri
+      case FOLAtom("Sqr", Seq(FOLConst(c)))               => ng(c).block.shape == Sqr
+      case FOLAtom("Blu", Seq(FOLConst(c)))               => ng(c).block.tone == Blu
+      case FOLAtom("Lim", Seq(FOLConst(c)))               => ng(c).block.tone == Lim
+      case FOLAtom("Red", Seq(FOLConst(c)))               => ng(c).block.tone == Red
+      case FOLAtom("Left", Seq(FOLConst(c), FOLConst(d))) => ng(c).pos.leftOf(ng(d).pos)
+      case FOLAtom("Rgt", Seq(FOLConst(c), FOLConst(d)))  => ng(c).pos.rightOf(ng(d).pos)
+      case FOLAtom("Bel", Seq(FOLConst(c), FOLConst(d)))  => ng(c).pos.below(ng(d).pos)
+      case FOLAtom("Abv", Seq(FOLConst(c), FOLConst(d)))  => ng(c).pos.above(ng(d).pos)
+      case FOLAtom("Adj", Seq(FOLConst(c), FOLConst(d)))  => ng(c).pos.adjoins(ng(d).pos)
+      case FOLAtom("Less", Seq(FOLConst(c), FOLConst(d))) => ng(c).block.smaller(ng(d).block)
+      case FOLAtom("More", Seq(FOLConst(c), FOLConst(d))) => ng(c).block.larger(ng(d).block)
+      case FOLAtom("=", Seq(FOLConst(c), FOLConst(d)))    => ng(c).block.removeLabel == ng(d).block.removeLabel
+      case FOLAtom("Row", Seq(FOLConst(c), FOLConst(d)))  => ng(c).pos.sameRow(ng(d).pos)
+      case FOLAtom("Col", Seq(FOLConst(c), FOLConst(d)))  => ng(c).pos.sameCol(ng(d).pos)
+      case FOLAtom("Loc", Seq(FOLConst(c), FOLConst(d)))  => ng(c).pos == ng(d).pos
+      case FOLAtom("Size", Seq(FOLConst(c), FOLConst(d))) => ng(c).block.sameSize(ng(d).block)
+      case FOLAtom("Shap", Seq(FOLConst(c), FOLConst(d))) => ng(c).block.sameShape(ng(d).block)
+      case FOLAtom("Tone", Seq(FOLConst(c), FOLConst(d))) => ng(c).block.sameColor(ng(d).block)
       case FOLAtom("Btw", Seq(FOLConst(c), FOLConst(d), FOLConst(e))) => ng(c).pos.between(ng(d).pos, ng(e).pos)
       case _ => throw IllegalArgumentException(s"Atom $a is parsed incorrectly")
   end evalAtom
