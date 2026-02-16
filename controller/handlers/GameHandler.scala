@@ -92,11 +92,11 @@ object GameHandler:
   private def handleChoice(choice: String, game: Game): Game =
     val play     = game.step.play
     val nextPlay = (play, choice) match
-      case (Play(And(a, b), Some(false), Some(l), Some(_)), "Left")  => play.setFormula(l)
-      case (Play(And(a, b), Some(false), Some(_), Some(r)), "Right") => play.setFormula(r)
-      case (Play(Or(a, b), Some(true), Some(l), Some(_)), "Left")    => play.setFormula(l)
-      case (Play(Or(a, b), Some(true), Some(_), Some(r)), "Right")   => play.setFormula(r)
-      case _                                                         => play
+      case (Play(And(a, b), Some(false), Some(l), Some(_), _), "Left")  => play.setFormula(l)
+      case (Play(And(a, b), Some(false), Some(_), Some(r), _), "Right") => play.setFormula(r)
+      case (Play(Or(a, b), Some(true), Some(l), Some(_), _), "Left")    => play.setFormula(l)
+      case (Play(Or(a, b), Some(true), Some(_), Some(r), _), "Right")   => play.setFormula(r)
+      case _                                                            => play
     val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
     game.addStep(nextPlay, nextMsgs)
 
@@ -124,56 +124,56 @@ object GameHandler:
     *   New state of the game, depending on the commitment and formula.
     */
   private def handleOK(game: Game): Game = game match
-    case Game((Play(All(x, f), Some(false), _, _), _), _, _, On(pos)) => subst(game, x, f, pos)
-    case Game((Play(Ex(x, f), Some(true), _, _), _), _, _, On(pos))   => subst(game, x, f, pos)
+    case Game((Play(All(x, f), Some(false), _, _, _), _), _, _, On(pos)) => subst(game, x, f, pos)
+    case Game((Play(Ex(x, f), Some(true), _, _, _), _), _, _, On(pos))   => subst(game, x, f, pos)
 
-    case Game((Play(All(x, f), Some(true), _, _), _), _, _, _) =>
+    case Game((Play(All(x, f), Some(true), _, _, _), _), _, _, _) =>
       given nm: NameMap = game.board.grid.toNameMap
       val choice        = nm.keys
         .map(name => name -> Interpreter.eval(f.sub(x, name)))
         .find(!_._2) match
         case None            => nm.keys.head
         case Some((name, _)) => name
-      val nextPlay = game.step.play.sub(choice, x, f)
+      val nextPlay = game.step.play.sub(nm(choice).pos, choice, x, f)
       val nextMsgs = generateMessages(nextPlay, Off)(using game.board)
       game.addStep(nextPlay, nextMsgs)
 
-    case Game((Play(Ex(x, f), Some(false), _, _), _), _, _, _) =>
+    case Game((Play(Ex(x, f), Some(false), _, _, _), _), _, _, _) =>
       given nm: NameMap = game.board.grid.toNameMap
       val choice        = nm.keys
         .map(name => name -> Interpreter.eval(f.sub(x, name)))
         .find(!_._2) match
         case None            => nm.keys.head
         case Some((name, _)) => name
-      val nextPlay = game.step.play.sub(choice, x, f)
+      val nextPlay = game.step.play.sub(nm(choice).pos, choice, x, f)
       val nextMsgs = generateMessages(nextPlay, Off)(using game.board)
       game.addStep(nextPlay, nextMsgs)
 
-    case Game((Play(Neg(_), _, _, _), _), _, _, _) =>
+    case Game((Play(Neg(_), _, _, _, _), _), _, _, _) =>
       val nextPlay = game.step.play.negate
       val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
       game.addStep(nextPlay, nextMsgs)
 
-    case Game((Play(And(a, b), Some(true), _, _), _), _, _, _) =>
+    case Game((Play(And(a, b), Some(true), _, _, _), _), _, _, _) =>
       val evalA    = Interpreter.eval(a)(using game.board)
       val choice   = if evalA then b else a
       val nextPlay = game.step.play.setFormula(choice)
       val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
       game.addStep(nextPlay, nextMsgs)
 
-    case Game((Play(Or(a, b), Some(false), _, _), _), _, _, _) =>
+    case Game((Play(Or(a, b), Some(false), _, _, _), _), _, _, _) =>
       val evalA    = Interpreter.eval(a)(using game.board)
       val choice   = if evalA then a else b
       val nextPlay = game.step.play.setFormula(choice)
       val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
       game.addStep(nextPlay, nextMsgs)
 
-    case Game((Play(Imp(a, b), _, _, _), _), _, _, _) =>
+    case Game((Play(Imp(a, b), _, _, _, _), _), _, _, _) =>
       val nextPlay = game.step.play.setFormula(Or(Neg(a), b))
       val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
       game.addStep(nextPlay, nextMsgs)
 
-    case Game((Play(Iff(a: FOLFormula, b: FOLFormula), _, _, _), _), _, _, _) =>
+    case Game((Play(Iff(a: FOLFormula, b: FOLFormula), _, _, _, _), _), _, _, _) =>
       val nextPlay = game.step.play.setFormula(And(Imp(a, b), Imp(b, a)))
       val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
       game.addStep(nextPlay, nextMsgs)
@@ -198,7 +198,7 @@ object GameHandler:
     game.board.grid.get(pos) match
       case None                => game
       case Some((block, name)) =>
-        val nextPlay = game.step.play.sub(name, x, f)
+        val nextPlay = game.step.play.sub(pos, name, x, f)
         val nextMsgs = generateMessages(nextPlay, Off)(using game.board)
         game.addStep(nextPlay, nextMsgs).unsetPos
 
