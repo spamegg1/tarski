@@ -37,7 +37,7 @@ object GameHandler:
         value match
           case "True" | "False" => handleStart(value, game)
           case "Left" | "Right" => handleChoice(value, game)
-          case "Back"           => handleBack(game)
+          case "Back"           => game.rewind
           case "OK"             => handleOK(game)
           case "Block"          => game
           case _                => game
@@ -92,15 +92,6 @@ object GameHandler:
       case _                                                            => play
     val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
     game.addStep(nextPlay, nextMsgs)
-
-  /** Moves the game back in time by one step.
-    *
-    * @param game
-    *   Current state of the game.
-    * @return
-    *   The previous state of the game, if available, else this game.
-    */
-  private def handleBack(game: Game): Game = game.rewind
 
   /** We can only click the OK button if a block has been selected and can be substituted into a formula, or a message
     * has been displayed and we need to move on to the next step. Otherwise clicking OK does nothing.
