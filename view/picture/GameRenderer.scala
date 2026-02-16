@@ -19,8 +19,7 @@ case class GameRenderer(gameBtn: GameButtons, ui: UI)(using c: Constants) extend
     gameBtn
       .top(game.step.play.left)
       .on(gameBtn.bot(game.step.play.show))
-      .on(gameBtn.trueButton)
-      .on(gameBtn.falseButton)
+      .on(gameBtn.trueFalseButtons(game.step.play.commitment))
       .on(gameBtn.backButton)
       .on(gameBtn.okButton)
       .on(gameBtn.blockButton(game.getBlock))

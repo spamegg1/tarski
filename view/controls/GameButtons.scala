@@ -37,6 +37,21 @@ case class GameButtons(util: Utility, gameUI: GameUI)(using Constants):
   /** The button for the `False` commitment. */
   val falseButton = util.button("False", gameUI.falsePt, 2)
 
+  /** The two commitment buttons together. */
+  val trueFalse = trueButton on falseButton
+
+  /** Draws the true / false buttons and indicates the current commitment.
+    *
+    * @param commitment
+    *   An `Option[Boolean]` which comes from a [[model.Play]] instance.
+    * @return
+    *   Two buttons, with a red-edged indicator box around one of them depending on the commitment.
+    */
+  def trueFalseButtons(commitment: Option[Boolean]) = commitment match
+    case Some(true)  => util.indicator(gameUI.truePt, 2).on(trueFalse)
+    case Some(false) => util.indicator(gameUI.falsePt, 2).on(trueFalse)
+    case None        => trueFalse
+
   /** The Back button. */
   val backButton = util.button("←", gameUI.backPt)
 
