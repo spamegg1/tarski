@@ -90,6 +90,11 @@ case class Game(step: Step, board: Board, prev: List[Step], pos: Select[Pos]):
     .flatMap(board.grid.get)
     .map(_.block)
 
+  def messages: Messages =
+    val currentMsgs = "Current step:" :: step.msgs
+    val prevMsgs    = "" :: "Previous step:" :: prev.take(1).flatMap(_.msgs)
+    currentMsgs ::: prevMsgs
+
 object Game:
   /** Every game starts with the same message asking the user for a commitment. */
   val initMsgs = List("Choose initial commitment T/F above:")

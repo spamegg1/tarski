@@ -51,7 +51,7 @@ case class GameRenderer(gameBtn: GameButtons, ui: UI)(using c: Constants) extend
         renderUI(game)
           .at(c.UIOrigin)
       .on:
-        messages(game.step.msgs)
+        messages(game.messages)
           .at(c.FormulaOrigin)
 
 object GameRenderer:
