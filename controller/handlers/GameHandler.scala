@@ -57,12 +57,9 @@ object GameHandler:
   def handleStart(choice: String, game: Game): Game = game.step.play.commitment match
     case Some(_) => game // commitment is already set, we cannot click
     case None    =>
-      choice match
-        case "True" | "False" =>
-          val nextPlay = game.step.play.commitTo(choice.toBoolean)
-          val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
-          game.addStep(nextPlay, nextMsgs)
-        case _ => game
+      val nextPlay = game.step.play.commitTo(choice.toBoolean)
+      val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
+      game.addStep(nextPlay, nextMsgs)
 
   /** Handles what happens when the user clicks on one of the two choice buttons.
     *
