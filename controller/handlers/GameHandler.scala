@@ -58,12 +58,8 @@ object GameHandler:
     case Some(_) => game // commitment is already set, we cannot click
     case None    =>
       choice match
-        case "True" =>
-          val nextPlay = game.step.play.commitTo(true)
-          val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
-          game.addStep(nextPlay, nextMsgs)
-        case "False" =>
-          val nextPlay = game.step.play.commitTo(false)
+        case "True" | "False" =>
+          val nextPlay = game.step.play.commitTo(choice.toBoolean)
           val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
           game.addStep(nextPlay, nextMsgs)
         case _ => game
@@ -314,4 +310,9 @@ object GameHandler:
 
       case _ => Nil
   end generateMessages
+
+  extension (s: String)
+    def toBoolean: Boolean = s match
+      case "True"  => true
+      case "False" => false
 end GameHandler
