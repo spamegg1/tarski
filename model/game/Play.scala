@@ -78,7 +78,7 @@ case class Play(
     * the name of a block in the world for the quantified variable.
     *
     * @param p
-    *   The position of a block on the board. *
+    *   The position of a block on the board.
     * @param c
     *   The name of a block to be substituted into the formula as a `FOLConst`.
     * @param x

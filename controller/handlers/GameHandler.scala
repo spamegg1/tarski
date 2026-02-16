@@ -98,9 +98,9 @@ object GameHandler:
     *
     * A block can be substituted only if:
     *
-    * commitment is `false`, formula is `All(x, f)`` and pos is `On(_)`, or
+    * `commitment` is `false`, `formula` is `All(x, f)` and `pos` is `On(_)`, or
     *
-    * commitment is `true`, formula is `Ex(x, f)` and pos is `On(_)`.
+    * `commitment` is `true`, `formula` is `Ex(x, f)` and `pos` is `On(_)`.
     *
     * @param game
     *   Current state of the game.
