@@ -20,7 +20,8 @@ case class Play(
     formula: FOLFormula,
     commitment: Option[Boolean] = None,
     left: Option[FOLFormula] = None,
-    right: Option[FOLFormula] = None
+    right: Option[FOLFormula] = None,
+    pos: Option[Pos] = None
 ):
   /** Advances the state of play by setting a commitment (true or false).
     *
@@ -76,6 +77,8 @@ case class Play(
   /** Advances the play to its next state when a formula is quantified. The quantifier can be eliminated by substituting
     * the name of a block in the world for the quantified variable.
     *
+    * @param p
+    *   The position of a block on the board.
     * @param c
     *   The name of a block to be substituted into the formula as a `FOLConst`.
     * @param x
@@ -85,7 +88,7 @@ case class Play(
     * @return
     *   New state of play where the formula has its free occurrences of `x` replaced by the given name.
     */
-  def sub(c: Name, x: FOLVar, f: FOLFormula) = copy(formula = f.sub(x, c)).checkChoice
+  def sub(p: Pos, c: Name, x: FOLVar, f: FOLFormula) = copy(formula = f.sub(x, c), pos = Some(p)).checkChoice
 
   /** Advances the play to the next state when the formula is a negation.
     *
