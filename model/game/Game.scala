@@ -113,5 +113,9 @@ object Game:
     * @return
     *   The initial state of a [[Game]] with given formula and given grid used as the board.
     */
-  def apply(formula: FOLFormula, grid: Grid): Game =
-    new Game((play = Play(formula), msgs = initMsgs), Board.fromGrid(grid), Nil, Off)
+  def apply(formula: FOLFormula, grid: Grid): Game = Game(
+    (play = Play(formula), msgs = initMsgs),
+    Board.fromGrid(grid),
+    Nil,
+    Off
+  )

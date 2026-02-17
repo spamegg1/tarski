@@ -115,7 +115,7 @@ object GameHandler:
       given nm: NameMap = game.board.grid.toNameMap
       val choice        = nm.keys
         .map(name => name -> Interpreter.eval(f.sub(x, name)))
-        .find(!_._2) match
+        .find(!_._2) match // choose FALSE block
         case None            => nm.keys.head
         case Some((name, _)) => name
       val nextPlay = game.step.play.sub(nm(choice).pos, choice, x, f)
@@ -126,7 +126,7 @@ object GameHandler:
       given nm: NameMap = game.board.grid.toNameMap
       val choice        = nm.keys
         .map(name => name -> Interpreter.eval(f.sub(x, name)))
-        .find(!_._2) match
+        .find(_._2) match // choose TRUE block
         case None            => nm.keys.head
         case Some((name, _)) => name
       val nextPlay = game.step.play.sub(nm(choice).pos, choice, x, f)
@@ -140,14 +140,14 @@ object GameHandler:
 
     case Game((Play(And(a, b), Some(true), _, _, _), _), _, _, _) =>
       val evalA    = Interpreter.eval(a)(using game.board)
-      val choice   = if evalA then b else a
+      val choice   = if evalA then b else a // choose FALSE formula
       val nextPlay = game.step.play.setFormula(choice)
       val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
       game.addStep(nextPlay, nextMsgs)
 
     case Game((Play(Or(a, b), Some(false), _, _, _), _), _, _, _) =>
       val evalA    = Interpreter.eval(a)(using game.board)
-      val choice   = if evalA then a else b
+      val choice   = if evalA then a else b // choose TRUE formula
       val nextPlay = game.step.play.setFormula(choice)
       val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
       game.addStep(nextPlay, nextMsgs)
