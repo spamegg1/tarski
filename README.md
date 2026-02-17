@@ -62,7 +62,7 @@ You can read more about each module at:
 
 ## Installation
 
-Current version is 0.2.0 (Feb 17, 2026). Released for Scala 3 only.
+Current version is 0.2.1 (Feb 17, 2026). Released for Scala 3 only.
 
 You will need a JVM, and Scala 3. [This](https://www.scala-lang.org/download/)
 should give you everything you need.
@@ -76,13 +76,13 @@ Also you'll need an IDE:
 For Scala-cli (or just plain `scala`), add to your `project.scala` (or any file):
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.2.0
+//> using dep io.github.spamegg1::tarski:0.2.1
 ```
 
 For SBT, add to your `build.sbt`:
 
 ```scala
-libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.2.0"
+libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.2.1"
 ```
 
 ## API Docs and artifacts
@@ -113,7 +113,7 @@ You will see the interactive window like the one above in the video.
 Here are the details:
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.2.0
+//> using dep io.github.spamegg1::tarski:0.2.1
 
 import tarski.main.*, Shape.*, Sizes.*, Tone.*
 
@@ -267,7 +267,7 @@ about the truth of a formula in a world.
 You need a grid and a formula, then run `playGame` with them:
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.2.0
+//> using dep io.github.spamegg1::tarski:0.2.1
 
 import tarski.main.*, Shape.*, Sizes.*, Tone.*
 
