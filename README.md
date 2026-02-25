@@ -62,7 +62,7 @@ You can read more about each module at:
 
 ## Installation
 
-Current version is 0.2.1 (Feb 17, 2026). Released for Scala 3 only.
+Current version is 0.2.2 (Feb 25, 2026). Released for Scala 3 only.
 
 You will need a JVM, and Scala 3. [This](https://www.scala-lang.org/download/)
 should give you everything you need.
@@ -76,13 +76,13 @@ Also you'll need an IDE:
 For Scala-cli (or just plain `scala`), add to your `project.scala` (or any file):
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.2.1
+//> using dep io.github.spamegg1::tarski:0.2.2
 ```
 
 For SBT, add to your `build.sbt`:
 
 ```scala
-libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.2.1"
+libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.2.2"
 ```
 
 ## API Docs and artifacts
@@ -97,6 +97,9 @@ To get a quick look and feel, you can execute `tarski.main.Example.runExample`.
 
 To play a quick game, you can execute `tarski.main.Example.playGame`.
 See below for more on game mode.
+
+*Note:* In Scala 3.8.2+ you can run the example directly from the Scala REPL.
+Just `:dep io.github.spamegg1::tarski:0.2.2` then `tarski.main.Example.runExample`.
 
 Tarski's world is intended to be used interactively inside an IDE
 such as IntelliJ or Visual Studio Code.
@@ -113,7 +116,7 @@ You will see the interactive window like the one above in the video.
 Here are the details:
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.2.1
+//> using dep io.github.spamegg1::tarski:0.2.2
 
 import tarski.main.*, Shape.*, Sizes.*, Tone.*
 
@@ -159,9 +162,9 @@ to avoid repeatedly writing `Shape.`, `Sizes.` or `Tone.`.
 
 Blocks have 3 attributes, each of which has 3 possible values:
 
-|Attribute|value1|value2|value3|
-|:-|:-|:-|:-|
-|Tone|Blu|Lim|Red|
+|Attr | 1 | 2 | 3 |
+|:----|:--|:--|:--|
+|Tone |Blu|Lim|Red|
 |Shape|Tri|Sqr|Cir|
 |Sizes|Sml|Mid|Big|
 
@@ -267,7 +270,7 @@ about the truth of a formula in a world.
 You need a grid and a formula, then run `playGame` with them:
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.2.1
+//> using dep io.github.spamegg1::tarski:0.2.2
 
 import tarski.main.*, Shape.*, Sizes.*, Tone.*
 

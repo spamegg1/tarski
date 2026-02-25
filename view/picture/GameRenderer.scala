@@ -44,7 +44,6 @@ case class GameRenderer(gameBtn: GameButtons, ui: UI)(using c: Constants) extend
     *   An image of the chess board with all the blocks, and the UI controls and buttons, and all the messages.
     */
   def all(game: Game): Image =
-    println(game.step.play)
     selectedPos(game.pos.opt)
       .on(selectedPos(game.step.play.pos))
       .on(blocksOnBoard(game.board))
