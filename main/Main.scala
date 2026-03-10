@@ -105,22 +105,23 @@ object Example:
     fof"¬(∃x Big(x))",
     fof"∀x Sqr(x) ∨ Abv(a, d)",
     fof"∀x ¬ Cir(x)",
-    fof"¬(∀x (Sml(x) ∨ Left(x, a)))",
+    fof"¬(∀x (Sml(x) ∨ Lft(x, a)))",
     fof"∃x (Tri(x) → Rgt(x, d))",
-    fof"∀x (¬(Shap(c, x) ∨ Less(x, c)) → ¬Tone(x, c))",
+    fof"∀x (¬(Shp(c, x) ∨ Les(x, c)) → ¬Ton(x, c))",
     fof"a = b",
-    fof"∀x ∃y More(x, y)",
+    fof"Eq(a, b)",
+    fof"∀x ∃y Mor(x, y)",
     fof"c != d",
     fof"∀x (Sqr(x) ∨ Tri(x))",
-    fof"∀x (Big(x) ∨ Sqr(x))",
+    fof"∀x (Big(x) ∨ Blu(x))",
     fof"∃x (Tri(x) ∧ Mid(x))",
     fof"¬(∃x (Cir(x) → Sml(x)))",
-    fof"∃y (Sqr(y) <-> Sml(y))",
+    fof"∃y (Sqr(y) <-> Red(y))",
     fof"Mid(a)",
     fof"Happy(c)" // error
   )
 
-  private val exampleSentence = fof"∀x ∃y (More(x, y) ∨ Abv(y, x))"
+  private val exampleSentence = fof"∀x ∃y (Mor(x, y) ∨ Abv(y, x))"
 
   /** Runs the example world. */
   @main

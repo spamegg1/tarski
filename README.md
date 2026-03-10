@@ -185,80 +185,84 @@ Then you can write a list of first-order logic formulas, `FOLFormula`
 The formulas use a special string interpolator `fof"..."`,
 and can use the Unicode symbols or their ASCII equivalents for logical connectives:
 
-|Connective|ASCII|Unicode|
-|:-|:-|:-|
-|and|`&`|`∧`|
-|or|`\|`|`∨`|
-|not|`-`|`¬`|
-|implies|`->`|`→`|
-|biconditional|`<->`|`↔`|
-|forall|`!`|`∀`|
-|exists|`?`|`∃`|
+|Connective   |ASCII|Unicode|
+|:------------|:----|:------|
+|and          |`&`  |`∧`    |
+|or           |`\|` |`∨`    |
+|not          |`-`  |`¬`    |
+|implies      |`->` |`→`    |
+|biconditional|`<->`|`↔`    |
+|forall       |`!`  |`∀`    |
+|exists       |`?`  |`∃`    |
 
 ### Predicates for atomic formulas
 
 **NOTE:** Many of these predicate names are shortened from their normal spellings
 (like Small -> `Sml`, Right -> `Rgt`) in order to fit longer formulas on the screen.
 Please study them carefully. Apologies for any confusion!
-(Hopefully I will fix this limitation in the future.)
 
 The following predicates are supported:
 
 #### Unary
 
-|Syntax|Semantics|
-|:-|:-|
-|`Tri(x)`|"x is a triangle"|
-|`Sqr(x)`|"x is a square"|
-|`Cir(x)`|"x is a circle"|
-|`Blu(x)`|"x has color blue"|
-|`Lim(x)`|"x has color lime"|
-|`Red(x)`|"x has color red"|
-|`Sml(x)`|"x has small size"|
-|`Mid(x)`|"x has medium size"|
-|`Big(x)`|"x has big size"|
+|Syntax  |Semantics        |
+|:-------|:----------------|
+|`Tri(x)`|x is a triangle  |
+|`Sqr(x)`|x is a square    |
+|`Cir(x)`|x is a circle    |
+|`Blu(x)`|x has color blue |
+|`Lim(x)`|x has color lime |
+|`Red(x)`|x has color red  |
+|`Sml(x)`|x has small size |
+|`Mid(x)`|x has medium size|
+|`Big(x)`|x has big size   |
 
 #### Binary
 
-|Syntax      |Semantics                                    |
-|:-----------|:--------------------------------------------|
-|`Left(x, y)`|"x is to the left of y"                      |
-|`Rgt(x, y)` |"x is to the right of y"                     |
-|`Bel(x, y)` |"x is below y"                               |
-|`Abv(x, y)` |"x is above y"                               |
-|`Adj(x, y)` |"x is adjacent (but not diagonally) to y"    |
-|`Less(x, y)`|"x is smaller in size than y"                |
-|`More(x, y)`|"x is larger in size than y"                 |
-|`Row(x, y)` |"x is on the same row as y"                  |
-|`Col(x, y)` |"x is on the same column as y"               |
-|`Size(x, y)`|"x has the same size as y"                   |
-|`Shap(x, y)`|"x has the same shape as y"                  |
-|`Tone(x, y)`|"x has the same tone as y"                   |
-|`Loc(x,y)`  |"x and y have the same location on the board"|
-|`x = y`     |"x is equal to y (in size, shape and tone)"  |
+|Syntax     |Semantics                                    |
+|:----------|:--------------------------------------------|
+|`Lft(x, y)`|x is to the left of y                        |
+|`Rgt(x, y)`|x is to the right of y                       |
+|`Bel(x, y)`|x is below y                                 |
+|`Abv(x, y)`|x is above y                                 |
+|`Adj(x, y)`|x is adjacent (but not diagonally) to y      |
+|`Les(x, y)`|x is smaller in size than y                  |
+|`Mor(x, y)`|x is bigger in size than y                   |
+|`Row(x, y)`|x is on the same row as y                    |
+|`Col(x, y)`|x is on the same column as y                 |
+|`Siz(x, y)`|x has the same size as y                     |
+|`Shp(x, y)`|x has the same shape as y                    |
+|`Ton(x, y)`|x has the same tone as y                     |
+|`Eq(x, y)` |x is equal to y (in size, shape and tone)    |
+|`x = y`    |x and y are at the same location on the board|
 
 #### Ternary
 
-|Syntax|Semantics|
-|:-|:-|
-|`Btw(x, y, z)`|"x is between y and z (vertically, horizontally or diagonally)"|
+|Syntax        |Semantics                                                          |
+|:-------------|:------------------------------------------------------------------|
+|`Btw(x, y, z)`|"x is between y and z (vertically, horizontally or 45° diagonally)"|
 
 ##### Note on equality
 
 Normally in first-order logic, equality is interpreted as "reference equality",
 meaning, `x = y` if both `x` and `y` refer to the same object (number, set, etc.)
+
 The original Tarski's World app lets you assign multiple names to the same block,
-which makes it possible for `x = y` reference equality to be true.
+which makes it possible for `x = y` reference equality to be true with 1 block.
 Here we do not allow that, because having multiple names is a bit confusing.
-Our blocks can only have up to 1 name, so `x = y` would always be false
+Our blocks can only have up to 1 name, so `x = y` is always false
 under reference equality whenever `x` and `y` refer to separate blocks.
-Instead we interpret `=` as "value equality", so two separate blocks can be equal
-if they have all the same attributes (size, shape, tone).
-However this makes it difficult (but not impossible) to express things like
-"there is exactly one..." or "there are exactly four...".
-To simplify this we have another binary predicate `Loc(x,y)` which says that
+
+We interpret `=` as reference equality, where `x = y` if
 `x` and `y` are at the same location (row and column) on the board,
-therefore they represent the same block (reference equality).
+therefore they represent the same block.
+This allows us to express things like "there are exactly four blocks" kind of sentences.
+
+However reference equality is not always desirable.
+So we have another binary predicate `Eq` as "value equality",
+where two separate blocks can be equal
+if they have all the same attributes (size, shape, tone).
+
 So we have both kinds of equality available to us 😄
 
 ## Game mode
