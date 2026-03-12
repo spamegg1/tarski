@@ -2,7 +2,7 @@ package tarski
 package controller
 
 object GameHandler:
-  import Select.*
+  import Select.*, GameClick.*
 
   /** We can click on the board only when we are asked to pick an object for a false universal formula or a true
     * existential formula. In this case, the game's `pos` [[Select]] state must be `Wait` or `On`. Otherwise, clicking
@@ -33,14 +33,13 @@ object GameHandler:
   def controls(pos: Pos, game: Game): Game =
     Converter.gameMap.get(pos) match
       case None        => game
-      case Some(value) => // make sure a button is clicked
-        value match
-          case "True" | "False" => handleStart(value, game)
-          case "Left" | "Right" => handleChoice(value, game)
-          case "Back"           => game.rewind
-          case "OK"             => handleOK(game)
-          case "Block"          => game
-          case _                => game
+      case Some(click) => // make sure a button is clicked
+        click match
+          case True | False => handleStart(click, game)
+          case Left | Right => handleChoice(click, game)
+          case Back         => game.rewind
+          case OK           => handleOK(game)
+          case Display      => game
 
   /** Handles what happens when the user clicks on the True/False buttons.
     *
@@ -48,13 +47,13 @@ object GameHandler:
     * the game.
     *
     * @param choice
-    *   Either `"True"` or `"False"`.
+    *   Either `True` or `False`.
     * @param game
     *   Current state of the game.
     * @return
     *   New state of the game that sets the user's commitment and starts the game.
     */
-  def handleStart(choice: String, game: Game): Game = game.step.play.commitment match
+  def handleStart(choice: GameClick, game: Game): Game = game.step.play.commitment match
     case Some(_) => game // commitment is already set, we cannot click
     case None    =>
       val nextPlay = game.step.play.commitTo(choice.toBoolean)
@@ -82,14 +81,14 @@ object GameHandler:
     * @return
     *   New state of the game depending on choice, commitment and formula.
     */
-  private def handleChoice(choice: String, game: Game): Game =
+  private def handleChoice(choice: GameClick, game: Game): Game =
     val play     = game.step.play
     val nextPlay = (play, choice) match
-      case (Play(And(a, b), Some(false), Some(l), Some(_), _), "Left")  => play.setFormula(l)
-      case (Play(And(a, b), Some(false), Some(_), Some(r), _), "Right") => play.setFormula(r)
-      case (Play(Or(a, b), Some(true), Some(l), Some(_), _), "Left")    => play.setFormula(l)
-      case (Play(Or(a, b), Some(true), Some(_), Some(r), _), "Right")   => play.setFormula(r)
-      case _                                                            => play
+      case (Play(And(a, b), Some(false), Some(l), Some(_), _), Left)  => play.setFormula(l)
+      case (Play(And(a, b), Some(false), Some(_), Some(r), _), Right) => play.setFormula(r)
+      case (Play(Or(a, b), Some(true), Some(l), Some(_), _), Left)    => play.setFormula(l)
+      case (Play(Or(a, b), Some(true), Some(_), Some(r), _), Right)   => play.setFormula(r)
+      case _                                                          => play
     val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
     game.addStep(nextPlay, nextMsgs)
 

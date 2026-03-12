@@ -30,7 +30,7 @@ package tarski:
     export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
     export constants.Constants, Constants.{BoardSize, UISize, Dims, GridSize}
     export model.{Pos, Block, NameMap, Name, Status, Tone, Attr, World, Shape, Board}, NameMap.given
-    export model.{Controls, Names, Result, Sizes, Play, Game, Select, reset, toNameMap, sub}
+    export model.{Controls, Names, Result, Sizes, Play, Game, Select, reset, toNameMap, sub, GameClick}
 
   /** Package to draw and render the interface. It is designed in a pure way and does not hold any mutable state.
     * [[Render]] simply consumes a [[World]] and produces a [[doodle.image.Image]]. It is used by [[main]]. Depends on
@@ -52,7 +52,7 @@ package tarski:
     export doodle.core.Point
     export gapt.expr.stringInterpolationForExpressions
     export constants.Constants, Constants.{DefaultSize, Epsilon}
-    export model.{World, Block, Pos, Board, Grid, NameMap, Status, Result, Shape, Sizes, Tone, Controls, NameGrid}
+    export model.{World, Block, Pos, Board, Grid, NameMap, Status, Result, Shape, Sizes, Tone, Controls}
     export controller.{Interpreter, Converter, WorldHandler}
 
   /** This package is the user-facing part of Tarski's world. Depends on [[constants]], [[model]], [[controller]] and
