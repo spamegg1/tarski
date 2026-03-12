@@ -25,39 +25,41 @@ class WorldHandlerTest extends munit.FunSuite:
 
   // For UI controls tests
   // No position selected
-  val w000  = WorldHandler.uiButtons((0, 0), w0)    // Eval
-  val w001  = WorldHandler.uiButtons((0, 1), w000)  // Eval
-  val w100  = WorldHandler.uiButtons((1, 0), w001)  // Move
-  val w101  = WorldHandler.uiButtons((1, 1), w100)  // Move
-  val w013  = WorldHandler.uiButtons((0, 13), w101) // Left
-  val w014  = WorldHandler.uiButtons((0, 14), w100) // Block
-  val w015  = WorldHandler.uiButtons((0, 15), w014) // Block
-  val w113  = WorldHandler.uiButtons((1, 13), w015) // Right
-  val w114  = WorldHandler.uiButtons((1, 14), w015) // Block
-  val w115  = WorldHandler.uiButtons((1, 15), w114) // Block
-  val w002  = WorldHandler.uiButtons((0, 2), w115)  // Add
-  val w003  = WorldHandler.uiButtons((0, 3), w115)  // Add
-  val w004  = WorldHandler.uiButtons((0, 4), w003)  // a
-  val w005  = WorldHandler.uiButtons((0, 5), w004)  // b
-  val w006  = WorldHandler.uiButtons((0, 6), w005)  // c
-  val w007  = WorldHandler.uiButtons((0, 7), w006)  // d
-  val w008  = WorldHandler.uiButtons((0, 8), w007)  // e
-  val w008_ = WorldHandler.uiButtons((0, 0), w008)  // Eval
-  val w009  = WorldHandler.uiButtons((0, 9), w008_) // f
-  val w010  = WorldHandler.uiButtons((0, 10), w009) // Blu
-  val w011  = WorldHandler.uiButtons((0, 11), w010) // Lim
-  val w012  = WorldHandler.uiButtons((0, 12), w011) // Coral
-  val w102  = WorldHandler.uiButtons((1, 2), w012)  // Del
-  val w103  = WorldHandler.uiButtons((1, 3), w102)  // Del
-  val w104  = WorldHandler.uiButtons((1, 4), w103)  // Sml
-  val w105  = WorldHandler.uiButtons((1, 5), w104)  // Sml
-  val w106  = WorldHandler.uiButtons((1, 6), w105)  // Mid
-  val w107  = WorldHandler.uiButtons((1, 7), w106)  // Mid
-  val w108  = WorldHandler.uiButtons((1, 8), w107)  // Big
-  val w109  = WorldHandler.uiButtons((1, 9), w108)  // Big
-  val w110  = WorldHandler.uiButtons((1, 10), w109) // Tri
-  val w111  = WorldHandler.uiButtons((1, 11), w110) // Sqr
-  val w112  = WorldHandler.uiButtons((1, 12), w111) // Cir
+  val w000  = WorldHandler.uiButtons((0, 0), w0)     // Eval
+  val w001  = WorldHandler.uiButtons((0, 1), w000)   // Eval
+  val w100  = WorldHandler.uiButtons((1, 0), w001)   // Move
+  val w101  = WorldHandler.uiButtons((1, 1), w100)   // Move
+  val w101_ = w101.selectPos(p0)
+  val w013  = WorldHandler.uiButtons((0, 13), w101_) // Left
+  val w014  = WorldHandler.uiButtons((0, 14), w100)  // Block
+  val w015  = WorldHandler.uiButtons((0, 15), w014)  // Block
+  val w015_ = w015.selectPos(p1)
+  val w113  = WorldHandler.uiButtons((1, 13), w015_) // Right
+  val w114  = WorldHandler.uiButtons((1, 14), w015)  // Block
+  val w115  = WorldHandler.uiButtons((1, 15), w114)  // Block
+  val w002  = WorldHandler.uiButtons((0, 2), w115)   // Add
+  val w003  = WorldHandler.uiButtons((0, 3), w115)   // Add
+  val w004  = WorldHandler.uiButtons((0, 4), w003)   // a
+  val w005  = WorldHandler.uiButtons((0, 5), w004)   // b
+  val w006  = WorldHandler.uiButtons((0, 6), w005)   // c
+  val w007  = WorldHandler.uiButtons((0, 7), w006)   // d
+  val w008  = WorldHandler.uiButtons((0, 8), w007)   // e
+  val w008_ = WorldHandler.uiButtons((0, 0), w008)   // Eval
+  val w009  = WorldHandler.uiButtons((0, 9), w008_)  // f
+  val w010  = WorldHandler.uiButtons((0, 10), w009)  // Blu
+  val w011  = WorldHandler.uiButtons((0, 11), w010)  // Lim
+  val w012  = WorldHandler.uiButtons((0, 12), w011)  // Coral
+  val w102  = WorldHandler.uiButtons((1, 2), w012)   // Del
+  val w103  = WorldHandler.uiButtons((1, 3), w102)   // Del
+  val w104  = WorldHandler.uiButtons((1, 4), w103)   // Sml
+  val w105  = WorldHandler.uiButtons((1, 5), w104)   // Sml
+  val w106  = WorldHandler.uiButtons((1, 6), w105)   // Mid
+  val w107  = WorldHandler.uiButtons((1, 7), w106)   // Mid
+  val w108  = WorldHandler.uiButtons((1, 8), w107)   // Big
+  val w109  = WorldHandler.uiButtons((1, 9), w108)   // Big
+  val w110  = WorldHandler.uiButtons((1, 10), w109)  // Tri
+  val w111  = WorldHandler.uiButtons((1, 11), w110)  // Sqr
+  val w112  = WorldHandler.uiButtons((1, 12), w111)  // Cir
 
   // Selected position is empty
   val x     = w112.selectPos(p2)
@@ -117,20 +119,20 @@ class WorldHandlerTest extends munit.FunSuite:
     assert(!w101.controls.move, msg2)
 
   test("Left button should rotate board counter-clockwise"):
-    val msg     = "Left button should rotate counter-clockwise correctly, but does not"
-    val newGrid = Map(
-      (row = 5, col = 1) -> (Block(Sml, Cir, Blu, "f")),
-      (row = 3, col = 3) -> (Block(Mid, Tri, Lim))
-    )
-    assertEquals(w013.board.grid.mapValues(_.block).toMap, newGrid, msg)
+    val msg1 = s"Left button should rotate $b0 correctly from $p0 to (5, 1), but does not"
+    val msg2 = s"Left button should rotate $b1 correctly from $p1 to (3, 3), but does not"
+    val msg3 = s"Left button should change selected position from $p0 to (5, 1), but does not"
+    assertEquals(w013.board.grid((5, 1)).block, Block(Sml, Cir, Blu, "f"), msg1)
+    assertEquals(w013.board.grid((3, 3)).block, b1, msg2)
+    assertEquals(w013.controls.posOpt, Some((5, 1)), msg3)
 
   test("Right button should rotate board clockwise"):
-    val msg     = "Right button should rotate clockwise correctly, but does not"
-    val newGrid = Map(
-      (row = 2, col = 6) -> (Block(Sml, Cir, Blu, "f")),
-      (row = 4, col = 4) -> (Block(Mid, Tri, Lim))
-    )
-    assertEquals(w113.board.grid.mapValues(_.block).toMap, newGrid, msg)
+    val msg1 = s"Right button should rotate $b0 correctly from $p0 to (2, 6), but does not"
+    val msg2 = s"Right button should rotate $b1 correctly from $p1 to (4, 4), but does not"
+    val msg3 = s"Right button should change selected position from $p1 to (4, 4), but does not"
+    assertEquals(w113.board.grid((2, 6)).block, Block(Sml, Cir, Blu, "f"), msg1)
+    assertEquals(w113.board.grid((4, 4)).block, b1, msg2)
+    assertEquals(w113.controls.posOpt, Some((4, 4)), msg3)
 
   test("Block display should do nothing if clicked"):
     val msg = "Clicking the block display should not do anything, but does"
