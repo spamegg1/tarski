@@ -8,7 +8,11 @@ A converter should:
 - ✅ correctly convert `Point` to `Pos`.
 - ✅ give the same conversion `Pos` result for every `Point` inside the same block.
 
-## Handler tests
+## Game handler tests
+
+TODO
+
+## World handler tests
 
 ### Clicking the UI buttons
 

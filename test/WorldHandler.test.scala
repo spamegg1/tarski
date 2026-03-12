@@ -117,10 +117,20 @@ class WorldHandlerTest extends munit.FunSuite:
     assert(!w101.controls.move, msg2)
 
   test("Left button should rotate board counter-clockwise"):
-    assertEquals(w113, w113, "") // TODO
+    val msg               = "Left button should rotate counter-clockwise correctly, but does not"
+    val newGrid: NameGrid = Map(
+      (5, 1) -> (Block(Sml, Cir, Blu, "f"), "f"),
+      (3, 3) -> (Block(Mid, Tri, Lim), "b3")
+    )
+    assertEquals(w013.board.grid, newGrid, msg)
 
   test("Right button should rotate board clockwise"):
-    assertEquals(w013, w013, "") // TODO
+    val msg               = "Right button should rotate clockwise correctly, but does not"
+    val newGrid: NameGrid = Map(
+      (2, 6) -> (Block(Sml, Cir, Blu, "f"), "f"),
+      (4, 4) -> (Block(Mid, Tri, Lim), "b3")
+    )
+    assertEquals(w113.board.grid, newGrid, msg) // TODO
 
   test("Block display should do nothing if clicked"):
     val msg = "Clicking the block display should not do anything, but does"

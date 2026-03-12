@@ -1,7 +1,7 @@
 //> using scala 3.8.2
 //> using toolkit 0.9.1
 //> using resourceDir ./font
-//> using dep org.creativescala::doodle:0.33.0
+//> using dep org.creativescala::doodle:0.34.0
 //> using dep at.logic.gapt::gapt:2.18.1
 //> using option -explain-cyclic
 

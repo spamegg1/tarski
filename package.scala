@@ -52,7 +52,7 @@ package tarski:
     export doodle.core.Point
     export gapt.expr.stringInterpolationForExpressions
     export constants.Constants, Constants.{DefaultSize, Epsilon}
-    export model.{World, Block, Pos, Board, Grid, NameMap, Status, Result, Shape, Sizes, Tone, Controls}
+    export model.{World, Block, Pos, Board, Grid, NameMap, Status, Result, Shape, Sizes, Tone, Controls, NameGrid}
     export controller.{Interpreter, Converter, WorldHandler}
 
   /** This package is the user-facing part of Tarski's world. Depends on [[constants]], [[model]], [[controller]] and
