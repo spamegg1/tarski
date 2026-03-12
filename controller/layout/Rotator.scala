@@ -28,13 +28,13 @@ case class Rotator(gs: GridSize):
   /** Selects the right rotation function based on input. It acts like a partially applied function.
     *
     * @param dir
-    *   Can only be "Left" or "Right".
+    *   Can only be `Click.Left` or `Click.Right`.
     * @return
     *   `rotateLeft` or `rotateRight`
     */
-  def rotate(dir: String): Pos => Pos = dir match
-    case "Left" => rotateLeft
-    case "Rgt"  => rotateRight
+  def rotate(dir: Click): Pos => Pos = dir match
+    case Click.Left  => rotateLeft
+    case Click.Right => rotateRight
 end Rotator
 
 /** Contains useful instances of [[Rotator]]. */

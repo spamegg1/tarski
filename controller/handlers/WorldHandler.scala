@@ -35,19 +35,17 @@ object WorldHandler:
   def uiButtons(pos: Pos, world: World): World =
     Converter.uiMap.get(pos) match
       case None        => world
-      case Some(value) => // make sure a button is clicked
-        value match
-          case "Eval"                            => handleEval(world)
-          case "Add"                             => world.addBlockFromControls
-          case "Del"                             => world.removeSelectedBlock
-          case "Move"                            => world.toggleMove
-          case "Block"                           => world
-          case "a" | "b" | "c" | "d" | "e" | "f" => handleName(value, world)
-          case "Blu" | "Lim" | "Red"             => handleAttr(value, world)
-          case "Sml" | "Mid" | "Big"             => handleAttr(value, world)
-          case "Tri" | "Sqr" | "Cir"             => handleAttr(value, world)
-          case "Left" | "Rgt"                    => handleRotate(value, world)
-          case _                                 => world
+      case Some(click) => // make sure a button is clicked
+        import Click.*
+        click match
+          case A | B | C | D | E | F                               => handleName(click.toName, world)
+          case Blu | Lim | Red | Sml | Mid | Big | Tri | Sqr | Cir => handleAttr(click.toAttr, world)
+          case Left | Right                                        => handleRotate(click, world)
+          case Eval                                                => handleEval(world)
+          case Add                                                 => world.addBlockFromControls
+          case Del                                                 => world.removeSelectedBlock
+          case Move                                                => world.toggleMove
+          case Icon                                                => world
   end uiButtons
 
   /** Handles the evaluation of formulas if the user clicked on the Eval button.
@@ -80,7 +78,7 @@ object WorldHandler:
     * @return
     *   New state of the world, updated according to which name was clicked.
     */
-  private def handleName(name: String, world: World): World =
+  private def handleName(name: Name, world: World): World =
     import Status.*
     world.names.get(name) match
       case None            => world
@@ -102,7 +100,7 @@ object WorldHandler:
     * @return
     *   New state of the world, where positions of the blocks are rotated 90 degrees in given direction.
     */
-  private def handleRotate(dir: String, world: World): World =
+  private def handleRotate(dir: Click, world: World): World =
     world.rotate(Rotator.board.rotate(dir))
 
   /** Handles attributes ([[model.Tone]], [[model.Shape]] or [[model.Sizes]]) if the user clicks on one of those
@@ -115,33 +113,15 @@ object WorldHandler:
     * @return
     *   New state of the world, updated according to which attribute was clicked.
     */
-  private def handleAttr(attr: String, world: World): World =
-    val newAttr                = attr.toAttr
-    val newControls            = world.controls.setAttr(newAttr)
+  private def handleAttr(attr: Attr, world: World): World =
+    val newControls            = world.controls.setAttr(attr)
     val (newGrid, newFormulas) = world.controls.posOpt match
       case None      => (world.board.grid, world.formulas)
       case Some(pos) =>
         world.board.grid.get(pos) match
           case None                => (world.board.grid, world.formulas)
           case Some((block, name)) =>
-            val newBlock = block.setAttr(newAttr)
+            val newBlock = block.setAttr(attr)
             (world.board.grid.updated(pos, (newBlock, name)), world.formulas.reset)
     world.copy(controls = newControls, board = world.board(newGrid), formulas = newFormulas)
-
-  extension (s: String)
-    /** Extension method to convert a `String` to a [[model.Attr]].
-      *
-      * @return
-      *   The attribute that corresponds to the `String`.
-      */
-    def toAttr: Attr = s match
-      case "Blu" => Tone.Blu
-      case "Red" => Tone.Red
-      case "Lim" => Tone.Lim
-      case "Sml" => Sizes.Sml
-      case "Mid" => Sizes.Mid
-      case "Big" => Sizes.Big
-      case "Tri" => Shape.Tri
-      case "Sqr" => Shape.Sqr
-      case "Cir" => Shape.Cir
 end WorldHandler
