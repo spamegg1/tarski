@@ -122,6 +122,8 @@ class WorldHandlerTest extends munit.FunSuite:
       (5, 1) -> (Block(Sml, Cir, Blu, "f"), "f"),
       (3, 3) -> (Block(Mid, Tri, Lim), "b3")
     )
+    println(s"w101: ${w101.board.grid}")
+    println(s"w013: ${w013.board.grid}")
     assertEquals(w013.board.grid, newGrid, msg)
 
   test("Right button should rotate board clockwise"):
@@ -130,7 +132,9 @@ class WorldHandlerTest extends munit.FunSuite:
       (2, 6) -> (Block(Sml, Cir, Blu, "f"), "f"),
       (4, 4) -> (Block(Mid, Tri, Lim), "b3")
     )
-    assertEquals(w113.board.grid, newGrid, msg) // TODO
+    println(s"w015: ${w015.board.grid}")
+    println(s"w113: ${w113.board.grid}}")
+    assertEquals(w113.board.grid, newGrid, msg)
 
   test("Block display should do nothing if clicked"):
     val msg = "Clicking the block display should not do anything, but does"
