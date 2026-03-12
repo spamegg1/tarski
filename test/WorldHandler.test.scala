@@ -117,24 +117,20 @@ class WorldHandlerTest extends munit.FunSuite:
     assert(!w101.controls.move, msg2)
 
   test("Left button should rotate board counter-clockwise"):
-    val msg               = "Left button should rotate counter-clockwise correctly, but does not"
-    val newGrid: NameGrid = Map(
-      (5, 1) -> (Block(Sml, Cir, Blu, "f"), "f"),
-      (3, 3) -> (Block(Mid, Tri, Lim), "b3")
+    val msg     = "Left button should rotate counter-clockwise correctly, but does not"
+    val newGrid = Map(
+      (row = 5, col = 1) -> (Block(Sml, Cir, Blu, "f")),
+      (row = 3, col = 3) -> (Block(Mid, Tri, Lim))
     )
-    println(s"w101: ${w101.board.grid}")
-    println(s"w013: ${w013.board.grid}")
-    assertEquals(w013.board.grid, newGrid, msg)
+    assertEquals(w013.board.grid.mapValues(_.block).toMap, newGrid, msg)
 
   test("Right button should rotate board clockwise"):
-    val msg               = "Right button should rotate clockwise correctly, but does not"
-    val newGrid: NameGrid = Map(
-      (2, 6) -> (Block(Sml, Cir, Blu, "f"), "f"),
-      (4, 4) -> (Block(Mid, Tri, Lim), "b3")
+    val msg     = "Right button should rotate clockwise correctly, but does not"
+    val newGrid = Map(
+      (row = 2, col = 6) -> (Block(Sml, Cir, Blu, "f")),
+      (row = 4, col = 4) -> (Block(Mid, Tri, Lim))
     )
-    println(s"w015: ${w015.board.grid}")
-    println(s"w113: ${w113.board.grid}}")
-    assertEquals(w113.board.grid, newGrid, msg)
+    assertEquals(w113.board.grid.mapValues(_.block).toMap, newGrid, msg)
 
   test("Block display should do nothing if clicked"):
     val msg = "Clicking the block display should not do anything, but does"
