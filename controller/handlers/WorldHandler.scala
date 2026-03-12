@@ -36,25 +36,40 @@ object WorldHandler:
     Converter.uiMap.get(pos) match
       case None        => world
       case Some(click) => // make sure a button is clicked
-        import Click.*
         click match
-          case A | B | C | D | E | F                               => handleName(click.toName, world)
-          case Blu | Lim | Red | Sml | Mid | Big | Tri | Sqr | Cir => handleAttr(click.toAttr, world)
-          case Left | Right                                        => handleRotate(click, world)
-          case Eval                                                => handleEval(world)
-          case Add                                                 => world.addBlockFromControls
-          case Del                                                 => world.removeSelectedBlock
-          case Move                                                => world.toggleMove
-          case Icon                                                => world
-  end uiButtons
+          case l: Letter   => handleName(l.toName, world)
+          case attr: Attr  => handleAttr(attr, world)
+          case r: Rotation => handleRotate(r, world)
+          case a: Action   => handleAction(a, world)
+
+  /** Handles what happens when a user clicks one of the action buttons which control evaluation, adding / moving /
+    * deleting a block, or the selected block display.
+    *
+    * @param action
+    *   One of `Eval`, `Add`, `Del`, `Move`, `Icon`.
+    * @param world
+    *   The current state of the world.
+    * @return
+    *   New state of the world, updated according to which action button was clicked on.
+    */
+  private def handleAction(action: Action, world: World): World =
+    import Action.*
+    action match
+      case Eval => handleEval(world)
+      case Add  => world.addBlockFromControls
+      case Del  => world.removeSelectedBlock
+      case Move => world.toggleMove
+      case Icon => world
 
   /** Handles the evaluation of formulas if the user clicked on the Eval button.
+    *
+    * If a formula refers to a named object that's not present on the board, it is left unevaluated. If a formula uses
+    * an unsupported predicate symbol, it errors.
     *
     * @param world
     *   The current state of the world.
     * @return
-    *   New state of the world, updated by evaluating the formulas. If a formula refers to a named object that's not
-    *   present on the board, it is left unevaluated. If a formula uses an unsupported predicate symbol, it errors.
+    *   New state of the world, updated by evaluating the formulas.
     */
   private def handleEval(world: World): World =
     import Result.*
@@ -72,7 +87,7 @@ object WorldHandler:
   /** Handles the named objects if the user clicked on one of the name buttons.
     *
     * @param name
-    *   The name of the button that was clicked (a, b, c, d, e or f).
+    *   The letter name of the button that was clicked (a, b, c, d, e or f).
     * @param world
     *   The current state of the world.
     * @return
@@ -100,7 +115,7 @@ object WorldHandler:
     * @return
     *   New state of the world, where positions of the blocks are rotated 90 degrees in given direction.
     */
-  private def handleRotate(dir: Click, world: World): World =
+  private def handleRotate(dir: Rotation, world: World): World =
     world.rotate(Rotator.board.rotate(dir))
 
   /** Handles attributes ([[model.Tone]], [[model.Shape]] or [[model.Sizes]]) if the user clicks on one of those

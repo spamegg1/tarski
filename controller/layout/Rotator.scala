@@ -32,9 +32,9 @@ case class Rotator(gs: GridSize):
     * @return
     *   `rotateLeft` or `rotateRight`
     */
-  def rotate(dir: Click): Pos => Pos = dir match
-    case Click.Left  => rotateLeft
-    case Click.Right => rotateRight
+  def rotate(dir: Rotation): Pos => Pos = dir match
+    case Rotation.Left  => rotateLeft
+    case Rotation.Right => rotateRight
 end Rotator
 
 /** Contains useful instances of [[Rotator]]. */
