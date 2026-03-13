@@ -57,7 +57,7 @@ object GameHandler:
     case Some(_) => game // commitment is already set, we cannot click
     case None    =>
       val nextPlay = game.step.play.commitTo(choice.toBoolean)
-      val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
+      val nextMsgs = genMsgs(nextPlay, game.pos)(using game.board)
       game.addStep(nextPlay, nextMsgs)
 
   /** Handles what happens when the user clicks on one of the two choice buttons.
@@ -89,7 +89,7 @@ object GameHandler:
       case (Play(Or(a, b), Some(true), Some(l), Some(_), _), Left)    => play.setFormula(l)
       case (Play(Or(a, b), Some(true), Some(_), Some(r), _), Right)   => play.setFormula(r)
       case _                                                          => play
-    val nextMsgs = generateMessages(nextPlay, game.pos)(using game.board)
+    val nextMsgs = genMsgs(nextPlay, game.pos)(using game.board)
     game.addStep(nextPlay, nextMsgs)
 
   /** We can only click the OK button if a block has been selected and can be substituted into a formula, or a message
@@ -110,16 +110,16 @@ object GameHandler:
     case Game((Play(All(x, f), Some(false), _, _, _), _), _, _, On(pos)) => subst(game, x, f, pos)
     case Game((Play(Ex(x, f), Some(true), _, _, _), _), _, _, On(pos))   => subst(game, x, f, pos)
     case _                                                               =>
-      val play                = game.step.play
-      given nm: NameMap       = game.board.grid.toNameMap
-      val (nextPlay, nextPos) = play match
+      val play          = game.step.play
+      given nm: NameMap = game.board.grid.toNameMap
+      val next          = play match
         case Play(All(x, f), Some(true), _, _, _) =>
           val choice = nm.keys
             .map(name => name -> Interpreter.eval(f.sub(x, name)))
             .find(!_._2) match // choose FALSE block
             case None            => nm.keys.head
             case Some((name, _)) => name
-          (play.sub(nm(choice).pos, choice, x, f), Off)
+          Some(play.sub(nm(choice).pos, choice, x, f), Off)
 
         case Play(Ex(x, f), Some(false), _, _, _) =>
           val choice = nm.keys
@@ -127,28 +127,30 @@ object GameHandler:
             .find(_._2) match // choose TRUE block
             case None            => nm.keys.head
             case Some((name, _)) => name
-          (play.sub(nm(choice).pos, choice, x, f), Off)
-
-        case Play(Neg(_), _, _, _, _) => (play.negate, game.pos)
+          Some(play.sub(nm(choice).pos, choice, x, f), Off)
 
         case Play(And(a, b), Some(true), _, _, _) =>
           val evalA  = Interpreter.eval(a)
           val choice = if evalA then b else a // choose FALSE formula
-          (play.setFormula(choice), game.pos)
+          Some(play.setFormula(choice), game.pos)
 
         case Play(Or(a, b), Some(false), _, _, _) =>
           val evalA  = Interpreter.eval(a)
           val choice = if evalA then a else b // choose TRUE formula
-          (play.setFormula(choice), game.pos)
-
-        case Play(Imp(a, b), _, _, _, _) => (play.setFormula(Or(Neg(a), b)), game.pos)
+          Some(play.setFormula(choice), game.pos)
 
         case Play(Iff(a: FOLFormula, b: FOLFormula), _, _, _, _) =>
-          (play.setFormula(And(Imp(a, b), Imp(b, a))), game.pos)
+          Some(play.setFormula(And(Imp(a, b), Imp(b, a))), game.pos)
 
-        case _ => ???
-      val nextMsgs = generateMessages(nextPlay, nextPos)
-      game.addStep(nextPlay, nextMsgs)
+        case Play(Neg(_), _, _, _, _)    => Some(play.negate, game.pos)
+        case Play(Imp(a, b), _, _, _, _) => Some(play.setFormula(Or(Neg(a), b)), game.pos)
+        case _                           => None
+
+      next match
+        case Some(nextPlay, nextPos) =>
+          val nextMsgs = genMsgs(nextPlay, nextPos)
+          game.addStep(nextPlay, nextMsgs)
+        case None => game
 
   /** Advances the game by substituting the name of the block at selected position into a formula.
     *
@@ -169,7 +171,7 @@ object GameHandler:
       case None                => game
       case Some((block, name)) =>
         val nextPlay = game.step.play.sub(pos, name, x, f)
-        val nextMsgs = generateMessages(nextPlay, Off)(using game.board)
+        val nextMsgs = genMsgs(nextPlay, Off)(using game.board)
         game.addStep(nextPlay, nextMsgs).unsetPos
 
   /** Generates messages to be displayed to the user about the current state of the game.
@@ -183,7 +185,7 @@ object GameHandler:
     * @return
     *   A list of messages (strings).
     */
-  private def generateMessages(play: Play, pos: Select[Pos])(using nm: NameMap) =
+  private def genMsgs(play: Play, pos: Select[Pos])(using nm: NameMap) =
     (play.commitment, play.formula) match
       case (Some(commit), a: FOLAtom) =>
         val result = Interpreter.eval(a)
@@ -283,5 +285,5 @@ object GameHandler:
         msg1 :: msg2 :: msg3 :: Nil
 
       case _ => Nil
-  end generateMessages
+  end genMsgs
 end GameHandler
