@@ -5,14 +5,12 @@ package model
   *
   * @param step
   *   The current play, and its corresponding messages to be displayed to the user.
-  * @param prev
-  *   A list of all the previous steps (pairs of play and messages); the history of the game play.
-  * @param pos
-  *   The state of currently selected position on the board.
   * @param board
   *   The board that holds the blocks for the game.
+  * @param prev
+  *   A list of all the previous steps (pairs of play and messages); the history of the game play.
   */
-case class Game(step: Step, board: Board, prev: List[Step], pos: Select[Pos]):
+case class Game(step: Step, board: Board, prev: List[Step]):
   import Select.*
 
   /** Changes the position when the user clicks on the board. Does not advance the step or produce messages.
@@ -26,22 +24,22 @@ case class Game(step: Step, board: Board, prev: List[Step], pos: Select[Pos]):
     *   New state of the game where the position is updated accordingly.
     */
   def setPos(p: Pos) = board.grid.get(p) match
-    case None    => copy(pos = Wait)
-    case Some(_) => copy(pos = On(p))
+    case None    => copy(step = step.copy(pos = Wait))
+    case Some(_) => copy(step = step.copy(pos = On(p)))
 
   /** Sets the `pos` to [[Select.Wait]]. Does not advance the step, or produce messages.
     *
     * @return
     *   A copy of this game with `pos` set to `Wait`.
     */
-  def waitPos = copy(pos = Wait)
+  def waitPos = copy(step = step.copy(pos = Wait))
 
   /** Sets the `pos` to [[Select.Off]]. Does not advance the step, or produce messages.
     *
     * @return
     *   A copy of this game with `pos` set to `Off`.
     */
-  def unsetPos = copy(pos = Off)
+  def unsetPos = copy(step = step.copy(pos = Off))
 
   /** Goes to a previous state of the game.
     *
@@ -75,7 +73,7 @@ case class Game(step: Step, board: Board, prev: List[Step], pos: Select[Pos]):
     * @return
     *   The block at selected position on the board, if any.
     */
-  def getBlock: Option[Block] = pos.opt
+  def getBlock: Option[Block] = step.pos.opt
     .flatMap(board.grid.get)
     .map(_.block)
 
@@ -105,6 +103,5 @@ object Game:
   def apply(formula: FOLFormula, grid: Grid): Game = Game(
     Step(Play(formula), initMsgs, Off),
     Board.fromGrid(grid),
-    Nil,
-    Off
+    Nil
   )
