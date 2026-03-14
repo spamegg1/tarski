@@ -5,12 +5,12 @@ package model
   *
   * @param step
   *   The current play, and its corresponding messages to be displayed to the user.
-  * @param board
-  *   The board that holds the blocks for the game.
   * @param prev
   *   A list of all the previous steps (pairs of play and messages); the history of the game play.
+  * @param board
+  *   The board that holds the blocks for the game.
   */
-case class Game(step: Step, board: Board, prev: List[Step]):
+case class Game(step: Step, prev: List[Step], board: Board):
   import Select.*
 
   /** Changes the position when the user clicks on the board. Does not advance the step or produce messages.
@@ -100,8 +100,5 @@ object Game:
     * @return
     *   The initial state of a [[Game]] with given formula and given grid used as the board.
     */
-  def apply(formula: FOLFormula, grid: Grid): Game = Game(
-    Step(Play(formula), initMsgs, Off),
-    Board.fromGrid(grid),
-    Nil
-  )
+  def apply(formula: FOLFormula, grid: Grid): Game =
+    Game(Step(Play(formula), initMsgs, Off), Nil, Board.fromGrid(grid))

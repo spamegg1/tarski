@@ -112,10 +112,10 @@ object GameHandler:
     * @return
     *   New state of the game, depending on the commitment and formula.
     */
-  private def handleOK(game: Game): Game = game match
-    case Game(Step(Play(All(x, f), Some(false), _, _), _, On(pos)), _, _) => subst(game, x, f, pos)
-    case Game(Step(Play(Ex(x, f), Some(true), _, _), _, On(pos)), _, _)   => subst(game, x, f, pos)
-    case _                                                                =>
+  private def handleOK(game: Game): Game = game.step match
+    case Step(Play(All(x, f), Some(false), _, _), _, On(pos)) => subst(game, x, f, pos)
+    case Step(Play(Ex(x, f), Some(true), _, _), _, On(pos))   => subst(game, x, f, pos)
+    case _                                                    =>
       val play          = game.step.play
       given nm: NameMap = game.board.grid.toNameMap
       val next          = play match
