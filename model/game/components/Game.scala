@@ -1,17 +1,6 @@
 package tarski
 package model
 
-/** Type alias for a game message displayed to the user. */
-type Message = String
-
-/** Type alias for the game messages displayed to the user. */
-type Messages = List[Message]
-
-/** A named tuple consisting of the state of play and the messages that correspond to it. This is used to record the
-  * game play and to rewind to an earlier state if needed.
-  */
-type Step = (play: Play, msgs: Messages)
-
 /** The core Game data structure.
   *
   * @param step
@@ -72,7 +61,7 @@ case class Game(step: Step, board: Board, prev: List[Step], pos: Select[Pos]):
     * @return
     *   New game that advances the state of play to the given play and messages.
     */
-  def addStep(play: Play, msgs: Messages) = copy(step = (play, msgs), prev = step :: prev).checkAndSetWait
+  def addStep(newStep: Step) = copy(step = newStep, prev = step :: prev).checkAndSetWait
 
   /** Checks if the formula puts us in a `Wait` state for the board position, and sets `pos` to `Wait` accordingly.
     *
@@ -114,7 +103,7 @@ object Game:
     *   The initial state of a [[Game]] with given formula and given grid used as the board.
     */
   def apply(formula: FOLFormula, grid: Grid): Game = Game(
-    (play = Play(formula), msgs = initMsgs),
+    Step(Play(formula), initMsgs, Off),
     Board.fromGrid(grid),
     Nil,
     Off

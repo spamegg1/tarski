@@ -45,7 +45,7 @@ case class GameRenderer(gameBtn: GameButtons, ui: UI)(using c: Constants) extend
     */
   def all(game: Game): Image =
     selectedPos(game.pos.opt)
-      .on(selectedPos(game.step.play.pos))
+      .on(selectedPos(game.step.pos.opt))
       .on(blocksOnBoard(game.board))
       .at(c.BoardOrigin)
       .on:
