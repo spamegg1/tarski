@@ -6,7 +6,7 @@ object GameHandler:
 
   /** We can click on the board only when we are asked to pick an object for a false universal formula or a true
     * existential formula. In this case, the game's `pos` [[Select]] state must be `Wait` or `On`. Otherwise, clicking
-    * on the board has no effect.
+    * on the board has no effect. Does not advance the step.
     *
     * @param pos
     *   The integer grid positions that the user clicked on.
