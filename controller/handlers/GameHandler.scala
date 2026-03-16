@@ -34,9 +34,8 @@ object GameHandler:
     Converter.gameMap.get(pos) match
       case None        => game
       case Some(click) => // make sure a button is clicked
-        // println(game)
         click match
-          case commit: Commit     => handleStart(commit, game)
+          case commit: Commit     => handleCommit(commit, game)
           case choice: Choice     => handleChoice(choice, game)
           case action: GameAction => handleAction(action, game)
 
@@ -57,22 +56,20 @@ object GameHandler:
     * @param game
     *   Current state of the game.
     * @return
-    *   New state of the game that sets the user's commitment and starts the game.
+    *   New state of the game that sets the user's commitment and advances the step.
     */
-  def handleStart(commit: Commit, game: Game): Game = game.step.play.commitment match
+  def handleCommit(commit: Commit, game: Game): Game = game.step.play.commitment match
     case Some(_) => game // commitment is already set, we cannot click
     case None    =>
       val nextPlay = game.step.play.commitTo(commit.toBoolean)
-      val nextMsgs = genMsgs(nextPlay, game.step.pos)(using game.board)
-      game.addStep(Step(nextPlay, nextMsgs, game.step.pos))
+      val nextMsgs = genMsgs(nextPlay)(using game.board)
+      game.addStep(nextPlay, nextMsgs)
 
   /** Handles what happens when the user clicks on one of the two choice buttons.
     *
     * We can only click the choice buttons if:
     *
     * left/right are both `Some(_)`, and:
-    *
-    * the commitment is None, or
     *
     * the commitment is `Some(false)` and the formula is of the form `And(a, b)`, or
     *
@@ -81,22 +78,26 @@ object GameHandler:
     * Otherwise clicking the choice buttons does nothing.
     *
     * @param choice
-    *   `"Left"` or `"Right"`.
+    *   `Left` or `Right`.
     * @param game
     *   Current state of the game.
     * @return
-    *   New state of the game depending on choice, commitment and formula.
+    *   New state of the game depending on the choice, commitment and formula.
     */
   private def handleChoice(choice: Choice, game: Game): Game =
-    val play     = game.step.play
-    val nextPlay = (play, choice) match
-      case (Play(And(a, b), Some(false), Some(l), Some(_)), Left)  => play.setFormula(l)
-      case (Play(And(a, b), Some(false), Some(_), Some(r)), Right) => play.setFormula(r)
-      case (Play(Or(a, b), Some(true), Some(l), Some(_)), Left)    => play.setFormula(l)
-      case (Play(Or(a, b), Some(true), Some(_), Some(r)), Right)   => play.setFormula(r)
-      case _                                                       => play
-    val nextMsgs = genMsgs(nextPlay, game.step.pos)(using game.board)
-    game.addStep(Step(nextPlay, nextMsgs, game.step.pos))
+    import Choice.*
+    val play        = game.step.play
+    val nextPlayOpt = (play, choice) match
+      case (Play(And(a, b), Some(false), Some(l), Some(_)), Left)  => Some(play.setFormula(l))
+      case (Play(And(a, b), Some(false), Some(_), Some(r)), Right) => Some(play.setFormula(r))
+      case (Play(Or(a, b), Some(true), Some(l), Some(_)), Left)    => Some(play.setFormula(l))
+      case (Play(Or(a, b), Some(true), Some(_), Some(r)), Right)   => Some(play.setFormula(r))
+      case _                                                       => None
+    nextPlayOpt match
+      case Some(nextPlay) =>
+        val nextMsgs = genMsgs(nextPlay)(using game.board)
+        game.addStep(nextPlay, nextMsgs)
+      case None => game
 
   /** We can only click the OK button if a block has been selected and can be substituted into a formula, or a message
     * has been displayed and we need to move on to the next step. Otherwise clicking OK does nothing.
@@ -125,7 +126,7 @@ object GameHandler:
             .find(!_._2) match // choose FALSE block
             case None            => nm.keys.head
             case Some((name, _)) => name
-          Some(play.sub(choice, x, f), Off)
+          Some(play.sub(choice, x, f))
 
         case Play(Ex(x, f), Some(false), _, _) =>
           val choice = nm.keys
@@ -133,30 +134,28 @@ object GameHandler:
             .find(_._2) match // choose TRUE block
             case None            => nm.keys.head
             case Some((name, _)) => name
-          Some(play.sub(choice, x, f), Off)
+          Some(play.sub(choice, x, f))
 
         case Play(And(a, b), Some(true), _, _) =>
           val evalA  = Interpreter.eval(a)
           val choice = if evalA then b else a // choose FALSE formula
-          Some(play.setFormula(choice), game.step.pos)
+          Some(play.setFormula(choice))
 
         case Play(Or(a, b), Some(false), _, _) =>
           val evalA  = Interpreter.eval(a)
           val choice = if evalA then a else b // choose TRUE formula
-          Some(play.setFormula(choice), game.step.pos)
+          Some(play.setFormula(choice))
 
         case Play(Iff(a: FOLFormula, b: FOLFormula), _, _, _) =>
-          Some(play.setFormula(And(Imp(a, b), Imp(b, a))), game.step.pos)
+          Some(play.setFormula(And(Imp(a, b), Imp(b, a))))
 
-        case Play(Neg(_), _, _, _)    => Some(play.negate, game.step.pos)
-        case Play(Imp(a, b), _, _, _) => Some(play.setFormula(Or(Neg(a), b)), game.step.pos)
+        case Play(Neg(_), _, _, _)    => Some(play.negate)
+        case Play(Imp(a, b), _, _, _) => Some(play.setFormula(Or(Neg(a), b)))
         case _                        => None
 
       next match
-        case Some(nextPlay, nextPos) =>
-          val nextMsgs = genMsgs(nextPlay, nextPos)
-          game.addStep(Step(nextPlay, nextMsgs, game.step.pos))
-        case None => game
+        case Some(nextPlay) => game.addStep(nextPlay, genMsgs(nextPlay))
+        case None           => game
 
   /** Advances the game by substituting the name of the block at selected position into a formula.
     *
@@ -177,8 +176,8 @@ object GameHandler:
       case None                => game
       case Some((block, name)) =>
         val nextPlay = game.step.play.sub(name, x, f)
-        val nextMsgs = genMsgs(nextPlay, Off)(using game.board)
-        game.addStep(Step(nextPlay, nextMsgs, game.step.pos)).unsetPos
+        val nextMsgs = genMsgs(nextPlay)(using game.board)
+        game.addStep(nextPlay, nextMsgs)
 
   /** Generates messages to be displayed to the user about the current state of the game.
     *
@@ -189,9 +188,9 @@ object GameHandler:
     * @param nm
     *   A `NameMap` to look up blocks and to evaluate formulas with the interpreter.
     * @return
-    *   A list of messages (strings).
+    *   A list of messages.
     */
-  private def genMsgs(play: Play, pos: Select[Pos])(using nm: NameMap) =
+  private def genMsgs(play: Play)(using nm: NameMap) =
     (play.commitment, play.formula) match
       case (Some(commit), a: FOLAtom) =>
         val result = Interpreter.eval(a)
@@ -208,24 +207,16 @@ object GameHandler:
         msg1 :: msg2 :: msg3 :: Nil
 
       case (Some(false), And(a, b)) =>
-        pos match
-          case Off =>
-            val msg1 = s"You believe at least one is false:"
-            val msg2 = s"${a.toUntypedString} or ${b.toUntypedString}"
-            val msg3 = s"Choose a false formula above."
-            msg1 :: msg2 :: msg3 :: Nil
-          case Wait  => Nil
-          case On(_) => Nil
+        val msg1 = s"You believe at least one is false:"
+        val msg2 = s"${a.toUntypedString} or ${b.toUntypedString}"
+        val msg3 = s"Choose a false formula above."
+        msg1 :: msg2 :: msg3 :: Nil
 
       case (Some(true), Or(a, b)) =>
-        pos match
-          case Off =>
-            val msg1 = s"You believe one of these is true:"
-            val msg2 = s"${a.toUntypedString} or ${b.toUntypedString}"
-            val msg3 = s"Choose a true formula above."
-            msg1 :: msg2 :: msg3 :: Nil
-          case Wait  => Nil
-          case On(_) => Nil
+        val msg1 = s"You believe one of these is true:"
+        val msg2 = s"${a.toUntypedString} or ${b.toUntypedString}"
+        val msg3 = s"Choose a true formula above."
+        msg1 :: msg2 :: msg3 :: Nil
 
       case (Some(false), Or(a, b)) =>
         val evalA  = Interpreter.eval(a)
@@ -260,24 +251,16 @@ object GameHandler:
         msg1 :: msg2 :: msg3 :: Nil
 
       case (Some(false), All(x, f)) =>
-        pos match
-          case Off =>
-            val msg1 = s"You believe some object [${x.name}] falsifies:"
-            val msg2 = s"${f.toUntypedString}"
-            val msg3 = s"Click on a block, then click OK"
-            msg1 :: msg2 :: msg3 :: Nil
-          case Wait     => Nil
-          case On(name) => Nil
+        val msg1 = s"You believe some object [${x.name}] falsifies:"
+        val msg2 = s"${f.toUntypedString}"
+        val msg3 = s"Click on a block, then click OK"
+        msg1 :: msg2 :: msg3 :: Nil
 
       case (Some(true), Ex(x, f)) =>
-        pos match
-          case Off =>
-            val msg1 = s"You believe some object [${x.name}] satisfies:"
-            val msg2 = s"${f.toUntypedString}"
-            val msg3 = s"Click on a block, then click OK"
-            msg1 :: msg2 :: msg3 :: Nil
-          case Wait     => Nil
-          case On(name) => Nil
+        val msg1 = s"You believe some object [${x.name}] satisfies:"
+        val msg2 = s"${f.toUntypedString}"
+        val msg3 = s"Click on a block, then click OK"
+        msg1 :: msg2 :: msg3 :: Nil
 
       case (Some(false), Ex(x, f)) =>
         val msg1   = s"You believe no object [${x.name}] satisfies:"

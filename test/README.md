@@ -10,7 +10,88 @@ A converter should:
 
 ## Game handler tests
 
-TODO
+### True/False commit buttons
+
+- True/False buttons should:
+  - set the commitment if it's `None`,
+  - do nothing in any other case.
+
+### Back button
+
+- Back button should:
+  - Move the game one step back correctly if a step is available:
+    - if we go all the way back to the beginning, commit should reset to `None`,
+    - and change back the `Select` state correctly;
+  - do nothing if we reached all the way back to the beginning of the game,
+    - and try to go further back into the past which does not exist.
+
+### Selecting a position
+
+There are 3 situations for selecting a position on the board.
+
+#### Select state is `Off`
+
+- Clicking on a square should do nothing.
+
+#### Select state is `Wait`
+
+- Clicking on a square, if commit and formula are:
+  - true, `Ex` and the user has to choose a block as an example:
+    - if the clicked square has a block:
+      - should change Select state from `Wait` to `On(_)` with the clicked square,
+      - should not advance the step;
+    - if the clicked square has no block, should do nothing;
+  - false, `All` and the user has to choose a block as a counterexample
+    - if the clicked square has a block:
+      - should change Select state from `Wait` to `On(_)` with the clicked square;
+      - should not advance the step;
+    - if the clicked square has no block, should do nothing;
+  - else should do nothing in the other cases.
+
+#### Select state is `On(_)`
+
+- Clicking on a square, if commit and formula are:
+  - true, `Ex` and the user has to choose a block as an example:
+    - if the clicked square has a block:
+      - should change Select state from `On(_)` to `On(_)` with the clicked square;
+    - if the clicked square has no block:
+      - should change Select state from `On(_)` to `Wait`;
+  - false, `All` and the user has to choose a block as a counterexample
+    - if the clicked square has a block:
+      - should change Select state from `On(_)` to `On(_)` with the clicked square;
+    - if the clicked square has no block:
+      - should change Select state from `On(_)` to `Wait`;
+  - else should do nothing in the other cases.
+
+### OK button
+
+- Clicking the OK button should:
+  - change the state of play correctly if Select, commitment and formula are:
+    - `Off`, false, `Ex` and Tarski's world chooses a block as an example:
+      - ???
+    - `Off`, true, `All` and Tarski's world chooses a block as a counterexample
+      - ???
+    - `On(_)`, true, `Ex` and the user chooses a block as an example
+      - substitute the name of block at selected position into formula,
+      - set Select state to `Off`;
+    - `On(_)`, false, `All` and the user chooses a block as a counterexample
+      - substitute the name of block at selected position into formula,
+      - set Select state to `Off`;
+  - do nothing in any other case.
+
+### Left/Right formula choice buttons
+
+- Left / Right buttons should:
+  - change play and advance step if commit, Left and Right are all `Some(_)` and:
+    - formula is `Or` and commitment is true or
+    - formula is `And` and commitment is false, and
+    - it should set Left/Right to `None` and set the formula to what is chosen;
+  - do nothing if one of commit, Left or Right is `None`
+  - or formula/commit is not one of the above combinations.
+
+### Block display
+
+- Block display should do nothing when clicked.
 
 ## World handler tests
 
@@ -32,7 +113,7 @@ There are 3 situations for selecting a position on the board.
   - ✅ avail the name if it is occupied,
     - ✅ and reset formulas to un-evaluated,
   - ✅ do nothing if the name is available.
-- ✅ Color buttons (Blue, Green, Coral) should change the selected color.
+- ✅ Tone buttons (Blue, Green, Coral) should change the selected tone.
 - ✅ Delete button should do nothing.
 - ✅ Size buttons (Small, Mid, Large) should change the selected size.
 - ✅ Shape buttons (Tri, Squ, Cir) should change the selected shape.
@@ -50,7 +131,7 @@ Same (not tested again):
   - avail the name if it is occupied,
     - and reset formulas to un-evaluated,
   - do nothing if the name is available.
-- Color buttons (Blue, Green, Coral) should change the selected color.
+- Tone buttons (Blue, Green, Coral) should change the selected tone.
 - Delete button should do nothing.
 - Size buttons (Small, Mid, Large) should change the selected size.
 - Shape buttons (Tri, Squ, Cir) should change the selected shape.
@@ -64,11 +145,11 @@ Same (not tested again):
   - ✅ add the name to the selected block if it is available:
     - ✅ The name should become occupied.
     - ✅ And formulas should be reset to un-evaluated.
-- Color buttons (Blue, Green, Coral) should:
-  - ✅ change the color of the block at selected position (test only 1, not all 3),
+- Tone buttons (Blue, Lime, Red) should:
+  - ✅ change the tone of the block at selected position (test only 1, not all 3),
   - ✅ reset formulas to un-evaluated,
-  - change the selected color. (same, not tested again)
-- Size buttons (Small, Mid, Large) should:
+  - change the selected tone. (same, not tested again)
+- Size buttons (Small, Mid, Big) should:
   - ✅ change the size of the selected block (test only 1, not all 3),
   - ✅ reset formulas to un-evaluated,
   - change the selected size. (same, not tested again)
@@ -92,7 +173,7 @@ We need to consider selected position and clicked position.
 - ✅ Clicking the position should make it selected.
 - If clicked position has a block on it, UI display should:
   - ✅ update size,
-  - ✅ update color,
+  - ✅ update tone,
   - ✅ update shape,
   - ✅ update block display.
 - ✅ If clicked position has no block, then nothing changes.
@@ -134,6 +215,7 @@ Interpreter should:
 
 - ✅ correctly interpret complex sentences in a world with many objects.
 - ✅ throw `NoSuchElementException` on formulas with missing objects.
+- ✅ handle the `Btw` predicate correctly.
 
 ## World tests
 

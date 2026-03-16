@@ -51,5 +51,6 @@ metals.sbt
 Scratch.worksheet.sc
 Scratch.scala
 scratch.md
+TODO.md
 colors.txt
 .images/game.png

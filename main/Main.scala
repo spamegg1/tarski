@@ -97,7 +97,7 @@ object Example:
     (1, 2) -> Block(Sml, Tri, Lim, "a"),
     (4, 3) -> Block(Mid, Tri, Blu),
     (5, 6) -> Block(Big, Cir, Red, "d"),
-    (6, 3) -> Block(Sml, Sqr, Blu)
+    (6, 3) -> Block(Mid, Sqr, Blu)
   )
 
   /** An example list of first-order formulas, showcasing all logical connectives. */

@@ -24,22 +24,22 @@ case class Game(step: Step, prev: List[Step], board: Board):
     *   New state of the game where the position is updated accordingly.
     */
   def setPos(p: Pos) = board.grid.get(p) match
-    case None    => copy(step = step.copy(pos = Wait))
-    case Some(_) => copy(step = step.copy(pos = On(p)))
+    case None    => waitPos
+    case Some(_) => copy(step = step.setPos(p))
 
-  /** Sets the `pos` to [[Select.Wait]]. Does not advance the step, or produce messages.
+  /** Sets the step's `pos` to [[Select.Wait]]. Does not advance the step, or produce messages.
     *
     * @return
-    *   A copy of this game with `pos` set to `Wait`.
+    *   A copy of this game with the current step's `pos` set to `Wait`.
     */
-  def waitPos = copy(step = step.copy(pos = Wait))
+  def waitPos = copy(step = step.waitPos)
 
   /** Sets the `pos` to [[Select.Off]]. Does not advance the step, or produce messages.
     *
     * @return
-    *   A copy of this game with `pos` set to `Off`.
+    *   A copy of this game with the current step's `pos` set to `Off`.
     */
-  def unsetPos = copy(step = step.copy(pos = Off))
+  def unsetPos = copy(step = step.unsetPos)
 
   /** Goes to a previous state of the game.
     *
@@ -47,26 +47,20 @@ case class Game(step: Step, prev: List[Step], board: Board):
     *   State of the immediately previous game, if available.
     */
   def rewind = prev match
-    case head :: next => copy(step = head, prev = next).checkAndSetWait
+    case head :: next => copy(step = head, prev = next)
     case Nil          => this
 
   /** Advances the game forward by adding one step.
     *
-    * @param play
-    *   The next state of play.
-    * @param msgs
-    *   The messages to be displayed to the user in the next state of play.
+    * @param newStep
+    *   The next step in the game.
     * @return
-    *   New game that advances the state of play to the given play and messages.
+    *   New game that advances the state of play to the given new step.
     */
-  def addStep(newStep: Step) = copy(step = newStep, prev = step :: prev).checkAndSetWait
+  def advance(newStep: Step) = copy(step = newStep, prev = step :: prev)
 
-  /** Checks if the formula puts us in a `Wait` state for the board position, and sets `pos` to `Wait` accordingly.
-    *
-    * @return
-    *   A copy of this game, with `pos` set to `Wait` if needed, not changed if not needed.
-    */
-  def checkAndSetWait = if step.play.checkWait then waitPos else this
+  /** Adds the given new state of [[Play]] and new [[Messages]], then advances the [[Step]] of the game. */
+  val addStep = step.next.tupled andThen advance
 
   /** Looks up the block at selected position on the board.
     *
@@ -88,9 +82,6 @@ case class Game(step: Step, prev: List[Step], board: Board):
     currentMsgs ::: prevMsgs
 
 object Game:
-  /** Every game starts with the same message asking the user for a commitment. */
-  val initMsgs = List("Choose initial commitment True/False above:")
-
   /** Convenient alternate constructor for [[Game]].
     *
     * @param formula
@@ -100,5 +91,4 @@ object Game:
     * @return
     *   The initial state of a [[Game]] with given formula and given grid used as the board.
     */
-  def apply(formula: FOLFormula, grid: Grid): Game =
-    Game(Step(Play(formula), initMsgs, Off), Nil, Board.fromGrid(grid))
+  def apply(formula: FOLFormula, grid: Grid): Game = Game(Step(formula), Nil, Board.fromGrid(grid))
