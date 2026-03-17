@@ -3,91 +3,22 @@ package testing
 
 class GameHandlerTest extends munit.FunSuite:
   given c: Constants = Constants(DefaultSize)
-  import Shape.*, Sizes.*, Tone.*, Select.*, Choice.*, Commit.*
+  import GameHandlerTestData.*
 
-  val ba         = Block(Sml, Tri, Lim, "a")
-  val b0         = Block(Mid, Sqr, Blu)
-  val pa         = (row = 1, col = 2)
-  val p0         = (row = 6, col = 3)
-  val p1         = (row = 4, col = 4)
-  val grid: Grid = Map(pa -> ba, p0 -> b0)
-  val f          = fof"∀x ∃y (Mor(x, y) ∨ Abv(y, x))"
-  val step0      = Step(f)
-  val game       = Game(f, grid)
+  def msg(button: String) = s"Clicking $button should not do anyhing, but does"
 
-  val playA011 = Play(f, Some(true), None, None) // after committing to true
-  val msgsA011 = List(
-    "You believe every object [x] satisfies:",
-    "∃y (Mor(x, y) ∨ Abv(y, x))",
-    "I choose a as my counterexample"
-  )
-  val stepA011 = Step(playA011, msgsA011, Off)
-
-  val playA111 = Play(f, Some(false), None, None) // after committing to false
-  val msgsA111 = List(
-    "You believe some object [x] falsifies:",
-    "∃y (Mor(x, y) ∨ Abv(y, x))",
-    "Click on a block, then click OK"
-  )
-  val stepA111 = Step(playA111, msgsA111, Wait)
-
-  val fB113    = fof"∃y (Mor(a, y) ∨ Abv(y, a))"
-  val playB113 = Play(fB113, Some(true), None, None) // True + OK
-  val msgsB113 = List(
-    "You believe some object [y] satisfies:",
-    "Mor(a, y) ∨ Abv(y, a)",
-    "Click on a block, then click OK"
-  )
-  val stepB113 = Step(playB113, msgsB113, Wait)
-
-  // Beginning of the game
-  val a011 = GameHandler.controls((0, 11), game) // True
-  val a111 = GameHandler.controls((1, 11), game) // False
-  val a005 = GameHandler.controls((0, 5), game)  // Left
-  val a105 = GameHandler.controls((1, 5), game)  // Right
-  val a013 = GameHandler.controls((0, 13), game) // Back
-  val a113 = GameHandler.controls((1, 13), game) // OK
-  val a014 = GameHandler.controls((0, 13), game) // Display
-  val apa  = GameHandler.boardPos(pa, game)      // (1, 2) on board
-  val ap0  = GameHandler.boardPos(p0, game)      // (6, 3) on board
-  val ap1  = GameHandler.boardPos(p1, game)      // (4, 4) on board
-
-  // After clicking True:
-  val b011 = GameHandler.controls((0, 11), a011) // True
-  val b111 = GameHandler.controls((1, 11), a011) // False
-  val b005 = GameHandler.controls((0, 5), a011)  // Left
-  val b105 = GameHandler.controls((1, 5), a011)  // Right
-  val b013 = GameHandler.controls((0, 13), a011) // Back
-  val b113 = GameHandler.controls((1, 13), a011) // OK
-  val b014 = GameHandler.controls((0, 13), a011) // Display
-  val bpa  = GameHandler.boardPos(pa, a011)      // (1, 2) on board
-  val bp0  = GameHandler.boardPos(p0, a011)      // (6, 3) on board
-  val bp1  = GameHandler.boardPos(p1, a011)      // (4, 4) on board
-
-  // After clicking False:
-  val c011 = GameHandler.controls((0, 11), a111) // True
-  val c111 = GameHandler.controls((1, 11), a111) // False
-  val c005 = GameHandler.controls((0, 5), a111)  // Left
-  val c105 = GameHandler.controls((1, 5), a111)  // Right
-  val c013 = GameHandler.controls((0, 13), a111) // Back
-  val c113 = GameHandler.controls((1, 13), a111) // OK
-  val c014 = GameHandler.controls((0, 13), a111) // Display
-  val cpa  = GameHandler.boardPos(pa, a111)      // (1, 2) on board
-  val cp0  = GameHandler.boardPos(p0, a111)      // (6, 3) on board
-  val cp1  = GameHandler.boardPos(p1, a111)      // (4, 4) on board
-
+  // True
   test("Clicking True at game start should set commitment to true and advance step"):
-    val newGame = Game(stepA011, List(step0), game.board)
-    val msg     = "Clicking True should set true/Off and advance step, but does not"
-    assertEquals(a011, newGame, msg)
+    val msgA011 = "Clicking True should set true/Off and advance step, but does not"
+    assertEquals(a011, gameA011, msgA011)
 
+  // False
   test("Clicking False at game start should set commitment to false, Select to Wait and advance step"):
-    val newGame = Game(stepA111, List(step0), game.board)
-    val msg     = "Clicking True should set false/Wait and advance step, but does not"
-    assertEquals(a111, newGame, msg)
+    val msgA111 = "Clicking True should set false/Wait and advance step, but does not"
+    assertEquals(a111, gameA111, msgA111)
 
+  // Any other button
   test("Clicking any button other than True/False at game start should do nothing"):
-    def msg(button: String) = s"Clicking $button should not do anyhing, but does"
     assertEquals(a005, game, msg("Left"))
     assertEquals(a105, game, msg("Right"))
     assertEquals(a013, game, msg("Back"))
@@ -97,9 +28,55 @@ class GameHandlerTest extends munit.FunSuite:
     assertEquals(ap0, game, msg(s"$p0"))
     assertEquals(ap1, game, msg(s"$p1"))
 
+  // True + OK
   test("Clicking OK after computer chose a counterexample should set Wait and advance step"):
-    val newGame = Game(stepB113, List(stepA011, step0), game.board)
-    assertEquals(b113, newGame, "Clicking OK should set Wait and advance step, but does not")
+    val msgB113 = "Clicking OK should set Wait and advance step, but does not"
+    assertEquals(b113, gameB113, msgB113)
+
+  // True + Back
+  test("Clicking Back after committing to True should rewind game to beginning"):
+    val msg = "Clicking Back after True should rewind step to game start, but does not"
+    assertEquals(b013, game, msg)
+
+  // True + any other button
+  test("Clicking any button other than OK after committing to True should do nothing"):
+    assertEquals(b011, a011, msg("True"))
+    assertEquals(b111, a011, msg("False"))
+    assertEquals(b005, a011, msg("Left"))
+    assertEquals(b105, a011, msg("Right"))
+    assertEquals(b014, a011, msg("Display"))
+    assertEquals(bpa, a011, msg(s"$pa"))
+    assertEquals(bp0, a011, msg(s"$p0"))
+    assertEquals(bp1, a011, msg(s"$p1"))
+
+  // False + Back
+  test("Clicking Back after committing to False should rewind game to beginning"):
+    val msg = "Clicking Back after False should rewind step to game start, but does not"
+    assertEquals(c013, game, msg)
+
+  // False + block position (named)
+  test("Clicking a named block after False should set `On(_)` without advancing step"):
+    val msgCpa = s"Clicking $pa should set On w/o advancing step, but does not"
+    assertEquals(cpa, gameCpa, msgCpa)
+
+  // False + block position (unnamed)
+  test("Clicking an unnamed block after False should set `On(_)` without advancing step"):
+    val msgCp0 = s"Clicking $p0 should set On w/o advancing step, but does not"
+    assertEquals(cp0, gameCp0, msgCp0)
+
+  // False + empty position
+  test("Clicking an empty spot on the board after False should do nothing"):
+    val msgCp1 = s"Clicking $p1 should not do something, but does"
+    assertEquals(cp1, gameA111, msgCp1)
+
+  // False + any other button
+  test("Clicking any button other than OK/pos after committing to False should do nothing"):
+    assertEquals(c011, a111, msg("True"))
+    assertEquals(c111, a111, msg("False"))
+    assertEquals(c005, a111, msg("Left"))
+    assertEquals(c105, a111, msg("Right"))
+    assertEquals(c113, a111, msg("OK"))
+    assertEquals(c014, a111, msg("Display"))
 
 // You believe one of these is true:
 // Mor(a, b0) or Abv(b0, a)
