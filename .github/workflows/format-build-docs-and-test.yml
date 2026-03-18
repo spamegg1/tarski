@@ -5,7 +5,7 @@ on:
       - v*
 
 jobs:
-  format-and-test:
+  format-build-docs-and-test:
     permissions:
       contents: read
     runs-on: ubuntu-24.04
@@ -15,4 +15,4 @@ jobs:
         fetch-depth: 0
     - uses: coursier/cache-action@v7.0.0
     - uses: VirtusLab/scala-cli-setup@v1.10.1
-    - run: scala-cli --power format --check && scala-cli --power test .
+    - run: scala-cli --power format --check && scala-cli --power doc . -f && scala-cli --power test .
