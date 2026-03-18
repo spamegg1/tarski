@@ -44,7 +44,7 @@ case class Step(play: Play, msgs: Messages, pos: Select[Pos]):
   def unsetPos = copy(pos = Off)
 
   /** Checks if the current formula in `play` requires a block to be selected (in the case of a universal or existential
-    * sentence).
+    * sentence). If so, sets the select state to `Select.Wait`, otherwise to `Select.Off`.
     *
     * @return
     *   A copy of this `Step` with `Select` state updated based on the formula.

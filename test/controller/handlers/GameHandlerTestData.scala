@@ -48,7 +48,6 @@ object GameHandlerTestData:
 
   // True + Back = game
   // True + any other button except OK = gameA011
-
   // False + Back = game
 
   // False + pa
@@ -84,8 +83,58 @@ object GameHandlerTestData:
   val gameE113 = Game(stepE113, List(stepCpa, step0), game.board)
 
   // False + pa + Back = game
+  // False + pa + pa = gameA111
+  // False + pa + p1 = gameCpa
+  // False + pa + p0
+  val stepEp0 = Step(playA111, msgsA111, On(p0))
+  val gameEp0 = Game(stepEp0, List(step0), game.board)
 
-  // False + pa + any other button = ???
+  // False + pa + any other button = gameCpa
+
+  // True + OK + pa + OK
+  val msgsF113 = List(
+    "You believe one of these is true:",
+    "Mor(a, a) or Abv(a, a)",
+    "Choose a true formula above."
+  )
+  val fF113    = fof"Mor(a, a) ∨ Abv(a, a)"
+  val playF113 = Play(fF113, Some(true), Some(fof"Mor(a, a)"), Some(fof"Abv(a, a)"))
+  val stepF113 = Step(playF113, msgsF113, Off)
+  val gameF113 = Game(stepF113, List(stepDpa, stepA011, step0), game.board)
+
+  // True + OK + pa + OK + Left
+  val msgsG005 = List("You lose.", "Mor(a, a) is false in this world.")
+  val fG005    = fof"Mor(a, a)"
+  val playG005 = Play(fG005, Some(true), None, None)
+  val stepG005 = Step(playG005, msgsG005, Off)
+  val gameG005 = Game(stepG005, List(stepF113, stepDpa, stepA011, step0), game.board)
+
+  // True + OK + pa + OK + Right
+  val msgsG105 = List("You lose.", "Abv(a, a) is false in this world.")
+  val fG105    = fof"Abv(a, a)"
+  val playG105 = Play(fG105, Some(true), None, None)
+  val stepG105 = Step(playG105, msgsG105, Off)
+  val gameG105 = Game(stepG105, List(stepF113, stepDpa, stepA011, step0), game.board)
+
+  // After game over at gameG005 + any button except Back = gameG005
+
+  // False + pa + OK + OK
+  val playH113 = Play(fof"Mor(a, a) ∨ Abv(a, a)", Some(false), None, None)
+  val msgsH113 = List(
+    "You believe both are false:",
+    "Mor(a, a) and Abv(a, a)",
+    "I choose Abv(a, a) as true."
+  )
+  val stepH113 = Step(playH113, msgsH113, Off)
+  val gameH113 = Game(stepH113, List(stepE113, stepCpa, step0), game.board)
+
+  // False + pa + OK + OK + OK
+  val playI113 = Play(fof"Abv(a, a)", Some(false), None, None)
+  val msgsI113 = List("You win!", "Abv(a, a) is false in this world.")
+  val stepI113 = Step(playI113, msgsI113, Off)
+  val gameI113 = Game(stepI113, List(stepH113, stepE113, stepCpa, step0), game.board)
+
+  // After game over at gameI113 + any button except Back = gameI113
 
   // Games obtained from the handler
   // Beginning of the game
@@ -150,3 +199,30 @@ object GameHandlerTestData:
 
   // After clicking True + OK + pa:
   val f113 = GameHandler.controls((1, 13), dpa) // True + OK + pa + OK
+  val g005 = GameHandler.controls((0, 5), f113) // True + OK + pa + OK + Left
+  val g105 = GameHandler.controls((1, 5), f113) // True + OK + pa + OK + Right
+
+  // After clicking False + (1, 2) + OK
+  val h113 = GameHandler.controls((1, 13), e113) // False + (1, 2) + OK + OK
+  val i113 = GameHandler.controls((1, 13), h113) // False + (1, 2) + OK + OK + OK
+
+  // After game over:
+  val j011 = GameHandler.controls((0, 11), g005) // True + OK + pa + OK + Left + True
+  val j111 = GameHandler.controls((1, 11), g005) // True + OK + pa + OK + Left + False
+  val j005 = GameHandler.controls((0, 5), g005)  // True + OK + pa + OK + Left + Left
+  val j105 = GameHandler.controls((1, 5), g005)  // True + OK + pa + OK + Left + Right
+  val j113 = GameHandler.controls((1, 13), g005) // True + OK + pa + OK + Left + OK
+  val j014 = GameHandler.controls((0, 14), g005) // True + OK + pa + OK + Left + Display
+  val jpa  = GameHandler.boardPos(pa, g005)      // True + OK + pa + OK + Left + (1, 2)
+  val jp0  = GameHandler.boardPos(p0, g005)      // True + OK + pa + OK + Left + (6, 3)
+  val jp1  = GameHandler.boardPos(p1, g005)      // True + OK + pa + OK + Left + (4, 4)
+
+  val k011 = GameHandler.controls((0, 11), i113) // False + (1, 2) + OK + OK + OK + True
+  val k111 = GameHandler.controls((1, 11), i113) // False + (1, 2) + OK + OK + OK + False
+  val k005 = GameHandler.controls((0, 5), i113)  // False + (1, 2) + OK + OK + OK + Left
+  val k105 = GameHandler.controls((1, 5), i113)  // False + (1, 2) + OK + OK + OK + Right
+  val k113 = GameHandler.controls((1, 13), i113) // False + (1, 2) + OK + OK + OK + OK
+  val k014 = GameHandler.controls((0, 14), i113) // False + (1, 2) + OK + OK + OK + Display
+  val kpa  = GameHandler.boardPos(pa, i113)      // False + (1, 2) + OK + OK + OK + (1, 2)
+  val kp0  = GameHandler.boardPos(p0, i113)      // False + (1, 2) + OK + OK + OK + (6, 3)
+  val kp1  = GameHandler.boardPos(p1, i113)      // False + (1, 2) + OK + OK + OK + (4, 4)
