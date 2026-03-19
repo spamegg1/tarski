@@ -62,7 +62,7 @@ object GameHandler:
     case Some(_) => game // commitment is already set, we cannot click
     case None    =>
       val nextPlay = game.step.play.commitTo(commit.toBoolean)
-      val nextMsgs = genMsgs(nextPlay)(using game.board)
+      val nextMsgs = Messager.show(nextPlay)(using game.board)
       game.addStep(nextPlay, nextMsgs)
 
   /** Handles what happens when the user clicks on one of the two choice buttons.
@@ -95,9 +95,10 @@ object GameHandler:
       case _                                                       => None
     nextPlayOpt match
       case Some(nextPlay) =>
-        val nextMsgs = genMsgs(nextPlay)(using game.board)
+        val nextMsgs = Messager.show(nextPlay)(using game.board)
         game.addStep(nextPlay, nextMsgs)
       case None => game
+  end handleChoice
 
   /** We can only click the OK button if a block has been selected and can be substituted into a formula, or a message
     * has been displayed and we need to move on to the next step. Otherwise clicking OK does nothing.
@@ -146,16 +147,15 @@ object GameHandler:
           val choice = if evalA then a else b // choose TRUE formula
           Some(play.setFormula(choice))
 
-        case Play(Iff(a: FOLFormula, b: FOLFormula), _, _, _) =>
-          Some(play.setFormula(And(Imp(a, b), Imp(b, a))))
-
-        case Play(Neg(_), _, _, _)    => Some(play.negate)
-        case Play(Imp(a, b), _, _, _) => Some(play.setFormula(Or(Neg(a), b)))
-        case _                        => None
+        case Play(Iff(a: FOLFormula, b: FOLFormula), _, _, _) => Some(play.setFormula(And(Imp(a, b), Imp(b, a))))
+        case Play(Neg(_), _, _, _)                            => Some(play.negate)
+        case Play(Imp(a, b), _, _, _)                         => Some(play.setFormula(Or(Neg(a), b)))
+        case _                                                => None
 
       next match
-        case Some(nextPlay) => game.addStep(nextPlay, genMsgs(nextPlay))
+        case Some(nextPlay) => game.addStep(nextPlay, Messager.show(nextPlay))
         case None           => game
+  end handleOK
 
   /** Advances the game by substituting the name of the block at selected position into a formula.
     *
@@ -176,103 +176,7 @@ object GameHandler:
       case None                => game
       case Some((block, name)) =>
         val nextPlay = game.step.play.sub(name, x, f)
-        val nextMsgs = genMsgs(nextPlay)(using game.board)
+        val nextMsgs = Messager.show(nextPlay)(using game.board)
         game.addStep(nextPlay, nextMsgs)
 
-  /** Generates messages to be displayed to the user about the current state of the game.
-    *
-    * @param play
-    *   The current state of play.
-    * @param pos
-    *   Current state of the selected position on the board.
-    * @param nm
-    *   A `NameMap` to look up blocks and to evaluate formulas with the interpreter.
-    * @return
-    *   A list of messages.
-    */
-  private def genMsgs(play: Play)(using nm: NameMap) =
-    (play.commitment, play.formula) match
-      case (Some(commit), a: FOLAtom) =>
-        val result = Interpreter.eval(a)
-        val msg1   = if commit == result then "You win!" else "You lose."
-        val msg2   = s"${a.toUntypedString} is $result in this world."
-        msg1 :: msg2 :: Nil
-
-      case (Some(true), And(a, b)) =>
-        val evalA  = Interpreter.eval(a)
-        val choice = if evalA then b else a
-        val msg1   = s"You believe both are true:"
-        val msg2   = s"${a.toUntypedString} and ${b.toUntypedString}"
-        val msg3   = s"I choose ${choice.toUntypedString} as false."
-        msg1 :: msg2 :: msg3 :: Nil
-
-      case (Some(false), And(a, b)) =>
-        val msg1 = s"You believe at least one is false:"
-        val msg2 = s"${a.toUntypedString} or ${b.toUntypedString}"
-        val msg3 = s"Choose a false formula above."
-        msg1 :: msg2 :: msg3 :: Nil
-
-      case (Some(true), Or(a, b)) =>
-        val msg1 = s"You believe one of these is true:"
-        val msg2 = s"${a.toUntypedString} or ${b.toUntypedString}"
-        val msg3 = s"Choose a true formula above."
-        msg1 :: msg2 :: msg3 :: Nil
-
-      case (Some(false), Or(a, b)) =>
-        val evalA  = Interpreter.eval(a)
-        val choice = if evalA then a else b
-        val msg1   = s"You believe both are false:"
-        val msg2   = s"${a.toUntypedString} and ${b.toUntypedString}"
-        val msg3   = s"I choose ${choice.toUntypedString} as true."
-        msg1 :: msg2 :: msg3 :: Nil
-
-      case (Some(commit), Neg(a)) => s"You believe ${play.formula} is $commit." :: Nil
-
-      case (_, Imp(a, b)) =>
-        val msg1 = s"${Imp(a, b).toUntypedString} can be written as:"
-        val msg2 = s"${Or(Neg(a), b).toUntypedString}"
-        msg1 :: msg2 :: Nil
-
-      case (_, Iff(a: FOLFormula, b: FOLFormula)) =>
-        val f    = And(Imp(a, b), Imp(b, a))
-        val msg1 = s"${play.formula.toUntypedString} can be written as:"
-        val msg2 = s"${f.toUntypedString}"
-        msg1 :: msg2 :: Nil
-
-      case (Some(true), All(x, f)) =>
-        val msg1   = s"You believe every object [${x.name}] satisfies:"
-        val msg2   = s"${f.toUntypedString}"
-        val choice = nm.keys
-          .map(name => name -> Interpreter.eval(f.sub(x, name)))
-          .find(!_._2) match
-          case None            => nm.keys.head
-          case Some((name, _)) => name
-        val msg3 = s"I choose $choice as my counterexample"
-        msg1 :: msg2 :: msg3 :: Nil
-
-      case (Some(false), All(x, f)) =>
-        val msg1 = s"You believe some object [${x.name}] falsifies:"
-        val msg2 = s"${f.toUntypedString}"
-        val msg3 = s"Click on a block, then click OK"
-        msg1 :: msg2 :: msg3 :: Nil
-
-      case (Some(true), Ex(x, f)) =>
-        val msg1 = s"You believe some object [${x.name}] satisfies:"
-        val msg2 = s"${f.toUntypedString}"
-        val msg3 = s"Click on a block, then click OK"
-        msg1 :: msg2 :: msg3 :: Nil
-
-      case (Some(false), Ex(x, f)) =>
-        val msg1   = s"You believe no object [${x.name}] satisfies:"
-        val msg2   = s"${f.toUntypedString}"
-        val choice = nm.keys
-          .map(name => name -> Interpreter.eval(f.sub(x, name)))
-          .find(_._2) match
-          case None            => nm.keys.head
-          case Some((name, _)) => name
-        val msg3 = s"I choose $choice as an example"
-        msg1 :: msg2 :: msg3 :: Nil
-
-      case _ => Nil
-  end genMsgs
 end GameHandler
