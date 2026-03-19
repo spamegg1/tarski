@@ -13,17 +13,17 @@ A converter should:
 ### True/False commit buttons
 
 - True/False buttons should:
-  - set the commitment if it's `None`,
-  - do nothing in any other case.
+  - ✅ set the commitment if it's `None`,
+  - ✅ do nothing in any other case.
 
 ### Back button
 
 - Back button should:
-  - Move the game one step back correctly if a step is available:
-    - if we go all the way back to the beginning, commit should reset to `None`,
-    - and change back the `Select` state correctly;
-  - do nothing if we reached all the way back to the beginning of the game,
-    - and try to go further back into the past which does not exist.
+  - ✅ Move the game one step back correctly if a step is available:
+    - ✅ if we go all the way back to the beginning, commit should reset to `None`,
+    - ✅ and change back the `Select` state correctly;
+  - ✅ do nothing if we reached all the way back to the beginning of the game
+    and try to go further back into the past which does not exist.
 
 ### Selecting a position
 
@@ -31,67 +31,69 @@ There are 3 situations for selecting a position on the board.
 
 #### Select state is `Off`
 
-- Clicking on a square should do nothing.
+- ✅ Clicking on a square should do nothing.
 
 #### Select state is `Wait`
 
 - Clicking on a square, if commit and formula are:
   - true, `Ex` and the user has to choose a block as an example:
     - if the clicked square has a block:
-      - should change Select state from `Wait` to `On(_)` with the clicked square,
-      - should not advance the step;
-    - if the clicked square has no block, should do nothing;
+      - ✅ should change Select state from `Wait` to `On(_)` with the clicked square,
+      - ✅ should not advance the step;
+    - ✅ if the clicked square has no block, should do nothing;
   - false, `All` and the user has to choose a block as a counterexample
     - if the clicked square has a block:
-      - should change Select state from `Wait` to `On(_)` with the clicked square;
-      - should not advance the step;
-    - if the clicked square has no block, should do nothing;
-  - else should do nothing in the other cases.
+      - ✅ should change Select state from `Wait` to `On(_)` with the clicked square;
+      - ✅ should not advance the step;
+    - ✅ if the clicked square has no block, should do nothing;
+  - ✅ else should do nothing in the other cases.
 
 #### Select state is `On(_)`
 
 - Clicking on a square, if commit and formula are:
   - true, `Ex` and the user has to choose a block as an example:
     - if the clicked square has a block:
-      - should change Select state from `On(_)` to `On(_)` with the clicked square;
+      - if the clicked square is different than selected square:
+        - ✅ should change Select state from `On(_)` to `On(_)` with the clicked square,
+      - if the clicked square is the same as currently selected square:
+        - ✅ should de-select and switch from `On(_)` to `Wait`,
     - if the clicked square has no block:
-      - should change Select state from `On(_)` to `Wait`;
+      - ✅ should change Select state from `On(_)` to `Wait`;
   - false, `All` and the user has to choose a block as a counterexample
     - if the clicked square has a block:
-      - should change Select state from `On(_)` to `On(_)` with the clicked square;
+      - if the clicked square is different than currently selected square:
+        - ✅ should change Select state from `On(_)` to `On(_)` with the clicked square,
+      - if the clicked square is the same as currently selected square:
+        - ✅ should de-select and switch from `On(_)` to `Wait`,
     - if the clicked square has no block:
-      - should change Select state from `On(_)` to `Wait`;
-  - else should do nothing in the other cases.
+      - ✅ should change Select state from `On(_)` to `Wait`;
+  - ✅ else should do nothing in the other cases.
 
 ### OK button
 
 - Clicking the OK button should:
-  - change the state of play correctly if Select, commitment and formula are:
-    - `Off`, false, `Ex` and Tarski's world chooses a block as an example:
-      - ???
-    - `Off`, true, `All` and Tarski's world chooses a block as a counterexample
-      - ???
-    - `On(_)`, true, `Ex` and the user chooses a block as an example
-      - substitute the name of block at selected position into formula,
-      - set Select state to `Off`;
-    - `On(_)`, false, `All` and the user chooses a block as a counterexample
-      - substitute the name of block at selected position into formula,
-      - set Select state to `Off`;
-  - do nothing in any other case.
+  - advance the step correctly if Select, commitment and formula are:
+    - ✅ `Off`, false, `Ex` and Tarski's world chooses a block as an example,
+    - ✅ `Off`, true, `All` and Tarski's world chooses a block as a counterexample
+    - ✅ `On(_)`, true, `Ex` and the user chooses a block as an example
+      - ✅ substitute the name of block at selected position into formula,
+    - ✅ `On(_)`, false, `All` and the user chooses a block as a counterexample
+      - ✅ substitute the name of block at selected position into formula,
+  - ✅ do nothing in any other case.
 
 ### Left/Right formula choice buttons
 
 - Left / Right buttons should:
   - change play and advance step if commit, Left and Right are all `Some(_)` and:
-    - formula is `Or` and commitment is true or
+    - ✅ formula is `Or` and commitment is true or
     - formula is `And` and commitment is false, and
-    - it should set Left/Right to `None` and set the formula to what is chosen;
-  - do nothing if one of commit, Left or Right is `None`
-  - or formula/commit is not one of the above combinations.
+    - ✅ it should set Left/Right to `None` and set the formula to what is chosen;
+  - ✅ do nothing if one of commit, Left or Right is `None`
+    or formula/commit is not one of the above combinations.
 
 ### Block display
 
-- Block display should do nothing when clicked.
+- ✅ Block display should do nothing when clicked.
 
 ## World handler tests
 

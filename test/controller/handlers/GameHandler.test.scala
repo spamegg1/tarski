@@ -2,7 +2,6 @@ package tarski
 package testing
 
 class GameHandlerTest extends munit.FunSuite:
-  given c: Constants = Constants(DefaultSize)
   import GameHandlerTestData.*, Select.*
 
   def msg(button: String) = s"Clicking $button should not do anyhing, but does"
@@ -33,7 +32,7 @@ class GameHandlerTest extends munit.FunSuite:
     val msg = "Clicking Back after True should rewind step to game start, but does not"
     assertEquals(b013, game, msg)
 
-  test("Clicking any button other than OK after committing to True should do nothing"):
+  test("Clicking any button other than Back/OK after committing to True should do nothing"):
     assertEquals(b011, a011, msg("True"))
     assertEquals(b111, a011, msg("False"))
     assertEquals(b005, a011, msg("Left"))
@@ -88,7 +87,7 @@ class GameHandlerTest extends munit.FunSuite:
     assertEquals(d014, gameB113, msg("Display"))
 
   test("Clicking OK after False + (1,2) should substitute name into formula and advance step"):
-    val msgE113 = s"Clicking OK should sub name `a` formula and advance step, but does not"
+    val msgE113 = s"Clicking OK should sub name `a` into formula and advance step, but does not"
     assertEquals(e113, gameE113, msgE113)
 
   test("Clicking Back after False + (1,2) should rewind back to game beginning"):
@@ -114,8 +113,20 @@ class GameHandlerTest extends munit.FunSuite:
     assertEquals(e105, gameCpa, msg("Right"))
     assertEquals(e014, gameCpa, msg("Display"))
 
+  test("Clicking the same block after True+OK+(1,2) should de-select it w/o advancing step"):
+    val msgFpa = s"Clicking $pa should switch from ${On(pa)} to Wait w/o advancing step, but does not"
+    assertEquals(fpa, gameFpa, msgFpa)
+
+  test("Clicking a block after True+OK+(1,2) should change from `On(_)` to `On(_)` w/o advancing step"):
+    val msgFp0 = s"Clicking $p0 should switch from ${On(pa)} to ${On(p0)} w/o advancing step, but does not"
+    assertEquals(fp0, gameFp0, msgFp0)
+
+  test("Clicking an empty spot after True+OK+(1,2) should change from `On(_)` to `Wait` w/o advancing step"):
+    val msgFp1 = s"Clicking $p1 should switch from ${On(pa)} to Wait w/o advancing step, but does not"
+    assertEquals(fp1, gameFp1, msgFp1)
+
   test("Clicking OK after True+OK+(1,2) should advance step and setup Or formula choice"):
-    val msgF113 = s"Clicking OK should setup Left/Right and advance step, but does not"
+    val msgF113 = s"Clicking OK should substitute `a`, setup Left/Right and advance step, but does not"
     assertEquals(f113, gameF113, msgF113)
 
   test("Clicking Left after True+OK+(1,2)+OK should advance step and lose the game"):

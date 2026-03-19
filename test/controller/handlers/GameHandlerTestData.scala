@@ -2,7 +2,7 @@ package tarski
 package testing
 
 object GameHandlerTestData:
-  import Shape.*, Sizes.*, Tone.*, Select.*, Choice.*, Commit.*
+  import Shape.*, Sizes.*, Tone.*, Select.*
 
   val ba         = Block(Sml, Tri, Lim, "a")
   val b0         = Block(Mid, Sqr, Blu)
@@ -90,6 +90,18 @@ object GameHandlerTestData:
   val gameEp0 = Game(stepEp0, List(step0), game.board)
 
   // False + pa + any other button = gameCpa
+
+  // True + OK + pa + pa
+  val stepFpa = Step(playB113, msgsB113, Wait)
+  val gameFpa = Game(stepFpa, List(stepA011, step0), game.board)
+
+  // True + OK + pa + p0
+  val stepFp0 = Step(playB113, msgsB113, On(p0))
+  val gameFp0 = Game(stepFp0, List(stepA011, step0), game.board)
+
+  // True + OK + pa + p1
+  val stepFp1 = Step(playB113, msgsB113, Wait)
+  val gameFp1 = Game(stepFp1, List(stepA011, step0), game.board)
 
   // True + OK + pa + OK
   val msgsF113 = List(
@@ -198,6 +210,9 @@ object GameHandlerTestData:
   val ep1  = GameHandler.boardPos(p1, cpa)      // False + (1, 2) + (4, 4)
 
   // After clicking True + OK + pa:
+  val fpa  = GameHandler.boardPos(pa, dpa)      // True + OK + pa + pa
+  val fp0  = GameHandler.boardPos(p0, dpa)      // True + OK + pa + p0
+  val fp1  = GameHandler.boardPos(p1, dpa)      // True + OK + pa + p1
   val f113 = GameHandler.controls((1, 13), dpa) // True + OK + pa + OK
   val g005 = GameHandler.controls((0, 5), f113) // True + OK + pa + OK + Left
   val g105 = GameHandler.controls((1, 5), f113) // True + OK + pa + OK + Right
