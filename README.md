@@ -3,8 +3,6 @@
 An educational tool for the semantics of
 [first-order logic](https://en.wikipedia.org/wiki/First-order_logic)
 
-![world](.images/world.png)
-
 <https://github.com/user-attachments/assets/3b1d3352-e1f1-436e-ac52-5110b62c98c3>
 
 ## About
@@ -17,7 +15,6 @@ using [Scala 3](https://www.scala-lang.org).
 
 They use 3D objects (cube, tetrahedron, dodecahedron) but I'm going with 2D as in
 [Epp's book](https://github.com/spamegg1/Epp-Discrete-Math-5th-solutions/).
-The image above is taken from there.
 
 ## Acknowledgements
 
