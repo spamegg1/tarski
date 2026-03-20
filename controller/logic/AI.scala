@@ -20,6 +20,6 @@ object AI:
   def chooseBlock(f: FOLFormula, x: FOLVar)(pred: Boolean)(using nm: NameMap): Name =
     nm.keys
       .map(name => name -> Interpreter.eval(f.sub(x, name)))
-      .find(pred | !_._2) match
+      .find(pred || !_._2) match
       case None            => nm.keys.head
       case Some((name, _)) => name

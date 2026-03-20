@@ -77,7 +77,7 @@ object GameHandlerTestData:
   val msgsE113 = List(
     "You believe no object [y] satisfies:",
     "Mor(a, y) ∨ Abv(y, a)",
-    "I choose a as an example"
+    "I choose a as my example"
   )
   val stepE113 = Step(playE113, msgsE113, Off)
   val gameE113 = Game(stepE113, List(stepCpa, step0), game.board)

@@ -14,6 +14,7 @@ object Messager:
     */
   def show(play: Play)(using nm: NameMap): Messages =
     (play.commitment, play.formula) match
+      // combine these two
       case (Some(false), And(a, b)) =>
         val msg1 = "You believe one of these is false:"
         val msg2 = ui"$a or $b"
@@ -34,7 +35,7 @@ object Messager:
         msg1 :: msg2 :: msg3 :: msg4 :: Nil
 
       case (_, Imp(a, b)) =>
-        val msg1 = ui"${Imp(a, b)} can be written as:"
+        val msg1 = ui"${play.formula} can be written as:"
         val msg2 = ui"${Or(Neg(a), b)}"
         msg1 :: msg2 :: Nil
 
@@ -43,6 +44,7 @@ object Messager:
         val msg2 = ui"${And(Imp(a, b), Imp(b, a))}"
         msg1 :: msg2 :: Nil
 
+      // combine these two
       case (Some(false), All(x, f)) =>
         val msg1 = s"You believe some object [${x.name}] falsifies:"
         val msg2 = ui"$f"
@@ -62,6 +64,7 @@ object Messager:
         val msg2   = ui"$a" + s" is $result in this world."
         msg1 :: msg2 :: Nil
 
+      // combine these two
       case (Some(true), And(a, b)) =>
         val choice = if Interpreter.eval(a) then b else a // choose FALSE formula
         val msg1   = "You believe both are true:"
@@ -76,6 +79,7 @@ object Messager:
         val msg3   = ui"I choose $choice as true."
         msg1 :: msg2 :: msg3 :: Nil
 
+      // combine these two
       case (Some(true), All(x, f)) =>
         val msg1   = s"You believe every object [${x.name}] satisfies:"
         val msg2   = ui"$f"
@@ -87,7 +91,7 @@ object Messager:
         val msg1   = s"You believe no object [${x.name}] satisfies:"
         val msg2   = ui"$f"
         val choice = AI.chooseBlock(f, x)(true)
-        val msg3   = s"I choose $choice as an example"
+        val msg3   = s"I choose $choice as my example"
         msg1 :: msg2 :: msg3 :: Nil
 
       case _ => Nil

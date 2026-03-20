@@ -130,13 +130,11 @@ object GameHandler:
           Some(play.sub(choice, x, f))
 
         case Play(And(a, b), Some(true), _, _) =>
-          val evalA  = Interpreter.eval(a)
-          val choice = if evalA then b else a // choose FALSE formula
+          val choice = if Interpreter.eval(a) then b else a // choose FALSE formula
           Some(play.setFormula(choice))
 
         case Play(Or(a, b), Some(false), _, _) =>
-          val evalA  = Interpreter.eval(a)
-          val choice = if evalA then a else b // choose TRUE formula
+          val choice = if Interpreter.eval(a) then a else b // choose TRUE formula
           Some(play.setFormula(choice))
 
         case Play(Iff(a: FOLFormula, b: FOLFormula), _, _, _) => Some(play.setFormula(And(Imp(a, b), Imp(b, a))))
