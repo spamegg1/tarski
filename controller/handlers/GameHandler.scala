@@ -122,19 +122,11 @@ object GameHandler:
       given nm: NameMap = game.board.grid.toNameMap
       val next          = play match
         case Play(All(x, f), Some(true), _, _) =>
-          val choice = nm.keys
-            .map(name => name -> Interpreter.eval(f.sub(x, name)))
-            .find(!_._2) match // choose FALSE block
-            case None            => nm.keys.head
-            case Some((name, _)) => name
+          val choice = AI.chooseBlock(f, x)(false)
           Some(play.sub(choice, x, f))
 
         case Play(Ex(x, f), Some(false), _, _) =>
-          val choice = nm.keys
-            .map(name => name -> Interpreter.eval(f.sub(x, name)))
-            .find(_._2) match // choose TRUE block
-            case None            => nm.keys.head
-            case Some((name, _)) => name
+          val choice = AI.chooseBlock(f, x)(true)
           Some(play.sub(choice, x, f))
 
         case Play(And(a, b), Some(true), _, _) =>

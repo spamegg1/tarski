@@ -55,24 +55,22 @@ object Messager:
         val msg3 = "Click on a block, then click OK"
         msg1 :: msg2 :: msg3 :: Nil
 
-      // Cases that need Interpreter and namemap
+      // Cases that need Interpreter and NameMap
       case (Some(commit), a: FOLAtom) =>
         val result = Interpreter.eval(a)
         val msg1   = if commit == result then "You win!" else "You lose."
-        val msg2   = ui"$a is " + s"$result in this world."
+        val msg2   = ui"$a" + s" is $result in this world."
         msg1 :: msg2 :: Nil
 
       case (Some(true), And(a, b)) =>
-        val evalA  = Interpreter.eval(a)
-        val choice = if evalA then b else a
+        val choice = if Interpreter.eval(a) then b else a // choose FALSE formula
         val msg1   = "You believe both are true:"
         val msg2   = ui"$a and $b"
         val msg3   = ui"I choose $choice as false."
         msg1 :: msg2 :: msg3 :: Nil
 
       case (Some(false), Or(a, b)) =>
-        val evalA  = Interpreter.eval(a)
-        val choice = if evalA then a else b
+        val choice = if Interpreter.eval(a) then a else b // choose TRUE formula
         val msg1   = "You believe both are false:"
         val msg2   = ui"$a and $b"
         val msg3   = ui"I choose $choice as true."
@@ -81,30 +79,21 @@ object Messager:
       case (Some(true), All(x, f)) =>
         val msg1   = s"You believe every object [${x.name}] satisfies:"
         val msg2   = ui"$f"
-        val choice = nm.keys
-          .map(name => name -> Interpreter.eval(f.sub(x, name)))
-          .find(!_._2) match
-          case None            => nm.keys.head
-          case Some((name, _)) => name
-        val msg3 = s"I choose $choice as my counterexample"
+        val choice = AI.chooseBlock(f, x)(false)
+        val msg3   = s"I choose $choice as my counterexample"
         msg1 :: msg2 :: msg3 :: Nil
 
       case (Some(false), Ex(x, f)) =>
         val msg1   = s"You believe no object [${x.name}] satisfies:"
         val msg2   = ui"$f"
-        val choice = nm.keys
-          .map(name => name -> Interpreter.eval(f.sub(x, name)))
-          .find(_._2) match
-          case None            => nm.keys.head
-          case Some((name, _)) => name
-        val msg3 = s"I choose $choice as an example"
+        val choice = AI.chooseBlock(f, x)(true)
+        val msg3   = s"I choose $choice as an example"
         msg1 :: msg2 :: msg3 :: Nil
 
       case _ => Nil
   end show
 
-  /** Custom string interpolator to be used with `FOLFormula` in order to avoid ugly `.toUntypedString` calls
-    * everywhere.
+  /** Custom string interpolator to be used with `FOLFormula` in order to avoid `.toUntypedString` calls everywhere.
     *
     * @param args
     *   The arguments to be interpolated.
