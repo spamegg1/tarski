@@ -7,22 +7,24 @@ object Messager:
     *
     * @param play
     *   The current state of play.
-    * @param nm
+    * @param _
     *   A [[model.NameMap]] to look up blocks and to evaluate formulas with the interpreter.
     * @return
     *   A list of [[model.Messages]].
     */
-  def show(play: Play)(using nm: NameMap): Messages =
+  def show(play: Play)(using NameMap): Messages =
     (play.commitment, play.formula) match
       // symmetric cases
       case (Some(false), And(a, b))               => chooseAndOr(a, b)(false)
       case (Some(true), Or(a, b))                 => chooseAndOr(a, b)(true)
-      case (Some(false), All(x, f))               => chooseAllEx(x, f)(false)
-      case (Some(true), Ex(x, f))                 => chooseAllEx(x, f)(true)
+      case (Some(false), All(x, f))               => chooseAllEx(f, x)(false)
+      case (Some(true), Ex(x, f))                 => chooseAllEx(f, x)(true)
       case (_, Imp(a, b))                         => rewrite(play.formula, Or(Neg(a), b))
       case (_, Iff(a: FOLFormula, b: FOLFormula)) => rewrite(play.formula, And(Imp(a, b), Imp(b, a)))
-      case (Some(true), And(a, b))                => AI.chooseAndOr(a, b)(false)
-      case (Some(false), Or(a, b))                => AI.chooseAndOr(a, b)(true)
+      case (Some(true), And(a, b))                => AI.chooseAndOr(a, b)(true)
+      case (Some(false), Or(a, b))                => AI.chooseAndOr(a, b)(false)
+      case (Some(true), All(x, f))                => AI.chooseAllEx(f, x)(true)
+      case (Some(false), Ex(x, f))                => AI.chooseAllEx(f, x)(false)
 
       // outlier cases
       case (Some(commit), Neg(a)) =>
@@ -37,21 +39,6 @@ object Messager:
         val msg1   = if commit == result then "You win!" else "You lose."
         val msg2   = ui"$a is $result in this world."
         msg1 :: msg2 :: Nil
-
-      // combine these two
-      case (Some(true), All(x, f)) =>
-        val msg1   = s"You believe every object [${x.name}] satisfies:"
-        val msg2   = ui"$f"
-        val choice = AI.chooseBlock(f, x)(false)
-        val msg3   = s"I choose $choice as my counterexample"
-        msg1 :: msg2 :: msg3 :: Nil
-
-      case (Some(false), Ex(x, f)) =>
-        val msg1   = s"You believe no object [${x.name}] satisfies:"
-        val msg2   = ui"$f"
-        val choice = AI.chooseBlock(f, x)(true)
-        val msg3   = s"I choose $choice as my example"
-        msg1 :: msg2 :: msg3 :: Nil
 
       case _ => Nil
   end show
@@ -84,15 +71,25 @@ object Messager:
     * @return
     *   A list of messages to choose a block.
     */
-  private def chooseAllEx(x: FOLVar, f: FOLFormula)(commit: Boolean): Messages =
+  private def chooseAllEx(f: FOLFormula, x: FOLVar)(commit: Boolean): Messages =
     val action = if commit then "satisfies" else "falsifies"
     val msg1   = s"You believe some object [${x.name}] $action:"
     val msg2   = ui"$f"
     val msg3   = "Click on a block, then click OK"
     msg1 :: msg2 :: msg3 :: Nil
 
+  /** Generates [[model.Messages]] for rewriting an `Iff` or `Imp` formula.
+    *
+    * @param f
+    *   The formula to be rewritten (`Iff` or `Imp`).
+    * @param g
+    *   The rewritten form of `f` (`And(_, _)` or `Or(_, _)`).
+    * @return
+    *   A list of messages to rewrite the formula.
+    */
   private def rewrite(f: FOLFormula, g: FOLFormula): Messages =
     ui"$f can be written as:" :: ui"$g" :: Nil
+
 end Messager
 
 /** Custom string interpolator to be used with `FOLFormula` in order to avoid `.toUntypedString` calls everywhere.
@@ -107,4 +104,5 @@ extension (sc: StringContext) def ui(args: String*): String = sc.s(args*)
 /** This conversion enables us to utilize `.toUntypedString` in the [[ui]] custom interpolator. */
 given Conversion[FOLFormula, String] = _.toUntypedString
 
+/** This conversion lets us mix `FOLFormula` and other types in the [[ui]] custom interpolator. */
 given Conversion[AnyVal, String] = _.toString

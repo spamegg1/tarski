@@ -7,9 +7,9 @@ object AI:
     * for the given variable.
     *
     * @param f
-    *   An `FOLFormula`.
+    *   A `FOLFormula`.
     * @param x
-    *   An `FOLVar` that occurs freely in `f`.
+    *   A `FOLVar` that occurs freely in `f`.
     * @param pred
     *   Whether we want to satisfy or falsify `f`.
     * @param nm
@@ -24,20 +24,40 @@ object AI:
       case None            => nm.keys.head
       case Some((name, _)) => name
 
-  /** Generates messages for the computer's formula choices in case of `And` and `Or`.
+  /** Generates [[model.Messages]] for the computer's formula choices in case of `And` and `Or`.
     *
     * @param a
     *   The first conjunct / disjunct.
     * @param b
     *   The second conjunct / disjunct.
     * @param commit
-    *   The computer's commitment (the negation of the player's commitment).
+    *   The player's commitment (the opposite of the computer's commitment).
     * @return
     *   A list of messages for the computer's choice from the two formulas.
     */
   def chooseAndOr(a: FOLFormula, b: FOLFormula)(commit: Boolean)(using NameMap): Messages =
-    val choice = if Interpreter.eval(a) == commit then a else b
-    val msg1   = s"You believe both are ${!commit}:"
+    val choice = if Interpreter.eval(a) != commit then a else b
+    val msg1   = s"You believe both are $commit:"
     val msg2   = ui"$a and $b"
-    val msg3   = ui"I choose $choice as $commit."
+    val msg3   = ui"I choose $choice as ${!commit}."
+    msg1 :: msg2 :: msg3 :: Nil
+
+  /** Generates [[model.Messages]] for the computer's formula choices in case of `All` and `Ex`.
+    *
+    * @param f
+    *   A `FOLFormula`.
+    * @param x
+    *   A `FOLVar` that occurs freely in `f`.
+    * @param commit
+    *   The player's commitment (the opposite of the computer's commitment).
+    * @return
+    *   A list of messages for the computer's choice from the two formulas.
+    */
+  def chooseAllEx(f: FOLFormula, x: FOLVar)(commit: Boolean)(using NameMap): Messages =
+    val quantity = if commit then "every" else "no"
+    val counter  = if commit then "counter" else ""
+    val msg1     = s"You believe $quantity object [${x.name}] satisfies:"
+    val msg2     = ui"$f"
+    val choice   = AI.chooseBlock(f, x)(!commit)
+    val msg3     = s"I choose $choice as my ${counter}example"
     msg1 :: msg2 :: msg3 :: Nil
