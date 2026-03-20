@@ -14,18 +14,8 @@ object Messager:
     */
   def show(play: Play)(using nm: NameMap): Messages =
     (play.commitment, play.formula) match
-      // combine these two
-      case (Some(false), And(a, b)) =>
-        val msg1 = "You believe one of these is false:"
-        val msg2 = ui"$a or $b"
-        val msg3 = "Choose a false formula above."
-        msg1 :: msg2 :: msg3 :: Nil
-
-      case (Some(true), Or(a, b)) =>
-        val msg1 = "You believe one of these is true:"
-        val msg2 = ui"$a or $b"
-        val msg3 = "Choose a true formula above."
-        msg1 :: msg2 :: msg3 :: Nil
+      case (Some(false), And(a, b)) => chooseAndOr(a, b)(false)
+      case (Some(true), Or(a, b))   => chooseAndOr(a, b)(true)
 
       case (Some(commit), Neg(a)) =>
         val msg1 = s"You believe this is $commit:"
@@ -96,6 +86,23 @@ object Messager:
 
       case _ => Nil
   end show
+
+  /** Generates [[model.Messages]] when the user has to choose one of two formulas in the case of `And` or `Or`.
+    *
+    * @param a
+    *   The first conjunct / disjunct.
+    * @param b
+    *   The second conjunct / disjunct.
+    * @param commit
+    *   The player's commitment.
+    * @return
+    *   A list of messages to choose one of the two formulas.
+    */
+  private def chooseAndOr(a: FOLFormula, b: FOLFormula)(commit: Boolean): Messages =
+    val msg1 = s"You believe one of these is $commit:"
+    val msg2 = ui"$a or $b"
+    val msg3 = s"Choose a $commit formula above."
+    msg1 :: msg2 :: msg3 :: Nil
 
   /** Custom string interpolator to be used with `FOLFormula` in order to avoid `.toUntypedString` calls everywhere.
     *
