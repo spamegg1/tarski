@@ -1,7 +1,7 @@
 package tarski
 package controller
 
-/** Makes various choices and generates messages for the computer player in the game. */
+/** Makes choices and generates messages for the computer player in the game. */
 object AI:
   /** Chooses the name of a block in the world that satisfies, or falsifies, the given formula by substituting the name
     * for the given variable.
@@ -40,7 +40,7 @@ object AI:
     val msg1   = s"You believe both are $commit:"
     val msg2   = ui"$a and $b"
     val msg3   = ui"I choose $choice as ${!commit}."
-    msg1 :: msg2 :: msg3 :: Nil
+    List(msg1, msg2, msg3)
 
   /** Generates [[model.Messages]] for the computer's formula choices in case of `All` and `Ex`.
     *
@@ -60,4 +60,4 @@ object AI:
     val msg2     = ui"$f"
     val choice   = AI.chooseBlock(f, x)(!commit)
     val msg3     = s"I choose $choice as my ${counter}example"
-    msg1 :: msg2 :: msg3 :: Nil
+    List(msg1, msg2, msg3)

@@ -3,6 +3,8 @@ package controller
 
 /** Generates messages for the game by handling the computer player's choices. Uses [[Interpreter]]. */
 object Messager:
+  type FF = FOLFormula
+
   /** Generates messages to be displayed to the user about the current state of the game.
     *
     * @param play
@@ -15,16 +17,16 @@ object Messager:
   def show(play: Play)(using NameMap): Messages =
     (play.commitment, play.formula) match
       // symmetric cases
-      case (Some(false), And(a, b))               => chooseAndOr(a, b)(false)
-      case (Some(true), Or(a, b))                 => chooseAndOr(a, b)(true)
-      case (Some(false), All(x, f))               => chooseAllEx(f, x)(false)
-      case (Some(true), Ex(x, f))                 => chooseAllEx(f, x)(true)
-      case (_, Imp(a, b))                         => rewrite(play.formula, Or(Neg(a), b))
-      case (_, Iff(a: FOLFormula, b: FOLFormula)) => rewrite(play.formula, And(Imp(a, b), Imp(b, a)))
-      case (Some(true), And(a, b))                => AI.chooseAndOr(a, b)(true)
-      case (Some(false), Or(a, b))                => AI.chooseAndOr(a, b)(false)
-      case (Some(true), All(x, f))                => AI.chooseAllEx(f, x)(true)
-      case (Some(false), Ex(x, f))                => AI.chooseAllEx(f, x)(false)
+      case (Some(false), And(a, b)) => chooseAndOr(a, b)(false)
+      case (Some(true), Or(a, b))   => chooseAndOr(a, b)(true)
+      case (Some(false), All(x, f)) => chooseAllEx(f, x)(false)
+      case (Some(true), Ex(x, f))   => chooseAllEx(f, x)(true)
+      case (_, Imp(a, b))           => rewrite(play.formula, Or(Neg(a), b))
+      case (_, Iff(a: FF, b: FF))   => rewrite(play.formula, And(Imp(a, b), Imp(b, a)))
+      case (Some(true), And(a, b))  => AI.chooseAndOr(a, b)(true)
+      case (Some(false), Or(a, b))  => AI.chooseAndOr(a, b)(false)
+      case (Some(true), All(x, f))  => AI.chooseAllEx(f, x)(true)
+      case (Some(false), Ex(x, f))  => AI.chooseAllEx(f, x)(false)
 
       // outlier cases
       case (Some(commit), Neg(a)) =>
@@ -32,13 +34,13 @@ object Messager:
         val msg2 = ui"${Neg(a)}"
         val msg3 = s"So you believe this is ${!commit}:"
         val msg4 = ui"$a"
-        msg1 :: msg2 :: msg3 :: msg4 :: Nil
+        List(msg1, msg2, msg3, msg4)
 
       case (Some(commit), a: FOLAtom) =>
         val result = Interpreter.eval(a)
         val msg1   = if commit == result then "You win!" else "You lose."
         val msg2   = ui"$a is $result in this world."
-        msg1 :: msg2 :: Nil
+        List(msg1, msg2)
 
       case _ => Nil
   end show
@@ -58,7 +60,7 @@ object Messager:
     val msg1 = s"You believe one of these is $commit:"
     val msg2 = ui"$a or $b"
     val msg3 = s"Choose a $commit formula above."
-    msg1 :: msg2 :: msg3 :: Nil
+    List(msg1, msg2, msg3)
 
   /** Generates [[model.Messages]] when the user has to choose a block in the case of a false `All` or true `Ex`.
     *
@@ -73,10 +75,8 @@ object Messager:
     */
   private def chooseAllEx(f: FOLFormula, x: FOLVar)(commit: Boolean): Messages =
     val action = if commit then "satisfies" else "falsifies"
-    val msg1   = s"You believe some object [${x.name}] $action:"
-    val msg2   = ui"$f"
-    val msg3   = "Click on a block, then click OK"
-    msg1 :: msg2 :: msg3 :: Nil
+    val msg    = s"You believe some object [${x.name}] $action:"
+    List(msg, ui"$f", "Click on a block, then click OK")
 
   /** Generates [[model.Messages]] for rewriting an `Iff` or `Imp` formula.
     *
@@ -88,7 +88,7 @@ object Messager:
     *   A list of messages to rewrite the formula.
     */
   private def rewrite(f: FOLFormula, g: FOLFormula): Messages =
-    ui"$f can be written as:" :: ui"$g" :: Nil
+    List(ui"$f can be written as:", ui"$g")
 
 end Messager
 
