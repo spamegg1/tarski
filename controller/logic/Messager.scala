@@ -16,6 +16,8 @@ object Messager:
     (play.commitment, play.formula) match
       case (Some(false), And(a, b)) => chooseAndOr(a, b)(false)
       case (Some(true), Or(a, b))   => chooseAndOr(a, b)(true)
+      case (Some(false), All(x, f)) => chooseAllEx(x, f)(false)
+      case (Some(true), Ex(x, f))   => chooseAllEx(x, f)(true)
 
       case (Some(commit), Neg(a)) =>
         val msg1 = s"You believe this is $commit:"
@@ -33,19 +35,6 @@ object Messager:
         val msg1 = ui"${play.formula} can be written as:"
         val msg2 = ui"${And(Imp(a, b), Imp(b, a))}"
         msg1 :: msg2 :: Nil
-
-      // combine these two
-      case (Some(false), All(x, f)) =>
-        val msg1 = s"You believe some object [${x.name}] falsifies:"
-        val msg2 = ui"$f"
-        val msg3 = "Click on a block, then click OK"
-        msg1 :: msg2 :: msg3 :: Nil
-
-      case (Some(true), Ex(x, f)) =>
-        val msg1 = s"You believe some object [${x.name}] satisfies:"
-        val msg2 = ui"$f"
-        val msg3 = "Click on a block, then click OK"
-        msg1 :: msg2 :: msg3 :: Nil
 
       // Cases that need Interpreter and NameMap
       case (Some(commit), a: FOLAtom) =>
@@ -102,6 +91,24 @@ object Messager:
     val msg1 = s"You believe one of these is $commit:"
     val msg2 = ui"$a or $b"
     val msg3 = s"Choose a $commit formula above."
+    msg1 :: msg2 :: msg3 :: Nil
+
+  /** Generates [[model.Messages]] when the user has to choose a block in the case of a false `All` or true `Ex`.
+    *
+    * @param f
+    *   A formula that the user is considering, `All` or `Ex`.
+    * @param x
+    *   A variable that occurs free in `f`.
+    * @param commit
+    *   The player's commitment.
+    * @return
+    *   A list of messages to choose a block.
+    */
+  private def chooseAllEx(x: FOLVar, f: FOLFormula)(commit: Boolean): Messages =
+    val action = if commit then "satisfies" else "falsifies"
+    val msg1   = s"You believe some object [${x.name}] $action:"
+    val msg2   = ui"$f"
+    val msg3   = "Click on a block, then click OK"
     msg1 :: msg2 :: msg3 :: Nil
 
   /** Custom string interpolator to be used with `FOLFormula` in order to avoid `.toUntypedString` calls everywhere.
