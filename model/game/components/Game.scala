@@ -91,4 +91,4 @@ object Game:
     * @return
     *   The initial state of a [[Game]] with given formula and given grid used as the board.
     */
-  def apply(formula: FOLFormula, grid: Grid): Game = Game(Step(formula), Nil, Board.fromGrid(grid))
+  def apply(formula: FOLFormula, grid: Grid): Game = Game(Step(formula), Nil, Board.fromGridWithLabels(grid))

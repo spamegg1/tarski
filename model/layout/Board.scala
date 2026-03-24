@@ -32,6 +32,17 @@ object Board:
     */
   def fromGrid(grid: Grid, gs: GridSize = BoardSize) = Board(grid.toNameGrid, gs)
 
+  /** Converts a user-provided [[Grid]] to a [[Board]] so that it can be internally used by a [[Game]], where all
+    * [[Block]]s are labeled.
+    *
+    * @param grid
+    *   The grid of positions mapped to blocks, provided by the user.
+    * @return
+    *   The same grid that also accounts for the names of blocks (with fake names generated if needed), added to the
+    *   blocks as labels to be rendered.
+    */
+  def fromGridWithLabels(grid: Grid, gs: GridSize = BoardSize) = Board(grid.toNameGridWithLabels, gs)
+
   /** Defines an empty board. Convenient for initializing a [[World]].
     *
     * @return
