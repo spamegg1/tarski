@@ -92,10 +92,8 @@ object GameHandler:
       case (Play(Or(a, b), Some(true), Some(_), Some(r)), Right)   => Some(play.setFormula(r))
       case _                                                       => None
     nextPlayOpt match
-      case Some(nextPlay) =>
-        val nextMsgs = Messager.show(nextPlay)(using game.board)
-        game.addStep(nextPlay, nextMsgs)
-      case None => game
+      case Some(next) => game.addStep(next, Messager.show(next)(using game.board))
+      case None       => game
   end handleChoice
 
   /** We can only click the OK button if a block has been selected and can be substituted into a formula, or a message
@@ -120,7 +118,7 @@ object GameHandler:
       given nm: NameMap = game.board.grid.toNameMap
       val nextPlayOpt   = (play.formula, play.commitment) match
         case (Iff(a: FOLFormula, b: FOLFormula), Some(true)) =>
-          val choice = if Interpreter.eval(Imp(a, b)) then Imp(a, b) else Imp(b, a)
+          val choice = if Interpreter.eval(Imp(a, b)) then Imp(b, a) else Imp(a, b)
           Some(play.setFormula(choice))
         case (All(x, f), Some(true)) => Some(play.sub(AI.chooseBlock(f, x)(false), x, f))
         case (Ex(x, f), Some(false)) => Some(play.sub(AI.chooseBlock(f, x)(true), x, f))
