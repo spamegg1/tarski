@@ -4,35 +4,35 @@ package testing
 class GameHandlerTest2 extends munit.FunSuite:
   import GameHandler2TestData.*, Select.*
 
-  test("Iff True 1"):
-    assertEquals(a011, gameA011, "error")
+  test("Iff: committing to True should work correctly"):
+    assertEquals(a011, gameA011, "commit True should work correctly, but does not")
 
-  test("Iff True 2"):
-    assertEquals(b113, gameB113, "error")
+  test("Iff: clicking True + OK should work correctly"):
+    assertEquals(b113, gameB113, "True + OK should work correctly, but does not")
 
-  test("Iff True 3"):
-    assertEquals(c113, gameC113, "error")
+  test("Iff: clicking True + OK + OK should work correctly"):
+    assertEquals(c113, gameC113, "True + OK + OK should work correctly, but does not")
 
-  test("Iff True 4"):
-    assertEquals(e113, gameE113, "error")
+  test("Iff: clicking True + OK + OK + OK should work correctly"):
+    assertEquals(e113, gameE113, "True+OK+OK+OK should work correctly, but does not")
 
-  test("Iff True 5"):
-    assertEquals(f105, gameF105, "error")
+  test("Iff: clicking True + OK + OK + OK + Right should work correctly"):
+    assertEquals(f105, gameF105, "True+OK+OK+OK+Right should work correctly, but does not")
 
-  test("Iff False 1"):
-    assertEquals(a111, gameA111, "error")
+  test("Iff: committing False should work correctly"):
+    assertEquals(a111, gameA111, "commit False should work correctly, but does not")
 
-  test("Iff False 2"):
-    assertEquals(bpa, gameBpa, "error")
+  test("Iff: clicking False + pa should work correctly"):
+    assertEquals(bpa, gameBpa, "False + pa should work correctly, but does not")
 
-  test("Iff False 3"):
-    assertEquals(d113, gameD113, "error")
+  test("Iff: clicking False + pa + OK should work correctly"):
+    assertEquals(d113, gameD113, "False + pa + OK should work correctly, but does not")
 
-  test("Iff False 4"):
-    assertEquals(e105, gameE105, "error")
+  test("Iff: clicking False + pa + OK + Right should work correctly"):
+    assertEquals(e105, gameE105, "False+pa+OK+Right should work correctly, but does not")
 
-  test("Iff False 5"):
-    assertEquals(f113, gameF113, "error")
+  test("Iff: clicking False + pa + OK + Right + OK should work correctly"):
+    assertEquals(f113, gameF113, "False+pa+OK+Right+OK should work correctly, but does not")
 
-  test("Iff False 6"):
-    assertEquals(h113, gameH113, "error")
+  test("Iff: clicking False + pa + OK + Right + OK + OK should work correctly"):
+    assertEquals(h113, gameH113, "False+pa+OK+Right+OK+OK should work correctly, but does not")
