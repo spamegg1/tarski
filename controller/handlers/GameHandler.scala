@@ -3,7 +3,6 @@ package controller
 
 object GameHandler:
   import Select.*
-  type FF = FOLFormula
 
   /** We can click on the board only when we are asked to pick an object for a false universal formula or a true
     * existential formula. In this case, the game's `pos` [[Select]] state must be `Wait` or `On`. Otherwise, clicking
@@ -119,15 +118,17 @@ object GameHandler:
     case _                                                    =>
       val play          = game.step.play
       given nm: NameMap = game.board.grid.toNameMap
-      val nextPlayOpt   = play match
-        case Play(All(x, f), Some(true), _, _) => Some(play.sub(AI.chooseBlock(f, x)(false), x, f))
-        case Play(Ex(x, f), Some(false), _, _) => Some(play.sub(AI.chooseBlock(f, x)(true), x, f))
-        case Play(And(a, b), Some(true), _, _) => Some(play.setFormula(if Interpreter.eval(a) then b else a))
-        case Play(Or(a, b), Some(false), _, _) => Some(play.setFormula(if Interpreter.eval(a) then a else b))
-        case Play(Iff(a: FF, b: FF), _, _, _)  => Some(play.setFormula(And(Imp(a, b), Imp(b, a))))
-        case Play(Imp(a, b), _, _, _)          => Some(play.setFormula(Or(Neg(a), b)))
-        case Play(Neg(_), _, _, _)             => Some(play.negate)
-        case _                                 => None
+      val nextPlayOpt   = (play.formula, play.commitment) match
+        case (Iff(a: FOLFormula, b: FOLFormula), Some(true)) =>
+          val choice = if Interpreter.eval(Imp(a, b)) then Imp(a, b) else Imp(b, a)
+          Some(play.setFormula(choice))
+        case (All(x, f), Some(true)) => Some(play.sub(AI.chooseBlock(f, x)(false), x, f))
+        case (Ex(x, f), Some(false)) => Some(play.sub(AI.chooseBlock(f, x)(true), x, f))
+        case (And(a, b), Some(true)) => Some(play.setFormula(if Interpreter.eval(a) then b else a))
+        case (Or(a, b), Some(false)) => Some(play.setFormula(if Interpreter.eval(a) then a else b))
+        case (Imp(a, b), _)          => Some(play.setFormula(Or(Neg(a), b)))
+        case (Neg(_), _)             => Some(play.negate)
+        case _                       => None
       nextPlayOpt match
         case Some(next) => game.addStep(next, Messager.show(next))
         case None       => game

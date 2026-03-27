@@ -3,8 +3,6 @@ package controller
 
 /** Generates messages for the game by handling the computer player's choices. Uses [[Interpreter]]. */
 object Messager:
-  type FF = FOLFormula
-
   /** Generates messages to be displayed to the user about the current state of the game.
     *
     * @param play
@@ -14,35 +12,38 @@ object Messager:
     * @return
     *   A list of [[model.Messages]].
     */
-  def show(play: Play)(using NameMap): Messages =
-    (play.commitment, play.formula) match
-      // symmetric cases
-      case (Some(false), And(a, b)) => chooseAndOr(a, b)(false)
-      case (Some(true), Or(a, b))   => chooseAndOr(a, b)(true)
-      case (Some(false), All(x, f)) => chooseAllEx(f, x)(false)
-      case (Some(true), Ex(x, f))   => chooseAllEx(f, x)(true)
-      case (_, Imp(a, b))           => rewrite(play.formula, Or(Neg(a), b))
-      case (_, Iff(a: FF, b: FF))   => rewrite(play.formula, And(Imp(a, b), Imp(b, a)))
-      case (Some(true), And(a, b))  => AI.chooseAndOr(a, b)(true)
-      case (Some(false), Or(a, b))  => AI.chooseAndOr(a, b)(false)
-      case (Some(true), All(x, f))  => AI.chooseAllEx(f, x)(true)
-      case (Some(false), Ex(x, f))  => AI.chooseAllEx(f, x)(false)
+  def show(play: Play)(using NameMap): Messages = (play.commitment, play.formula) match
+    // Iff cases that need special handling
+    case (Some(false), Iff(a: FOLFormula, b: FOLFormula)) =>
+      rewriteIff(Imp(a, b), Imp(b, a)) ::: chooseAndOr(Imp(a, b), Imp(b, a))(false)
+    case (Some(true), Iff(a: FOLFormula, b: FOLFormula)) =>
+      rewriteIff(Imp(a, b), Imp(b, a)) ::: AI.chooseAndOr(Imp(a, b), Imp(b, a))(true)
 
-      // outlier cases
-      case (Some(commit), Neg(a)) =>
-        val msg1 = s"You believe this is $commit:"
-        val msg2 = ui"${Neg(a)}"
-        val msg3 = s"So you believe this is ${!commit}:"
-        val msg4 = ui"$a"
-        List(msg1, msg2, msg3, msg4)
+    // symmetric cases
+    case (Some(false), And(a, b)) => chooseAndOr(a, b)(false)
+    case (Some(true), Or(a, b))   => chooseAndOr(a, b)(true)
+    case (Some(false), All(x, f)) => chooseAllEx(f, x)(false)
+    case (Some(true), Ex(x, f))   => chooseAllEx(f, x)(true)
+    case (Some(true), And(a, b))  => AI.chooseAndOr(a, b)(true)
+    case (Some(false), Or(a, b))  => AI.chooseAndOr(a, b)(false)
+    case (Some(true), All(x, f))  => AI.chooseAllEx(f, x)(true)
+    case (Some(false), Ex(x, f))  => AI.chooseAllEx(f, x)(false)
 
-      case (Some(commit), a: FOLAtom) =>
-        val result = Interpreter.eval(a)
-        val msg1   = if commit == result then "You win!" else "You lose."
-        val msg2   = ui"$a is $result in this world."
-        List(msg1, msg2)
+    // outlier cases
+    case (_, Imp(a, b)) => List(ui"${Imp(a, b)}", "can be written as:", ui"${Or(Neg(a), b)}")
 
-      case _ => Nil
+    case (Some(commit), Neg(a)) =>
+      val msg1 = s"You believe this is $commit:"
+      val msg3 = s"So you believe this is ${!commit}:"
+      List(msg1, ui"${Neg(a)}", msg3, ui"$a")
+
+    case (Some(commit), a: FOLAtom) =>
+      val result = Interpreter.eval(a)
+      val msg1   = if commit == result then "You win!" else "You lose."
+      val msg2   = ui"$a is $result in this world."
+      List(msg1, msg2)
+
+    case _ => Nil
   end show
 
   /** Generates [[model.Messages]] when the user has to choose one of two formulas in the case of `And` or `Or`.
@@ -78,17 +79,18 @@ object Messager:
     val msg    = s"You believe some object [${x.name}] $action:"
     List(msg, ui"$f", "Click on a block, then click OK")
 
-  /** Generates [[model.Messages]] for rewriting an `Iff` or `Imp` formula.
+  /** Rewrites a sentence of the form `Iff(a, b)` to `Imp(a, b) & Imp(b, a)`. This is done to avoid gapt's handling of
+    * `Iff` and `And` as interchangeable in pattern matching and string interpolation.
     *
     * @param f
-    *   The formula to be rewritten (`Iff` or `Imp`).
+    *   A sentence of the form `Imp(a, b)`.
     * @param g
-    *   The rewritten form of `f` (`And(_, _)` or `Or(_, _)`).
+    *   A sentence of the form `Imp(b, a)`.
     * @return
-    *   A list of messages to rewrite the formula.
+    *   A list of messages to rewrite `Iff(a, b)`.
     */
-  private def rewrite(f: FOLFormula, g: FOLFormula): Messages =
-    List(ui"$f can be written as:", ui"$g")
+  private def rewriteIff(f: FOLFormula, g: FOLFormula): Messages =
+    List(ui"${And(f, g)}", "can be written as:", ui"$f" + " ∧ " + ui"$g")
 
 end Messager
 

@@ -121,7 +121,7 @@ object Example:
     fof"Happy(c)" // error
   )
 
-  private val exampleSentence = fof"∀x ∃y (Mor(x, y) ∨ Abv(y, x))"
+  private val exampleSentence = fof"∀x ∃y (Mor(x, y) <-> Abv(y, x))"
 
   /** Runs the example world. */
   @main
