@@ -25,51 +25,6 @@ case class Block(
     */
   def removeLabel = copy(label = "")
 
-  /** Compares sizes of two blocks. Used by [[controller.Interpreter.evalAtom]].
-    *
-    * @param that
-    *   Another block to compare with.
-    * @return
-    *   `true` if this block's size is smaller, `false` otherwise.
-    */
-  def smaller(that: Block) = size < that.size
-
-  /** Compares sizes of two blocks. Used by [[controller.Interpreter.evalAtom]].
-    *
-    * @param that
-    *   Another block to compare with.
-    * @return
-    *   `true` if this block's size is larger, `false` otherwise.
-    */
-  def larger(that: Block) = that.size < size
-
-  /** Compares sizes of two blocks. Used by [[controller.Interpreter.evalAtom]].
-    *
-    * @param that
-    *   Another block to compare with.
-    * @return
-    *   `true` if the blocks have the same size, `false` otherwise.
-    */
-  def sameSize(that: Block) = size == that.size
-
-  /** Compares shapes of two blocks. Used by [[controller.Interpreter.evalAtom]].
-    *
-    * @param that
-    *   Another block to compare with.
-    * @return
-    *   `true` if the blocks have the same shape, `false` otherwise.
-    */
-  def sameShape(that: Block) = shape == that.shape
-
-  /** Compares tones of two blocks. Used by [[controller.Interpreter.evalAtom]].
-    *
-    * @param that
-    *   Another block to compare with.
-    * @return
-    *   `true` if the blocks have the same tone, `false` otherwise.
-    */
-  def sameColor(that: Block) = tone == that.tone
-
   /** Changes the label of this block.
     *
     * @param label

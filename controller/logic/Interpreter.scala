@@ -31,7 +31,7 @@ object Interpreter:
       if ea then eb else true
     case Iff(a: FOLFormula, b: FOLFormula) =>
       val (ea, eb) = (eval(a), eval(b)) // make sure both parts parse OK
-      ea iff eb
+      ea == eb
     case All(x, f) => ng.keys.forall(name => eval(f.sub(x, name)))
     case Ex(x, f)  => ng.keys.exists(name => eval(f.sub(x, name)))
 
@@ -75,26 +75,16 @@ object Interpreter:
       case FOLAtom("Bel", Seq(FOLConst(c), FOLConst(d))) => ng(c).pos.below(ng(d).pos)
       case FOLAtom("Abv", Seq(FOLConst(c), FOLConst(d))) => ng(c).pos.above(ng(d).pos)
       case FOLAtom("Adj", Seq(FOLConst(c), FOLConst(d))) => ng(c).pos.adjoins(ng(d).pos)
-      case FOLAtom("Les", Seq(FOLConst(c), FOLConst(d))) => ng(c).block.smaller(ng(d).block)
-      case FOLAtom("Mor", Seq(FOLConst(c), FOLConst(d))) => ng(c).block.larger(ng(d).block)
+      case FOLAtom("Les", Seq(FOLConst(c), FOLConst(d))) => ng(c).block.size < ng(d).block.size
+      case FOLAtom("Mor", Seq(FOLConst(c), FOLConst(d))) => ng(d).block.size < ng(c).block.size
       case FOLAtom("=", Seq(FOLConst(c), FOLConst(d)))   => ng(c).pos == ng(d).pos
       case FOLAtom("Row", Seq(FOLConst(c), FOLConst(d))) => ng(c).pos.sameRow(ng(d).pos)
       case FOLAtom("Col", Seq(FOLConst(c), FOLConst(d))) => ng(c).pos.sameCol(ng(d).pos)
       case FOLAtom("Eq", Seq(FOLConst(c), FOLConst(d)))  => ng(c).block.removeLabel == ng(d).block.removeLabel
-      case FOLAtom("Siz", Seq(FOLConst(c), FOLConst(d))) => ng(c).block.sameSize(ng(d).block)
-      case FOLAtom("Shp", Seq(FOLConst(c), FOLConst(d))) => ng(c).block.sameShape(ng(d).block)
-      case FOLAtom("Ton", Seq(FOLConst(c), FOLConst(d))) => ng(c).block.sameColor(ng(d).block)
+      case FOLAtom("Siz", Seq(FOLConst(c), FOLConst(d))) => ng(c).block.size == ng(d).block.size
+      case FOLAtom("Shp", Seq(FOLConst(c), FOLConst(d))) => ng(c).block.shape == ng(d).block.shape
+      case FOLAtom("Ton", Seq(FOLConst(c), FOLConst(d))) => ng(c).block.tone == ng(d).block.tone
       case FOLAtom("Btw", Seq(FOLConst(c), FOLConst(d), FOLConst(e))) => ng(c).pos.between(ng(d).pos, ng(e).pos)
       case _ => throw IllegalArgumentException(s"Atom $a is parsed incorrectly")
   end evalAtom
-
-  extension (bool: Boolean)
-    /** Extension method for the biconditional connective.
-      *
-      * @param that
-      *   Another [[Boolean]]
-      * @return
-      *   true if both booleans are true or both are false, false otherwise.
-      */
-    infix def iff(that: Boolean) = bool && that || !bool && !that
 end Interpreter

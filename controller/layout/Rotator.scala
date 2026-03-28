@@ -1,43 +1,27 @@
 package tarski
 package controller
 
-/** Class containing methods to rotate any given grid's positions clockwise or counter-clockwise.
+/** Class to rotate any given grid's positions 90 degrees clockwise or counter-clockwise.
   *
   * @param gs
   *   A [[GridSize]] instance; the number of rows and columns of the grid we want to rotate.
   */
 case class Rotator(gs: GridSize):
-  /** Rotates given position 90 degrees counter-clockwise.
-    *
-    * @param pos
-    *   The integer positions of the point inside the grid.
-    * @return
-    *   The integer positions of the point obtained by rotating the grid 90 degrees counter-clockwise.
-    */
-  def rotateLeft(pos: Pos): Pos = (row = gs.cols - pos.col - 1, col = pos.row)
-
-  /** Rotates given position 90 degrees clockwise.
-    *
-    * @param pos
-    *   The integer positions of the point inside the grid.
-    * @return
-    *   The integer positions of the point obtained by rotating the grid 90 degrees clockwise.
-    */
-  def rotateRight(pos: Pos): Pos = (row = pos.col, col = gs.rows - pos.row - 1)
-
-  /** Selects the right rotation function based on input. It acts like a partially applied function.
+  /** Rotates the given position 90 degrees, based on the given rotation.
     *
     * @param dir
-    *   Can only be `Click.Left` or `Click.Right`.
+    *   `Rotation.Left` (90 degrees counter-clockwise) or `Rotation.Right` (90 degrees clockwise).
+    * @param pos
+    *   The integer positions of the point inside the grid.
     * @return
-    *   `rotateLeft` or `rotateRight`
+    *   The integer positions of the point obtained by rotating the grid 90 degrees clockwise or counter-clockwise.
     */
-  def rotate(dir: Rotation): Pos => Pos = dir match
-    case Rotation.Left  => rotateLeft
-    case Rotation.Right => rotateRight
+  def rotate(dir: Rotation)(pos: Pos): Pos = dir match
+    case Rotation.Left  => (row = gs.cols - pos.col - 1, col = pos.row)
+    case Rotation.Right => (row = pos.col, col = gs.rows - pos.row - 1)
 end Rotator
 
-/** Contains useful instances of [[Rotator]]. */
+/** Contains a useful instance of [[Rotator]]. */
 object Rotator:
   /** Rotator for the chess board.
     *

@@ -22,45 +22,36 @@ case class Converter(dims: Dims, gs: GridSize):
   /** The left-most x-coordinate of the grid. */
   val left = -dims.w / 2
 
-  /** Converts [[model.Pos]] to [[doodle.core.Point]] on a grid with given dimensions and grid size.
+  /** Converts [[model.Pos]] to [[doodle.core.Point]] on a grid with given dimensions and grid size. Used by [[view]] to
+    * calculate the center positions of buttons to be rendered to the screen. Some buttons can be wider and / or taller,
+    * in which cases the center needs to be shifted right and / or down slightly.
     *
     * @param pos
     *   The integer positions of the point inside the grid.
+    * @param xFactor
+    *   The horizontal size scaling factor of the button we want to convert for. Can be 1 for normal sized buttons or 2
+    *   for wider buttons (center is shifted right).
+    * @param yFactor
+    *   The vertical size scaling factor of the button we want to convert for. Can be 1 for normal sized buttons or 2
+    *   for taller buttons (center is shifted down).
     * @return
     *   The Cartesian coordinates corresponding to `pos`.
     */
-  def toPoint(pos: Pos): Point =
-    val x = left + (0.5 + pos.col) * blockWidth
-    val y = top - (0.5 + pos.row) * blockHeight
+  def posToPoint(xFactor: Int, yFactor: Int)(pos: Pos): Point =
+    val x = left + (0.5 * xFactor + pos.col) * blockWidth
+    val y = top - (0.5 * yFactor + pos.row) * blockHeight
     Point(x, y)
 
-  /** Converts [[model.Pos]] to [[doodle.core.Point]] on a grid with given dimensions and grid size. Used for buttons
-    * that are wider, so the center is slightly shifted right.
-    *
-    * @param pos
-    *   The integer positions of the point inside the grid.
-    * @return
-    *   The Cartesian coordinates corresponding to `pos`, slightly shifted right for a wider button so that it is
-    *   centered correctly.
-    */
-  def toPointX(pos: Pos): Point =
-    val x = left + (1.0 + pos.col) * blockWidth
-    val y = top - (0.5 + pos.row) * blockHeight
-    Point(x, y)
+  /** Converts [[model.Pos]] to [[doodle.core.Point]] for normal sized buttons. */
+  val toPoint = posToPoint(1, 1)
 
-  /** Converts [[model.Pos]] to [[doodle.core.Point]] on a grid with given dimensions and grid size. Used for buttons
-    * that are wider and taller, so the center is slightly shifted down and right.
-    *
-    * @param pos
-    *   The integer positions of the point inside the grid.
-    * @return
-    *   The Cartesian coordinates corresponding to `pos`, slightly shifted down and right for a wider and taller button
-    *   so that it is centered correctly.
+  /** Converts [[model.Pos]] to [[doodle.core.Point]] for 2x wide buttons, with center shifted to the right. */
+  val toPointX = posToPoint(2, 1)
+
+  /** Converts [[model.Pos]] to [[doodle.core.Point]] for 2x wide and tall buttons, with center shifted down and to the
+    * right.
     */
-  def toPointXY(pos: Pos): Point =
-    val x = left + (1.0 + pos.col) * blockWidth
-    val y = top - (1.0 + pos.row) * blockHeight
-    Point(x, y)
+  val toPointXY = posToPoint(2, 2)
 
   /** Converts [[doodle.core.Point]] to [[model.Pos]]. All `Point`s inside the same block unit are converted to the same
     * `Pos`.

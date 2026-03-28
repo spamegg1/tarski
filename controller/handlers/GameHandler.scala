@@ -15,13 +15,13 @@ object GameHandler:
     * @return
     *   New state of the game, updated according to the position clicked.
     */
-  def boardPos(pos: Pos, game: Game): Game =
-    game.step.pos match
-      case Off   => game                                                // no effect
-      case Wait  => game.setPos(pos)                                    // set to `On(_)`
-      case On(p) => if p == pos then game.waitPos else game.setPos(pos) // de-select or On
+  def boardPos(pos: Pos, game: Game): Game = game.step.pos match
+    case Off               => game             // no effect
+    case Wait              => game.setPos(pos) // set to `On(_)`
+    case On(p) if p == pos => game.waitPos     // de-select
+    case On(_)             => game.setPos(pos) // set to `On(_)`
 
-  /** Handles what happens when a user clicks somewhere on the game controls.
+  /** Handles what happens when the user clicks somewhere on the game controls.
     *
     * @param pos
     *   The integer grid positions that the user clicked on.
@@ -30,15 +30,23 @@ object GameHandler:
     * @return
     *   New state of the game, updated according to which button was clicked on.
     */
-  def controls(pos: Pos, game: Game): Game =
-    Converter.gameMap.get(pos) match
-      case None        => game
-      case Some(click) => // make sure a button is clicked
-        click match
-          case commit: Commit     => handleCommit(commit, game)
-          case choice: Choice     => handleChoice(choice, game)
-          case action: GameAction => handleAction(action, game)
+  def controls(pos: Pos, game: Game): Game = Converter.gameMap.get(pos) match
+    case None        => game
+    case Some(click) => // make sure a button is clicked
+      click match
+        case commit: Commit     => handleCommit(commit, game)
+        case choice: Choice     => handleChoice(choice, game)
+        case action: GameAction => handleAction(action, game)
 
+  /** Handles what happens when the user clicks one of the action buttons.
+    *
+    * @param action
+    *   One of `Back`, `Ok` or `Display`.
+    * @param game
+    *   The current state of the game.
+    * @return
+    *   New state of the game based on the action
+    */
   def handleAction(action: GameAction, game: Game): Game = action match
     case GameAction.Back    => game.rewind
     case GameAction.OK      => handleOK(game)
@@ -116,7 +124,8 @@ object GameHandler:
     case _                                                    =>
       val play          = game.step.play
       given nm: NameMap = game.board.grid.toNameMap
-      val nextPlayOpt   = (play.formula, play.commitment) match
+
+      val nextPlayOpt = (play.formula, play.commitment) match
         case (Iff(a: FOLFormula, b: FOLFormula), Some(true)) =>
           val choice = if Interpreter.eval(Imp(a, b)) then Imp(b, a) else Imp(a, b)
           Some(play.setFormula(choice))
@@ -148,8 +157,8 @@ object GameHandler:
     */
   private def subst(game: Game, x: FOLVar, f: FOLFormula, pos: Pos): Game =
     game.board.grid.get(pos) match
-      case None                => game
-      case Some((block, name)) =>
+      case None            => game
+      case Some((_, name)) =>
         val nextPlay = game.step.play.sub(name, x, f)
         val nextMsgs = Messager.show(nextPlay)(using game.board)
         game.addStep(nextPlay, nextMsgs)

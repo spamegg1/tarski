@@ -13,15 +13,16 @@ object WorldHandler:
     * @return
     *   New state of the world, updated according to which square was clicked on.
     */
-  def boardPos(pos: Pos, world: World): World =
-    world.controls.posOpt match
-      case Some(p) if p == pos =>
-        val newControls = world.controls.deselectPos.unsetBlock
-        world.copy(controls = newControls)
-      case Some(p) if world.controls.move => world.moveBlock(from = p, to = pos)
-      case _                              =>
-        val newControls = world.controls.selectPos(pos).setBlock(world.board.grid.get(pos))
-        world.copy(controls = newControls)
+  def boardPos(pos: Pos, world: World): World = world.controls.posOpt match
+    case Some(p) if p == pos =>
+      val newControls = world.controls.deselectPos.unsetBlock
+      world.copy(controls = newControls)
+    case Some(p) if world.controls.move => world.moveBlock(from = p, to = pos)
+    case _                              =>
+      val newControls = world.controls
+        .selectPos(pos)
+        .setBlock(world.board.grid.get(pos))
+      world.copy(controls = newControls)
 
   /** Handles what happens when a user clicks somewhere on the user interface controls.
     *
@@ -32,15 +33,14 @@ object WorldHandler:
     * @return
     *   New state of the world, updated according to which button was clicked on.
     */
-  def uiButtons(pos: Pos, world: World): World =
-    Converter.uiMap.get(pos) match
-      case None        => world
-      case Some(click) => // make sure a button is clicked
-        click match
-          case l: Letter   => handleName(l.toName, world)
-          case attr: Attr  => handleAttr(attr, world)
-          case r: Rotation => handleRotate(r, world)
-          case a: Action   => handleAction(a, world)
+  def uiButtons(pos: Pos, world: World): World = Converter.uiMap.get(pos) match
+    case None        => world
+    case Some(click) => // make sure a button is clicked
+      click match
+        case l: Letter   => handleName(l.toName, world)
+        case attr: Attr  => handleAttr(attr, world)
+        case r: Rotation => world.rotate(Rotator.board.rotate(r))
+        case a: Action   => handleAction(a, world)
 
   /** Handles what happens when a user clicks one of the action buttons which control evaluation, adding / moving /
     * deleting a block, or the selected block display.
@@ -52,14 +52,12 @@ object WorldHandler:
     * @return
     *   New state of the world, updated according to which action button was clicked on.
     */
-  private def handleAction(action: Action, world: World): World =
-    import Action.*
-    action match
-      case Eval => handleEval(world)
-      case Add  => world.addBlockFromControls
-      case Del  => world.removeSelectedBlock
-      case Move => world.toggleMove
-      case Icon => world
+  private def handleAction(action: Action, world: World): World = action match
+    case Action.Eval => handleEval(world)
+    case Action.Add  => world.addBlockFromControls
+    case Action.Del  => world.removeSelectedBlock
+    case Action.Move => world.toggleMove
+    case Action.Icon => world
 
   /** Handles the evaluation of formulas if the user clicked on the Eval button.
     *
@@ -106,18 +104,6 @@ object WorldHandler:
           case None           => world
           case Some((_, pos)) => world.removeNameFromBlockAt(pos)
 
-  /** Handles the rotation of the board if the user clicked on one of the rotation buttons.
-    *
-    * @param dir
-    *   "Left" (counter-clockwise) or "Right" (clockwise).
-    * @param world
-    *   the current state of the world.
-    * @return
-    *   New state of the world, where positions of the blocks are rotated 90 degrees in given direction.
-    */
-  private def handleRotate(dir: Rotation, world: World): World =
-    world.rotate(Rotator.board.rotate(dir))
-
   /** Handles attributes ([[model.Tone]], [[model.Shape]] or [[model.Sizes]]) if the user clicks on one of those
     * buttons. If there is a block at selected position, the block's attributes are changed, and formulas are reset.
     *
@@ -138,5 +124,9 @@ object WorldHandler:
           case Some((block, name)) =>
             val newBlock = block.setAttr(attr)
             (world.board.grid.updated(pos, (newBlock, name)), world.formulas.reset)
-    world.copy(controls = newControls, board = world.board(newGrid), formulas = newFormulas)
+    world.copy(
+      controls = newControls,
+      board = world.board(newGrid),
+      formulas = newFormulas
+    )
 end WorldHandler

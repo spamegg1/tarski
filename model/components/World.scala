@@ -44,7 +44,11 @@ case class World(
     * @return
     *   A copy of this world with controls updated to select `pos` and display the block there.
     */
-  def selectPos(pos: Pos) = copy(controls = controls.selectPos(pos).setBlock(board.grid.get(pos)))
+  def selectPos(pos: Pos) = copy(
+    controls = controls
+      .selectPos(pos)
+      .setBlock(board.grid.get(pos))
+  )
 
   /** De-selects the currently selected position in [[controls]]. Wrapper for [[Controls.deselectPos]].
     *
@@ -148,7 +152,10 @@ case class World(
         case Some(_) => selectPos(to)
         case None    => // make sure there is no block at to
           val newGrid = board.grid.removed(from).updated(to, (block, name))
-          resetFormulas.selectPos(to).toggleMove.copy(board = board(newGrid))
+          resetFormulas
+            .selectPos(to)
+            .toggleMove
+            .copy(board = board(newGrid))
 
   /** Adds given name to the block at given position.
     *
