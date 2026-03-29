@@ -4,7 +4,9 @@ package model
 /** The chess board that holds the blocks. Used by [[World]] and [[Game]].
   *
   * @param grid
+  *   A [[NameGrid]] of pos -> (block, name) pairs.
   * @param gs
+  *   The numbers of rows and columns, default is `BoardSize` 8x8.
   */
 case class Board(grid: NameGrid, gs: GridSize = BoardSize):
   require:
