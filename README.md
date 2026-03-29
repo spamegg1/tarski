@@ -130,10 +130,10 @@ val formulas = Seq(
   fof"∀x ¬ Cir(x)",
   fof"¬(∀x Sml(x))",
   fof"∃x Tri(x)",
-  fof"∀x (¬(Shap(c, x) ∨ Less(x, c)) → ¬Tone(x, c))",
+  fof"∀x (¬(Shp(c, x) ∨ Les(x, c)) → ¬Ton(x, c))",
   fof"∃x Cir(x)",
   fof"a = b",
-  fof"∀x ∃y More(x, y)",
+  fof"∀x ∃y Mor(x, y)",
   fof"c != d",
   fof"∀x (Squ(x) → Tri(x))",
   fof"∃x (Tri(x) ↔ Mid(x))",
@@ -282,7 +282,7 @@ val grid: Grid = Map(
   (6, 3) -> Block(Sml, Sqr, Blu)
 )
 
-val formula = fof"∀x ∃y (More(x, y) ∨ Abv(y, x))"
+val formula = fof"∀x ∃y (Mor(x, y) ∨ Abv(y, x))"
 
 // The interface is 1600x800 by default.
 // if the interface is too small or too large, try a different scale factor than 1.0:
