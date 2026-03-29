@@ -42,7 +42,7 @@ object Constants:
   val UISize = (rows = UIRows, cols = UICols)
 
   /** The included font file. */
-  val FontFile = getClass.getResourceAsStream("/DejaVuSans.ttf")
+  private val FontFile = getClass.getResourceAsStream("/DejaVuSans.ttf")
 
   /** Creates a font from the included font file. */
   val FontFromFile = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, FontFile)
@@ -101,11 +101,11 @@ case class Constants(size: Double):
   val DerivedFont = Constants.FontFromFile.deriveFont(Pts)
 
   // Get the local graphics environment and register the font
-  val ge = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
+  private val ge = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment()
   ge.registerFont(DerivedFont)
 
   /** The family of the bundled font, to be passed to [[doodle.core.font.Font]]. */
-  val Family = DerivedFont.getFamily()
+  private val Family = DerivedFont.getFamily()
 
   /** Default font. */
   val TheFont = Font(FontFamily.named(Family), FontStyle.normal, FontWeight.normal, FontSize.points(Pts))

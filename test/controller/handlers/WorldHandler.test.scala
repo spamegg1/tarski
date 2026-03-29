@@ -24,16 +24,16 @@ class WorldHandlerTest extends munit.FunSuite:
     val msg1 = s"Left button should rotate $b0 correctly from $p0 to (5, 1), but does not"
     val msg2 = s"Left button should rotate $b1 correctly from $p1 to (3, 3), but does not"
     val msg3 = s"Left button should change selected position from $p0 to (5, 1), but does not"
-    assertEquals(w013.board.grid((5, 1)).block, Block(Sml, Cir, Blu, "f"), msg1)
-    assertEquals(w013.board.grid((3, 3)).block, b1, msg2)
+    assertEquals(w013.board((5, 1)).block, Block(Sml, Cir, Blu, "f"), msg1)
+    assertEquals(w013.board((3, 3)).block, b1, msg2)
     assertEquals(w013.controls.posOpt, Some((5, 1)), msg3)
 
   test("Right button should rotate board clockwise"):
     val msg1 = s"Right button should rotate $b0 correctly from $p0 to (2, 6), but does not"
     val msg2 = s"Right button should rotate $b1 correctly from $p1 to (4, 4), but does not"
     val msg3 = s"Right button should change selected position from $p1 to (4, 4), but does not"
-    assertEquals(w113.board.grid((2, 6)).block, Block(Sml, Cir, Blu, "f"), msg1)
-    assertEquals(w113.board.grid((4, 4)).block, b1, msg2)
+    assertEquals(w113.board((2, 6)).block, Block(Sml, Cir, Blu, "f"), msg1)
+    assertEquals(w113.board((4, 4)).block, b1, msg2)
     assertEquals(w113.controls.posOpt, Some((4, 4)), msg3)
 
   test("Block display should do nothing if clicked"):
@@ -98,7 +98,7 @@ class WorldHandlerTest extends munit.FunSuite:
   test("Add button with an empty position selected"):
     val msg1 = s"Pos $p2 should have block $b2 added, but does not"
     val msg2 = "Adding a block should reset all formulas, but does not"
-    assertEquals(x002.board.grid(p2).block, b2, msg1)
+    assertEquals(x002.board(p2).block, b2, msg1)
     assert(x002.formulas.values.forall(_ == Ready), msg2)
     assertEquals(x003, x002_, "Adding a None block shouldn't do anything, but does")
 
@@ -107,35 +107,35 @@ class WorldHandlerTest extends munit.FunSuite:
 
   test("Name button with a block at selected position"):
     val b             = b2.setLabel("a")
-    val (block, name) = y004.board.grid(p2)
+    val (block, name) = y004.board(p2)
     assertEquals(block, b, s"Block at $p2 should be $b, but is $block")
     assertEquals(name, "a", s"Name of block should be a, but is $name")
     assertEquals(y004.names("a"), Occupied, "Naming a block should occupy the name, but does not")
     assert(y004.formulas.values.forall(_ == Ready), "Adding a name to a block should reset all formulas, but does not")
 
   test("Color buttons with a block at selected position"):
-    val b   = y010.board.grid(p2).block
+    val b   = y010.board(p2).block
     val msg = "Changing the color of a block should reset all formulas, but does not"
     assertEquals(b.tone, Blu, s"Block $b at position $p2 should be Blu, but is not")
     assertEquals(y010.controls.toneOpt, Some(Blu), "Color should be Blu, but is not")
     assert(y010.formulas.values.forall(_ == Ready), msg)
 
   test("Size buttons with a block at selected position"):
-    val b   = y104.board.grid(p2).block
+    val b   = y104.board(p2).block
     val msg = "Changing the size of a block should reset all formulas, but does not"
     assertEquals(b.size, Sml, s"Block $b at position $p2 should be Sml, but is not")
     assertEquals(y104.controls.sizeOpt, Some(Sml), "Size should be Sml, but is not")
     assert(y104.formulas.values.forall(_ == Ready), msg)
 
   test("Shape buttons with a block at selected position"):
-    val b   = y110.board.grid(p2).block
+    val b   = y110.board(p2).block
     val msg = "Changing the shape of a block should reset all formulas, but does not"
     assertEquals(b.shape, Tri, s"Block $b at position $p2 should be Tri, but is not")
     assertEquals(y110.controls.shapeOpt, Some(Tri), "Shape should be Tri, but is not")
     assert(y110.formulas.values.forall(_ == Ready), msg)
 
   test("Delete button with a block at selected position"):
-    assertEquals(y102.board.grid.get(p2), None, s"Block at pos $p2 should be deleted, but is not")
+    assertEquals(y102.board.get(p2), None, s"Block at pos $p2 should be deleted, but is not")
     assertEquals(y102.names("a"), Available, "Name a of deleted block should be Available, but is not")
     assert(y102.formulas.values.forall(_ == Ready), "Deleting a block should reset all formulas, but does not")
 

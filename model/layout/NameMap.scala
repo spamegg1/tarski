@@ -7,5 +7,5 @@ package model
 type NameMap = Map[Name, (block: Block, pos: Pos)]
 
 object NameMap:
-  given Conversion[Board, NameMap] = (b: Board) => b.grid.toNameMap
-  given (b: Board) => NameMap      = b.grid.toNameMap
+  given Conversion[Board, NameMap] = (b: Board) => b.toNameMap
+  given (b: Board) => NameMap      = b.toNameMap

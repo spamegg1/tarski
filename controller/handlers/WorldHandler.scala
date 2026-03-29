@@ -21,7 +21,7 @@ object WorldHandler:
     case _                              =>
       val newControls = world.controls
         .selectPos(pos)
-        .setBlock(world.board.grid.get(pos))
+        .setBlock(world.board.get(pos))
       world.copy(controls = newControls)
 
   /** Handles what happens when a user clicks somewhere on the user interface controls.
@@ -115,18 +115,18 @@ object WorldHandler:
     *   New state of the world, updated according to which attribute was clicked.
     */
   private def handleAttr(attr: Attr, world: World): World =
-    val newControls            = world.controls.setAttr(attr)
-    val (newGrid, newFormulas) = world.controls.posOpt match
-      case None      => (world.board.grid, world.formulas)
+    val newControls             = world.controls.setAttr(attr)
+    val (newBoard, newFormulas) = world.controls.posOpt match
+      case None      => (world.board, world.formulas)
       case Some(pos) =>
-        world.board.grid.get(pos) match
-          case None                => (world.board.grid, world.formulas)
+        world.board.get(pos) match
+          case None                => (world.board, world.formulas)
           case Some((block, name)) =>
             val newBlock = block.setAttr(attr)
-            (world.board.grid.updated(pos, (newBlock, name)), world.formulas.reset)
+            (world.board.updated(pos, (newBlock, name)), world.formulas.reset)
     world.copy(
       controls = newControls,
-      board = world.board(newGrid),
+      board = newBoard,
       formulas = newFormulas
     )
 end WorldHandler

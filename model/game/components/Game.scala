@@ -23,7 +23,7 @@ case class Game(step: Step, prev: List[Step], board: Board):
     * @return
     *   New state of the game where the position is updated accordingly.
     */
-  def setPos(p: Pos) = board.grid.get(p) match
+  def setPos(p: Pos) = board.get(p) match
     case None    => waitPos
     case Some(_) => copy(step = step.setPos(p))
 
@@ -68,7 +68,7 @@ case class Game(step: Step, prev: List[Step], board: Board):
     *   The block at selected position on the board, if any.
     */
   def getBlock: Option[Block] = step.pos.opt
-    .flatMap(board.grid.get)
+    .flatMap(board.get)
     .map(_.block)
 
   /** The list of messages to be displayed.

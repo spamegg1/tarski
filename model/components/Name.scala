@@ -42,32 +42,34 @@ object Names:
     .map: name =>
       name -> (if nameMap.contains(name) then Occupied else Available)
     .toMap
+
+  extension (names: Names)
+    /** Extension method for [[Names]] to toggle the availability of a specific name. It works whether the name argument
+      * is "fake" or not.
+      *
+      * @param name
+      *   A name we want to make available.
+      * @return
+      *   The same names, except `name` has been made available, if applicable.
+      */
+    def avail(name: Name): Names = names.get(name) match
+      case Some(Occupied)  => names.updated(name, Available)
+      case Some(Available) => names
+      case None            => names // name was fake
+
+    /** Extension method for [[Names]] to toggle the availability of a specific name. It works whether the name argument
+      * is "fake" or not.
+      *
+      * @param name
+      *   A name we want to make occupied.
+      * @return
+      *   The same names, except `name` has been made occupied, if applicable.
+      */
+    def occupy(name: Name): Names = names.get(name) match
+      case Some(Available) => names.updated(name, Occupied)
+      case Some(Occupied)  => names
+      case None            => names // name was fake
+  end extension
 end Names
 
-extension (names: Names)
-  /** Extension method for [[Names]] to toggle the availability of a specific name. It works whether the name argument
-    * is "fake" or not.
-    *
-    * @param name
-    *   A name we want to make available.
-    * @return
-    *   The same names, except `name` has been made available, if applicable.
-    */
-  def avail(name: Name): Names = names.get(name) match
-    case Some(Occupied)  => names.updated(name, Available)
-    case Some(Available) => names
-    case None            => names // name was fake
-
-  /** Extension method for [[Names]] to toggle the availability of a specific name. It works whether the name argument
-    * is "fake" or not.
-    *
-    * @param name
-    *   A name we want to make occupied.
-    * @return
-    *   The same names, except `name` has been made occupied, if applicable.
-    */
-  def occupy(name: Name): Names = names.get(name) match
-    case Some(Available) => names.updated(name, Occupied)
-    case Some(Occupied)  => names
-    case None            => names // name was fake
-end extension
+export Names.*

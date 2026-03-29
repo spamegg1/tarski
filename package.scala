@@ -29,9 +29,10 @@ package tarski:
     export gapt.expr.formula.fol.{FOLVar, FOLConst, FOLAtom, FOLFormula}
     export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
     export constants.Constants, Constants.{BoardSize, UISize, Dims, GridSize}
-    export model.{Pos, Block, NameMap, Name, Status, Tone, Attr, World, Shape, Board}, NameMap.given
-    export model.{Controls, Names, Result, Sizes, Play, Game, Step, Select, reset, toNameMap, sub}
+    export model.{Pos, Block, NameMap, Name, Status, Tone, Attr, World, Shape, Board}
+    export model.{Controls, Names, Result, Sizes, Play, Game, Step, Select, Formulas}
     export model.{Action, Rotation, Letter, Click, Commit, Choice, GameClick, GameAction, Messages}
+    export Board.toNameMap, NameMap.given, Formulas.*
 
   /** Package to draw and render the interface. It is designed in a pure way and does not hold any mutable state.
     * [[Render]] simply consumes a [[World]] and produces a [[doodle.image.Image]]. It is used by [[main]]. Depends on

@@ -1,30 +1,20 @@
 package tarski
 package model
 
-/** The chess board that holds the blocks. Used by [[World]] and [[Game]].
-  *
-  * @param grid
-  *   A [[NameGrid]] of pos -> (block, name) pairs.
-  * @param gs
-  *   The numbers of rows and columns, default is `BoardSize` 8x8.
-  */
-case class Board(grid: NameGrid, gs: GridSize = BoardSize):
-  require:
-    grid.keys.forall: pos =>
-      0 <= pos.row && pos.row < gs.rows && 0 <= pos.col && pos.col < gs.cols
-
-  /** Useful when we only want to update `grid` but not the grid size.
-    *
-    * @param newGrid
-    *   An updated map of position -> (block, name) pairs.
-    * @return
-    *   A new board with its grid updated and the grid size unchanged.
-    */
-  def apply(newGrid: NameGrid) = copy(grid = newGrid)
-end Board
+/** The chess board that holds the blocks. Used by [[World]] and [[Game]]. A map of pos -> (block, name) pairs. */
+type Board = Map[Pos, (block: Block, name: Name)]
 
 /** Contains helper methods for [[Board]]. */
 object Board:
+  extension (b: Board)
+    /** Extension method that converts a [[Board]] to a [[NameMap]] by inverting the names and positions.
+      *
+      * @return
+      *   The name grid inverted as position -> (block, name).
+      */
+    def toNameMap: NameMap = b.map:
+      case (pos, (block, name)) => name -> (block, pos)
+
   /** Converts a user-provided [[Grid]] to a [[Board]] so that it can be internally used by a [[World]].
     *
     * @param grid
@@ -32,7 +22,11 @@ object Board:
     * @return
     *   The same grid that also accounts for the names of blocks (with fake names generated if needed).
     */
-  def fromGrid(grid: Grid, gs: GridSize = BoardSize) = Board(grid.toNameGrid, gs)
+  def fromGrid(grid: Grid, gs: GridSize = BoardSize) =
+    require:
+      grid.keys.forall: pos =>
+        0 <= pos.row && pos.row < gs.rows && 0 <= pos.col && pos.col < gs.cols
+    grid.toBoard
 
   /** Converts a user-provided [[Grid]] to a [[Board]] so that it can be internally used by a [[Game]], where all
     * [[Block]]s are labeled.
@@ -43,12 +37,18 @@ object Board:
     *   The same grid that also accounts for the names of blocks (with fake names generated if needed), added to the
     *   blocks as labels to be rendered.
     */
-  def fromGridWithLabels(grid: Grid, gs: GridSize = BoardSize) = Board(grid.toNameGridWithLabels, gs)
+  def fromGridWithLabels(grid: Grid, gs: GridSize = BoardSize) =
+    require:
+      grid.keys.forall: pos =>
+        0 <= pos.row && pos.row < gs.rows && 0 <= pos.col && pos.col < gs.cols
+    grid.toBoardWithLabels
 
   /** Defines an empty board. Convenient for initializing a [[World]].
     *
     * @return
-    *   A board with default [[BoardSize]] and no blocks on it.
+    *   A board with no blocks on it.
     */
-  def empty: Board = Board(Map())
+  def empty: Board = Map()
 end Board
+
+export Board.toNameMap

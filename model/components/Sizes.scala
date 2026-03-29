@@ -12,7 +12,7 @@ enum Sizes:
     * @param that
     *   Another size.
     * @return
-    *   true if this size is smaller than that, false otherwise.
+    *   `true` if this size is smaller than that, `false` otherwise.
     */
   infix def <(that: Sizes) =
     (this, that) match
@@ -37,3 +37,4 @@ object Sizes:
         case Sml => c.Small
         case Mid => c.Medium
         case Big => c.Large
+end Sizes

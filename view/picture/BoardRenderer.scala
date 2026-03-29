@@ -42,7 +42,7 @@ trait BoardRenderer(ui: UI)(using c: Constants):
     * @return
     *   An image of the chess board, with blocks at their positions.
     */
-  def blocksOnBoard(board: Board): Image = board.grid
+  def blocksOnBoard(board: Board): Image = board
     .foldLeft[Image](c.Board):
       case (image, (pos, (block, name))) =>
         Imager(block)

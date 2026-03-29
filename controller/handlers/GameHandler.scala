@@ -123,7 +123,7 @@ object GameHandler:
     case Step(Play(Ex(x, f), Some(true), _, _), _, On(pos))   => subst(game, x, f, pos)
     case _                                                    =>
       val play          = game.step.play
-      given nm: NameMap = game.board.grid.toNameMap
+      given nm: NameMap = game.board.toNameMap
 
       val nextPlayOpt = (play.formula, play.commitment) match
         case (Iff(a: FOLFormula, b: FOLFormula), Some(true)) =>
@@ -156,7 +156,7 @@ object GameHandler:
     *   block at `pos`.
     */
   private def subst(game: Game, x: FOLVar, f: FOLFormula, pos: Pos): Game =
-    game.board.grid.get(pos) match
+    game.board.get(pos) match
       case None            => game
       case Some((_, name)) =>
         val nextPlay = game.step.play.sub(name, x, f)
