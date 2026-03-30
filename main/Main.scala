@@ -11,7 +11,7 @@ package main
   *   Scales the user interface size. Must be positive. Default is 1.0, which results in a 1600 x 800 window. Provide
   *   values < 1.0 to make it smaller, > 1.0 to make it bigger.
   */
-inline def runWorld(inline grid: Grid = Grid.empty, inline formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
+inline def runWorld(inline grid: Grid = Map(), inline formulas: Seq[FOLFormula], scaleFactor: Double = 1.0) =
   val title = s"${Title.show(formulas)} in ${Title.show(grid)}"
   runHelper(title, grid, formulas, scaleFactor)
 

@@ -39,8 +39,8 @@ class InterpreterTest extends munit.FunSuite:
   private val world = World.from(grid, sentences)
 
   test("interpreter is correct on complex sentences in a world with 5 objects"):
-    given NameMap = world.nameMap
-    val results   = sentences.map(Interpreter.eval)
+    given Panel = world.panel
+    val results = sentences.map(Interpreter.eval)
     sentences
       .zip(results)
       .foreach: (sentence, result) =>
@@ -48,7 +48,7 @@ class InterpreterTest extends munit.FunSuite:
 
   test("Interpreter should throw NSE exception on formulas with missing objects in them"):
     import java.util.NoSuchElementException as NSE
-    given NameMap = world.nameMap
+    given Panel = world.panel
     try
       Interpreter.eval(fof"c = d")
       assert(false) // should not reach here! must throw ex on prev line
@@ -57,7 +57,7 @@ class InterpreterTest extends munit.FunSuite:
       case _       => assert(false) // should not throw any other kind of ex
 
   test("Interpreter should handle `Btw` predicate correctly"):
-    given NameMap = Map(
+    given Panel = Map(
       "d" -> (Block(Big, Sqr, Blu, "d"), (0, 1)),
       "e" -> (Block(Big, Cir, Lim, "e"), (0, 4)),
       "f" -> (Block(Big, Tri, Red, "f"), (0, 7)),

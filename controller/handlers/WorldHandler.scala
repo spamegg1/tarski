@@ -71,15 +71,18 @@ object WorldHandler:
     */
   private def handleEval(world: World): World =
     import Result.*
+    given Panel = world.panel
+
     val results = world.formulas.map: (formula, result) =>
       var status = Ready
       try
-        val bool = Interpreter.eval(formula)(using world.nameMap)
+        val bool = Interpreter.eval(formula)
         status = if bool then Valid else Invalid
       catch
         case ex: java.util.NoSuchElementException   => status = Ready
         case ex: java.lang.IllegalArgumentException => status = Error
       formula -> status
+
     world.copy(formulas = results)
 
   /** Handles the named objects if the user clicked on one of the name buttons.
@@ -100,7 +103,7 @@ object WorldHandler:
           case None      => world
           case Some(pos) => world.addNameToBlockAt(pos, name)
       case Some(Occupied) =>
-        world.nameMap.get(name) match
+        world.panel.get(name) match
           case None           => world
           case Some((_, pos)) => world.removeNameFromBlockAt(pos)
 

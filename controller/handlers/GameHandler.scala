@@ -68,7 +68,7 @@ object GameHandler:
     case Some(_) => game // commitment is already set, we cannot click
     case None    =>
       val nextPlay = game.step.play.commitTo(commit.toBoolean)
-      val nextMsgs = Messager.show(nextPlay)(using game.board)
+      val nextMsgs = Messager.show(nextPlay)(using game.panel)
       game.addStep(nextPlay, nextMsgs)
 
   /** Handles what happens when the user clicks on one of the two choice buttons.
@@ -100,7 +100,7 @@ object GameHandler:
       case (Play(Or(a, b), Some(true), Some(_), Some(r)), Right)   => Some(play.setFormula(r))
       case _                                                       => None
     nextPlayOpt match
-      case Some(next) => game.addStep(next, Messager.show(next)(using game.board))
+      case Some(next) => game.addStep(next, Messager.show(next)(using game.panel))
       case None       => game
   end handleChoice
 
@@ -122,8 +122,8 @@ object GameHandler:
     case Step(Play(All(x, f), Some(false), _, _), _, On(pos)) => subst(game, x, f, pos)
     case Step(Play(Ex(x, f), Some(true), _, _), _, On(pos))   => subst(game, x, f, pos)
     case _                                                    =>
-      val play          = game.step.play
-      given nm: NameMap = game.board.toNameMap
+      val play    = game.step.play
+      given Panel = game.board.toPanel
 
       val nextPlayOpt = (play.formula, play.commitment) match
         case (Iff(a: FOLFormula, b: FOLFormula), Some(true)) =>
@@ -160,7 +160,7 @@ object GameHandler:
       case None            => game
       case Some((_, name)) =>
         val nextPlay = game.step.play.sub(name, x, f)
-        val nextMsgs = Messager.show(nextPlay)(using game.board)
+        val nextMsgs = Messager.show(nextPlay)(using game.panel)
         game.addStep(nextPlay, nextMsgs)
 
 end GameHandler

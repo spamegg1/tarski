@@ -13,15 +13,15 @@ object AI:
     * @param pred
     *   Whether we want to satisfy or falsify `f`.
     * @param nm
-    *   A [[model.NameMap]] that represents the blocks on the board.
+    *   A [[model.Panel]] that represents the blocks on the board.
     * @return
     *   The [[model.Name]] of a block that makes `f` true or false when substituted.
     */
-  def chooseBlock(f: FOLFormula, x: FOLVar)(pred: Boolean)(using nm: NameMap): Name =
-    nm.keys
+  def chooseBlock(f: FOLFormula, x: FOLVar)(pred: Boolean)(using panel: Panel): Name =
+    panel.keys
       .map(name => name -> Interpreter.eval(f.sub(x, name)))
       .find(pred || !_._2) match
-      case None            => nm.keys.head
+      case None            => panel.keys.head
       case Some((name, _)) => name
 
   /** Generates [[model.Messages]] for the computer's formula choices in case of `And` and `Or`.
@@ -35,7 +35,7 @@ object AI:
     * @return
     *   A list of messages for the computer's choice from the two formulas.
     */
-  def chooseAndOr(a: FOLFormula, b: FOLFormula)(commit: Boolean)(using NameMap): Messages =
+  def chooseAndOr(a: FOLFormula, b: FOLFormula)(commit: Boolean)(using Panel): Messages =
     val choice = if Interpreter.eval(a) != commit then a else b
     val msg1   = s"You believe both are $commit:"
     val msg2   = ui"$a and $b"
@@ -53,7 +53,7 @@ object AI:
     * @return
     *   A list of messages for the computer's choice from the two formulas.
     */
-  def chooseAllEx(f: FOLFormula, x: FOLVar)(commit: Boolean)(using NameMap): Messages =
+  def chooseAllEx(f: FOLFormula, x: FOLVar)(commit: Boolean)(using Panel): Messages =
     val quantity = if commit then "every" else "no"
     val counter  = if commit then "counter" else ""
     val msg1     = s"You believe $quantity object [${x.name}] satisfies:"
@@ -61,3 +61,4 @@ object AI:
     val choice   = AI.chooseBlock(f, x)(!commit)
     val msg3     = s"I choose $choice as my ${counter}example"
     List(msg1, msg2, msg3)
+end AI

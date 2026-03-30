@@ -70,12 +70,13 @@ case class World(
     */
   def unsetBlock = copy(controls = controls.unsetBlock)
 
-  /** [[World]] wrapper for [[NameGrid.toNameMap]].
+  /** [[World]] wrapper for [[Board.toPanel]].
     *
     * @return
-    *   The name map obtained from the position grid of the current world. Useful when evaluating formulas.
+    *   The map of name -> (block, pos) pairs obtained from the board of the current world. Useful when evaluating
+    *   formulas.
     */
-  def nameMap = board.toNameMap
+  val panel = board.toPanel
 
   /** Adds given [[Block]] to the world at the given [[Pos]], if possible. Newly added blocks are always nameless, the
     * name can only be added later.
@@ -256,7 +257,7 @@ object World:
     val board = Board.fromGrid(grid)
     World(
       board = board,
-      names = Names.fromNameMap(board.toNameMap),
+      names = Names.fromPanel(board.toPanel),
       formulas = Formulas.fromSeq(formulas)
     )
 end World

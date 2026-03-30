@@ -4,16 +4,22 @@ package model
 /** The chess board that holds the blocks. Used by [[World]] and [[Game]]. A map of pos -> (block, name) pairs. */
 type Board = Map[Pos, (block: Block, name: Name)]
 
+/** This is like the inverse of [[Board]], allowing us to look-up blocks by name instead of position. Used in *
+  * [[controller]].
+  */
+type Panel = Map[Name, (block: Block, pos: Pos)]
+
 /** Contains helper methods for [[Board]]. */
 object Board:
   extension (b: Board)
-    /** Extension method that converts a [[Board]] to a [[NameMap]] by inverting the names and positions.
+    /** Extension method that converts a [[Board]] to a [[Panel]] by inverting the names and positions.
       *
       * @return
       *   The name grid inverted as position -> (block, name).
       */
-    def toNameMap: NameMap = b.map:
+    def toPanel: Panel = b.map:
       case (pos, (block, name)) => name -> (block, pos)
+  end extension
 
   /** Converts a user-provided [[Grid]] to a [[Board]] so that it can be internally used by a [[World]].
     *
@@ -51,4 +57,4 @@ object Board:
   def empty: Board = Map()
 end Board
 
-export Board.toNameMap
+export Board.*

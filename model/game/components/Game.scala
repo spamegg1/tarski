@@ -81,6 +81,15 @@ case class Game(step: Step, prev: List[Step], board: Board):
     val prevMsgs    = "" :: "Previous step:" :: prev.take(1).flatMap(_.msgs)
     currentMsgs ::: prevMsgs
 
+  /** [[Game]] wrapper for [[Board.toPanel]].
+    *
+    * @return
+    *   The map of name -> (block, pos) pairs obtained from the board of the current world. Useful when evaluating
+    *   formulas.
+    */
+  val panel = board.toPanel
+end Game
+
 object Game:
   /** Convenient alternate constructor for [[Game]].
     *

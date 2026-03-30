@@ -8,11 +8,11 @@ object Messager:
     * @param play
     *   The current state of play.
     * @param _
-    *   A [[model.NameMap]] to look up blocks and to evaluate formulas with the interpreter.
+    *   A [[model.Panel]] to look up blocks and to evaluate formulas with the interpreter.
     * @return
     *   A list of [[model.Messages]].
     */
-  def show(play: Play)(using NameMap): Messages = (play.commitment, play.formula) match
+  def show(play: Play)(using Panel): Messages = (play.commitment, play.formula) match
     // Iff cases that need special handling
     case (Some(false), Iff(a: FOLFormula, b: FOLFormula)) =>
       rewriteIff(Imp(a, b), Imp(b, a)) ::: chooseAndOr(Imp(a, b), Imp(b, a))(false)
@@ -93,18 +93,3 @@ object Messager:
     List(ui"${And(f, g)}", "can be written as:", ui"$f" + " ∧ " + ui"$g")
 
 end Messager
-
-/** Custom string interpolator to be used with `FOLFormula` in order to avoid `.toUntypedString` calls everywhere.
-  *
-  * @param args
-  *   The arguments to be interpolated.
-  * @return
-  *   The interpolated combined string of the arguments.
-  */
-extension (sc: StringContext) def ui(args: String*): String = sc.s(args*)
-
-/** This conversion enables us to utilize `.toUntypedString` in the [[ui]] custom interpolator. */
-given Conversion[FOLFormula, String] = _.toUntypedString
-
-/** This conversion lets us mix `FOLFormula` and other types in the [[ui]] custom interpolator. */
-given Conversion[AnyVal, String] = _.toString
