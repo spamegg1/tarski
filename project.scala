@@ -1,9 +1,9 @@
-//> using scala 3.8.3-RC3
+//> using scala 3.8.3
 //> using toolkit 0.9.1
 //> using resourceDir ./font
 //> using dep org.creativescala::doodle:0.34.0
 //> using dep at.logic.gapt::gapt:2.19.0
-//> using options -explain-cyclic -opt
+//> using options -explain-cyclic -opt -opt-inline:**
 
 //> using publish.organization io.github.spamegg1
 //> using publish.name tarski
