@@ -67,9 +67,8 @@ object GameHandler:
   def handleCommit(commit: Commit, game: Game): Game = game.step.play.commitment match
     case Some(_) => game // commitment is already set, we cannot click
     case None    =>
-      val nextPlay = game.step.play.commitTo(commit.toBoolean)
-      val nextMsgs = Messager.show(nextPlay)(using game.panel)
-      game.addStep(nextPlay, nextMsgs)
+      val next = game.step.play.commitTo(commit.toBoolean)
+      game.addStep(next, Messager.show(next)(using game.panel))
 
   /** Handles what happens when the user clicks on one of the two choice buttons.
     *
@@ -123,7 +122,7 @@ object GameHandler:
     case Step(Play(Ex(x, f), Some(true), _, _), _, On(pos))   => subst(game, x, f, pos)
     case _                                                    =>
       val play    = game.step.play
-      given Panel = game.board.toPanel
+      given Panel = game.panel
 
       val nextPlayOpt = (play.formula, play.commitment) match
         case (Iff(a: FOLFormula, b: FOLFormula), Some(true)) =>
@@ -159,8 +158,7 @@ object GameHandler:
     game.board.get(pos) match
       case None            => game
       case Some((_, name)) =>
-        val nextPlay = game.step.play.sub(name, x, f)
-        val nextMsgs = Messager.show(nextPlay)(using game.panel)
-        game.addStep(nextPlay, nextMsgs)
+        val next = game.step.play.sub(name, x, f)
+        game.addStep(next, Messager.show(next)(using game.panel))
 
 end GameHandler

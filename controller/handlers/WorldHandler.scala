@@ -120,13 +120,13 @@ object WorldHandler:
   private def handleAttr(attr: Attr, world: World): World =
     val newControls             = world.controls.setAttr(attr)
     val (newBoard, newFormulas) = world.controls.posOpt match
-      case None      => (world.board, world.formulas)
       case Some(pos) =>
         world.board.get(pos) match
-          case None                => (world.board, world.formulas)
           case Some((block, name)) =>
             val newBlock = block.setAttr(attr)
             (world.board.updated(pos, (newBlock, name)), world.formulas.reset)
+          case None => (world.board, world.formulas)
+      case None => (world.board, world.formulas)
     world.copy(
       controls = newControls,
       board = newBoard,
