@@ -40,7 +40,7 @@ World             // layout
 
 Diagramatically:
 
-![world](https://github.com/user-attachments/assets/039365bc-b5f4-4815-8720-ec340c0733f4)
+![world](https://github.com/user-attachments/assets/8fd0c32a-f6ff-46ad-b6e1-4f2570cd0d85)
 
 ## Work in progress
 
