@@ -59,6 +59,10 @@ Pictorially on the UI:
 
 ![example](https://github.com/user-attachments/assets/fc93b7ca-4c1a-41e6-aa1c-01a7a4729262)
 
+## Interaction with Controller
+
+TODO
+
 ## Work in progress
 
 - Stay tuned!

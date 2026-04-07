@@ -10,9 +10,9 @@ jobs:
       contents: read
     runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v6.0.0
+    - uses: actions/checkout@v6.0.2
       with:
         fetch-depth: 0
-    - uses: coursier/cache-action@v7.0.0
-    - uses: VirtusLab/scala-cli-setup@v1.10.1
+    - uses: coursier/cache-action@v8.1.0
+    - uses: VirtusLab/scala-cli-setup@v1.12.5
     - run: scala-cli --power format --check && scala-cli --power doc . -f && scala-cli --power test .
