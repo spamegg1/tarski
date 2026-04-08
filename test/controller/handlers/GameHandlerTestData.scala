@@ -1,8 +1,12 @@
 package tarski
 package testing
 
+import model.*
+
+/** Data for [[GameHandlerTest]]. */
 object GameHandlerTestData:
-  import Shape.*, Sizes.*, Tone.*, Select.*
+  import Shape.*, Sizes.*, Tone.*, Select.*, controller.GameHandler
+  import gapt.expr.stringInterpolationForExpressions
 
   val ba         = Block(Sml, Tri, Lim, "a")
   val b0         = Block(Mid, Sqr, Blu)

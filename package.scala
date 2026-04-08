@@ -26,14 +26,3 @@ package tarski:
     export model.{Pos, Board, World, Sizes, Tone, Result, Controls}
     export model.{Formulas, Names, Status, Shape, Block, Game, Message, Messages}
     export controller.Converter
-
-  /** This package tests [[World]] from [[model]], and [[Converter]], [[Handler]] and [[Interpreter]] from
-    * [[controller]]. Depends on [[constants]], [[model]] and [[controller]].
-    */
-  package testing:
-    export doodle.core.Point
-    export gapt.expr.stringInterpolationForExpressions
-    export constants.Constants, Constants.{DefaultSize, Epsilon}
-    export model.{World, Block, Pos, Board, Grid, Status, Result, Shape, Sizes, Tone}
-    export model.{Game, Step, Play, Select, Choice, Commit, Controls, Panel}
-    export controller.{Interpreter, Converter, WorldHandler, GameHandler}

@@ -1,8 +1,9 @@
 package tarski
 package testing
 
+/** Tests for [[controller.GameHandler]]. */
 class GameHandlerTest extends munit.FunSuite:
-  import GameHandlerTestData.*, Select.*
+  import GameHandlerTestData.*, model.Select, Select.*
 
   def msg(button: String) = s"Clicking $button should not do anyhing, but does"
 

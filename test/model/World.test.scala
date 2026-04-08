@@ -1,9 +1,14 @@
 package tarski
 package testing
 
+import model.*
+
+/** Tests for [[model.World]]. */
 class WorldTest extends munit.FunSuite:
-  private given c: Constants = Constants(DefaultSize)
   import Shape.*, Status.*, Sizes.*, Tone.*
+  import constants.Constants, Constants.DefaultSize
+
+  private given c: Constants = Constants(DefaultSize)
 
   val b0  = Block(Sml, Cir, Red)                      // at (1,2), then (3,4)
   val b1  = Block(Mid, Tri, Lim)                      // at (5,6)

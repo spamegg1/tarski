@@ -1,8 +1,9 @@
 package tarski
 package testing
 
+/** More tests for [[controller.GameHandler]]. */
 class GameHandlerTest2 extends munit.FunSuite:
-  import GameHandler2TestData.*, Select.*
+  import GameHandler2TestData.*, model.Select, Select.*
 
   test("Iff: committing to True should work correctly"):
     assertEquals(a011, gameA011, "commit True should work correctly, but does not")

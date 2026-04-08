@@ -1,8 +1,13 @@
 package tarski
 package testing
 
+import model.*
+
+/** Tests for [[controller.Interpreter]]. */
 class InterpreterTest extends munit.FunSuite:
-  import Shape.*, Sizes.*, Tone.*
+  import Shape.*, Sizes.*, Tone.*, controller.Interpreter
+  import gapt.expr.stringInterpolationForExpressions
+  import constants.Constants, Constants.DefaultSize
 
   private given c: Constants = Constants(DefaultSize)
 

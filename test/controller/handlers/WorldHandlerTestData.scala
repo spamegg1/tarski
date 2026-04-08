@@ -1,8 +1,12 @@
 package tarski
 package testing
 
+import model.*
+
+/** Data for [[WorldHandlerTest]]. */
 object WorldHandlerTestData:
-  import Shape.*, Status.*, Result.*, Sizes.*, Tone.*
+  import Shape.*, Status.*, Result.*, Sizes.*, Tone.*, controller.WorldHandler
+  import gapt.expr.stringInterpolationForExpressions
 
   val b0 = Block(Sml, Cir, Blu)
   val b1 = Block(Mid, Tri, Lim)

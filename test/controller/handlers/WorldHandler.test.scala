@@ -1,8 +1,13 @@
 package tarski
 package testing
 
+import model.*
+
+/** Tests for [[controller.WorldHandler]]. */
 class WorldHandlerTest extends munit.FunSuite:
-  import Shape.*, Status.*, Result.*, Sizes.*, Tone.*, WorldHandlerTestData.*
+  import Shape.*, Status.*, Result.*, Sizes.*, Tone.*
+  import constants.Constants, Constants.DefaultSize
+  import WorldHandlerTestData.*
 
   given c: Constants = Constants(DefaultSize)
 
