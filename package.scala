@@ -37,19 +37,3 @@ package tarski:
     export model.{World, Block, Pos, Board, Grid, Status, Result, Shape, Sizes, Tone}
     export model.{Game, Step, Play, Select, Choice, Commit, Controls, Panel}
     export controller.{Interpreter, Converter, WorldHandler, GameHandler}
-
-  /** This package is the user-facing part of Tarski's world. Depends on [[constants]], [[model]], [[controller]] and
-    * [[view]]. It provides the necessary data types from [[model]] for users to define their own worlds and write their
-    * own first order logic formulas, and the [[run]] method to evaluate them in a world.
-    */
-  package main:
-    export cats.effect.unsafe.implicits.global
-    export gapt.expr.stringInterpolationForExpressions
-    export gapt.expr.formula.fol.FOLFormula
-    export doodle.reactor.syntax.all.animateWithFrame
-    export doodle.reactor.Reactor
-    export doodle.java2d.{java2dAnimationRenderer, java2dCanvasAlgebra, java2dRenderer}
-    export constants.Constants, Constants.{DefaultSize, TickRate}
-    export model.{World, Block, Board, Grid, Formulas, Shape, Sizes, Tone, Game, Play}
-    export view.{WorldRenderer, GameRenderer, Title}
-    export controller.React

@@ -1,6 +1,17 @@
 package tarski
 package main
 
+import cats.effect.unsafe.implicits.global
+import gapt.expr.stringInterpolationForExpressions
+import gapt.expr.formula.fol.FOLFormula
+import doodle.reactor.syntax.all.animateWithFrame
+import doodle.reactor.Reactor
+import doodle.java2d.{java2dAnimationRenderer, java2dCanvasAlgebra, java2dRenderer}
+import constants.Constants, Constants.{DefaultSize, TickRate}
+import model.{World, Block, Board, Grid, Formulas, Shape, Sizes, Tone, Game}
+import view.{WorldRenderer, GameRenderer, Title}
+import controller.React
+
 /** This method is how a user runs Tarski's world.
   *
   * @param grid
