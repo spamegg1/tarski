@@ -24,6 +24,8 @@ end Sizes
 
 /** Contains given instances to work with [[Sizes]]. */
 object Sizes:
+  import constants.Constants
+
   /** A conditional given instance to convert [[Sizes]] to [[Double]].
     *
     * @param c

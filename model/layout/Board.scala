@@ -11,6 +11,8 @@ type Panel = Map[Name, (block: Block, pos: Pos)]
 
 /** Contains helper methods for [[Board]]. */
 object Board:
+  import constants.Constants, Constants.{GridSize, BoardSize}
+
   extension (b: Board)
     /** Extension method that converts a [[Board]] to a [[Panel]] by inverting the names and positions.
       *

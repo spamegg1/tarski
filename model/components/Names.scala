@@ -1,11 +1,11 @@
 package tarski
 package model
 
-/** Type alias for a map of all the names and their availability. */
-type Names = Map[Name, Status] // a,b,c,d,e,f
-
 /** Contains values and methods used for [[Names]]. */
 object Names:
+  /** Type alias for a map of all the names and their availability. */
+  type Names = Map[Name, Status] // a,b,c,d,e,f
+
   /** The only allowed names. */
   val TheNames = Set("a", "b", "c", "d", "e", "f")
 

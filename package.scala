@@ -7,18 +7,6 @@ package tarski:
     export doodle.core.font.{Font, FontFamily, FontStyle, FontWeight, FontSize}
     export doodle.java2d.effect.Frame
 
-  /** Package for all the data definitions used throughout Tarski's world. It contains many types, the most important
-    * being the [[World]] class. It is used by [[controller]], [[view]], [[testing]] and [[main]]. Depends on
-    * [[constants]].
-    */
-  package model:
-    export collection.immutable.ListMap
-    export doodle.core.Color
-    export gapt.expr.formula.fol.{FOLFormula, FOLVar, FOLConst, FOLAtom}
-    export gapt.expr.formula.{And, Or, Neg, Imp, Iff, All, Ex}
-    export gapt.expr.subst.FOLSubstitution
-    export constants.Constants, Constants.{GridSize, BoardSize}
-
   /** Package to handle user input and communicate between [[model]] and [[view]]. Depends on [[constants]] and
     * [[model]]. It is used by [[view]], [[testing]] and [[main]]. It provides the [[Converter]] class that translates
     * between [[model.Pos]] and [[doodle.core.Point]]. It also provides the [[Handler]] object that manages user mouse
@@ -30,9 +18,9 @@ package tarski:
     export gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
     export constants.Constants, Constants.{BoardSize, UISize, Dims, GridSize}
     export model.{Pos, Block, Name, Status, Tone, Attr, World, Shape, Board, Panel, Messages}
-    export model.{Controls, Names, Result, Sizes, Play, Game, Step, Select, Formulas}
+    export model.{Controls, Names, Result, Sizes, Play, Game, Step, Select}
     export model.{Action, Rotation, Letter, Click, Commit, Choice, GameClick, GameAction}
-    export Board.*, Formulas.*
+    export Board.*, model.Formulas.*
 
   /** Package to draw and render the interface. It is designed in a pure way and does not hold any mutable state.
     * [[Render]] simply consumes a [[World]] and produces a [[doodle.image.Image]]. It is used by [[main]]. Depends on

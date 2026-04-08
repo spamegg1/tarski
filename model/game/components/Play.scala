@@ -1,6 +1,9 @@
 package tarski
 package model
 
+import gapt.expr.formula.{And, Or, Neg, Imp, Iff, All, Ex}
+import gapt.expr.formula.fol.{FOLFormula, FOLVar}
+
 /** The state of the game.
   *
   * The game is played between two players: user and computer. User starts with a formula and a world, and an initial

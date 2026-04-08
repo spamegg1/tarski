@@ -1,6 +1,8 @@
 package tarski
 package model
 
+import gapt.expr.formula.fol.FOLFormula
+
 /** The core Game data structure.
   *
   * @param step

@@ -9,6 +9,8 @@ enum Tone:
 
 /** Contains given instances to work with [[Tone]]. */
 object Tone:
+  import doodle.core.Color
+
   /** An implicit conversion given instance that converts [[Tone]] to [[doodle.core.Color]]. */
   given Conversion[Tone, Color] =
     (t: Tone) =>

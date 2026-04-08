@@ -1,11 +1,14 @@
 package tarski
 package model
 
-/** A mapping between first-order formulas and their evaluation results. */
-type Formulas = ListMap[FOLFormula, Result]
-
 /** Contains helper methods for the [[Formulas]] type alias. */
 object Formulas:
+  import collection.immutable.ListMap, gapt.expr.subst.FOLSubstitution
+  import gapt.expr.formula.fol.{FOLFormula, FOLVar, FOLConst}
+
+  /** A mapping between first-order formulas and their evaluation results. */
+  type Formulas = ListMap[FOLFormula, Result]
+
   /** Generates a map where every formula is yet pending, not evaluated.
     *
     * @param fs

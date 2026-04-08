@@ -64,6 +64,8 @@ case class Step(play: Play, msgs: Messages, pos: Select[Pos]):
 
 /** Contains a convenient alternate constructor for [[Step]]. */
 object Step:
+  import gapt.expr.formula.fol.FOLFormula
+
   /** Every game starts with the same message asking the user for a commitment. */
   private val initMsgs = List("Choose initial commitment True/False above:")
 

@@ -1,6 +1,8 @@
 package tarski
 package model
 
+import collection.immutable.ListMap, gapt.expr.formula.fol.FOLFormula
+
 /** The main data type for Tarski's world.
   *
   * @param board
