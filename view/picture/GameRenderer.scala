@@ -1,6 +1,8 @@
 package tarski
 package view
 
+import constants.Constants
+
 /** Main renderer for the game that displays everything: the board, messages, and all the buttons.
   *
   * @param gameBtn
@@ -8,6 +10,8 @@ package view
   * @param c
   */
 case class GameRenderer(gameBtn: GameButtons, ui: UI)(using c: Constants) extends BoardRenderer(ui):
+  import model.{Game, Messages}, doodle.image.Image
+
   /** Draws all the buttons of the game user interface controls.
     *
     * @param game

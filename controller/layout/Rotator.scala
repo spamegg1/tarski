@@ -1,6 +1,8 @@
 package tarski
 package controller
 
+import constants.Constants.GridSize
+
 /** Class to rotate any given grid's positions 90 degrees clockwise or counter-clockwise.
   *
   * @param gs
@@ -34,4 +36,4 @@ object Rotator:
     * @return
     *   An instance of [[Rotator]] to be used for rotating the board.
     */
-  def board = Rotator(BoardSize)
+  def board = Rotator(constants.Constants.BoardSize)

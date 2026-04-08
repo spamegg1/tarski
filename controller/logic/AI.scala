@@ -18,6 +18,7 @@ object AI:
     *   The [[model.Name]] of a block that makes `f` true or false when substituted.
     */
   def chooseBlock(f: FOLFormula, x: FOLVar)(pred: Boolean)(using panel: Panel): Name =
+    import model.Formulas.sub
     panel.keys
       .map(name => name -> Interpreter.eval(f.sub(x, name)))
       .find(pred || !_._2) match

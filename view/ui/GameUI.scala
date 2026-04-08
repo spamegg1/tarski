@@ -1,6 +1,8 @@
 package tarski
 package view
 
+import model.Pos, controller.Converter, constants.Constants
+
 /** Contains values used by the companion class. */
 object GameUI:
   /** A mapping between game UI button names and their grid positions. */

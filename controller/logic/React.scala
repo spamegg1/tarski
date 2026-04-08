@@ -5,6 +5,8 @@ package controller
   * stopping condition. Used in [[main]].
   */
 object React:
+  import doodle.core.Point, constants.Constants
+
   /** Reacts to mouse clicks. Uses [[WorldHandler.boardPos]] and [[WorldHandler.uiButtons]] to do this. Used by
     * [[main.runWorld]].
     *

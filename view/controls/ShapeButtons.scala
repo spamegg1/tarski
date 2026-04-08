@@ -9,6 +9,8 @@ package view
   *   An instance of the [[UI]] class needed for button positions.
   */
 case class ShapeButtons(util: Utility, ui: UI):
+  import model.Shape, doodle.core.Color, doodle.image.Image
+
   /** All 3 shape buttons, together. */
   private val shapeButtons =
     Image

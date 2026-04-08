@@ -1,6 +1,8 @@
 package tarski
 package view
 
+import constants.Constants, controller.Converter, model.Pos
+
 /** Contains a mapping between UI button names and their grid positions. Used by the companion class. */
 object UI:
   val grid = Map[String, Pos](

@@ -1,12 +1,17 @@
 package tarski
 package view
 
+import controller.Converter, constants.Constants
+
 /** Utility class that draws buttons and indicators common to many button types.
   *
   * @param c
-  *   A given instance of [[Constants]], needed to use [[Converter]].
+  *   A given instance of [[constants.Constants]], needed to use [[controller.Converter]].
   */
 class Utility(using c: Constants):
+  import doodle.core.{Color, Point}
+  import doodle.image.Image, Image.Elements.Text
+
   /** The width of one block unit of the user interface controls. */
   val wid = Converter.ui.blockWidth
 

@@ -1,6 +1,8 @@
 package tarski
 package view
 
+import constants.Constants
+
 /** Buttons for the [[Game]].
   *
   * @param util
@@ -11,6 +13,8 @@ package view
   *   A given instance of [[Constants]] needed for [[Imager]].
   */
 case class GameButtons(util: Utility, gameUI: GameUI)(using Constants):
+  import model.Block, gapt.expr.formula.fol.FOLFormula
+
   /** The top formula choice button, for the `left` formula in a [[model.Play]].
     *
     * @param leftOpt

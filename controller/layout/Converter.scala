@@ -1,6 +1,8 @@
 package tarski
 package controller
 
+import constants.Constants, Constants.{Dims, GridSize, UISize, BoardSize}
+
 /** Converts between [[model.Pos]] and [[doodle.core.Point]] on a rectangle that is divided into a grid of rows and
   * columns. The grid can be: the chess board, the UI controls, or the formula display.
   *
@@ -10,6 +12,8 @@ package controller
   *   the numbers of rows and columns of the grid.
   */
 case class Converter(dims: Dims, gs: GridSize):
+  import doodle.core.Point
+
   /** The height of one block unit on the grid. */
   val blockHeight = dims.h / gs.rows
 

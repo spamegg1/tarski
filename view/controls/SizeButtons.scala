@@ -9,6 +9,8 @@ package view
   *   An instance of the [[UI]] class needed for button positions.
   */
 case class SizeButtons(util: Utility, ui: UI):
+  import model.Sizes
+
   /** Button for the small size. */
   private val smallButton = util.button("Sml", ui.smallPt, 2)
 

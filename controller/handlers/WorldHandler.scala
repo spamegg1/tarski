@@ -118,6 +118,8 @@ object WorldHandler:
     *   New state of the world, updated according to which attribute was clicked.
     */
   private def handleAttr(attr: Attr, world: World): World =
+    import model.Formulas.*
+
     val newControls             = world.controls.setAttr(attr)
     val (newBoard, newFormulas) = world.controls.posOpt match
       case Some(pos) =>

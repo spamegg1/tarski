@@ -9,6 +9,8 @@ package view
   *   An instance of the [[UI]] class needed for button positions.
   */
 case class ColorButtons(util: Utility, ui: UI):
+  import model.Tone, Tone.*, doodle.core.Point, doodle.image.Image
+
   /** Creates a single color button image.
     *
     * @param tone
@@ -23,8 +25,6 @@ case class ColorButtons(util: Utility, ui: UI):
       .rectangle(util.wid, util.hgh)
       .fillColor(tone)
       .at(point)
-
-  import Tone.*
 
   /** Button for the blue tone. */
   private val blueBox = colorBox(Blu, ui.bluePt)

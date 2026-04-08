@@ -17,23 +17,26 @@ object Interpreter:
     * @return
     *   true if the first-order formula holds in the given board and blocks, false otherwise.
     */
-  def eval(formula: FOLFormula)(using panel: Panel): Boolean = formula match
-    case a: FOLAtom => evalAtom(a, panel)
-    case And(a, b)  =>
-      val (ea, eb) = (eval(a), eval(b)) // make sure both parts parse OK
-      ea && eb
-    case Or(a, b) =>
-      val (ea, eb) = (eval(a), eval(b)) // make sure both parts parse OK
-      ea || eb
-    case Neg(a)    => !eval(a)
-    case Imp(a, b) =>
-      val (ea, eb) = (eval(a), eval(b)) // make sure both parts parse OK
-      if ea then eb else true
-    case Iff(a: FOLFormula, b: FOLFormula) =>
-      val (ea, eb) = (eval(a), eval(b)) // make sure both parts parse OK
-      ea == eb
-    case All(x, f) => panel.keys.forall(name => eval(f.sub(x, name)))
-    case Ex(x, f)  => panel.keys.exists(name => eval(f.sub(x, name)))
+  def eval(formula: FOLFormula)(using panel: Panel): Boolean =
+    import model.Formulas.sub
+
+    formula match
+      case a: FOLAtom => evalAtom(a, panel)
+      case And(a, b)  =>
+        val (ea, eb) = (eval(a), eval(b)) // make sure both parts parse OK
+        ea && eb
+      case Or(a, b) =>
+        val (ea, eb) = (eval(a), eval(b)) // make sure both parts parse OK
+        ea || eb
+      case Neg(a)    => !eval(a)
+      case Imp(a, b) =>
+        val (ea, eb) = (eval(a), eval(b)) // make sure both parts parse OK
+        if ea then eb else true
+      case Iff(a: FOLFormula, b: FOLFormula) =>
+        val (ea, eb) = (eval(a), eval(b)) // make sure both parts parse OK
+        ea == eb
+      case All(x, f) => panel.keys.forall(name => eval(f.sub(x, name)))
+      case Ex(x, f)  => panel.keys.exists(name => eval(f.sub(x, name)))
   end eval
 
   /** Helper to evaluate atomic formulas in a given world.

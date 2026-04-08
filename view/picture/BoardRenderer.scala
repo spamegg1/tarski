@@ -1,6 +1,8 @@
 package tarski
 package view
 
+import constants.Constants
+
 /** This trait factours out the common components of [[WorldRenderer]] and [[GameRenderer]].
   *
   * @param ui
@@ -9,6 +11,8 @@ package view
   *   A given instance of [[Constants]]
   */
 trait BoardRenderer(ui: UI)(using c: Constants):
+  import controller.Converter, model.*, doodle.core.Color, doodle.image.Image
+
   /** Displays the block on the user interface controls.
     *
     * @param blockOpt

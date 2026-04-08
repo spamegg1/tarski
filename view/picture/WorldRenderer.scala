@@ -1,6 +1,8 @@
 package tarski
 package view
 
+import constants.Constants
+
 /** Main renderer for the world that displays everything: the board, formulas, and all the buttons.
   *
   * @param opBtn
@@ -27,6 +29,9 @@ case class WorldRenderer(
     ui: UI
 )(using c: Constants)
     extends BoardRenderer(ui):
+
+  import model.*, doodle.image.Image, Image.Elements.Text
+
   /** Displays the selected block on the user interface controls.
     *
     * @param ct

@@ -1,6 +1,8 @@
 package tarski
 package view
 
+import constants.Constants
+
 /** Buttons that toggle the names (a,b,c,d,e,f) for blocks on the board.
   *
   * @param util
@@ -9,6 +11,8 @@ package view
   *   A given instance of [[Constants]] needed in [[controller.Converter.ui]].
   */
 case class NameButtons(util: Utility)(using Constants):
+  import controller.Converter, model.{Names, Status}, doodle.image.Image
+
   /** All 6 name buttons together. */
   private val nameButtons = Seq("a", "b", "c", "d", "e", "f")
     .map: name =>

@@ -3,6 +3,9 @@ package view
 
 /** Converts every type of object to an image. */
 object Imager:
+  import model.*, constants.Constants, gapt.expr.formula.fol.FOLFormula
+  import doodle.image.Image, Image.Elements.Text, doodle.core.Color
+
   /** Type alias for all the types that can be converted to an image. */
   private type Obj = Block | FOLFormula | Result | Message
 
