@@ -1,12 +1,4 @@
 package tarski:
-  /** Package for all the global constants used everywhere and the [[Constants]] class. */
-  package constants:
-    export concurrent.duration.FiniteDuration
-    export doodle.core.{Color, Point}
-    export doodle.image.Image
-    export doodle.core.font.{Font, FontFamily, FontStyle, FontWeight, FontSize}
-    export doodle.java2d.effect.Frame
-
   /** Package to handle user input and communicate between [[model]] and [[view]]. Depends on [[constants]] and
     * [[model]]. It is used by [[view]], [[testing]] and [[main]]. It provides the [[Converter]] class that translates
     * between [[model.Pos]] and [[doodle.core.Point]]. It also provides the [[Handler]] object that manages user mouse

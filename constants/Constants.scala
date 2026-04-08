@@ -5,6 +5,8 @@ package constants
   * not depend on the size of the user interface.
   */
 object Constants:
+  import concurrent.duration.FiniteDuration
+
   /** Type alias for the dimensions of a square on the board. Used in [[controller.Converter]]. */
   type Dims = (h: Double, w: Double)
 
@@ -59,6 +61,9 @@ end Constants
   *   the user interface is 16 x 8, multiplied by size, in pixels (so, the default is 1600 x 800).
   */
 case class Constants(size: Double):
+  import doodle.core.{Color, Point}, doodle.image.Image, doodle.java2d.effect.Frame
+  import doodle.core.font.{Font, FontFamily, FontStyle, FontWeight, FontSize}
+
   /** Stroke width for color and text. */
   private val StrokeW = size * 0.10
 
