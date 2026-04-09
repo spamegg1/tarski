@@ -2,6 +2,7 @@ package tarski
 package controller
 
 import constants.Constants, Constants.{Dims, GridSize, UISize, BoardSize}
+import model.*
 
 /** Converts between [[model.Pos]] and [[doodle.core.Point]] on a rectangle that is divided into a grid of rows and
   * columns. The grid can be: the chess board, the UI controls, or the formula display.

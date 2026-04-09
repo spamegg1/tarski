@@ -2,7 +2,9 @@ package tarski
 package controller
 
 object GameHandler:
-  import Select.*
+  import model.*, Select.*
+  import gapt.expr.formula.fol.{FOLVar, FOLAtom, FOLFormula}
+  import gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
 
   /** We can click on the board only when we are asked to pick an object for a false universal formula or a true
     * existential formula. In this case, the game's `pos` [[Select]] state must be `Wait` or `On`. Otherwise, clicking

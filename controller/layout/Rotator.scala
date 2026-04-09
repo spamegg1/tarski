@@ -10,6 +10,8 @@ import constants.Constants.GridSize
   *   columns swap, so the numbers also have to be swapped.
   */
 case class Rotator(var gs: GridSize):
+  import model.{Pos, Rotation}
+
   /** Rotates the given position 90 degrees, based on the given rotation.
     *
     * Has the side effect of swapping the numbers of rows and columns of `gs`.

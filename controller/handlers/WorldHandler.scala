@@ -4,6 +4,8 @@ package controller
 /** Handles user interface controls, for the chess board and for the user interface control buttons.
   */
 object WorldHandler:
+  import model.*
+
   /** Handles what happens when a user clicks somewhere on the board.
     *
     * @param pos
@@ -118,7 +120,7 @@ object WorldHandler:
     *   New state of the world, updated according to which attribute was clicked.
     */
   private def handleAttr(attr: Attr, world: World): World =
-    import model.Formulas.*
+    import Formulas.*
 
     val newControls             = world.controls.setAttr(attr)
     val (newBoard, newFormulas) = world.controls.posOpt match

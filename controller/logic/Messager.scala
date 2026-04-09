@@ -3,6 +3,10 @@ package controller
 
 /** Generates messages for the game by handling the computer player's choices. Uses [[Interpreter]]. */
 object Messager:
+  import gapt.expr.formula.fol.{FOLVar, FOLAtom, FOLFormula}
+  import gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
+  import model.{Play, Panel, Messages}
+
   /** Generates messages to be displayed to the user about the current state of the game.
     *
     * @param play

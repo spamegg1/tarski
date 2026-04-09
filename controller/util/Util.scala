@@ -2,6 +2,8 @@ package tarski
 package controller
 
 object Util:
+  import gapt.expr.formula.fol.FOLFormula
+
   /** Custom string interpolator to be used with `FOLFormula` in order to avoid `.toUntypedString` calls everywhere.
     *
     * @param args

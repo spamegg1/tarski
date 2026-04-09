@@ -3,6 +3,10 @@ package controller
 
 /** Contains methods used in evaluation of first-order formulas in a given world. */
 object Interpreter:
+  import model.{Panel, Pos, Sizes, Tone, Shape}
+  import gapt.expr.formula.fol.{FOLVar, FOLAtom, FOLFormula}
+  import gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
+
   /** Evaluates first-order logic formulas accordip to the blocks on the board.
     *
     * It is recursive but without tailrec optimization or memoization. The computation is expected to be very simple, so

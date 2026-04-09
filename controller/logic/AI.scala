@@ -3,6 +3,9 @@ package controller
 
 /** Makes choices and generates messages for the computer player in the game. */
 object AI:
+  import gapt.expr.formula.fol.{FOLVar, FOLAtom, FOLFormula}
+  import model.{Panel, Name, Messages}
+
   /** Chooses the name of a block in the world that satisfies, or falsifies, the given formula by substituting the name
     * for the given variable.
     *
