@@ -1,6 +1,7 @@
 package tarski
 package controller
 
+/** Tools to handle formula strings. */
 object Util:
   import gapt.expr.formula.fol.FOLFormula
 
@@ -19,5 +20,3 @@ object Util:
   /** This conversion lets us mix `FOLFormula` and other types in the [[ui]] custom interpolator. */
   given Conversion[AnyVal, String] = _.toString
 end Util
-
-export Util.*, Util.given

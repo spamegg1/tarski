@@ -88,7 +88,9 @@ case class Play(
     * @return
     *   New state of play where the formula has its free occurrences of `x` replaced by the given name.
     */
-  def sub(c: Name, x: FOLVar, f: FOLFormula) = copy(formula = f.sub(x, c)).checkChoice
+  def sub(c: Name, x: FOLVar, f: FOLFormula) =
+    import Formulas.sub
+    copy(formula = f.sub(x, c)).checkChoice
 
   /** Advances the play to the next state when the formula is a negation.
     *

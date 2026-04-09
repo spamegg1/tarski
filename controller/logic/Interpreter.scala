@@ -1,7 +1,7 @@
 package tarski
 package controller
 
-/** Contains methods used in evaluation of first-order formulas in a given world. */
+/** Contains methods used in evaluation of first-order formulas in a given [[model.World]]. */
 object Interpreter:
   import model.{Panel, Pos, Sizes, Tone, Shape}
   import gapt.expr.formula.fol.{FOLVar, FOLAtom, FOLFormula}
@@ -12,7 +12,7 @@ object Interpreter:
     * It is recursive but without tailrec optimization or memoization. The computation is expected to be very simple, so
     * performance is not a priority.
     *
-    * Can throw an `IllegalArgumentException` from its helper, [[evalAtom]].
+    * Can throw an `IllegalArgumentException` or `NoSuchElementException` from its helper, [[evalAtom]].
     *
     * @param formula
     *   A first-order formula to be evaluated.

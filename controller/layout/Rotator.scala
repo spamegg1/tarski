@@ -6,8 +6,8 @@ import constants.Constants.GridSize
 /** Class to rotate any given grid's positions 90 degrees clockwise or counter-clockwise.
   *
   * @param gs
-  *   A [[GridSize]] instance; the number of rows and columns of the grid we want to rotate. After a rotation, rows and
-  *   columns swap, so the numbers also have to be swapped.
+  *   A [[constants.Constants.GridSize]] instance; the number of rows and columns of the grid we want to rotate. After a
+  *   rotation, rows and columns swap, so the numbers also have to be swapped.
   */
 case class Rotator(var gs: GridSize):
   import model.{Pos, Rotation}
@@ -24,7 +24,7 @@ case class Rotator(var gs: GridSize):
     *   The integer positions of the point obtained by rotating the grid 90 degrees clockwise or counter-clockwise.
     */
   def rotate(dir: Rotation)(pos: Pos): Pos =
-    val oldGs = gs // save current row,col sizes for this rotation
+    val oldGs = gs // save current row, col sizes for this rotation
     gs = (rows = gs.cols, cols = gs.rows) // swap row and col sizes for next rotation
     dir match
       case Rotation.Left  => (row = oldGs.cols - pos.col - 1, col = pos.row)

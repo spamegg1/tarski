@@ -1,14 +1,15 @@
 package tarski
 package controller
 
+/** Handler for [[model.Game]]. */
 object GameHandler:
   import model.*, Select.*
   import gapt.expr.formula.fol.{FOLVar, FOLAtom, FOLFormula}
   import gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
 
   /** We can click on the board only when we are asked to pick an object for a false universal formula or a true
-    * existential formula. In this case, the game's `pos` [[Select]] state must be `Wait` or `On`. Otherwise, clicking
-    * on the board has no effect. Does not advance the step.
+    * existential formula. In this case, the game's `pos` [[model.Select]] state must be `Wait` or `On`. Otherwise,
+    * clicking on the board has no effect. Does not advance the step.
     *
     * @param pos
     *   The integer grid positions that the user clicked on.
@@ -49,7 +50,7 @@ object GameHandler:
     * @return
     *   New state of the game based on the action
     */
-  def handleAction(action: GameAction, game: Game): Game = action match
+  private def handleAction(action: GameAction, game: Game): Game = action match
     case GameAction.Back    => game.rewind
     case GameAction.OK      => handleOK(game)
     case GameAction.Display => game
@@ -66,7 +67,7 @@ object GameHandler:
     * @return
     *   New state of the game that sets the user's commitment and advances the step.
     */
-  def handleCommit(commit: Commit, game: Game): Game = game.step.play.commitment match
+  private def handleCommit(commit: Commit, game: Game): Game = game.step.play.commitment match
     case Some(_) => game // commitment is already set, we cannot click
     case None    =>
       val next = game.step.play.commitTo(commit.toBoolean)

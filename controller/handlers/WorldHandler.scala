@@ -1,7 +1,8 @@
 package tarski
 package controller
 
-/** Handles user interface controls, for the chess board and for the user interface control buttons.
+/** Handler for [[model.World]]. Handles user interface controls for the chess board and for the user interface control
+  * buttons.
   */
 object WorldHandler:
   import model.*
@@ -61,7 +62,8 @@ object WorldHandler:
     case Action.Move => world.toggleMove
     case Action.Icon => world
 
-  /** Handles the evaluation of formulas if the user clicked on the Eval button.
+  /** Handles the evaluation of formulas if the user clicked on the Eval button. Catches exceptions thrown by
+    * [[controller.Interpreter.eval]].
     *
     * If a formula refers to a named object that's not present on the board, it is left unevaluated. If a formula uses
     * an unsupported predicate symbol, it errors.

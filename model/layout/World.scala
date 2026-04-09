@@ -2,6 +2,7 @@ package tarski
 package model
 
 import collection.immutable.ListMap, gapt.expr.formula.fol.FOLFormula
+import Formulas.*, Names.*, Board.toPanel
 
 /** The main data type for Tarski's world.
   *
@@ -177,9 +178,9 @@ case class World(
         case Some(_) => this
         case None    => // make sure the block does not already have a real name
           names.get(name) match
-            case None            => this
-            case Some(Occupied)  => this
-            case Some(Available) => // make sure the name is available
+            case None                   => this
+            case Some(Status.Occupied)  => this
+            case Some(Status.Available) => // make sure the name is available
               val newBlock = block.setLabel(name)
               resetFormulas.copy(
                 board = board.updated(pos, (newBlock, name)),
@@ -199,9 +200,9 @@ case class World(
     case None                => this
     case Some((block, name)) => // make sure there is a block at position
       names.get(name) match
-        case None            => this
-        case Some(Available) => this
-        case Some(Occupied)  => // make sure name is already occupied
+        case None                   => this
+        case Some(Status.Available) => this
+        case Some(Status.Occupied)  => // make sure name is already occupied
           resetFormulas.copy(
             board = board.updated(pos, (block.removeLabel, Name.generateFake)),
             names = names.avail(name)
@@ -228,6 +229,8 @@ end World
 
 /** Contains values and helper methods for [[World]]. */
 object World:
+  import Status.Available
+
   /** The only allowed names: a,b,c,d,e,f; and their initial availability. */
   val initNames = Map(
     "a" -> Available,

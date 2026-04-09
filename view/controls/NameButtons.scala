@@ -8,10 +8,10 @@ import constants.Constants
   * @param util
   *   An instance of the [[Utility]] class needed for buttons.
   * @param _
-  *   A given instance of [[Constants]] needed in [[controller.Converter.ui]].
+  *   A given instance of [[constants.Constants]] needed in [[controller.Converter.ui]].
   */
 case class NameButtons(util: Utility)(using Constants):
-  import controller.Converter, model.{Names, Status}, doodle.image.Image
+  import controller.Converter, model.{Names, Status}, Names.*, doodle.image.Image
 
   /** All 6 name buttons together. */
   private val nameButtons = Seq("a", "b", "c", "d", "e", "f")
@@ -34,7 +34,7 @@ case class NameButtons(util: Utility)(using Constants):
   /** Draws all 6 name buttons together, along with their indicators.
     *
     * @param names
-    *   A map from names to their availability status. This normally comes from a [[World]] instance.
+    *   A map from names to their availability status. This normally comes from a [[model.World]] instance.
     * @return
     *   An image of all 6 name buttons, along with indicators on them for the names that are currently occupied.
     */

@@ -3,14 +3,14 @@ package view
 
 import constants.Constants
 
-/** Buttons for the [[Game]].
+/** Buttons for [[model.Game]].
   *
   * @param util
   *   An instance of the [[Utility]] class needed for buttons.
   * @param gameUI
   *   An instance of the [[GameUI]] class needed for button positions.
   * @param _
-  *   A given instance of [[Constants]] needed for [[Imager]].
+  *   A given instance of [[constants.Constants]] needed for [[Imager]].
   */
 case class GameButtons(util: Utility, gameUI: GameUI)(using Constants):
   import model.Block, gapt.expr.formula.fol.FOLFormula
@@ -65,7 +65,7 @@ case class GameButtons(util: Utility, gameUI: GameUI)(using Constants):
   /** Displays the block from the selected board position, if any.
     *
     * @param blockOpt
-    *   An optional [[Block]] (depending on the selected board position).
+    *   An optional [[model.Block]] (depending on the selected board position).
     * @return
     *   An image of the block, displayed at the right-most of the game UI.
     */

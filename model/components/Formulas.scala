@@ -37,7 +37,7 @@ object Formulas:
   end extension
 
   extension (f: FOLFormula)
-    /** Extension method to substitute a [[Name]] into a [[FOLFormula]] for all free occurrences of a variable. Used in
+    /** Extension method to substitute a [[Name]] into a `FOLFormula` for all free occurrences of a variable. Used in
       * [[controller.Interpreter.eval]].
       *
       * @param x
@@ -49,5 +49,3 @@ object Formulas:
       */
     def sub(x: FOLVar, c: Name) = FOLSubstitution((x, FOLConst(c))).apply(f)
 end Formulas
-
-export Formulas.*

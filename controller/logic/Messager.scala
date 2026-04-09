@@ -6,6 +6,7 @@ object Messager:
   import gapt.expr.formula.fol.{FOLVar, FOLAtom, FOLFormula}
   import gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
   import model.{Play, Panel, Messages}
+  import Util.*, Util.given
 
   /** Generates messages to be displayed to the user about the current state of the game.
     *
@@ -33,7 +34,7 @@ object Messager:
     case (Some(true), All(x, f))  => AI.chooseAllEx(f, x)(true)
     case (Some(false), Ex(x, f))  => AI.chooseAllEx(f, x)(false)
 
-    // outlier cases
+    // outlier cases: implies, negation, atomic
     case (_, Imp(a, b)) => List(ui"${Imp(a, b)}", "can be written as:", ui"${Or(Neg(a), b)}")
 
     case (Some(commit), Neg(a)) =>

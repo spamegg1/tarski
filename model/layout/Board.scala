@@ -31,6 +31,7 @@ object Board:
     *   The same grid that also accounts for the names of blocks (with fake names generated if needed).
     */
   def fromGrid(grid: Grid, gs: GridSize = BoardSize) =
+    import Grid.toBoard
     require:
       grid.keys.forall: pos =>
         0 <= pos.row && pos.row < gs.rows && 0 <= pos.col && pos.col < gs.cols
@@ -46,6 +47,7 @@ object Board:
     *   blocks as labels to be rendered.
     */
   def fromGridWithLabels(grid: Grid, gs: GridSize = BoardSize) =
+    import Grid.toBoardWithLabels
     require:
       grid.keys.forall: pos =>
         0 <= pos.row && pos.row < gs.rows && 0 <= pos.col && pos.col < gs.cols
@@ -58,5 +60,3 @@ object Board:
     */
   def empty: Board = Map()
 end Board
-
-export Board.*

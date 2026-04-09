@@ -12,9 +12,9 @@ object Imager:
   /** Converts an [[Obj]] to a [[doodle.image.Image]].
     *
     * @param o
-    *   An instance of [[Block]], [[FOLFormula]], [[Result]] or [[Message]].
+    *   An instance of [[model.Block]], `FOLFormula`, [[model.Result]] or [[model.Message]].
     * @param c
-    *   A given instance of [[Constants]], needed for the fonts.
+    *   A given instance of [[constants.Constants]], needed for the fonts.
     * @return
     *   An image of the object.
     */
@@ -37,8 +37,8 @@ object Imager:
       case msg: Message => Text(msg).font(c.TheFont)
   end apply
 
-  /** Alternate imaging method for possibly missing objects. For example, [[Controls]] does not display a block unless
-    * all three attributes are set, so an empty image has to be displayed.
+  /** Alternate imaging method for possibly missing objects. For example, [[model.Controls]] does not display a block
+    * unless all three attributes are set, so an empty image has to be displayed.
     *
     * @param opt
     *   An optional [[Obj]].
@@ -54,7 +54,7 @@ object Imager:
     * @param formula
     *   The (untyped) string representation of a formula.
     * @param c
-    *   A given instance of [[Constants]], needed for the fonts.
+    *   A given instance of [[constants.Constants]], needed for the fonts.
     * @return
     *   An image of the input string with colors for logical connectives.
     */
@@ -69,7 +69,7 @@ object Imager:
     /** Converts a character for a logical symbol to a color for syntax highlighing.
       *
       * @return
-      *   A [[Color]].
+      *   A [[doodle.core.Color]].
       */
     def toColor: Color = c match
       case '¬' => Color.red

@@ -64,7 +64,7 @@ case class Converter(dims: Dims, gs: GridSize):
     * @param point
     *   The Cartesian coordinates of the point inside the grid.
     * @return
-    *   The integer grid positions that corresponds to the point.
+    *   The integer grid positions that correspond to the point.
     */
   def toPos(point: Point): Pos =
     val row = (top - point.y) / blockHeight

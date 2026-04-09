@@ -1,10 +1,11 @@
 package tarski
 package controller
 
-/** Makes choices and generates messages for the computer player in the game. */
+/** Makes choices and generates messages for the computer player in [[model.Game]]. */
 object AI:
   import gapt.expr.formula.fol.{FOLVar, FOLAtom, FOLFormula}
   import model.{Panel, Name, Messages}
+  import Util.*, Util.given
 
   /** Chooses the name of a block in the world that satisfies, or falsifies, the given formula by substituting the name
     * for the given variable.

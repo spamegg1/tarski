@@ -22,5 +22,3 @@ enum Select[+T]:
     case Off   => None
     case Wait  => None
     case On(t) => Some(t)
-
-export Select.*

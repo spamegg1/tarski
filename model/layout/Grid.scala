@@ -28,5 +28,3 @@ object Grid:
       pos -> (labeledBlock, name)
   end extension
 end Grid
-
-export Grid.*

@@ -15,7 +15,7 @@ object React:
     * @param world
     *   The current state of the world.
     * @param c
-    *   Implicit parameter, an instance of [[constants.Constants]].
+    *   Context parameter, an instance of [[constants.Constants]].
     * @return
     *   New state of the world, updated according to what is clicked on.
     */
@@ -36,7 +36,7 @@ object React:
     * @param game
     *   The current state of the game.
     * @param c
-    *   Implicit parameter, an instance of [[constants.Constants]].
+    *   Context parameter, an instance of [[constants.Constants]].
     * @return
     *   New state of the game, updated according to what is clicked on.
     */
@@ -53,7 +53,7 @@ object React:
     * Used by [[main.runWorld]] and [[main.playGame]].
     *
     * @param t
-    *   The current state of the world, or the game.
+    *   The current state of the [[model.World]] or the [[model.Game]].
     * @return
     *   The same world or game, unchanged.
     */
@@ -65,7 +65,7 @@ object React:
     * @param point
     *   The point to which the mouse cursor is moved.
     * @param t
-    *   The current state of the world or game.
+    *   The current state of the [[model.World]] or the [[model.Game]].
     * @return
     *   The same world or game, unchanged.
     */
@@ -75,7 +75,7 @@ object React:
     * [[main.runWorld]] and [[main.playGame]].
     *
     * @param t
-    *   The current state of the world or game.
+    *   The current state of the [[model.World]] or the [[model.Game]].
     * @return
     *   false (the program never stops).
     */

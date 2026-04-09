@@ -13,7 +13,7 @@ import gapt.expr.formula.fol.FOLFormula
   *   The board that holds the blocks for the game.
   */
 case class Game(step: Step, prev: List[Step], board: Board):
-  import Select.*
+  import Select.*, Board.toPanel
 
   /** Changes the position when the user clicks on the board. Does not advance the step or produce messages.
     *

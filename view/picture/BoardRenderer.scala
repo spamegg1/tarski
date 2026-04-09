@@ -8,7 +8,7 @@ import constants.Constants
   * @param ui
   *   An instance of [[UI]]
   * @param c
-  *   A given instance of [[Constants]]
+  *   A given instance of [[constants.Constants]]
   */
 trait BoardRenderer(ui: UI)(using c: Constants):
   import controller.Converter, model.*, doodle.core.Color, doodle.image.Image
@@ -16,7 +16,7 @@ trait BoardRenderer(ui: UI)(using c: Constants):
   /** Displays the block on the user interface controls.
     *
     * @param blockOpt
-    *   An optional Block, normally coming from a [[World]] or a [[Game]].
+    *   An optional Block, normally coming from a [[model.World]] or a [[model.Game]].
     * @return
     *   An image of the block, or an empty image.
     */

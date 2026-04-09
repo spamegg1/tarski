@@ -53,8 +53,8 @@ case class ColorButtons(util: Utility, ui: UI):
   /** Draws all three color buttons together, with indicator.
     *
     * @param colorOpt
-    *   An optional tone, in case one is selected in the user interface. This normally comes from the [[Controls]]
-    *   instance of a [[World]].
+    *   An optional tone, in case one is selected in the user interface. This normally comes from the [[model.Controls]]
+    *   instance of a [[model.World]].
     * @return
     *   An image of the three color buttons, along with the red indicator rectangle for the one that is selected.
     */

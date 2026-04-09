@@ -38,8 +38,8 @@ case class SizeButtons(util: Utility, ui: UI):
   /** Draws all three size buttons together, with indicator.
     *
     * @param sizeOpt
-    *   An optional size, in case one is selected in the user interface. This normally comes from the [[Controls]]
-    *   instance of a [[World]].
+    *   An optional size, in case one is selected in the user interface. This normally comes from the [[model.Controls]]
+    *   instance of a [[model.World]].
     * @return
     *   An image of the three size buttons, along with the red indicator rectangle for the one that is selected.
     */

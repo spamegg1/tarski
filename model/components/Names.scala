@@ -3,6 +3,8 @@ package model
 
 /** Contains values and methods used for [[Names]]. */
 object Names:
+  import Status.*
+
   /** Type alias for a map of all the names and their availability. */
   type Names = Map[Name, Status] // a,b,c,d,e,f
 
@@ -50,5 +52,3 @@ object Names:
       case None            => names // name was fake
   end extension
 end Names
-
-export Names.*

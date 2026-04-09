@@ -63,7 +63,7 @@ object GameRenderer:
   /** Convenient alternate constructor for [[GameRenderer]].
     *
     * @param c
-    *   A given instance of [[Constants]].
+    *   A given instance of [[constants.Constants]].
     * @return
     *   An instance of [[GameRenderer]].
     */

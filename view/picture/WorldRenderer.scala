@@ -18,7 +18,7 @@ import constants.Constants
   * @param ui
   *   An instance of [[UI]] needed for block positions.
   * @param c
-  *   A given instance of [[Constants]]
+  *   A given instance of [[constants.Constants]]
   */
 case class WorldRenderer(
     opBtn: OpButtons,
@@ -30,7 +30,7 @@ case class WorldRenderer(
 )(using c: Constants)
     extends BoardRenderer(ui):
 
-  import model.*, doodle.image.Image, Image.Elements.Text
+  import model.*, Formulas.*, doodle.image.Image, Image.Elements.Text
 
   /** Displays the selected block on the user interface controls.
     *
@@ -95,11 +95,11 @@ case class WorldRenderer(
 /** Companion object for [[WorldRenderer]] that contains a convenient alternate constructor.
   */
 object WorldRenderer:
-  /** Convenient alternate constructor that only requires [[Constants]] and sets up all the [[Utility]], [[UI]] and all
-    * the button class instances.
+  /** Convenient alternate constructor that only requires [[constants.Constants]] and sets up all the [[Utility]],
+    * [[UI]] and all the button class instances.
     *
     * @param c
-    *   A given instance of [[Constants]].
+    *   A given instance of [[constants.Constants]].
     * @return
     *   An instance of [[WorldRenderer]].
     */

@@ -30,7 +30,8 @@ case class OpButtons(util: Utility, ui: UI):
   /** Move button, with indicator if needed.
     *
     * @param move
-    *   The toggle state of the Move ability. This normally comes from a [[Controls]] instance in a [[World]].
+    *   The toggle state of the Move ability. This normally comes from a [[model.Controls]] instance in a
+    *   [[model.World]].
     * @return
     *   An image of the Move button along with a red indicator rectangle if Move is enabled.
     */

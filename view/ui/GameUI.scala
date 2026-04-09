@@ -20,7 +20,7 @@ end GameUI
 /** Calculates the Cartesian points for all the game UI buttons.
   *
   * @param _
-  *   A given instance of [[Constants]], needed for [[Converter]].
+  *   A given instance of [[constants.Constants]], needed for [[controller.Converter]].
   */
 class GameUI(using Constants):
   val leftPt  = Converter.ui.toPoint(GameUI.grid("Left"))
