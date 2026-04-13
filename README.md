@@ -59,10 +59,13 @@ You can read more about each module at:
 
 ## Installation
 
-Current version is 0.2.7 (Mar 28, 2026). Released for Scala 3 only.
+Current version is 1.0.1 (Apr 09, 2026). Released for Scala 3 only.
 
 You will need a JVM, and Scala 3. [This](https://www.scala-lang.org/download/)
 should give you everything you need.
+
+An easier way is to install [Scala-cli](https://scala-cli.virtuslab.org/install),
+which can then automatically install a JVM for you.
 
 Also you'll need an IDE:
 
@@ -73,13 +76,13 @@ Also you'll need an IDE:
 For Scala-cli (or just plain `scala`), add to your `project.scala` (or any file):
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.2.7
+//> using dep io.github.spamegg1::tarski:1.0.1
 ```
 
 For SBT, add to your `build.sbt`:
 
 ```scala
-libraryDependencies += "io.github.spamegg1" %% "tarski" % "0.2.7"
+libraryDependencies += "io.github.spamegg1" %% "tarski" % "1.0.1"
 ```
 
 ## API Docs and artifacts
@@ -96,7 +99,7 @@ To play a quick game, you can execute `tarski.main.Example.playGame`.
 See below for more on game mode.
 
 *Note:* In Scala 3.8.2+ you can run the example directly from the Scala REPL.
-Just `:dep io.github.spamegg1::tarski:0.2.7` then `tarski.main.Example.runExample`.
+Just `:dep io.github.spamegg1::tarski:1.0.1` then `tarski.main.Example.runExample`.
 
 Tarski's world is intended to be used interactively inside an IDE
 such as IntelliJ or Visual Studio Code.
@@ -113,7 +116,7 @@ You will see the interactive window like the one above in the video.
 Here are the details:
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.2.7
+//> using dep io.github.spamegg1::tarski:1.0.1
 
 import tarski.main.*, Shape.*, Sizes.*, Tone.*
 
@@ -132,7 +135,7 @@ val formulas = Seq(
   fof"∃x Tri(x)",
   fof"∀x (¬(Shp(c, x) ∨ Les(x, c)) → ¬Ton(x, c))",
   fof"∃x Cir(x)",
-  fof"a = b",
+  fof"Eq(a, b)",
   fof"∀x ∃y Mor(x, y)",
   fof"c != d",
   fof"∀x (Squ(x) → Tri(x))",
@@ -141,7 +144,8 @@ val formulas = Seq(
 )
 
 // The interface is 1600x800 by default.
-// if the interface is too small or too large, try a different scale factor than 1.0:
+// If the interface is too small or too large,
+// try a different scale factor than 1.0:
 @main
 def run = runWorld(grid, formulas, 1.0)
 ```
@@ -194,10 +198,6 @@ and can use the Unicode symbols or their ASCII equivalents for logical connectiv
 
 ### Predicates for atomic formulas
 
-**NOTE:** Many of these predicate names are shortened from their normal spellings
-(like Small -> `Sml`, Right -> `Rgt`) in order to fit longer formulas on the screen.
-Please study them carefully. Apologies for any confusion!
-
 The following predicates are supported:
 
 #### Unary
@@ -248,7 +248,7 @@ The original Tarski's World app lets you assign multiple names to the same block
 which makes it possible for `x = y` reference equality to be true with 1 block.
 Here we do not allow that, because having multiple names is a bit confusing.
 Our blocks can only have up to 1 name, so `x = y` is always false
-under reference equality whenever `x` and `y` refer to separate blocks.
+whenever `x` and `y` refer to separate blocks.
 
 We interpret `=` as reference equality, where `x = y` if
 `x` and `y` are at the same location (row and column) on the board,
@@ -271,7 +271,7 @@ about the truth of a formula in a world.
 You need a grid and a formula, then run `playGame` with them:
 
 ```scala
-//> using dep io.github.spamegg1::tarski:0.2.7
+//> using dep io.github.spamegg1::tarski:1.0.1
 
 import tarski.main.*, Shape.*, Sizes.*, Tone.*
 
@@ -285,7 +285,8 @@ val grid: Grid = Map(
 val formula = fof"∀x ∃y (Mor(x, y) ∨ Abv(y, x))"
 
 // The interface is 1600x800 by default.
-// if the interface is too small or too large, try a different scale factor than 1.0:
+// If the interface is too small or too large,
+// try a different scale factor than 1.0:
 @main
 def run = playGame(grid, formula, 1.0)
 ```
@@ -294,7 +295,3 @@ def run = playGame(grid, formula, 1.0)
 
 You can work through the examples in the
 [companion repository](https://github.com/spamegg1/tarski-examples)
-
-## Work in progress
-
-Stay tuned!

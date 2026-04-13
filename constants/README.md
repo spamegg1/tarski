@@ -1,10 +1,10 @@
 # Constants
 
-This is the root dependency of the project; everything else depends on this.
+This is the root dependency of the project.
 
 ## Design
 
-The UI needs to be resizable, in case it's too big to fit onto laptop screens.
+The UI needs to be resizable, in case it's too big to fit onto smaller screens.
 
 The mouse controls for the UI are implemented with the following idea:
 
