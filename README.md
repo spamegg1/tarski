@@ -5,6 +5,27 @@ An educational tool for the semantics of
 
 <https://github.com/user-attachments/assets/3b1d3352-e1f1-436e-ac52-5110b62c98c3>
 
+## Examples
+
+You can work through the examples in the
+[companion repository](https://github.com/spamegg1/tarski-examples)
+
+## Installation
+
+Current version is 1.0.1 (Apr 09, 2026). Released for Scala 3 only.
+
+You will need a JVM, and Scala 3. [This](https://www.scala-lang.org/download/)
+should give you everything you need.
+
+An easier way is to install [Scala-cli](https://scala-cli.virtuslab.org/install),
+which can then automatically install a JVM for you.
+
+Also you'll need an IDE:
+
+- [Metals](https://scalameta.org/metals/) extension on
+  [Visual Studio Code](https://code.visualstudio.com/)
+- [IntelliJ](https://www.jetbrains.com/idea/download/) with Scala plugin
+
 ## About
 
 Attempting to recreate Barwise and Etchemendy's
@@ -29,49 +50,16 @@ on Tarski's world.
 See my adventures in bad design on my
 [Github Pages](https://spamegg1.github.io/tarski's-world/)
 
-## Info
-
 This is a [Scala-cli](https://scala-cli.virtuslab.org/) project.
 With Scala 3.5.0 and above, you can simply run `scala compile .` and `scala test .`.
 
-## Module dependency
+## API Docs and artifacts
 
-```scala
-//     main
-//       |
-//     view   testing
-//       |     /
-//    controller
-//       |
-//     model
-//       |
-//    constants
-```
+Docs can be found at [Javadoc](https://javadoc.io/doc/io.github.spamegg1/tarski_3/latest/index.html)
 
-You can read more about each module at:
+Artifacts at [Maven Central](https://repo1.maven.org/maven2/io/github/spamegg1/tarski_3/)
 
-- [Constants](constants/README.md)
-- [Model](model/README.md)
-- [Controller](controller/README.md)
-- [View](view/README.md)
-- [Test](test/README.md)
-- [Main](main/README.md)
-
-## Installation
-
-Current version is 1.0.1 (Apr 09, 2026). Released for Scala 3 only.
-
-You will need a JVM, and Scala 3. [This](https://www.scala-lang.org/download/)
-should give you everything you need.
-
-An easier way is to install [Scala-cli](https://scala-cli.virtuslab.org/install),
-which can then automatically install a JVM for you.
-
-Also you'll need an IDE:
-
-- [Metals](https://scalameta.org/metals/) extension on
-  [Visual Studio Code](https://code.visualstudio.com/)
-- [IntelliJ](https://www.jetbrains.com/idea/download/) with Scala plugin
+## Usage
 
 For Scala-cli (or just plain `scala`), add to your `project.scala` (or any file):
 
@@ -84,14 +72,6 @@ For SBT, add to your `build.sbt`:
 ```scala
 libraryDependencies += "io.github.spamegg1" %% "tarski" % "1.0.1"
 ```
-
-## API Docs and artifacts
-
-Docs can be found at [Javadoc](https://javadoc.io/doc/io.github.spamegg1/tarski_3/latest/index.html)
-
-Artifacts at [Maven Central](https://repo1.maven.org/maven2/io/github/spamegg1/tarski_3/)
-
-## Usage
 
 To get a quick look and feel, you can execute `tarski.main.Example.runExample`.
 
@@ -291,7 +271,25 @@ val formula = fof"∀x ∃y (Mor(x, y) ∨ Abv(y, x))"
 def run = playGame(grid, formula, 1.0)
 ```
 
-## Exercises
+## Module dependency
 
-You can work through the examples in the
-[companion repository](https://github.com/spamegg1/tarski-examples)
+```scala
+//     main
+//       |
+//     view   testing
+//       |     /
+//    controller
+//       |
+//     model
+//       |
+//    constants
+```
+
+You can read more about each module at:
+
+- [Constants](constants/README.md)
+- [Model](model/README.md)
+- [Controller](controller/README.md)
+- [View](view/README.md)
+- [Test](test/README.md)
+- [Main](main/README.md)
