@@ -8,16 +8,16 @@ jobs:
   publish:
     permissions:
       contents: read
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
     - name: Set up Git repository
-      uses: actions/checkout@v6.0.2
+      uses: actions/checkout@v7.0.1
       with:
         fetch-depth: 0
     - name: Cache Coursier
-      uses: coursier/cache-action@v8.1.0
+      uses: coursier/cache-action@v8.1.1
     - name: Scala-cli setup
-      uses: VirtusLab/scala-cli-setup@v1.12.5
+      uses: VirtusLab/scala-cli-setup@v1.18.0
     - run: |
         ./.github/workflows/import-gpg.sh
           scala-cli --power publish .
