@@ -4,6 +4,7 @@ package controller
 /** Tools to handle formula strings. */
 object Util:
   import gapt.expr.formula.fol.FOLFormula
+  import language.implicitConversions
 
   /** Custom string interpolator to be used with `FOLFormula` in order to avoid `.toUntypedString` calls everywhere.
     *

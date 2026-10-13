@@ -7,6 +7,7 @@ object Messager:
   import gapt.expr.formula.{All, And, Atom, Or, Neg, Ex, Imp, Iff}
   import model.{Play, Panel, Messages}
   import Util.*, Util.given
+  import language.implicitConversions
 
   /** Generates messages to be displayed to the user about the current state of the game.
     *

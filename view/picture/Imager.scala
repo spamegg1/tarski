@@ -5,6 +5,7 @@ package view
 object Imager:
   import model.*, constants.Constants, gapt.expr.formula.fol.FOLFormula
   import doodle.image.Image, Image.Elements.Text, doodle.core.Color
+  import language.implicitConversions
 
   /** Type alias for all the types that can be converted to an image. */
   private type Obj = Block | FOLFormula | Result | Message

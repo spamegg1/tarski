@@ -6,6 +6,7 @@ object AI:
   import gapt.expr.formula.fol.{FOLVar, FOLAtom, FOLFormula}
   import model.{Panel, Name, Messages}
   import Util.*, Util.given
+  import language.implicitConversions
 
   /** Chooses the name of a block in the world that satisfies, or falsifies, the given formula by substituting the name
     * for the given variable.

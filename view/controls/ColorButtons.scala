@@ -10,6 +10,7 @@ package view
   */
 case class ColorButtons(util: Utility, ui: UI):
   import model.Tone, Tone.*, doodle.core.Point, doodle.image.Image
+  import language.implicitConversions
 
   /** Creates a single color button image.
     *
