@@ -12,7 +12,7 @@ You can work through the examples in the
 
 ## Installation
 
-Current version is 1.0.1 (Apr 09, 2026). Released for Scala 3 only.
+Current version is 1.0.3 (Oct 14, 2026). Released for Scala 3 only.
 
 You will need a JVM, and Scala 3. [This](https://www.scala-lang.org/download/)
 should give you everything you need.
@@ -64,13 +64,13 @@ Artifacts at [Maven Central](https://repo1.maven.org/maven2/io/github/spamegg1/t
 For Scala-cli (or just plain `scala`), add to your `project.scala` (or any file):
 
 ```scala
-//> using dep io.github.spamegg1::tarski:1.0.1
+//> using dep io.github.spamegg1::tarski:1.0.3
 ```
 
 For SBT, add to your `build.sbt`:
 
 ```scala
-libraryDependencies += "io.github.spamegg1" %% "tarski" % "1.0.1"
+libraryDependencies += "io.github.spamegg1" %% "tarski" % "1.0.3"
 ```
 
 To get a quick look and feel, you can execute `tarski.main.Example.runExample`.
@@ -79,7 +79,7 @@ To play a quick game, you can execute `tarski.main.Example.playGame`.
 See below for more on game mode.
 
 *Note:* In Scala 3.8.2+ you can run the example directly from the Scala REPL.
-Just `:dep io.github.spamegg1::tarski:1.0.1` then `tarski.main.Example.runExample`.
+Just `:dep io.github.spamegg1::tarski:1.0.3` then `tarski.main.Example.runExample`.
 
 Tarski's world is intended to be used interactively inside an IDE
 such as IntelliJ or Visual Studio Code.
@@ -96,7 +96,7 @@ You will see the interactive window like the one above in the video.
 Here are the details:
 
 ```scala
-//> using dep io.github.spamegg1::tarski:1.0.1
+//> using dep io.github.spamegg1::tarski:1.0.3
 
 import tarski.main.*, Shape.*, Sizes.*, Tone.*
 
@@ -251,7 +251,7 @@ about the truth of a formula in a world.
 You need a grid and a formula, then run `playGame` with them:
 
 ```scala
-//> using dep io.github.spamegg1::tarski:1.0.1
+//> using dep io.github.spamegg1::tarski:1.0.3
 
 import tarski.main.*, Shape.*, Sizes.*, Tone.*
 
