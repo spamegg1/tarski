@@ -1,5 +1,4 @@
 //> using scala 3.10.0
-//> using jvm 25
 //> using toolkit 0.9.2
 //> using resourceDir ./font
 //> using dep org.creativescala::doodle:0.34.0
